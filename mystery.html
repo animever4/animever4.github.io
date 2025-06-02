@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Animeverse</title>
+  <style>
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      background: url('/IMG_20250528_184959.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      margin: 0;
+      padding: 16px;
+      line-height: 1.5;
+    }
+    header h1 {
+      font-weight: 700;
+      font-size: 2.5rem;
+      color: #f47e21;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin: 0 0 16px 0;
+      text-align: center;
+    }
+    nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 24px;
+    background-color: rgba(26, 26, 26, 0.9);
+    padding: 6px;
+    margin-bottom:#;
+    color:#f47e21;
+  }
+  nav a {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  nav a:hover {
+    text-decoration: underline;
+  }
+    h2 {
+    position: relative;
+    padding-left: 12px;
+    margin-bottom: 24px;
+    font-weight: 800;
+    font-size: 1.8rem;
+    color: #fff;
+    text-transform: uppercase;
+  }
+
+
+    
+  h2::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 6px;
+    background-color: #f47e21;
+    border-radius: 3px;
+  }
+
+    .anime-grid {
+      display: grid;
+      gap: 15px;
+      grid-template-columns: repeat(3, 1fr);
+      padding-bottom: 40px;
+    }
+    @media (min-width: 768px) {
+      .anime-grid {
+        grid-template-columns: repeat(5, 1fr);
+      }
+    }
+    a.anime-card {
+      background: rgba(20,20,20,0.9);
+      border-radius: 8px;
+      overflow: hidden;
+      text-align: center;
+      color: white;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      display: block;
+    }
+    a.anime-card:hover {
+      transform: scale(1.05);
+    }
+    a.anime-card img {
+      width: 100%;
+      aspect-ratio: 2 / 3;
+      object-fit: cover;
+      display: block;
+    }
+    .anime-title {
+      padding: 8px 6px 4px;
+      font-weight: 700;
+      font-size: 1rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: #fff;
+    }
+    .anime-rating {
+      font-size: 0.8rem;
+      color: #bbb;
+      padding-bottom: 8px;
+      margin-top: 4px;
+  }
+    }
+    /* Links list styles */
+    #linksList {
+      display:none;
+      margin-top: 40px;
+      background: rgba(20,20,20,0.8);
+      border-radius: 8px;
+      padding: 16px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #linksList h2 {
+      margin-top: 0;
+      border-left: 6px solid #f47e21;
+      padding-left: 10px;
+      font-weight: 800;
+    display: none;
+    }
+    #linksList ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+      columns: 2;
+      column-gap: 40px;
+      display:none;
+    }
+    #linksList ul li {
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+    #linksList ul li a {
+      color: #f47e21;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    #linksList ul li a:hover {
+      text-decoration: underline;
+      color: #ffa54f;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Animeverse</h1>
+  </header>
+<div>
+  <nav>
+    <nav>
+  <a href="./index.html">Home</a>
+  <a href="./mystery.html">Mystery</a>
+  <a href="./action.html">Action</a>
+  <a href="./child.html">Child</a>
+</nav>
+</div>
+  <section>
+    <h2>Mysterious Anime</h2>
+    <div id="mysteriousContainer" class="anime-grid"></div>
+  </section>
+
+  <!-- Links list section -->
+  <section id="linksList">
+    <h2>Links List</h2>
+    <ul id="linksUl"></ul>
+  </section>
+
+  <script>
+    const apiKey = 'eef0f9c16ca61d6c843e7d43ddc5e1d8';
+    const mysteriousTitles = [
+      'Death Note',
+      'Black butler',
+      'Erased',
+      'The Promised Neverland',
+      'Higurashi: When They Cry',
+      'Steins;Gate',
+      'Paranoia Agent',
+      'Another',
+      'Tokyo Ghoul',
+      'Serial Experiments Lain'
+    ];
+    const animeLinks = {
+      "Death Note": "./death note.html",
+      "Attack on Titan": "https://www.themoviedb.org/tv/1429-attack-on-titan",
+      "Naruto": "https://www.themoviedb.org/tv/46261-naruto",
+      "Demon Slayer": "https://www.themoviedb.org/tv/85937-demon-slayer-kimetsu-no-yaiba",
+      "Jujutsu Kaisen": "https://www.themoviedb.org/tv/95479-jujutsu-kaisen",
+      "My Hero Academia": "https://www.themoviedb.org/tv/67070-my-hero-academia",
+      "One Piece": "https://www.themoviedb.org/tv/37854-one-piece",
+      "Tokyo Revengers": "https://www.themoviedb.org/tv/117376-tokyo-revengers",
+      "Chainsaw Man": "https://www.themoviedb.org/tv/114410-chainsaw-man",
+      "Fullmetal Alchemist: Brotherhood": "https://www.themoviedb.org/tv/31910-fullmetal-alchemist-brotherhood"
+    };
+
+    const mysteriousContainer = document.getElementById('mysteriousContainer');
+    const linksUl = document.getElementById('linksUl');
+
+    async function fetchAnimeByTitle(title) {
+      const url = `https://api.themoviedb.org/3/search/tv?api_key=${apiKey}&query=${encodeURIComponent(title)}`;
+      const res = await fetch(url);
+      const data = await res.json();
+      return data.results[0]; // Return the first matched show
+    }
+
+    async function loadMysteriousAnime() {
+      mysteriousContainer.innerHTML = '';
+      for (let title of mysteriousTitles) {
+        const anime = await fetchAnimeByTitle(title);
+        if (anime) {
+          const card = createAnimeCard(anime, title);
+          mysteriousContainer.appendChild(card);
+        }
+      }
+    }
+
+    function createAnimeCard(anime, originalTitle) {
+      const poster = anime.poster_path
+        ? `https://image.tmdb.org/t/p/w300${anime.poster_path}`
+        : 'https://via.placeholder.com/300x450?text=No+Image';
+      const title = anime.name || originalTitle || 'Unknown';
+      const rating = anime.vote_average ? anime.vote_average.toFixed(1) : 'N/A';
+      const link = animeLinks[originalTitle] || '#';
+
+      const card = document.createElement('a');
+      card.classList.add('anime-card');
+      card.href = link;
+      card.target = '_blank';
+      card.rel = 'noopener noreferrer';
+      card.innerHTML = `
+        <img src="${poster}" alt="${title}" />
+        <div class="anime-title">${title}</div>
+        <div class="anime-rating">Rating: ${rating}</div>
+      `;
+      return card;
+    }
+
+    function loadLinksList() {
+      linksUl.innerHTML = '';
+      for (const [title, url] of Object.entries(animeLinks)) {
+        const li = document.createElement('li');
+        li.innerHTML = `<a href="${url}" target="_blank" rel="noopener noreferrer">${title}</a>`;
+        linksUl.appendChild(li);
+      }
+    }
+
+    // Load everything
+    loadMysteriousAnime();
+    loadLinksList();
+  </script>
+</body>
+</html>
