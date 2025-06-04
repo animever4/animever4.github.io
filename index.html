@@ -186,113 +186,68 @@
       padding-bottom: 8px;
       margin-top: 4px;
     }
-    .day-tabs {
-    display: flex;
-    justify-content: center;
-    background: #1f1f1f;
-    border-bottom: 2px solid #ff6f00;
-    user-select: none;
-    gap: 12px; /* space between tabs */
-    padding: 0 10px;
-    flex-wrap: wrap; /* wrap on small screens */
-  }
-
-  .day-tab {
-    flex: 0 0 auto; /* fixed width, no stretch */
-    min-width: 110px; /* wider tabs */
-    text-align: center;
-    padding: 14px 0;
-    cursor: pointer;
-    font-weight: 600;
-    color: #bbb;
-    border-bottom: 3px solid transparent;
-    transition: all 0.3s ease;
-    border-radius: 4px; /* rounded corners */
-  }
-
-  .day-tab:hover {
-    color: #fff;
-    border-bottom: 3px solid #ff9800;
-  }
-
-  .day-tab.active {
-    color: #ff9800;
-    border-bottom: 3px solid #ff9800;
-  }
-
-  /* Schedule Table */
-  .schedule-container {
-    max-width: 720px;
-    margin: 30px auto;
-    padding: 0 15px;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    background: #1e1e1e;
-    border-radius: 6px;
-    overflow: hidden;
-    box-shadow: 0 0 10px rgba(255, 111, 0, 0.2);
-  }
-
-  thead {
-    background: #ff6f00;
-  }
-
-  thead th {
-    padding: 12px;
-    text-align: left;
-    font-weight: 700;
-    color: #fff;
-    letter-spacing: 1px;
-  }
-
-  tbody tr {
-    border-bottom: 1px solid #333;
-  }
-
-  tbody tr:last-child {
-    border-bottom: none;
-  }
-
-  tbody td {
-    padding: 12px;
-    font-size: 16px;
-    color: #ddd;
-  }
-
-  tbody td.time {
-    width: 120px;
-    color: #ffb74d;
-    font-weight: 600;
-  }
-
-  tbody td.anime {
-    font-weight: 600;
-    color: #fff;
-  }
-
-  /* Responsive */
-  @media (max-width: 480px) {
-    .day-tabs {
-      gap: 8px;
-    }
-    .day-tab {
-      min-width: 90px;
-      font-size: 14px;
-      padding: 10px 0;
+     .days-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      max-width: 600px;
+      margin: 20px auto 10px;
     }
 
-    tbody td {
-      font-size: 14px;
-      padding: 10px 8px;
+    .sunday-button {
+      max-width: 600px;
+      margin: 20px auto 0;
     }
 
-    tbody td.time {
-      width: 90px;
+    .day-btn {
+      background-color: #ff9800;
+      border: none;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      width: 100%;
     }
-  }
+
+    .day-btn:hover,
+    .day-btn.active {
+      background-color: #e67e00;
+    }
+
+    .schedule {
+      display: none;
+      max-width: 700px;
+      margin: 20px auto;
+    }
+
+    .schedule.active {
+      display: block;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #1e1e1e;
+      border: 1px solid #333;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #333;
+    }
+
+    th {
+      background-color: #ff9800;
+      color: #000;
+    }
+
+    @media (max-width: 600px) {
+      .days-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
   </style>
    <script async src="https://script.adquake.com/js/adquake.js" adquake-key="PUXNl3DKlk+yiyklvHvkzA=="></script>
 </head>
@@ -593,78 +548,87 @@ loadAnimes(movieTitles, document.getElementById('movieContainer'));
 <script type="text/javascript"> var infolinks_pid = 3436919; var infolinks_wsid = 0; </script> <script type="text/javascript" src="//resources.infolinks.com/js/infolinks_main.js"></script>
 
 
-<header>Anime Schedule</header>
+  <h1 style="text-align:center;">Schedule/Time</h1>
 
-<div class="day-tabs">
-  <div class="day-tab active" data-day="monday">Monday</div>
-  <div class="day-tab" data-day="tuesday">Tuesday</div>
-  <div class="day-tab" data-day="wednesday">Wednesday</div>
-  <div class="day-tab" data-day="thursday">Thursday</div>
-  <div class="day-tab" data-day="friday">Friday</div>
-  <div class="day-tab" data-day="saturday">Saturday</div>
-</div>
+  <!-- Monday to Saturday -->
+  <div class="days-grid">
+    <button class="day-btn active" onclick="showSchedule('monday', this)">Monday</button>
+    <button class="day-btn" onclick="showSchedule('tuesday', this)">Tuesday</button>
+    <button class="day-btn" onclick="showSchedule('wednesday', this)">Wednesday</button>
+    <button class="day-btn" onclick="showSchedule('thursday', this)">Thursday</button>
+    <button class="day-btn" onclick="showSchedule('friday', this)">Friday</button>
+    <button class="day-btn" onclick="showSchedule('saturday', this)">Saturday</button>
+  </div>
 
-<div class="schedule-container">
-  <!-- Monday Schedule -->
-  <table class="schedule-table" id="monday">
-    <thead>
-      <tr><th>Time</th><th>Anime</th></tr>
-    </thead>
-    <tbody>
-      <tr><td class="time">06:00 PM</td><td class="anime">Naruto</td></tr>
-      <tr><td class="time">08:00 PM</td><td class="anime">One Piece</td></tr>
-    </tbody>
-  </table>
+  <!-- Sunday stretched -->
+  <div class="sunday-button">
+    <button class="day-btn" onclick="showSchedule('sunday', this)">Sunday</button>
+  </div>
 
-  <!-- Tuesday Schedule -->
-  <table class="schedule-table" id="tuesday" style="display:none;">
-    <thead>
-      <tr><th>Time</th><th>Anime</th></tr>
-    </thead>
-    <tbody>
-      <tr><td class="time">07:00 PM</td><td class="anime">My Hero Academia</td></tr>
-      <tr><td class="time">09:00 PM</td><td class="anime">Tokyo Revengers</td></tr>
-    </tbody>
-  </table>
+  <!-- Schedule Tables -->
 
-  <!-- Wednesday Schedule -->
-  <table class="schedule-table" id="wednesday" style="display:none;">
-    <thead>
+  <div class="schedule active" id="monday">
+    <table>
       <tr><th>Time</th><th>Anime</th></tr>
-    </thead>
-    <tbody>
-      <tr><td class="time">06:30 PM</td><td class="anime">Death Note</td></tr>
-    </tbody>
-  </table>
+      <tr><td>10:00 AM</td><td>Naruto</td></tr>
+      <tr><td>12:00 PM</td><td>Attack on Titan</td></tr>
+      <tr><td>3:00 PM</td><td>One Piece</td></tr>
+    </table>
+  </div>
 
-  <!-- Thursday Schedule -->
-  <table class="schedule-table" id="thursday" style="display:none;">
-    <thead>
+  <div class="schedule" id="tuesday">
+    <table>
       <tr><th>Time</th><th>Anime</th></tr>
-    </thead>
-    <tbody>
-      <tr><td class="time">08:00 PM</td><td class="anime">Tokyo Revengers</td></tr>
-    </tbody>
-  </table>
+      <tr><td>11:00 AM</td><td>Demon Slayer</td></tr>
+      <tr><td>1:00 PM</td><td>Jujutsu Kaisen</td></tr>
+      <tr><td>4:00 PM</td><td>My Hero Academia</td></tr>
+    </table>
+  </div>
 
-  <!-- Friday Schedule -->
-  <table class="schedule-table" id="friday" style="display:none;">
-    <thead>
+  <div class="schedule" id="wednesday">
+    <table>
       <tr><th>Time</th><th>Anime</th></tr>
-    </thead>
-    <tbody>
-      <tr><td class="time">07:30 PM</td><td class="anime">Dragon Ball Z</td></tr>
-    </tbody>
-  </table>
-  
-<table class="schedule-table" id="saturday" style="display:none;">
-    <thead>
+      <tr><td>10:30 AM</td><td>Bleach</td></tr>
+      <tr><td>1:30 PM</td><td>Dr. Stone</td></tr>
+      <tr><td>5:00 PM</td><td>Chainsaw Man</td></tr>
+    </table>
+  </div>
+
+  <div class="schedule" id="thursday">
+    <table>
       <tr><th>Time</th><th>Anime</th></tr>
-    </thead>
-    <tbody>
-      <tr><td class="time">07:30 PM</td><td class="anime">Dragon Ball Z</td></tr>
-    </tbody>
-  </table>
+      <tr><td>9:00 AM</td><td>Black Clover</td></tr>
+      <tr><td>12:30 PM</td><td>Tokyo Revengers</td></tr>
+      <tr><td>6:00 PM</td><td>Fairy Tail</td></tr>
+    </table>
+  </div>
+
+  <div class="schedule" id="friday">
+    <table>
+      <tr><th>Time</th><th>Anime</th></tr>
+      <tr><td>10:00 AM</td><td>Dragon Ball Z</td></tr>
+      <tr><td>1:00 PM</td><td>One Punch Man</td></tr>
+      <tr><td>7:00 PM</td><td>Hunter x Hunter</td></tr>
+    </table>
+  </div>
+
+  <div class="schedule" id="saturday">
+    <table>
+      <tr><th>Time</th><th>Anime</th></tr>
+      <tr><td>11:00 AM</td><td>Vinland Saga</td></tr>
+      <tr><td>2:00 PM</td><td>Spy x Family</td></tr>
+      <tr><td>8:00 PM</td><td>Blue Lock</td></tr>
+    </table>
+  </div>
+
+  <div class="schedule" id="sunday">
+    <table>
+      <tr><th>Time</th><th>Anime</th></tr>
+      <tr><td>10:00 AM</td><td>Death Note</td></tr>
+      <tr><td>1:00 PM</td><td>Erased</td></tr>
+      <tr><td>5:00 PM</td><td>The Promised Neverland</td></tr>
+    </table>
+  </div>
 
 
   
@@ -789,6 +753,15 @@ background-size: cover;
   gtag('config', 'YOUR-GA-ID');
 </script>
 
+  <script>
+    function showSchedule(dayId, button) {
+      document.querySelectorAll('.schedule').forEach(el => el.classList.remove('active'));
+      document.getElementById(dayId).classList.add('active');
+      
+      document.querySelectorAll('.day-btn').forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+    }
+  </script>
 
 </body>
 </html>
