@@ -5,3 +5,21 @@
 
 
 https://t.me/animverse019
+
+<script type="text/javascript">
+  atOptions = {
+    'key': 'faed40556e9e11a0d030b78d24dcdd29',
+    'format': 'iframe',
+    'height': 60,
+    'width': 48,
+    'params': {}
+  };
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/faed40556e9e11a0d030b78d24dcdd29/invoke.js"></script>
+
+<script type="text/javascript">
+   var uid = '490904';
+   var wid = '740992';
+   var pop_tag = document.createElement('script');pop_tag.src='//cdn.popcash.net/show.js';document.body.appendChild(pop_tag);
+   pop_tag.onerror = function() {pop_tag = document.createElement('script');pop_tag.src='//cdn2.popcash.net/show.js';document.body.appendChild(pop_tag)};
+</script>
