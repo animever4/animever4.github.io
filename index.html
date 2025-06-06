@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -560,53 +561,80 @@ loadAnimes(movieTitles, document.getElementById('movieContainer'));
 </script>
 
 
+
 <script type="text/javascript"> var infolinks_pid = 3436919; var infolinks_wsid = 0; </script> <script type="text/javascript" src="//resources.infolinks.com/js/infolinks_main.js"></script>
 
+<h1 style="text-align:center;">Schedule/Time</h1>
 
+<!-- Monday to Saturday -->
+<div class="days-grid">
+  <button class="day-btn active" onclick="showSchedule('monday', this)">Monday</button>
+  <button class="day-btn" onclick="showSchedule('tuesday', this)">Tuesday</button>
+  <button class="day-btn" onclick="showSchedule('wednesday', this)">Wednesday</button>
+  <button class="day-btn" onclick="showSchedule('thursday', this)">Thursday</button>
+  <button class="day-btn" onclick="showSchedule('friday', this)">Friday</button>
+  <button class="day-btn" onclick="showSchedule('saturday', this)">Saturday</button>
+</div>
 
-<footer style="background-color: #111; color: #fff; padding: 30px 20px; font-family: Arial, sans-serif;">
-  <div style="max-width: 1200px; margin: auto; display: flex; flex-wrap: wrap; justify-content: space-between;">
-    <!-- Brand Info -->
-    <div style="flex: 1 1 200px; margin-bottom: 20px;">
-      <h2 style="font-size: 24px; color: #f75f00;">Animeverse</h2>
-      <p style="font-size: 14px; line-height: 1.6;">
-        Watch the best anime series and movies. Hindi dubbed episodes available. Stream now, for free!
-      </p>
-    </div>
-    
-    <!-- Navigation -->
-    <div style="flex: 1 1 150px; margin-bottom: 20px;">
-      <h3 style="font-size: 18px; margin-bottom: 10px;">Quick Links</h3>
-      <ul style="list-style: none; padding: 0; font-size: 14px;">
-        <li><a href="/" style="color: #ccc; text-decoration: none;">Home</a></li>
-        <li><a href="./about us.html" style="color: #ccc; text-decoration: none;">About</a></li>
-        <li><a href="./contact us.html" style="color: #ccc; text-decoration: none;">Contact</a></li>
-        <li><a href="./privacy policy.html" style="color: #ccc; text-decoration: none;">Privacy Policy</a></li>
-        <li><a href="./terms.html" style="color: #ccc; text-decoration: none;">Terms</a></li>
-        
-      </ul>
-    </div>
-    
-    <!-- Social Media -->
-    
-    <div style="flex: 1 1 150px; margin-bottom: 20px; text-align: center;">
-      <h3 style="font-size: 18px; margin-bottom: 10px;">Follow Us</h3>
-      <a href="https://youtube.com/@animia-g6q?si=wLgFimeHF4wD_UdT" style="margin-right: 10px; color: #ccc; font-size: 20px;"><i class="fab fa-facebook-f"></i>Youtube</a>
-      <a href="https://t.me/animverse019" style="margin-right: 10px; color: #ccc; font-size: 20px;"><i class="fab fa-twitter"></i></a>
-      <a href="#" style="margin-right: 10px; color: #ccc; font-size: 20px;"><i class="fab fa-instagram"></i>Telegram</a>
-      
-    </div>
-  </div>
-  
-  <div style="text-align: center; border-top: 1px solid #333; margin-top: 20px; padding-top: 10px; font-size: 13px; color: #999;">
-    &copy; 2025 Animeverse. All rights reserved.
-  </div>
-</footer>
-<!-- Footer End -->
+<!-- Sunday stretched -->
+<div class="sunday-button">
+  <button class="day-btn" onclick="showSchedule('sunday', this)">Sunday</button>
+</div>
 
-<!-- Font Awesome for icons -->
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<!-- Schedule Tables -->
+<div class="schedule active" id="monday">
+  <table>
+    <tr><td>9:30 PM</td><td>Jojo Bizzare Adventure</td></tr>
+  </table>
+</div>
 
+<div class="schedule" id="tuesday">
+  <table>
+    <tr><th>Time</th><th>Anime</th></tr>
+    <tr><td>11:00 PM</td><td>Mobile Suit Gundam GQuuuuuuX</td></tr>
+    <tr><td>9:30 PM</td><td>Jojo's Bizarre Adventure</td></tr>
+  </table>
+</div>
+
+<div class="schedule" id="wednesday">
+  <table>
+    <tr><th>Time</th><th>Anime</th></tr>
+    <tr><td>8:00 AM</td><td>The Shiunju Family</td></tr>
+    <tr><td>9:30 PM</td><td>Jojo Bizzare Adventure</td></tr>
+  </table>
+</div>
+
+<div class="schedule" id="thursday">
+  <table>
+    <tr><th>Time</th><th>Anime</th></tr>
+    <tr><td>9:30 PM</td><td>Jojo Bizzare Adventure</td></tr>
+  </table>
+</div>
+
+<div class="schedule" id="friday">
+  <table>
+    <tr><th>Time</th><th>Anime</th></tr>
+    <tr><td>9:30 PM</td><td>Jojo Bizzare Adventure</td></tr>
+    <tr><td>8:00 AM</td><td>Wind Breaker Season 2</td></tr>
+  </table>
+</div>
+
+<div class="schedule" id="saturday">
+  <table>
+    <tr><th>Time</th><th>Anime</th></tr>
+    <tr><td>8:00 AM</td><td>The Apothecary Diaries Season 2</td></tr>
+    <tr><td>8:00 AM</td><td>Fire Force Season 3</td></tr>
+    <tr><td>9:30 PM</td><td>Jojo Bizzare Adventure</td></tr>
+  </table>
+</div>
+
+<div class="schedule" id="sunday">
+  <table>
+    <tr><th>Time</th><th>Anime</th></tr>
+    <tr><td>8:30 AM</td><td>Black Butler Season 3</td></tr>
+    <tr><td>9:30 PM</td><td>Jojo Bizzare Adventure</td></tr>
+  </table>
+</div>
 
 <script>
   function showSchedule(dayId, button) {
@@ -618,8 +646,35 @@ loadAnimes(movieTitles, document.getElementById('movieContainer'));
   }
 </script>
 
+<footer style="background: url('./IMG_20250528_184959.jpg') no-repeat center center fixed;
+background-size: cover; padding: 30px 20px; font-family: Arial, sans-serif;">
+  <div style="max-width: 1200px; margin: auto; display: flex; flex-wrap: wrap; justify-content: space-between; text-align:center;">
+    <div style="flex: 1 1 200px; margin-bottom: 20px;">
+      <h2 style="font-size: 24px; color: #f75f00;">Animeverse</h2>
+      <p style="font-size: 14px; line-height: 1.6;">
+        Watch the best anime series and movies. Hindi dubbed episodes available. Stream now, for free!
+      </p>
+    </div>
+    <div style="flex: 1 1 150px; margin-bottom: 20px;">
+      <h3 style="font-size: 18px; margin-bottom: 10px;">Quick Links</h3>
+      <ul style="list-style: none; padding: 0; font-size: 14px;">
+        <li><a href="/" style="color: #ccc; text-decoration: none;">Home</a></li>
+        <li><a href="./about us.html" style="color: #ccc; text-decoration: none;">About</a></li>
+        <li><a href="./contact us.html" style="color: #ccc; text-decoration: none;">Contact</a></li>
+        <li><a href="./privacy policy.html" style="color: #ccc; text-decoration: none;">Privacy Policy</a></li>
+        <li><a href="./terms.html" style="color: #ccc; text-decoration: none;">Terms</a></li>
+      </ul>
+    </div>
+    <div style="flex: 1 1 150px; margin-bottom: 20px; text-align: center;">
+      <h3 style="font-size: 18px; margin-bottom: 10px;">Follow Us</h3>
+      <a href="https://youtube.com/@animia-g6q?si=wLgFimeHF4wD_UdT" style="margin-right: 10px; color: #ccc; font-size: 20px;">YouTube</a>
+      <a href="https://t.me/animverse019" style="margin-right: 10px; color: #ccc; font-size: 20px;">Telegram</a>
+    </div>
+  </div>
+  <div style="text-align: center; border-top: 1px solid #333; margin-top: 20px; padding-top: 10px; font-size: 13px; color: #999;">
+    &copy; 2025 Animeverse. All rights reserved.
+  </div>
+</footer>
 
-
-<script type='text/javascript' src='//pl26839098.profitableratecpm.com/9c/13/5f/9c135f900192de4d00fb81614c897453.js'></script>
 </body>
 </html>
