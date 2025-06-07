@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="google-adsense-account" content="ca-pub-8123448291547296">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Animeverse</title>
+  <style>
+  
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      background: url('/IMG_20250528_184959.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      margin: 0;
+      padding: 16px;
+      line-height: 1.5;
+    }
+    header h1 {
+      font-weight: 700;
+      font-size: 2.5rem;
+      color: #f47e21;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin: 0 0 16px 0;
+      text-align: center;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 24px;
+      background-color: rgba(26, 26, 26, 0.9);
+      padding: 6px;
+      color: #f47e21;
+    }
+    nav a {
+      color: #f47e21;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    h2 {
+      position: relative;
+      padding-left: 12px;
+      margin-bottom: 24px;
+      font-weight: 800;
+      font-size: 1.8rem;
+      color: #fff;
+      text-transform: uppercase;
+    }
+    h2::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 6px;
+      background-color: #f47e21;
+      border-radius: 3px;
+    }
+    .anime-grid {
+      display: grid;
+      gap: 15px;
+      grid-template-columns: repeat(3, 1fr);
+      padding-bottom: 40px;
+    }
+    @media (min-width: 768px) {
+      .anime-grid {
+        grid-template-columns: repeat(5, 1fr);
+      }
+    }
+    a.anime-card {
+      background: rgba(20,20,20,0.9);
+      border-radius: 8px;
+      overflow: hidden;
+      text-align: center;
+      color: white;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      display: block;
+    }
+    a.anime-card:hover {
+      transform: scale(1.05);
+    }
+    a.anime-card img {
+      width: 100%;
+      aspect-ratio: 2 / 3;
+      object-fit: cover;
+      display: block;
+    }
+    .anime-title {
+      padding: 8px 6px 4px;
+      font-weight: 700;
+      font-size: 1rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: #fff;
+    }
+    .anime-rating {
+      font-size: 0.8rem;
+      color: #bbb;
+      padding-bottom: 8px;
+      margin-top: 4px;
+    }
+    #linksList {
+      display: none;
+      margin-top: 40px;
+      background: rgba(20,20,20,0.8);
+      border-radius: 8px;
+      padding: 16px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #linksList h2 {
+      margin-top: 0;
+      border-left: 6px solid #f47e21;
+      padding-left: 10px;
+      font-weight: 800;
+      display: none;
+    }
+    #linksList ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+      columns: 2;
+      column-gap: 40px;
+      display: none;
+    }
+    #linksList ul li {
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+    #linksList ul li a {
+      color: #f47e21;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    #linksList ul li a:hover {
+      text-decoration: underline;
+      color: #ffa54f;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Animeverse</h1>
+  </header>
+
+  <nav>
+    <a href="./index.html">Home</a>
+    <a href="./adventure.html">Adventure</a>
+    <a href="./action.html">Action</a>
+    <a href="./child.html">Child</a>
+  </nav>
+
+  <section>
+    <h2>Adventure Anime (Hindi Dubbed)</h2>
+    <div id="adventureContainer" class="anime-grid"></div>
+  </section>
+
+  <section id="linksList">
+    <h2>Links List</h2>
+    <ul id="linksUl"></ul>
+  </section>
+
+  <script>
+    const apiKey = 'eef0f9c16ca61d6c843e7d43ddc5e1d8';
+
+    // Adventure anime titles in Hindi dubbed
+    const adventureTitles = [
+      'Naruto',
+      'Naruto Shippuden',
+      'One Piece',
+      'Dragon Ball Z',
+      'Solo leveling',
+      'Hunter x Hunter',
+      'Fairy Tail',
+      'Black Clover',
+      'My Hero Academia',
+      'The Strongest Magician in the Demon Lord’s Army was a Human'
+    ];
+
+    // Add URLs for your anime pages or external links if available, else '#'
+    const animeLinks = {
+      'Naruto': './naruto.html',
+      'Naruto Shippuden': './narutos.html',
+      'One Piece': './piece.html',
+      'Dragon Ball Z': './dragon.html',
+      'solo leveling': './solo leveling.html',
+      'Hunter x Hunter': './hunter.html',
+      'Fairy Tail': './fairy.html',
+      'Black Clover': './clover.html',
+      'My Hero Academia': './my hero.html',
+      'The Strongest Magician in the Demon Lord’s Army was a Human': './strongest.html'
+    };
+
+    // Optional: You can add manual posters if you want to override TMDB posters for better quality or Hindi versions
+    const manualPosters = {
+      // Example: 'Naruto': './images/naruto-poster.jpg'
+    };
+
+    // Optional: manual ratings if you want to override TMDB ratings
+    const manualRatings = {
+      // Example: 'Naruto': 8.3
+    };
+
+    const adventureContainer = document.getElementById('adventureContainer');
+    const linksUl = document.getElementById('linksUl');
+
+    async function fetchAnimeByTitle(title) {
+      const url = `https://api.themoviedb.org/3/search/tv?api_key=${apiKey}&query=${encodeURIComponent(title)}`;
+      const res = await fetch(url);
+      const data = await res.json();
+      return data.results[0];
+    }
+
+    async function loadAdventureAnime() {
+      adventureContainer.innerHTML = '';
+      for (let title of adventureTitles) {
+        let anime = null;
+
+        // Fetch only if no manual poster or rating
+        if (!manualPosters[title] || !manualRatings[title]) {
+          anime = await fetchAnimeByTitle(title);
+        }
+
+        const card = createAnimeCard(anime, title);
+        adventureContainer.appendChild(card);
+      }
+    }
+
+    function createAnimeCard(anime, originalTitle) {
+      const poster = manualPosters[originalTitle]
+        ? manualPosters[originalTitle]
+        : anime?.poster_path
+          ? `https://image.tmdb.org/t/p/w300${anime.poster_path}`
+          : 'https://via.placeholder.com/300x450?text=No+Image';
+
+      const title = anime?.name || originalTitle || 'Unknown';
+
+      const rating = manualRatings[originalTitle]
+        ? manualRatings[originalTitle].toFixed(1)
+        : anime?.vote_average
+          ? anime.vote_average.toFixed(1)
+          : 'N/A';
+
+      const link = animeLinks[originalTitle] || '#';
+
+      const card = document.createElement('a');
+      card.classList.add('anime-card');
+      card.href = link;
+      card.target = '_blank';
+      card.rel = 'noopener noreferrer';
+      card.innerHTML = `
+        <img src="${poster}" alt="${title}" />
+        <div class="anime-title">${title}</div>
+        <div class="anime-rating">Rating: ${rating}</div>
+      `;
+      return card;
+    }
+
+    // Optional: If you want to show links list
+    function loadLinksList() {
+      linksUl.innerHTML = '';
+      for (const [title, url] of Object.entries(animeLinks)) {
+        const li = document.createElement('li');
+        li.innerHTML = `<a href="${url}" target="_blank" rel="noopener noreferrer">${title}</a>`;
+        linksUl.appendChild(li);
+      }
+    }
+
+    loadAdventureAnime();
+    loadLinksList();
+  </script>
+</body>
+</html>
