@@ -122,7 +122,7 @@
       padding-left: 12px;
       margin-bottom: 24px;
       font-weight: 800;
-      font-size: 1.8rem;
+      font-size: 20px;
       color: #fff;
       text-transform: uppercase;
       max-width: 800px;
@@ -251,14 +251,10 @@
       }
     }
   </style>
-<script type="text/javascript" data-cfasync="false">
-/*<![CDATA[/* */
-(function(){var u=window,t="b777b639436965fd3a2dff466376247a",n=[["siteId",761*37+562-683*861+5765247],["minBid",0],["popundersPerIP","50:1,50:1"],["delayBetween",20],["default",false],["defaultPerDay",10],["topmostLayer","always"]],y=["d3d3LmludGVsbGlnZW5jZWFkeC5jb20vZXVzZS5taW4uY3Nz","ZDJrbHg4N2Jnem5nY2UuY2xvdWRmcm9udC5uZXQvU21nY2RYL2lzZXF1ZW5jZS1kaWFncmFtLW1pbi5qcw=="],b=-1,m,z,d=function(){clearTimeout(z);b++;if(y[b]&&!(1775310377000<(new Date).getTime()&&1<b)){m=u.document.createElement("script");m.type="text/javascript";m.async=!0;var j=u.document.getElementsByTagName("script")[0];m.src="https://"+atob(y[b]);m.crossOrigin="anonymous";m.onerror=d;m.onload=function(){clearTimeout(z);u[t.slice(0,16)+t.slice(0,16)]||d()};z=setTimeout(d,5E3);j.parentNode.insertBefore(m,j)}};if(!u[t]){try{Object.freeze(u[t]=n)}catch(e){}d()}})();
-/*]]>/* */
-</script>
+
+
 
 <script type='text/javascript' src='//pl26826970.profitableratecpm.com/cb/47/e5/cb47e595dd9ecb45650dc11fca285562.js'></script>
-
 </head>
 <body>
 
@@ -272,6 +268,9 @@
   };
 </script>
 <script type="text/javascript" src="//www.highperformanceformat.com/60c951cd32cf86007aff2eb0dac5065d/invoke.js"></script>
+
+
+
 
 <header><center><h1>Animeverse</h1></center></header>
 
@@ -299,6 +298,12 @@
   <div id="animeContainer" class="anime-grid"></div>
 </section>
 
+
+<section id="latestmovieSection">
+  <h2 id="latestmovieHeading">Latest Movie</h2>
+  <div id="latestmovieContainer" class="anime-grid"></div>
+</section>
+
 <section id="trendingSection">
   <h2 id="trendingHeading">Trending Anime</h2>
   <div id="trendingContainer" class="anime-grid"></div>
@@ -313,7 +318,7 @@
 const apiKey = 'eef0f9c16ca61d6c843e7d43ddc5e1d8';
 
 const defaultTitles = [
-  'black butler','The Shiunji Family Children','Mobile Suit Gundam GQuuuuuuX','The Gorillas Gods Go To Girls','fire force','Teogonia','The Apothecary Diaries','Wind Breaker','Mob Psycho 100','I parry Everything'
+  'black butler','The Shiunji Family Children','Mobile Suit Gundam GQuuuuuuX','The Gorillas Gods Go To Girls','fire force','Teogonia','The Apothecary Diaries','Wind Breaker','Mob Psycho 100','I parry Everything','JoJo s Bizarre Adventure'
 ];
 
 const trendingTitles = [
@@ -323,6 +328,20 @@ const trendingTitles = [
 const movieTitles = [
   'Your Name', 'Garden of Words', 'Suzume', 'Stand by me', 'Weathering with You', 'doreamon', 'Demon Slayer: Mugen Train'
 ];
+
+const latestmovieTitles = [
+  'Naruto',
+  'One Piece',
+  'Attack on Titan',
+  'Dragon Ball Z',
+  'Bleach',
+  'Jujutsu Kaisen',
+  'Demon Slayer: Kimetsu no Yaiba',
+  'My Hero Academia',
+  'Tokyo Ghoul',
+  'Death Note'
+];
+
 
 // Hindi-dubbed titles only appear in search suggestions, not on homepage grids:
 const hindiTitles = [
@@ -390,6 +409,7 @@ const linkMap = {
   
   
 };
+
 
 const manualPosters = {
   'naruto': './Screenshot_2025-05-31-15-02-28-42_680d03679600f7af0b4c700c6b270fe7.jpg'
@@ -521,7 +541,7 @@ function performSearch(term) {
   // Hide other sections:
   document.getElementById('trendingSection').style.display = 'none';
   document.getElementById('movieSection').style.display = 'none';
-  document.getElementById('popularHeading').textContent = `Search Results for "${term}"`;
+  document.getElementById('latestmovieHeading').textContent = `Search Results for "${term}"`;
 }
 
 function clearSearch() {
@@ -538,6 +558,7 @@ function clearSearch() {
   loadAnimes(defaultTitles, document.getElementById('animeContainer'));
   loadAnimes(trendingTitles, document.getElementById('trendingContainer'));
   loadAnimes(movieTitles, document.getElementById('movieContainer'));
+loadAnimes(popularTitles, document.getElementById('popularContainer'));
 }
 
 document.getElementById('searchInput').addEventListener('input', (e) => {
@@ -580,6 +601,7 @@ document.getElementById('clearBtn').addEventListener('click', () => {
 loadAnimes(defaultTitles, document.getElementById('animeContainer'));
 loadAnimes(trendingTitles, document.getElementById('trendingContainer'));
 loadAnimes(movieTitles, document.getElementById('movieContainer'));
+loadAnimes(latestmovieTitles, document.getElementById('latestmovieContainer'));
 
 </script>
 
@@ -607,6 +629,7 @@ loadAnimes(movieTitles, document.getElementById('movieContainer'));
 <!-- Schedule Tables -->
 <div class="schedule active" id="monday">
   <table>
+<tr><th>Time</th><th>Anime</th></tr>
     <tr><td>9:30 PM</td><td>Jojo Bizzare Adventure</td></tr>
   </table>
 </div>
@@ -699,5 +722,8 @@ background-size: cover; padding: 30px 20px; font-family: Arial, sans-serif;">
   </div>
 </footer>
 
+
+
 </body>
 </html>
+<li></li>
