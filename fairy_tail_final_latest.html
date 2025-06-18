@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fairy Tail - Hindi Dub - Watch All Episodes</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #0b0b0b;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+    }
+    header {
+      background-color: #141414;
+      padding: 15px 20px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #00ff99;
+      text-align: center;
+    }
+    .player-section {
+      max-width: 960px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+    iframe {
+      width: 100%;
+      height: 480px;
+      border: none;
+      border-radius: 8px;
+    }
+    .server-tabs, .season-dropdown {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .server-tabs button,
+    .dropdown-toggle,
+    .dropdown-content button {
+      background-color: #222;
+      color: white;
+      padding: 10px 16px;
+      border: 1px solid #00ff99;
+      margin: 5px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.3s;
+      font-size: 16px;
+    }
+    .server-tabs button.active,
+    .dropdown-content button.active {
+      background-color: #00ff99;
+      color: black;
+    }
+    .dropdown-toggle {
+      display: inline-block;
+    }
+    .dropdown-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+    .dropdown-content.show {
+      max-height: 200px;
+    }
+    .episodes-section {
+      max-width: 1000px;
+      margin: 0 auto 30px;
+      padding: 0 15px;
+    }
+    .episode-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 12px;
+    }
+    .episode-button {
+      background-color: #1c1c1c;
+      border: 1px solid #00ff99;
+      color: #00ff99;
+      padding: 10px;
+      border-radius: 6px;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .episode-button:hover {
+      background-color: #00ff99;
+      color: #000;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header>Fairy Tail - Hindi Dub</header>
+  <div class="player-section">
+    <iframe id="videoPlayer" src="" allowfullscreen></iframe>
+    <div class="server-tabs">
+      <button onclick="setServer('filemoon')" id="filemoonBtn">Filemoon</button>
+    </div>
+    <div class="season-dropdown">
+      <button class="dropdown-toggle" onclick="toggleDropdown()">Seasons ▾</button>
+      <div class="dropdown-content" id="seasonDropdown">
+        <button onclick="setSeason('s1')" id="s1Btn">Season 1</button>
+      </div>
+    </div>
+  </div>
+  <div class="episodes-section">
+    <div class="episode-grid hidden" id="s1Episodes"></div>
+  </div>
+  <script>
+    const allEpisodes = {
+  "filemoon": {
+    "s1": [
+      {
+        "name": "23",
+        "url": "https://filemoon.nl/e/u7r3xq8hgw37/_Toonhub4u__Fairy_Tail_S01E23_720p_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "24",
+        "url": "https://filemoon.nl/e/vb7n1eppxsc2/_Toonhub4u__Fairy_Tail_S01E24_720p_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "25",
+        "url": "https://filemoon.nl/e/qiavmuadeoau/_Toonhub4u__Fairy_Tail_S01E25_720p_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "26",
+        "url": "https://short.icu/Luy1DWvdp"
+      },
+      {
+        "name": "27",
+        "url": "https://filemoon.nl/e/taxmhdhqxt2p/_Toonworld4all__Fairy_Tail_S01E27_1080p_x265_10bit_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "28",
+        "url": "https://filemoon.nl/e/kdgrg5pzbcfo/_Toonhub4u__Fairy_Tail_S01E28_720p_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "29",
+        "url": "https://filemoon.nl/e/22yxjopy0pbd"
+      },
+      {
+        "name": "30",
+        "url": "https://filemoon.nl/e/htamoiwgr2vs/_Toonhub4u__Fairy_Tail_S01E30_in_Hindi_Dub"
+      },
+      {
+        "name": "31",
+        "url": "https://filemoon.nl/e/xa7nvwisonf9/Fairy_Tail_S01E31__RareToonsIndia_"
+      },
+      {
+        "name": "32",
+        "url": "https://filemoon.nl/e/fcmh14gdyyvr"
+      },
+      {
+        "name": "33",
+        "url": "https://filemoon.nl/e/c8ocblsr0wsv/Fairy_Tail_S01E33__RareToonsIndia__mkv"
+      },
+      {
+        "name": "34",
+        "url": "https://filemoon.nl/e/nlo4qwxz61eq/Fairy_Tail_S01E34__RareToonsIndia__mkv"
+      },
+      {
+        "name": "35",
+        "url": "https://filemoon.nl/e/51zvks3kvnzs/fairy_tail_S1_episode_35"
+      },
+      {
+        "name": "36",
+        "url": "https://filemoon.nl/e/bqi5h4ytjk3l"
+      },
+      {
+        "name": "37",
+        "url": "https://filemoon.nl/e/5bwiv9tmwasf"
+      },
+      {
+        "name": "38",
+        "url": "https://filemoon.nl/e/rraxzubdu70d/_Toonhub4u__Fairy_Tail_S01E38_720p_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "39",
+        "url": "https://filemoon.nl/e/45sbi6kpt5ja/_Toonhub4u__Fairy_Tail_S01E39_720p_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "40",
+        "url": "https://filemoon.nl/e/bblu95nl9u76/_Toonhub4u__Fairy_Tail_S01E40_720p_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "41",
+        "url": "https://filemoon.nl/e/q7y282l2vjr3/_Toonhub4u__Fairy_Tail_S01E41_720p_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "42",
+        "url": "https://filemoon.nl/e/8b4mt8t9aj7q"
+      },
+      {
+        "name": "43",
+        "url": "https://filemoon.nl/e/1rrjxcaplr9s/_Toonhub4u__Fairy_Tail_S01E43_720p_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "44",
+        "url": "https://filemoon.nl/e/ho284i78f1e0/_Toonhub4u__Fairy_Tail_S01E44_720p_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "45",
+        "url": "https://filemoon.nl/e/abwpng87m0rq/_Toonworld4all__Fairy_Tail_S01E45_1080p_x265_10bit_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "46",
+        "url": "https://filemoon.nl/e/6k86x3g74290/_Toonhub4u__Fairy_Tail_S01E46_720p_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "47",
+        "url": "https://filemoon.nl/e/ib9j9dysd49h/_Toonhub4u__Fairy_Tail_S01E47_720p_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "48",
+        "url": "https://filemoon.nl/e/83nyf6yaijic/_Toonhub4u__Fairy_Tail_S01E48_720p_BDRip__Hindi-Eng-Jap__ESub"
+      }
+    ]
+  }
+};
+    let currentServer = 'filemoon';
+    let currentSeason = 's1';
+    function loadEpisodes(server, season) {
+      const epList = allEpisodes[server][season];
+      const container = document.getElementById(season + 'Episodes');
+      container.innerHTML = '';
+      epList.forEach(ep => {
+        const btn = document.createElement('div');
+        btn.className = 'episode-button';
+        btn.textContent = ep.name;
+        btn.onclick = () => loadVideo(ep.url);
+        container.appendChild(btn);
+      });
+    }
+    function loadVideo(url) {
+      document.getElementById('videoPlayer').src = url;
+    }
+    function setServer(server) {
+      currentServer = server;
+      document.querySelectorAll('.server-tabs button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(server + 'Btn').classList.add('active');
+      setSeason(currentSeason);
+    }
+    function setSeason(season) {
+      currentSeason = season;
+      document.querySelectorAll('.dropdown-content button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(season + 'Btn').classList.add('active');
+      const seasonKeys = Object.keys(allEpisodes[currentServer]);
+      seasonKeys.forEach(s => {
+        const grid = document.getElementById(s + 'Episodes');
+        if (grid) grid.classList.add('hidden');
+      });
+      document.getElementById(season + 'Episodes').classList.remove('hidden');
+      loadEpisodes(currentServer, season);
+      const firstEp = allEpisodes[currentServer][season][0];
+      if (firstEp) loadVideo(firstEp.url);
+    }
+    function toggleDropdown() {
+      document.getElementById('seasonDropdown').classList.toggle('show');
+    }
+    setServer('filemoon');
+  </script>
+</body>
+</html>

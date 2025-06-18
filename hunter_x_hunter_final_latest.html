@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hunter x Hunter - Hindi Dub - Watch All Episodes</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #0b0b0b;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+    }
+    header {
+      background-color: #141414;
+      padding: 15px 20px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #00ff99;
+      text-align: center;
+    }
+    .player-section {
+      max-width: 960px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+    iframe {
+      width: 100%;
+      height: 480px;
+      border: none;
+      border-radius: 8px;
+    }
+    .server-tabs, .season-dropdown {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .server-tabs button,
+    .dropdown-toggle,
+    .dropdown-content button {
+      background-color: #222;
+      color: white;
+      padding: 10px 16px;
+      border: 1px solid #00ff99;
+      margin: 5px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.3s;
+      font-size: 16px;
+    }
+    .server-tabs button.active,
+    .dropdown-content button.active {
+      background-color: #00ff99;
+      color: black;
+    }
+    .dropdown-toggle {
+      display: inline-block;
+    }
+    .dropdown-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+    .dropdown-content.show {
+      max-height: 200px;
+    }
+    .episodes-section {
+      max-width: 1000px;
+      margin: 0 auto 30px;
+      padding: 0 15px;
+    }
+    .episode-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 12px;
+    }
+    .episode-button {
+      background-color: #1c1c1c;
+      border: 1px solid #00ff99;
+      color: #00ff99;
+      padding: 10px;
+      border-radius: 6px;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .episode-button:hover {
+      background-color: #00ff99;
+      color: #000;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header>Hunter x Hunter - Hindi Dub</header>
+  <div class="player-section">
+    <iframe id="videoPlayer" src="" allowfullscreen></iframe>
+    <div class="server-tabs">
+      <button onclick="setServer('filemoon')" id="filemoonBtn">Filemoon</button>
+    </div>
+    <div class="season-dropdown">
+      <button class="dropdown-toggle" onclick="toggleDropdown()">Seasons ▾</button>
+      <div class="dropdown-content" id="seasonDropdown">
+        <button onclick="setSeason('s1')" id="s1Btn">Season 1</button>
+      </div>
+    </div>
+  </div>
+  <div class="episodes-section">
+    <div class="episode-grid hidden" id="s1Episodes"></div>
+  </div>
+  <script>
+    const allEpisodes = {
+  "filemoon": {
+    "s1": [
+      {
+        "name": "S1E1",
+        "url": "https://filemoon.nl/e/1zx6tz81ne26/_Toonhub4u__Hunter_x_Hunter_S01E01__720p_BD_x265_10bit_Multi_Audio__ESub"
+      },
+      {
+        "name": "S1E2",
+        "url": "https://filemoon.nl/e/434zmbo912sx/_Toonworld4all__Hunter_x_Hunter_S01E02__1080p_BD_x265_10bit_Multi_Audio__ESub"
+      },
+      {
+        "name": "S1E3",
+        "url": "https://filemoon.nl/e/6gfwbedmne0g/_Toonhub4u__Hunter_x_Hunter_S01E03__720p_BD_Multi_Audio__ESub"
+      },
+      {
+        "name": "S1E4",
+        "url": "https://filemoon.nl/e/uquu4k6yg7li/_Toonhub4u__Hunter_x_Hunter_S01E04__720p_BD_Multi_Audio__ESub"
+      },
+      {
+        "name": "S1E5",
+        "url": "https://filemoon.nl/e/6eu00lo4dse6/_Toonhub4u__Hunter_x_Hunter_S01E05__720p_BD_Multi_Audio__ESub"
+      },
+      {
+        "name": "S1E6",
+        "url": "https://filemoon.nl/e/y6zqt63htlj3/_Toonhub4u__Hunter_x_Hunter_S01E06__720p_BD_Multi_Audio__ESub"
+      },
+      {
+        "name": "S1E7",
+        "url": "https://filemoon.nl/e/9zxdf1gagpyn/_Toonhub4u__Hunter_x_Hunter_S01E07__720p_BD_Multi_Audio__ESub"
+      },
+      {
+        "name": "S1E8",
+        "url": "https://filemoon.nl/e/lj6pgcph4bi3/_Toonhub4u__Hunter_x_Hunter_S01E08__720p_BD_Multi_Audio__ESub"
+      },
+      {
+        "name": "S1E9",
+        "url": "https://filemoon.nl/e/evwp6zb0dc5y/_Toonhub4u__Hunter_x_Hunter_S01E09__720p_BD_Multi_Audio__ESub"
+      },
+      {
+        "name": "S1E10",
+        "url": "https://filemoon.nl/e/xxp0fea3nkdx/_Toonhub4u__Hunter_x_Hunter_S01E10__720p_BD_Multi_Audio__ESub"
+      },
+      {
+        "name": "S1E11",
+        "url": "https://filemoon.nl/e/z7hhmwp28ws3/_Toonhub4u__Hunter_x_Hunter_S01E11__720p_BD_Multi_Audio__ESub"
+      },
+      {
+        "name": "S1E12",
+        "url": "https://filemoon.nl/e/tzqupfu98qyx/_Toonhub4u__Hunter_x_Hunter_S01E12__720p_BD_Multi_Audio__ESub"
+      },
+      {
+        "name": "S1E13",
+        "url": "https://filemoon.nl/e/hywk01wtq688/_Toonworld4all__Hunter_x_Hunter_S01E13__1080p_BD_x265_10bit_Multi_Audio__ESub"
+      },
+      {
+        "name": "S1E14",
+        "url": "https://filemoon.nl/e/g2d6vmc8wkkp/_Toonworld4all__Hunter_x_Hunter_S01E14__1080p_BD_x265_10bit_Multi_Audio__ESub"
+      },
+      {
+        "name": "S1E15",
+        "url": "https://filemoon.nl/e/pcrrendbir85/_Toonhub4u__Hunter_x_Hunter_S01E15__720p_BD_Multi_Audio__ESub"
+      },
+      {
+        "name": "S1E16",
+        "url": "https://filemoon.nl/e/89xinsy6myqi/Hunter___Hunter_S01E16__Hindi_"
+      },
+      {
+        "name": "S1E17",
+        "url": "https://filemoon.nl/e/5on5v8ollfwl/_AWI__Hunter_x_Hunter__2011__-_E017__1080p___BD___HEVC-10bit___Multi-Audio___42ACABAC_"
+      },
+      {
+        "name": "S1E18",
+        "url": "https://filemoon.nl/e/forpdn9m30n0/_AWI__Hunter_x_Hunter__2011__-_E018__1080p___BD___HEVC-10bit___Multi-Audio___D6ABDF5F_"
+      },
+      {
+        "name": "S1E19",
+        "url": "https://filemoon.nl/e/kt4j668wqj1d/_AWI__Hunter_x_Hunter__2011__-_E019__1080p___BD___HEVC-10bit___Multi-Audio___C957E04A_"
+      },
+      {
+        "name": "S1E20",
+        "url": "https://filemoon.nl/e/s74cac589lqz/_AWI__Hunter_x_Hunter__2011__-_E020__1080p___BD___HEVC-10bit___Multi-Audio___7654A169_"
+      },
+      {
+        "name": "S1E21",
+        "url": "https://filemoon.nl/e/895xaaxrwazp/_Toonhub4u__Hunter_x_Hunter_S01E21__720p_BD_Multi_Audio__ESub"
+      },
+      {
+        "name": "S1E22",
+        "url": "https://filemoon.nl/e/haezycs37my1/_Toonhub4u__Hunter_x_Hunter_S01E22__720p_BD_Multi_Audio__ESub"
+      },
+      {
+        "name": "S1E23",
+        "url": "https://filemoon.nl/e/koya1ys521k9/_Toonhub4u__Hunter_x_Hunter_S01E23__720p_BD_Multi_Audio__ESub"
+      },
+      {
+        "name": "S1E24",
+        "url": "https://filemoon.nl/e/9shx83mggq07/_Toonhub4u__Hunter_x_Hunter_S01E24__720p_BD_Multi_Audio__ESub"
+      },
+      {
+        "name": "S1E25",
+        "url": "https://filemoon.nl/e/zn3if88bupw9/Toonhub4u_Hunter_x_Hunter_S01E25_720p_BD_Multi_Audio_ESub"
+      },
+      {
+        "name": "S1E26",
+        "url": "https://filemoon.nl/e/4prypme1qx62/_Toonhub4u__Hunter_x_Hunter_S01E26__720p_BD_Multi_Audio__ESub"
+      },
+      {
+        "name": "S1E27",
+        "url": "https://filemoon.nl/e/sesi9hmch9ct/_Toonhub4u__Hunter_x_Hunter_S02E27__720p_BD_Multi_Audio__ESub"
+      },
+      {
+        "name": "S1E28",
+        "url": "https://filemoon.nl/e/io217mil4f4q/_Toonhub4u__Hunter_x_Hunter_S02E28__720p_BD_Multi_Audio__ESub"
+      },
+      {
+        "name": "S1E29",
+        "url": "https://filemoon.nl/e/xm4ljc6e3y0n/_Toonhub4u__Hunter_x_Hunter_S02E29__720p_BD_Multi_Audio__ESub"
+      },
+      {
+        "name": "S1E30",
+        "url": "https://filemoon.nl/e/okai9z6czlg1/_Toonhub4u__Hunter_x_Hunter_S02E30__720p_BD_Multi_Audio__ESub"
+      },
+      {
+        "name": "S2E31",
+        "url": "https://filemoon.nl/e/1xq8p5wvu992/_Toonhub4u__Hunter_x_Hunter_S02E31__720p_BD_Multi_Audio__ESub"
+      },
+      {
+        "name": "S2E32",
+        "url": "https://filemoon.nl/e/k3sqwz87sl4k/_Toonhub4u__Hunter_x_Hunter_S02E32__1080p_BD_x265_10bit_Multi_Audio__ESub"
+      },
+      {
+        "name": "S2E33",
+        "url": "https://filemoon.nl/e/g1zmcqqu301j/_Toonhub4u__Hunter_x_Hunter_S02E33__720p_BD_Multi_Audio__ESub"
+      },
+      {
+        "name": "S2E34",
+        "url": "https://filemoon.nl/e/dxzrrlw1q16a"
+      },
+      {
+        "name": "S2E35 Only English",
+        "url": "https://filemoon.nl/e/brke9951u1pv"
+      },
+      {
+        "name": "S2E36",
+        "url": "https://filemoon.nl/e/vdt9wery2nuo/_Toonworld4all__Hunter_x_Hunter_S02E36__720p_BD_Multi_Audio__ESub"
+      },
+      {
+        "name": "S2E37",
+        "url": "https://filemoon.nl/e/gqx9nui9g75t/_Toonworld4all__Hunter_x_Hunter_S02E37__720p_BD_Multi_Audio__ESub"
+      },
+      {
+        "name": "S2E38",
+        "url": "https://filemoon.nl/e/4uoor2efwtiv"
+      },
+      {
+        "name": "S2E39",
+        "url": "https://filemoon.nl/e/38qvcl4ejyrv/_Toonhub4u__Hunter_x_Hunter_S03E39__1080p_BD_x265_10bit_Multi_Audio__ESub"
+      },
+      {
+        "name": "S2E40",
+        "url": "https://filemoon.nl/e/ms3sw93g2c9t/_Toonhub4u__Hunter_x_Hunter_S03E40__1080p_BD_x265_10bit_Multi_Audio__ESub"
+      },
+      {
+        "name": "S2E41",
+        "url": "https://filemoon.nl/e/2sds06nvgp6i/_Toonhub4u__Hunter_x_Hunter_S03E41__1080p_BD_x265_10bit_Multi_Audio__ESub"
+      },
+      {
+        "name": "S2E42",
+        "url": "https://filemoon.nl/e/piipkamit71t/_Toonhub4u__Hunter_x_Hunter_S03E42__720p_BD_Multi_Audio__ESub"
+      },
+      {
+        "name": "S2E43",
+        "url": "https://filemoon.nl/e/keqva3xxipm0/_Toonworld4all__Hunter_x_Hunter_S03E43__720p_BD_Multi_Audio__ESub"
+      },
+      {
+        "name": "S2E44",
+        "url": "https://filemoon.nl/e/ywezeryxtcu8/_Toonworld4all__Hunter_x_Hunter_S03E44__720p_BD_Multi_Audio__ESub"
+      },
+      {
+        "name": "S2E45",
+        "url": "https://filemoon.nl/e/y74wnuds21po/_Toonhub4u__Hunter_x_Hunter_S03E45__1080p_BD_x265_10bit_Multi_Audio__ESub"
+      },
+      {
+        "name": "S3E46",
+        "url": "https://filemoon.nl/e/euu3bjhqaewu/_Toonworld4all__Hunter_x_Hunter_S03E46__1080p_BD_x265_10bit_Multi_Audio__ESub"
+      },
+      {
+        "name": "S3E47",
+        "url": "https://filemoon.nl/e/hcd1x06xf2cl/_Toonhub4u__Hunter_x_Hunter_S03E47__720p_BD_Multi_Audio__ESub"
+      },
+      {
+        "name": "S3E48",
+        "url": "https://filemoon.nl/e/dgf2h57etjdw/_Toonhub4u__Hunter_x_Hunter_S03E48__720p_BD_Multi_Audio__ESub"
+      },
+      {
+        "name": "S3E49",
+        "url": "https://filemoon.nl/e/iiz0c8gbbczd/_Toonhub4u__Hunter_x_Hunter_S03E49__720p_BD_Multi_Audio__ESub"
+      },
+      {
+        "name": "S3E50",
+        "url": "https://filemoon.nl/e/xr2meeq7b9qf/_Toonhub4u__Hunter_x_Hunter_S03E50__1080p_BD_x265_10bit_Multi_Audio__ESub"
+      },
+      {
+        "name": "S3E51",
+        "url": "https://filemoon.nl/e/91v5310ohli4/_Toonhub4u__Hunter_x_Hunter_S03E51__720p_BD_Multi_Audio__ESub"
+      },
+      {
+        "name": "S3E52",
+        "url": "https://filemoon.nl/e/2739bf8xkprn/_Toonworld4all__Hunter_x_Hunter_S03E52__720p_BD_Multi_Audio__ESub"
+      },
+      {
+        "name": "S3E53",
+        "url": "https://filemoon.nl/e/crfdxp51al50/_Toonhub4u__Hunter_x_Hunter_S03E53__720p_BD_Multi_Audio__ESub"
+      },
+      {
+        "name": "S3E54",
+        "url": "https://filemoon.nl/e/okk5z11gy7ts/_Toonhub4u__Hunter_x_Hunter_S03E54__720p_BD_Multi_Audio__ESub"
+      },
+      {
+        "name": "S3E55",
+        "url": "https://filemoon.nl/e/8qkf56ma6gql/_Toonworld4all__Hunter_x_Hunter_S03E55__1080p_BD_x265_10bit_Multi_Audio__ESub"
+      },
+      {
+        "name": "S3E56",
+        "url": "https://filemoon.nl/e/l5khdbskq6w8/_Toonworld4all__Hunter_x_Hunter_S03E56__1080p_BD_x265_10bit_Multi_Audio__ESub"
+      },
+      {
+        "name": "S3E57",
+        "url": "https://filemoon.nl/e/mwzqktu9tyog/_Toonworld4all__Hunter_x_Hunter_S03E57__1080p_BD_x265_10bit_Multi_Audio__ESub"
+      },
+      {
+        "name": "S3E58",
+        "url": "https://filemoon.nl/e/cgs4ka8ez9v3/_Toonworld4all__Hunter_x_Hunter_S03E58__1080p_BD_x265_10bit_Multi_Audio__ESub"
+      }
+    ]
+  }
+};
+    let currentServer = 'filemoon';
+    let currentSeason = 's1';
+    function loadEpisodes(server, season) {
+      const epList = allEpisodes[server][season];
+      const container = document.getElementById(season + 'Episodes');
+      container.innerHTML = '';
+      epList.forEach(ep => {
+        const btn = document.createElement('div');
+        btn.className = 'episode-button';
+        btn.textContent = ep.name;
+        btn.onclick = () => loadVideo(ep.url);
+        container.appendChild(btn);
+      });
+    }
+    function loadVideo(url) {
+      document.getElementById('videoPlayer').src = url;
+    }
+    function setServer(server) {
+      currentServer = server;
+      document.querySelectorAll('.server-tabs button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(server + 'Btn').classList.add('active');
+      setSeason(currentSeason);
+    }
+    function setSeason(season) {
+      currentSeason = season;
+      document.querySelectorAll('.dropdown-content button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(season + 'Btn').classList.add('active');
+      const seasonKeys = Object.keys(allEpisodes[currentServer]);
+      seasonKeys.forEach(s => {
+        const grid = document.getElementById(s + 'Episodes');
+        if (grid) grid.classList.add('hidden');
+      });
+      document.getElementById(season + 'Episodes').classList.remove('hidden');
+      loadEpisodes(currentServer, season);
+      const firstEp = allEpisodes[currentServer][season][0];
+      if (firstEp) loadVideo(firstEp.url);
+    }
+    function toggleDropdown() {
+      document.getElementById('seasonDropdown').classList.toggle('show');
+    }
+    setServer('filemoon');
+  </script>
+</body>
+</html>

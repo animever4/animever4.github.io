@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Attack on Titan - All Episodes</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Attack on Titan - All Episodes</title>
+<style>
     body { background: black; color: white; font-family: Arial, sans-serif; margin: 0; padding: 0; }
     .container { padding: 20px; }
     h1, h2 { color: limegreen; }
@@ -16,21 +17,17 @@
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Solo Leveling Season 1</h1>
-
-    <div class="server-buttons">
-      <button onclick="setServer('filemoon')">Filemoon</button>
-      <button onclick="setServer('servabyss')">Servabyss</button>
-      <button onclick="setServer('vidgroud')">Vidgroud</button>
-    </div>
-
-    <div class="episode-list" id="episodeButtons"></div>
-
-    <iframe id="videoPlayer" src="" allowfullscreen></iframe>
-  </div>
-
-  <script>
+<div class="container">
+<h1>Solo Leveling Season 1</h1>
+<div class="server-buttons">
+<button onclick="setServer('filemoon')">Filemoon</button>
+<button onclick="setServer('servabyss')">Servabyss</button>
+<button onclick="setServer('vidgroud')">Vidgroud</button>
+</div>
+<div class="episode-list" id="episodeButtons"></div>
+<iframe allowfullscreen="" id="videoPlayer" src=""></iframe>
+</div>
+<script>
     const allEpisodes = {
       filemoon: [
   { "name": "S1E1", "url": "https://filemoon.nl/e/a3mdgn0ygi73/_Toonworld4all__Solo_Leveling_S01E01_1080p_HEVC_10bit_WEB-DL_Multi_Audio_ESub" },

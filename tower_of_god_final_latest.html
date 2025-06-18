@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tower Of God - Hindi Dub - Watch All Episodes</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #0b0b0b;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+    }
+    header {
+      background-color: #141414;
+      padding: 15px 20px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #00ff99;
+      text-align: center;
+    }
+    .player-section {
+      max-width: 960px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+    iframe {
+      width: 100%;
+      height: 480px;
+      border: none;
+      border-radius: 8px;
+    }
+    .server-tabs, .season-dropdown {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .server-tabs button,
+    .dropdown-toggle,
+    .dropdown-content button {
+      background-color: #222;
+      color: white;
+      padding: 10px 16px;
+      border: 1px solid #00ff99;
+      margin: 5px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.3s;
+      font-size: 16px;
+    }
+    .server-tabs button.active,
+    .dropdown-content button.active {
+      background-color: #00ff99;
+      color: black;
+    }
+    .dropdown-toggle {
+      display: inline-block;
+    }
+    .dropdown-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+    .dropdown-content.show {
+      max-height: 200px;
+    }
+    .episodes-section {
+      max-width: 1000px;
+      margin: 0 auto 30px;
+      padding: 0 15px;
+    }
+    .episode-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 12px;
+    }
+    .episode-button {
+      background-color: #1c1c1c;
+      border: 1px solid #00ff99;
+      color: #00ff99;
+      padding: 10px;
+      border-radius: 6px;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .episode-button:hover {
+      background-color: #00ff99;
+      color: #000;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header>Tower Of God - Hindi Dub</header>
+  <div class="player-section">
+    <iframe id="videoPlayer" src="" allowfullscreen></iframe>
+    <div class="server-tabs">
+      <button onclick="setServer('filemoon')" id="filemoonBtn">Filemoon</button>
+    </div>
+    <div class="season-dropdown">
+      <button class="dropdown-toggle" onclick="toggleDropdown()">Seasons ▾</button>
+      <div class="dropdown-content" id="seasonDropdown">
+        <button onclick="setSeason('s1')" id="s1Btn">Season 1</button>
+      </div>
+    </div>
+  </div>
+  <div class="episodes-section">
+    <div class="episode-grid hidden" id="s1Episodes"></div>
+  </div>
+  <script>
+    const allEpisodes = {
+  "filemoon": {
+    "s1": [
+      {
+        "name": "S01E01",
+        "url": "https://filemoon.nl/e/zndj0fj5ykfq/_Toonhub4u__Tower_of_God_S01E01__BDRip_1080p_x265_10bit___Multi_Audio__ESub"
+      },
+      {
+        "name": "S01E02",
+        "url": "https://filemoon.nl/e/8yfpnfkaumqp/_Toonworld4all__Tower_of_God_S01E02__BDRip_1080p_x265_10bit___Multi_Audio__ESub"
+      },
+      {
+        "name": "S01E03",
+        "url": "https://filemoon.nl/e/0ylgwzq03fr2/_Toonhub4u__Tower_of_God_S01E03__BDRip_1080p_x265_10bit___Multi_Audio__ESub"
+      },
+      {
+        "name": "S01E04",
+        "url": "https://filemoon.nl/e/ua0mli3dusl4/_Toonhub4u__Tower_of_God_S01E04__BDRip_1080p_x265_10bit___Multi_Audio__ESub"
+      },
+      {
+        "name": "S01E05",
+        "url": "https://filemoon.nl/e/p2c7w9h1kdsu/_Toonworld4all__Tower_of_God_S01E05__BDRip_1080p_x265_10bit___Multi_Audio__ESub"
+      },
+      {
+        "name": "S01E06",
+        "url": "https://filemoon.nl/e/89cp1l5vw7bz/_Toonworld4all__Tower_of_God_S01E06__BDRip_1080p_x265_10bit___Multi_Audio__ESub"
+      },
+      {
+        "name": "S01E07",
+        "url": "https://filemoon.nl/e/hfj6l7o81jaw/_Toonhub4u__Tower_of_God_S01E07__BDRip_1080p_x265_10bit___Multi_Audio__ESub"
+      },
+      {
+        "name": "S01E08",
+        "url": "https://filemoon.nl/e/brjt54dl3z6n/_Toonhub4u__Tower_of_God_S01E08__BDRip_1080p_x265_10bit___Multi_Audio__ESub"
+      },
+      {
+        "name": "S01E09",
+        "url": "https://filemoon.nl/e/av1c4xpbsn87/_Toonhub4u__Tower_of_God_S01E09__BDRip_1080p_x265_10bit___Multi_Audio__ESub"
+      },
+      {
+        "name": "S01E10",
+        "url": "https://filemoon.nl/e/c3j1l7pda4za/_Toonworld4all__Tower_of_God_S01E10__BDRip_1080p_x265_10bit___Multi_Audio__ESub"
+      },
+      {
+        "name": "S01E11",
+        "url": "https://filemoon.nl/e/1wwicjybzdrg/_Toonhub4u__Tower_of_God_S01E11__BDRip_1080p_x265_10bit___Multi_Audio__ESub"
+      },
+      {
+        "name": "S01E12",
+        "url": "https://filemoon.nl/e/1roazwwtlo2o/_Toonworld4all__Tower_of_God_S01E12__BDRip_1080p_x265_10bit___Multi_Audio__ESub"
+      },
+      {
+        "name": "S01E13",
+        "url": "https://filemoon.nl/e/i2ii9tpe6z1h/_Toonworld4all__Tower_of_God_S01E13__BDRip_1080p_x265_10bit___Multi_Audio__ESub"
+      },
+      {
+        "name": "S02E01",
+        "url": "https://filemoon.nl/e/o1l4xnkffp28/_ToonsHub__Tower_of_God_S02E01_Last_Chance__Multi-Audio___1080p___Multi-Subs_"
+      },
+      {
+        "name": "S02E02",
+        "url": "https://filemoon.nl/e/erm22cght9xe/_Toonhub4u__Tower_of_God_S02E02_1080p_HEVC_10bit_WEB-DL_Multi_Audio_ESub"
+      },
+      {
+        "name": "S02E03",
+        "url": "https://filemoon.nl/e/ixicbogcjuzc/_Toonhub4u__Tower_of_God_S02E03_1080p_HEVC_10bit_WEB-DL_Multi_Audio_ESub"
+      },
+      {
+        "name": "S02E04",
+        "url": "https://filemoon.nl/e/k89i9onarua9/_Toonworld4all__Tower_of_God_S02E04_1080p_HEVC_10bit_WEB-DL_Multi_Audio_ESub"
+      },
+      {
+        "name": "S02E05",
+        "url": "https://filemoon.nl/e/34h9zlmls5a8/_Toonhub4u__Tower_of_God_S02E05_1080p_HEVC_10bit_WEB-DL_Multi_Audio_ESub"
+      },
+      {
+        "name": "S02E06",
+        "url": "https://filemoon.nl/e/np7fk6w2azft/_Toonhub4u__Tower_of_God_S02E06_1080p_HEVC_10bit_WEB-DL_Multi_Audio_ESub"
+      },
+      {
+        "name": "S02E07",
+        "url": "https://filemoon.nl/e/b8pnpl7cmufr/_ToonsHub__Tower_of_God_S02E07_Mazino_Magic__Multi-Audio___1080p___Multi-Subs_"
+      },
+      {
+        "name": "S02E08",
+        "url": "https://filemoon.nl/e/6f7za6stbx4j/_Toonhub4u__Tower_of_God_S02E08_Her_Name_Is_Emily__Multi-Audio___1080p___Multi-Subs_"
+      },
+      {
+        "name": "S02E09",
+        "url": "https://filemoon.nl/e/bml98dzyrlrz/_Toonhub4u__Tower_of_God_S02E09_720p_HD_WEB-DL_Multi_Audio_ESub"
+      },
+      {
+        "name": "S02E10",
+        "url": "https://filemoon.nl/e/emcqyllp006t/_Toonhub4u__Tower_of_God_S02E10_720p_HD_WEB-DL_Multi_Audio_ESub"
+      },
+      {
+        "name": "S02E11",
+        "url": "https://filemoon.nl/e/v7o763lqfc4o/_Toonhub4u__Tower_of_God_S02E11_A_Thick_and_Distant_Wall__Multi-Audio___1080p___Multi-Subs_"
+      },
+      {
+        "name": "S02E12",
+        "url": "https://filemoon.nl/e/igyo0t8nrblj/_Toonhub4u__Tower_of_God_S02E12_A_New_Trial__Multi-Audio___1080p___Multi-Subs_"
+      },
+      {
+        "name": "S02E13",
+        "url": "https://filemoon.nl/e/mgvxmpmirkky/_Toonworld4all__Tower_of_God_S02E13_1080p_HEVC_10bit_WEB-DL_Multi_Audio_ESub"
+      },
+      {
+        "name": "S02E14",
+        "url": "https://filemoon.nl/e/gjpxh27sv1f2/_Toonhub4u__Tower_of_God_S02E14_Meeting_the_Traveler__Multi-Audio___1080p___Multi-Subs_"
+      },
+      {
+        "name": "S02E15",
+        "url": "https://filemoon.nl/e/8wi7o2pgbd8b/_Toonhub4u__Tower_of_God_S02E15_The_Promise_of_That_Day__Multi-Audio___1080p___Multi-Subs_"
+      },
+      {
+        "name": "S02E16",
+        "url": "https://filemoon.nl/e/arm9f6jham19/s2_episode_16"
+      },
+      {
+        "name": "S02E17",
+        "url": "https://filemoon.nl/e/pvqxbyfzkgb8/_Toonhub4u__Tower_of_God_S02E17_720p_HD_WEB-DL_Multi_Audio_ESub"
+      },
+      {
+        "name": "S02E18",
+        "url": "https://filemoon.nl/e/hwx6mx5qvyzk/_Toonhub4u__Tower_of_God_S02E18_The_Mad_Dog_and_the_Lizard__Multi-Audio___1080p___Multi-Subs_"
+      },
+      {
+        "name": "S02E19",
+        "url": "https://filemoon.nl/e/ppz2cysr7l1q/_Toonhub4u__Tower_of_God_S02E19_ALL_IN__Multi-Audio___1080p___Multi-Subs_"
+      },
+      {
+        "name": "S02E20",
+        "url": "https://filemoon.nl/e/38b1awkce4lq/_Toonhub4u__Tower_of_God_S02E20_Like_a_Flame_in_the_Wind__Dual-Audio___1080p___Multi-Subs_"
+      },
+      {
+        "name": "S02E21",
+        "url": "https://filemoon.nl/e/oy3or0p8f2fq/_Toonhub4u__Tower_of_God_S02E21_720p_HD_WEB-DL_Multi_Audio_ESub"
+      },
+      {
+        "name": "S02E22",
+        "url": "https://filemoon.nl/e/vqr6j3p06cy3/_Toonhub4u__Tower_of_God_S02E22_720p_HD_WEB-DL_Multi_Audio_ESub"
+      },
+      {
+        "name": "S02E23",
+        "url": "https://filemoon.nl/e/tjek0le7sz6q/_Toonhub4u__Tower_of_God_S02E23_720p_HD_WEB-DL_Multi_Audio_ESub"
+      },
+      {
+        "name": "S02E25",
+        "url": "https://filemoon.nl/e/ur3urtktmnuw/s2_episode_25"
+      },
+      {
+        "name": "S02E26",
+        "url": "https://filemoon.nl/e/fz4q1qdtvoka/_Toonhub4u__Tower_of_God_S02E26_720p_HD_WEB-DL_Multi_Audio_ESub"
+      }
+    ]
+  }
+};
+    let currentServer = 'filemoon';
+    let currentSeason = 's1';
+    function loadEpisodes(server, season) {
+      const epList = allEpisodes[server][season];
+      const container = document.getElementById(season + 'Episodes');
+      container.innerHTML = '';
+      epList.forEach(ep => {
+        const btn = document.createElement('div');
+        btn.className = 'episode-button';
+        btn.textContent = ep.name;
+        btn.onclick = () => loadVideo(ep.url);
+        container.appendChild(btn);
+      });
+    }
+    function loadVideo(url) {
+      document.getElementById('videoPlayer').src = url;
+    }
+    function setServer(server) {
+      currentServer = server;
+      document.querySelectorAll('.server-tabs button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(server + 'Btn').classList.add('active');
+      setSeason(currentSeason);
+    }
+    function setSeason(season) {
+      currentSeason = season;
+      document.querySelectorAll('.dropdown-content button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(season + 'Btn').classList.add('active');
+      const seasonKeys = Object.keys(allEpisodes[currentServer]);
+      seasonKeys.forEach(s => {
+        const grid = document.getElementById(s + 'Episodes');
+        if (grid) grid.classList.add('hidden');
+      });
+      document.getElementById(season + 'Episodes').classList.remove('hidden');
+      loadEpisodes(currentServer, season);
+      const firstEp = allEpisodes[currentServer][season][0];
+      if (firstEp) loadVideo(firstEp.url);
+    }
+    function toggleDropdown() {
+      document.getElementById('seasonDropdown').classList.toggle('show');
+    }
+    setServer('filemoon');
+  </script>
+</body>
+</html>

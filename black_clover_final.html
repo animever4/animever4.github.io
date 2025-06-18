@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Black Clover - Hindi Dub - Watch All Episodes</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #0b0b0b;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+    }
+    header {
+      background-color: #141414;
+      padding: 15px 20px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #00ff99;
+      text-align: center;
+    }
+    .player-section {
+      max-width: 960px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+    iframe {
+      width: 100%;
+      height: 480px;
+      border: none;
+      border-radius: 8px;
+    }
+    .server-tabs, .season-dropdown {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .server-tabs button,
+    .dropdown-toggle,
+    .dropdown-content button {
+      background-color: #222;
+      color: white;
+      padding: 10px 16px;
+      border: 1px solid #00ff99;
+      margin: 5px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.3s;
+      font-size: 16px;
+    }
+    .server-tabs button.active,
+    .dropdown-content button.active {
+      background-color: #00ff99;
+      color: black;
+    }
+    .dropdown-toggle {
+      display: inline-block;
+    }
+    .dropdown-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+    .dropdown-content.show {
+      max-height: 200px;
+    }
+    .episodes-section {
+      max-width: 1000px;
+      margin: 0 auto 30px;
+      padding: 0 15px;
+    }
+    .episode-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 12px;
+    }
+    .episode-button {
+      background-color: #1c1c1c;
+      border: 1px solid #00ff99;
+      color: #00ff99;
+      padding: 10px;
+      border-radius: 6px;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .episode-button:hover {
+      background-color: #00ff99;
+      color: #000;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header>Black Clover - Hindi Dub</header>
+  <div class="player-section">
+    <iframe id="videoPlayer" src="" allowfullscreen></iframe>
+    <div class="server-tabs">
+      <button onclick="setServer('filemoon')" id="filemoonBtn">Filemoon</button>
+    </div>
+    <div class="season-dropdown">
+      <button class="dropdown-toggle" onclick="toggleDropdown()">Seasons ▾</button>
+      <div class="dropdown-content" id="seasonDropdown">
+        <button onclick="setSeason('s1')" id="s1Btn">Season 1</button>
+      </div>
+    </div>
+  </div>
+  <div class="episodes-section">
+    <div class="episode-grid hidden" id="s1Episodes"></div>
+  </div>
+  <script>
+    const allEpisodes = {
+      filemoon: {
+        s1: [
+  { "name": "S1E1", "url": "https://filemoon.nl/e/j1hkwpo3vvnj/_Toonworld4all__Black_Clover_E001__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E2", "url": "https://filemoon.nl/e/z8wuvcasznlb/_Toonworld4all__Black_Clover_E002__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E3", "url": "https://filemoon.nl/e/sn5pf1uymphd/_Toonworld4all__Black_Clover_E003__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E4", "url": "https://filemoon.nl/e/qgdvqffajlwv/_Toonworld4all__Black_Clover_E004__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E5", "url": "https://filemoon.nl/e/3f17zdrb5sqv/_Toonworld4all__Black_Clover_E005__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E6", "url": "https://filemoon.nl/e/qnerenf3uajb/_Toonhub4u__Black_Clover_006__720p_BD_Multi_Audio__ESub" },
+  { "name": "S1E7", "url": "https://filemoon.nl/e/oilqcbskpvww/_Toonworld4all__Black_Clover_E007__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E8", "url": "https://filemoon.nl/e/rzlww5761zl2/_Toonworld4all__Black_Clover_E008__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E9", "url": "https://filemoon.nl/e/homp6p5bbv7i/_Toonworld4all__Black_Clover_E009__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E10", "url": "https://filemoon.nl/e/7py0yptyicyz/_Toonworld4all__Black_Clover_E010__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E11", "url": "https://filemoon.nl/e/niw010qtuba0/_Toonworld4all__Black_Clover_E011__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E12", "url": "https://filemoon.nl/e/pyjey0f1qx7o/_Toonworld4all__Black_Clover_E012__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E13", "url": "https://filemoon.nl/e/38cbe2fnoltl/_Toonworld4all__Black_Clover_E013__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E14", "url": "https://filemoon.nl/e/b9sbv096ar7s/_Toonworld4all__Black_Clover_E014__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E15", "url": "https://filemoon.nl/e/mhul879cytk4/_Toonworld4all__Black_Clover_E015__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E16", "url": "https://filemoon.nl/e/lyadke2sor9r/_Toonworld4all__Black_Clover_E016__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E17", "url": "https://filemoon.nl/e/c06t18wncn1b/_Toonworld4all__Black_Clover_E017__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E18", "url": "https://filemoon.nl/e/2bdx1jvxn2lm/_Toonworld4all__Black_Clover_E018__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E19", "url": "https://filemoon.nl/e/w8826xjyohwp/_Toonworld4all__Black_Clover_E019__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E20", "url": "https://filemoon.nl/e/etohm9if9u9d/_Toonworld4all__Black_Clover_E020__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E21", "url": "https://filemoon.nl/e/kho2txibpsr7/_Toonworld4all__Black_Clover_E021__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E22", "url": "https://filemoon.nl/e/v3mve8uzw7we/_Toonworld4all__Black_Clover_E022__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E23", "url": "https://filemoon.nl/e/up2wj8l1gngh/_Toonworld4all__Black_Clover_E023__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E24", "url": "https://filemoon.nl/e/dvu1nsgnhyqs/_Toonworld4all__Black_Clover_E024__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E25", "url": "https://filemoon.nl/e/t18doohy1pzl/_Toonworld4all__Black_Clover_E025__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E26", "url": "https://filemoon.nl/e/wzom5jqb6jbn/_Toonworld4all__Black_Clover_E026__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E27", "url": "https://filemoon.nl/e/cojfcoheof7p/_Toonworld4all__Black_Clover_E027__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E28", "url": "https://filemoon.nl/e/72uanlsx1tq9/_Toonworld4all__Black_Clover_E028__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E29", "url": "https://filemoon.nl/e/9nn9th3vmt06/_Toonworld4all__Black_Clover_E029__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E30", "url": "https://filemoon.nl/e/6lwagk99loc9/_Toonworld4all__Black_Clover_E030__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E31", "url": "https://filemoon.nl/e/l1cd0mxdgw2c/_Toonworld4all__Black_Clover_E031__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E32", "url": "https://filemoon.nl/e/f5yvh4jr35ms/_Toonworld4all__Black_Clover_E032__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E33", "url": "https://filemoon.nl/e/yrooo06il2kh/_Toonworld4all__Black_Clover_E033__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E34", "url": "https://filemoon.nl/e/mv1nk1mgllu9/_Toonworld4all__Black_Clover_E034__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E35", "url": "https://filemoon.nl/e/1aqsxu0sbv2r/_Toonworld4all__Black_Clover_E035__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E36", "url": "https://filemoon.nl/e/4lwn9a9yf6xz/_Toonworld4all__Black_Clover_E036__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E37", "url": "https://filemoon.nl/e/3ogfnq6koixy/_Toonworld4all__Black_Clover_E037__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E38", "url": "https://filemoon.nl/e/swalbxcmhf83/_Toonworld4all__Black_Clover_E038__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E39", "url": "https://filemoon.nl/e/jtow3krg8xjw/_Toonworld4all__Black_Clover_E039__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E40", "url": "https://filemoon.nl/e/5ysnt8v0l0i7/_Toonworld4all__Black_Clover_E040__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E41", "url": "https://filemoon.nl/e/601lk9fln417/_Toonworld4all__Black_Clover_E041__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E42", "url": "https://filemoon.nl/e/q6ergkbzedse/_Toonworld4all__Black_Clover_E042__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E43", "url": "https://filemoon.nl/e/41q4i5we1fil/_Toonworld4all__Black_Clover_E043__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E44", "url": "https://filemoon.nl/e/mmq7l4764vne/_Toonworld4all__Black_Clover_E044__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E45", "url": "https://filemoon.nl/e/q20oagnnah6y/_Toonworld4all__Black_Clover_E045__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E46", "url": "https://filemoon.nl/e/ucbnu2cz69t4/_Toonworld4all__Black_Clover_E046__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E47", "url": "https://filemoon.nl/e/7jt9lc1i9mlp/_Toonworld4all__Black_Clover_E047__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E48", "url": "https://filemoon.nl/e/qb3yhkvypnme/_Toonworld4all__Black_Clover_E048__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E49", "url": "https://filemoon.nl/e/38kc2s5hvd35/_Toonworld4all__Black_Clover_E049__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E50", "url": "https://filemoon.nl/e/hza95173aut8/_Toonworld4all__Black_Clover_E050__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S1E51", "url": "https://filemoon.nl/e/ugf630osb9r0/_Toonworld4all__Black_Clover_E051__1080p_BD_x265_10bit_Multi_Audio__ESub" }
+]
+      },
+      servabyss: {},
+      vidgroud: {}
+    };
+    let currentServer = 'filemoon';
+    let currentSeason = 's1';
+    function loadEpisodes(server, season) {
+      const epList = allEpisodes[server][season];
+      const container = document.getElementById(season + 'Episodes');
+      container.innerHTML = '';
+      epList.forEach(ep => {
+        const btn = document.createElement('div');
+        btn.className = 'episode-button';
+        btn.textContent = ep.name;
+        btn.onclick = () => loadVideo(ep.url);
+        container.appendChild(btn);
+      });
+    }
+    function loadVideo(url) {
+      document.getElementById('videoPlayer').src = url;
+    }
+    function setServer(server) {
+      currentServer = server;
+      document.querySelectorAll('.server-tabs button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(server + 'Btn').classList.add('active');
+      setSeason(currentSeason);
+    }
+    function setSeason(season) {
+      currentSeason = season;
+      document.querySelectorAll('.dropdown-content button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(season + 'Btn').classList.add('active');
+      const seasonKeys = Object.keys(allEpisodes[currentServer]);
+      seasonKeys.forEach(s => {
+        const grid = document.getElementById(s + 'Episodes');
+        if (grid) grid.classList.add('hidden');
+      });
+      document.getElementById(season + 'Episodes').classList.remove('hidden');
+      loadEpisodes(currentServer, season);
+      const firstEp = allEpisodes[currentServer][season][0];
+      if (firstEp) loadVideo(firstEp.url);
+    }
+    function toggleDropdown() {
+      document.getElementById('seasonDropdown').classList.toggle('show');
+    }
+    setServer('filemoon');
+  </script>
+</body>
+</html>

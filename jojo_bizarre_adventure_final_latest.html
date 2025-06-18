@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JoJo's Bizarre Adventure - Hindi Dub - Watch All Episodes</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #0b0b0b;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+    }
+    header {
+      background-color: #141414;
+      padding: 15px 20px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #00ff99;
+      text-align: center;
+    }
+    .player-section {
+      max-width: 960px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+    iframe {
+      width: 100%;
+      height: 480px;
+      border: none;
+      border-radius: 8px;
+    }
+    .server-tabs, .season-dropdown {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .server-tabs button,
+    .dropdown-toggle,
+    .dropdown-content button {
+      background-color: #222;
+      color: white;
+      padding: 10px 16px;
+      border: 1px solid #00ff99;
+      margin: 5px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.3s;
+      font-size: 16px;
+    }
+    .server-tabs button.active,
+    .dropdown-content button.active {
+      background-color: #00ff99;
+      color: black;
+    }
+    .dropdown-toggle {
+      display: inline-block;
+    }
+    .dropdown-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+    .dropdown-content.show {
+      max-height: 200px;
+    }
+    .episodes-section {
+      max-width: 1000px;
+      margin: 0 auto 30px;
+      padding: 0 15px;
+    }
+    .episode-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 12px;
+    }
+    .episode-button {
+      background-color: #1c1c1c;
+      border: 1px solid #00ff99;
+      color: #00ff99;
+      padding: 10px;
+      border-radius: 6px;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .episode-button:hover {
+      background-color: #00ff99;
+      color: #000;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header>JoJo's Bizarre Adventure - Hindi Dub</header>
+  <div class="player-section">
+    <iframe id="videoPlayer" src="" allowfullscreen></iframe>
+    <div class="server-tabs">
+      <button onclick="setServer('filemoon')" id="filemoonBtn">Filemoon</button>
+    </div>
+    <div class="season-dropdown">
+      <button class="dropdown-toggle" onclick="toggleDropdown()">Seasons ▾</button>
+      <div class="dropdown-content" id="seasonDropdown">
+        <button onclick="setSeason('s1')" id="s1Btn">Season 1</button>
+      </div>
+    </div>
+  </div>
+  <div class="episodes-section">
+    <div class="episode-grid hidden" id="s1Episodes"></div>
+  </div>
+  <script>
+    const allEpisodes = {
+  "filemoon": {
+    "s1": [
+      {
+        "name": "S1E1",
+        "url": "https://filemoon.nl/e/cr969csi2dei/_Toonhub4u__JoJo_s_Bizarre_Adventure_S01E01_720p_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "S1E2",
+        "url": "https://filemoon.nl/e/ikgvdtbilxwi/_Toonhub4u__JoJo_s_Bizarre_Adventure_S01E02_720p_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "S1E3",
+        "url": "https://filemoon.nl/e/mp9kjshyewa6/_Toonworld4all__JoJo_s_Bizarre_Adventure_S01E03_720p_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "S1E4",
+        "url": "https://filemoon.nl/e/77mlacpyrtv8/_Toonworld4all__JoJo_s_Bizarre_Adventure_S01E04_1080p_x265_10bit_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "S1E5",
+        "url": "https://filemoon.nl/e/1otgxyubjcdv/_Toonhub4u__JoJo_s_Bizarre_Adventure_S01E05_720p_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "S1E6",
+        "url": "https://filemoon.nl/e/kultjml1wptj/_Toonhub4u__JoJo_s_Bizarre_Adventure_S01E06_1080p_x265_10bit_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "S1E7",
+        "url": "https://filemoon.nl/e/19wfw5otvm4o/_Toonhub4u__JoJo_s_Bizarre_Adventure_S01E07_1080p_x265_10bit_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "S1E8",
+        "url": "https://filemoon.nl/e/ltd2gmtdv7ze/_Toonhub4u__JoJo_s_Bizarre_Adventure_S01E08_720p_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "S1E9",
+        "url": "https://filemoon.nl/e/1vz258ndlfmh/_Toonworld4all__JoJo_s_Bizarre_Adventure_S01E09_720p_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "S1E10",
+        "url": "https://filemoon.nl/e/bb615d0dv2e7/_Toonhub4u__JoJo_s_Bizarre_Adventure_S01E10_720p_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "S1E11",
+        "url": "https://filemoon.nl/e/rduerps754kr/_Toonhub4u__JoJo_s_Bizarre_Adventure_S01E11_720p_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "S1E12",
+        "url": "https://filemoon.nl/e/4u5w5npjjfhx/_Toonhub4u__JoJo_s_Bizarre_Adventure_S01E12_720p_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "S1E13",
+        "url": "https://filemoon.nl/e/3hs6okpl908m/_Toonhub4u__JoJo_s_Bizarre_Adventure_S01E13_1080p_x265_10bit_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "S1E14",
+        "url": "https://filemoon.nl/e/a4dzk8jipp6y/_Toonworld4all__JoJo_s_Bizarre_Adventure_S01E14_720p_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "S1E15",
+        "url": "https://filemoon.nl/e/5o8xmk18f5u8/_Toonhub4u__JoJo_s_Bizarre_Adventure_S01E15_1080p_x265_10bit_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "S1E16",
+        "url": "https://filemoon.nl/e/cko0qxv1bted/_Toonhub4u__JoJo_s_Bizarre_Adventure_S01E16_1080p_x265_10bit_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "S1E17",
+        "url": "https://filemoon.nl/e/guzxbr4cw1qu/_Toonhub4u__JoJo_s_Bizarre_Adventure_S01E17_1080p_x265_10bit_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "S1E18",
+        "url": "https://filemoon.nl/e/x7b024tw9zvq/_Toonhub4u__JoJo_s_Bizarre_Adventure_S01E18_1080p_x265_10bit_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "S1E19",
+        "url": "https://filemoon.nl/e/e1gxm1pgd23p/_Toonhub4u__JoJo_s_Bizarre_Adventure_S01E19_1080p_x265_10bit_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "S1E20",
+        "url": "https://filemoon.nl/e/bkuodfq3a6z5/_Toonworld4all__JoJo_s_Bizarre_Adventure_S01E20_1080p_x265_10bit_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "S1E21",
+        "url": "https://filemoon.nl/e/5s95mcdzf3zg/_Toonworld4all__JoJo_s_Bizarre_Adventure_S01E21_1080p_x265_10bit_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "S1E22",
+        "url": "https://filemoon.nl/e/tischz9lnwjm/_Toonhub4u__JoJo_s_Bizarre_Adventure_S01E22_1080p_x265_10bit_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "S1E23",
+        "url": "https://filemoon.nl/e/eim9xspgpwwx/_Toonhub4u__JoJo_s_Bizarre_Adventure_S01E23_1080p_x265_10bit_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "S1E24",
+        "url": "https://filemoon.nl/e/8qxgkm199fg1/_Toonhub4u__JoJo_s_Bizarre_Adventure_S01E24_1080p_x265_10bit_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "S1E25",
+        "url": "https://filemoon.nl/e/an667xnkv5ud/_Toonhub4u__JoJo_s_Bizarre_Adventure_S01E25_1080p_x265_10bit_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "S1E26",
+        "url": "https://filemoon.nl/e/64l2sse8grzr/_Toonhub4u__JoJo_s_Bizarre_Adventure_S01E26_1080p_x265_10bit_BDRip__Hindi-Eng-Jap__ESub"
+      },
+      {
+        "name": "Only Hindi S2EP01",
+        "url": "https://filemoon.nl/e/i4ms8wjtiqnl"
+      },
+      {
+        "name": "Only Hindi S2EP02",
+        "url": "https://filemoon.nl/e/u7q1khlbi841/_RAI__JoJo_s_Bizarre_Adventure_S2_-_Stardust_Crusaders_E02_-_Hindi_1080P_FHD"
+      },
+      {
+        "name": "Only Hindi S2EP03",
+        "url": "https://filemoon.nl/e/8v7f9sg8k2tj/_RAI__JoJo_s_Bizarre_Adventure_S2_-_Stardust_Crusaders_E03_-_Hindi_1080P_FHD"
+      },
+      {
+        "name": "Only Hindi S2EP04",
+        "url": "https://filemoon.nl/e/c3ofyaj42ke8/_RAI__JoJo_s_Bizarre_Adventure_S2_-_Stardust_Crusaders_E04_-_Hindi_1080P_FHD"
+      },
+      {
+        "name": "Only Hindi S2EP05",
+        "url": "https://filemoon.nl/e/0vz23joes57v/_RAI__JoJo_s_Bizarre_Adventure_S2_-_Stardust_Crusaders_E05_-_Hindi_1080P_FHD"
+      },
+      {
+        "name": "Only Hindi S2EP06",
+        "url": "https://filemoon.nl/e/b51merpsfhm1/_RAI__JoJo_s_Bizarre_Adventure_S2_-_Stardust_Crusaders_E06_-_Hindi_1080P_FHD"
+      },
+      {
+        "name": "Only Hindi S2EP07",
+        "url": "https://filemoon.nl/e/fkuvi3hky09o/_RAI__JoJo_s_Bizarre_Adventure_S2_-_Stardust_Crusaders_E07_-_Hindi_1080P_FHD"
+      },
+      {
+        "name": "Only Hindi S2EP08",
+        "url": "https://filemoon.nl/e/nau2pql2ib0k/_RAI__JoJo_s_Bizarre_Adventure_S2_-_Stardust_Crusaders_E08_-_Hindi_1080P_FHD"
+      },
+      {
+        "name": "Only Hindi S2EP09",
+        "url": "https://filemoon.nl/e/ox4c74ghrrf2/_RAI__JoJo_s_Bizarre_Adventure_S2_-_Stardust_Crusaders_E09_-_Hindi_1080P_FHD"
+      },
+      {
+        "name": "Only Hindi S2EP10",
+        "url": "https://filemoon.nl/e/lslipwxmaval/_RAI__JoJo_s_Bizarre_Adventure_S2_-_Stardust_Crusaders_E10_-_Hindi_1080P_FHD"
+      },
+      {
+        "name": "Only Hindi S2EP11",
+        "url": "https://filemoon.nl/e/husc861aqib4/_RAI__JoJo_s_Bizarre_Adventure_S2_-_Stardust_Crusaders_E11_-_Hindi_1080P_FHD"
+      },
+      {
+        "name": "Only Hindi S2EP12",
+        "url": "https://filemoon.nl/e/z6ke1wib2enx/_RAI__JoJo_s_Bizarre_Adventure_S2_-_Stardust_Crusaders_E12_-_Hindi_1080P_FHD"
+      },
+      {
+        "name": "Only Hindi S2EP13",
+        "url": "https://filemoon.nl/e/dvdbgich6siw/_RAI__JoJo_s_Bizarre_Adventure_S2_-_Stardust_Crusaders_E13_-_Hindi_1080P_FHD"
+      },
+      {
+        "name": "Only Hindi S2EP14",
+        "url": "https://filemoon.nl/e/92ittlnztec8/_RAI__JoJo_s_Bizarre_Adventure_S2_-_Stardust_Crusaders_E14_-_Hindi_1080P_FHD"
+      },
+      {
+        "name": "Only Hindi S2EP15",
+        "url": "https://filemoon.nl/e/low8vl2h3u03/_RAI__JoJo_s_Bizarre_Adventure_S2_-_Stardust_Crusaders_E15_-_Hindi_1080P_FHD"
+      },
+      {
+        "name": "Only Hindi S2EP16",
+        "url": "https://filemoon.nl/e/bjxp2aa3g3bn/_RAI__JoJo_s_Bizarre_Adventure_S2_-_Stardust_Crusaders_E16_-_Hindi_1080P_FHD"
+      },
+      {
+        "name": "Only Hindi S2EP17",
+        "url": "https://filemoon.nl/e/llmnxe6qr61z/_RAI__JoJo_s_Bizarre_Adventure_S2_-_Stardust_Crusaders_E17_-_Hindi_1080P_FHD"
+      },
+      {
+        "name": "Only Hindi S2EP18",
+        "url": "https://filemoon.nl/e/rvqsm7pei5l1/_RAI__JoJo_s_Bizarre_Adventure_S2_-_Stardust_Crusaders_E18_-_Hindi_1080P_FHD"
+      },
+      {
+        "name": "Only Hindi S2EP19",
+        "url": "https://filemoon.nl/e/ejoqzxuxb32f/_RAI__JoJo_s_Bizarre_Adventure_S2_-_Stardust_Crusaders_E19_-_Hindi_1080P_FHD"
+      },
+      {
+        "name": "Only Hindi S2EP20",
+        "url": "https://filemoon.nl/e/bk37nw196o76/_RAI__JoJo_s_Bizarre_Adventure_S2_-_Stardust_Crusaders_E20_-_Hindi_1080P_FHD"
+      },
+      {
+        "name": "Only Hindi S2EP21",
+        "url": "https://filemoon.nl/e/f816epx7z7jt/_RAI__JoJo_s_Bizarre_Adventure_S2_-_Stardust_Crusaders_E21_-_Hindi_1080P_FHD"
+      },
+      {
+        "name": "Only Hindi S2EP22",
+        "url": "https://filemoon.nl/e/ajep3tjid85j/_RAI__JoJo_s_Bizarre_Adventure_S2_-_Stardust_Crusaders_E22_-_Hindi_1080P_FHD"
+      },
+      {
+        "name": "Only Hindi S2EP23",
+        "url": "https://hindianimezone.p2pplay.online/#nl6hn&quot"
+      },
+      {
+        "name": "Only Hindi S2EP24",
+        "url": "https://hindianimezone.p2pplay.online/#3sk3b&quot"
+      },
+      {
+        "name": "Only Hindi S2EP25",
+        "url": "https://hindianimezone.p2pplay.online/#3sk3b&quot"
+      },
+      {
+        "name": "Only Hindi S2EP26",
+        "url": "https://hindianimezone.p2pplay.online/#ltoqy&quot"
+      },
+      {
+        "name": "Only Hindi S2EP27",
+        "url": "https://hindianimezone.p2pplay.online/#qwmv5&quot"
+      },
+      {
+        "name": "Only Hindi S2EP28",
+        "url": "https://hindianimezone.p2pplay.online/#wmnij&quot"
+      },
+      {
+        "name": "Only Hindi S2EP29",
+        "url": "https://hindianimezone.p2pplay.online/#bp6gg&quot"
+      },
+      {
+        "name": "Only Hindi S2EP30",
+        "url": "https://hindianimezone.p2pplay.online/#yhpzr&quot"
+      },
+      {
+        "name": "Only Hindi S2EP31",
+        "url": "https://hindianimezone.p2pplay.online/#o6w86&quot"
+      },
+      {
+        "name": "Only Hindi S2EP32",
+        "url": "https://hindianimezone.p2pplay.online/#ads6j&quot"
+      },
+      {
+        "name": "Only Hindi S2EP33",
+        "url": "https://hindianimezone.p2pplay.online/#pijm8&quot"
+      },
+      {
+        "name": "Only Hindi S2EP34",
+        "url": "https://hindianimezone.p2pplay.online/#3wfli&quot://hindianimezone.p2pplay.online/#pijm8&quot"
+      }
+    ]
+  }
+};
+    let currentServer = 'filemoon';
+    let currentSeason = 's1';
+    function loadEpisodes(server, season) {
+      const epList = allEpisodes[server][season];
+      const container = document.getElementById(season + 'Episodes');
+      container.innerHTML = '';
+      epList.forEach(ep => {
+        const btn = document.createElement('div');
+        btn.className = 'episode-button';
+        btn.textContent = ep.name;
+        btn.onclick = () => loadVideo(ep.url);
+        container.appendChild(btn);
+      });
+    }
+    function loadVideo(url) {
+      document.getElementById('videoPlayer').src = url;
+    }
+    function setServer(server) {
+      currentServer = server;
+      document.querySelectorAll('.server-tabs button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(server + 'Btn').classList.add('active');
+      setSeason(currentSeason);
+    }
+    function setSeason(season) {
+      currentSeason = season;
+      document.querySelectorAll('.dropdown-content button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(season + 'Btn').classList.add('active');
+      const seasonKeys = Object.keys(allEpisodes[currentServer]);
+      seasonKeys.forEach(s => {
+        const grid = document.getElementById(s + 'Episodes');
+        if (grid) grid.classList.add('hidden');
+      });
+      document.getElementById(season + 'Episodes').classList.remove('hidden');
+      loadEpisodes(currentServer, season);
+      const firstEp = allEpisodes[currentServer][season][0];
+      if (firstEp) loadVideo(firstEp.url);
+    }
+    function toggleDropdown() {
+      document.getElementById('seasonDropdown').classList.toggle('show');
+    }
+    setServer('filemoon');
+  </script>
+</body>
+</html>

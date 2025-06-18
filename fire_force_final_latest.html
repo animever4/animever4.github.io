@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fire Force - Hindi Dub - Watch All Episodes</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #0b0b0b;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+    }
+    header {
+      background-color: #141414;
+      padding: 15px 20px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #00ff99;
+      text-align: center;
+    }
+    .player-section {
+      max-width: 960px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+    iframe {
+      width: 100%;
+      height: 480px;
+      border: none;
+      border-radius: 8px;
+    }
+    .server-tabs, .season-dropdown {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .server-tabs button,
+    .dropdown-toggle,
+    .dropdown-content button {
+      background-color: #222;
+      color: white;
+      padding: 10px 16px;
+      border: 1px solid #00ff99;
+      margin: 5px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.3s;
+      font-size: 16px;
+    }
+    .server-tabs button.active,
+    .dropdown-content button.active {
+      background-color: #00ff99;
+      color: black;
+    }
+    .dropdown-toggle {
+      display: inline-block;
+    }
+    .dropdown-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+    .dropdown-content.show {
+      max-height: 200px;
+    }
+    .episodes-section {
+      max-width: 1000px;
+      margin: 0 auto 30px;
+      padding: 0 15px;
+    }
+    .episode-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 12px;
+    }
+    .episode-button {
+      background-color: #1c1c1c;
+      border: 1px solid #00ff99;
+      color: #00ff99;
+      padding: 10px;
+      border-radius: 6px;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .episode-button:hover {
+      background-color: #00ff99;
+      color: #000;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header>Fire Force - Hindi Dub</header>
+  <div class="player-section">
+    <iframe id="videoPlayer" src="" allowfullscreen></iframe>
+    <div class="server-tabs">
+      <button onclick="setServer('filemoon')" id="filemoonBtn">Filemoon</button>
+    </div>
+    <div class="season-dropdown">
+      <button class="dropdown-toggle" onclick="toggleDropdown()">Seasons ▾</button>
+      <div class="dropdown-content" id="seasonDropdown">
+        <button onclick="setSeason('s1')" id="s1Btn">Season 1</button>
+      </div>
+    </div>
+  </div>
+  <div class="episodes-section">
+    <div class="episode-grid hidden" id="s1Episodes"></div>
+  </div>
+  <script>
+    const allEpisodes = {
+  "filemoon": {
+    "s1": [
+      {
+        "name": "01",
+        "url": "https://filemoon.nl/e/6f2f0pesks80/_RAI__Fire_Force_S1E01_-_Hindi_Censored"
+      },
+      {
+        "name": "02",
+        "url": "https://filemoon.nl/e/bhfuwzsqag1j/_RAI__Fire_Force_S1E02_-_Hindi_Censored"
+      },
+      {
+        "name": "03",
+        "url": "https://filemoon.nl/e/6vejudmql31d/_RAI__Fire_Force_S1E03_-_Hindi_Censored"
+      },
+      {
+        "name": "04",
+        "url": "https://filemoon.nl/e/ij93kza9ikoh/_RAI__Fire_Force_S1E04_-_Hindi_Censored"
+      },
+      {
+        "name": "05",
+        "url": "https://filemoon.nl/e/638034b6c3nn/_RAI__Fire_Force_S1E05_-_Hindi_Censored"
+      },
+      {
+        "name": "06",
+        "url": "https://filemoon.nl/e/6dll26wv32eg/_RAI__Fire_Force_S1E06_-_Hindi_Censored"
+      },
+      {
+        "name": "07",
+        "url": "https://filemoon.nl/e/5rbvpcuwvctp/_RAI__Fire_Force_S1E07_-_Hindi_Censored"
+      },
+      {
+        "name": "08",
+        "url": "https://filemoon.nl/e/bck0fboppxex/_RAI__Fire_Force_S1E08_-_Hindi_Censored"
+      },
+      {
+        "name": "09",
+        "url": "https://filemoon.nl/e/6197d0u4xzrn/_RAI__Fire_Force_S1E09_-_Hindi_Censored"
+      },
+      {
+        "name": "10",
+        "url": "https://filemoon.nl/e/w2fdec5iutr9/_RAI__Fire_Force_S1E10_-_Hindi_Censored"
+      },
+      {
+        "name": "11",
+        "url": "https://filemoon.nl/e/hhny10jow5wc/_RAI__Fire_Force_S1E11_-_Hindi_Censored"
+      },
+      {
+        "name": "12",
+        "url": "https://filemoon.nl/e/jvgl0odd3q6g/_RAI__Fire_Force_S1E12_-_Hindi_Censored"
+      },
+      {
+        "name": "13",
+        "url": "https://filemoon.nl/e/mzdnxqr6bmek/_RAI__Fire_Force_S1E13_-_Hindi_Censored"
+      },
+      {
+        "name": "14",
+        "url": "https://filemoon.nl/e/2lim43rxjv42/_RAI__Fire_Force_S1E14_-_Hindi_Censored"
+      },
+      {
+        "name": "15",
+        "url": "https://filemoon.nl/e/uu81xo4gc1hm/_RAI__Fire_Force_S1E15_-_Hindi_Censored"
+      },
+      {
+        "name": "16",
+        "url": "https://filemoon.nl/e/tsao0jbx2zmb/_RAI__Fire_Force_S1E16_-_Hindi_Censored"
+      },
+      {
+        "name": "17",
+        "url": "https://filemoon.nl/e/n0qj545f1a3w/_RAI__Fire_Force_S1E17_-_Hindi_Censored"
+      },
+      {
+        "name": "18",
+        "url": "https://filemoon.nl/e/pdsyhho9sudn/_RAI__Fire_Force_S1E18_-_Hindi_Censored"
+      },
+      {
+        "name": "19",
+        "url": "https://filemoon.nl/e/bswywlll9h2m/_RAI__Fire_Force_S1E19_-_Hindi_Censored"
+      },
+      {
+        "name": "20",
+        "url": "https://filemoon.nl/e/hsmomeczza1v/_RAI__Fire_Force_S1E20_-_Hindi_Censored"
+      },
+      {
+        "name": "21",
+        "url": "https://filemoon.nl/e/diviv2brcayw/_RAI__Fire_Force_S1E21_-_Hindi_Censored"
+      },
+      {
+        "name": "22",
+        "url": "https://filemoon.nl/e/clzidgzelalm/_RAI__Fire_Force_S1E22_-_Hindi_Censored"
+      },
+      {
+        "name": "23",
+        "url": "https://filemoon.nl/e/gqtka07rsi95/_RAI__Fire_Force_S1E23_-_Hindi_Censored"
+      },
+      {
+        "name": "24",
+        "url": "https://filemoon.nl/e/idj3rcssnihg/_RAI__Fire_Force_S1E24_-_Hindi_Censored"
+      },
+      {
+        "name": "01",
+        "url": "https://filemoon.nl/e/psmrpnjc9hs2/Fire_Force_S02E01__Hindi_"
+      },
+      {
+        "name": "02",
+        "url": "https://filemoon.nl/e/ueozecsu6b4f/Fire_Force_S02E02__Hindi_"
+      },
+      {
+        "name": "03",
+        "url": "https://filemoon.nl/e/t4or06e6olcs/Fire_Force_S02E03__Hindi_"
+      },
+      {
+        "name": "04",
+        "url": "https://filemoon.nl/e/gmh3e21vsl8n/Fire_Force_S02E04__Hindi_"
+      },
+      {
+        "name": "05",
+        "url": "https://filemoon.nl/e/mu47a19izffq/Fire_Force_S02E05__Hindi_"
+      },
+      {
+        "name": "06",
+        "url": "https://filemoon.nl/e/27kqlwn0yqit/Fire_Force_S02E06__Hindi_"
+      },
+      {
+        "name": "07",
+        "url": "https://filemoon.nl/e/kgmvjym4y7zg/Fire_Force_S02E07__Hindi_"
+      },
+      {
+        "name": "08",
+        "url": "https://filemoon.nl/e/p752wopl70tc/Fire_Force_S02E08__Hindi_"
+      },
+      {
+        "name": "09",
+        "url": "https://filemoon.nl/e/iwasatlfuosc/Fire_Force_S02E09__Hindi_"
+      },
+      {
+        "name": "10",
+        "url": "https://filemoon.nl/e/nd90wrho5qa1/Fire_Force_S02E10__Hindi_"
+      },
+      {
+        "name": "11",
+        "url": "https://filemoon.nl/e/znuo0mloehiz/Fire_Force_S02E11__Hindi_"
+      },
+      {
+        "name": "12",
+        "url": "https://filemoon.nl/e/vdd3ma3kcb80/Fire_Force_S02E12__Hindi_"
+      },
+      {
+        "name": "13",
+        "url": "https://filemoon.nl/e/ci32ejjyf6ke/Fire_Force_S02E13__Hindi_"
+      },
+      {
+        "name": "14",
+        "url": "https://filemoon.nl/e/jejn1bqnhmi6/Fire_Force_S02E14__Hindi_"
+      },
+      {
+        "name": "15",
+        "url": "https://filemoon.nl/e/3zpasc0k90a0/Fire_Force_S02E15__Hindi_"
+      },
+      {
+        "name": "16",
+        "url": "https://filemoon.nl/e/tppz7rhskqdb/Fire_Force_S02E16__Hindi_"
+      },
+      {
+        "name": "17",
+        "url": "https://filemoon.nl/e/18n9d2so2vfb/Fire_Force_S02E17__Hindi_"
+      },
+      {
+        "name": "18",
+        "url": "https://filemoon.nl/e/fhbglbzc6wbj/Fire_Force_S02E18__Hindi_"
+      },
+      {
+        "name": "19",
+        "url": "https://filemoon.nl/e/3bx5rquqtwl7/Fire_Force_S02E19__Hindi_"
+      },
+      {
+        "name": "20",
+        "url": "https://filemoon.nl/e/tl6srj1fjdgl/Fire_Force_S02E20__Hindi_"
+      },
+      {
+        "name": "21",
+        "url": "https://filemoon.nl/e/89kgp1lqfkur/Fire_Force_S02E21__Hindi_"
+      },
+      {
+        "name": "22",
+        "url": "https://filemoon.nl/e/amj9wdf1j5q9/Fire_Force_S02E22__Hindi_"
+      },
+      {
+        "name": "23",
+        "url": "https://filemoon.nl/e/ikops8mk3hki/Fire_Force_S02E23__Hindi_"
+      },
+      {
+        "name": "24",
+        "url": "https://filemoon.nl/e/ubzk1rc43ifu/Fire_Force_S02E24__Hindi_"
+      },
+      {
+        "name": "S3EP01 Start With MaltiAudio",
+        "url": "https://filemoon.nl/e/8emwifcrdxq1/_Toonhub4u__Fire_Force_S03E01_1080p_x265_10bit_WEB-DL_Multi_Audio_ESub"
+      },
+      {
+        "name": "S3EP02",
+        "url": "https://filemoon.to/e/z3er8eseajmi/_Toonhub4u__Fire_Force_S03E02_1080p_x265_10bit_WEB-DL_Multi_Audio_ESub"
+      },
+      {
+        "name": "S3EP03",
+        "url": "https://filemoon.nl/e/maof70yh4ll4/_Toonhub4u__Fire_Force_S03E03_1080p_x265_10bit_WEB-DL_Multi_Audio_ESub"
+      },
+      {
+        "name": "S3EP04",
+        "url": "https://filemoon.nl/e/rbfgm2lmvp98/_Toonhub4u__Fire_Force_S03E04_1080p_x265_10bit_WEB-DL_Multi_Audio_ESub"
+      },
+      {
+        "name": "S3EP05",
+        "url": "https://filemoon.nl/e/9jnxdgxt7ism/Fire_Force_S03E05__Hindi__1080P_FHD"
+      },
+      {
+        "name": "S3EP06",
+        "url": "https://filemoon.nl/e/kt1dg118j3kh/_Toonhub4u__Fire_Force_S03E06_1080p_x265_10bit_WEB-DL_Multi_Audio_ESub"
+      }
+    ]
+  }
+};
+    let currentServer = 'filemoon';
+    let currentSeason = 's1';
+    function loadEpisodes(server, season) {
+      const epList = allEpisodes[server][season];
+      const container = document.getElementById(season + 'Episodes');
+      container.innerHTML = '';
+      epList.forEach(ep => {
+        const btn = document.createElement('div');
+        btn.className = 'episode-button';
+        btn.textContent = ep.name;
+        btn.onclick = () => loadVideo(ep.url);
+        container.appendChild(btn);
+      });
+    }
+    function loadVideo(url) {
+      document.getElementById('videoPlayer').src = url;
+    }
+    function setServer(server) {
+      currentServer = server;
+      document.querySelectorAll('.server-tabs button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(server + 'Btn').classList.add('active');
+      setSeason(currentSeason);
+    }
+    function setSeason(season) {
+      currentSeason = season;
+      document.querySelectorAll('.dropdown-content button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(season + 'Btn').classList.add('active');
+      const seasonKeys = Object.keys(allEpisodes[currentServer]);
+      seasonKeys.forEach(s => {
+        const grid = document.getElementById(s + 'Episodes');
+        if (grid) grid.classList.add('hidden');
+      });
+      document.getElementById(season + 'Episodes').classList.remove('hidden');
+      loadEpisodes(currentServer, season);
+      const firstEp = allEpisodes[currentServer][season][0];
+      if (firstEp) loadVideo(firstEp.url);
+    }
+    function toggleDropdown() {
+      document.getElementById('seasonDropdown').classList.toggle('show');
+    }
+    setServer('filemoon');
+  </script>
+</body>
+</html>
