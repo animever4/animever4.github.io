@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Name - Hindi Dub - Watch All Episodes</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #0b0b0b;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+    }
+    header {
+      background-color: #141414;
+      padding: 15px 20px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #00ff99;
+      text-align: center;
+    }
+    .player-section {
+      max-width: 960px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+    iframe {
+      width: 100%;
+      height: 480px;
+      border: none;
+      border-radius: 8px;
+    }
+    .server-tabs, .season-dropdown {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .server-tabs button,
+    .dropdown-toggle,
+    .dropdown-content button {
+      background-color: #222;
+      color: white;
+      padding: 10px 16px;
+      border: 1px solid #00ff99;
+      margin: 5px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.3s;
+      font-size: 16px;
+    }
+    .server-tabs button.active,
+    .dropdown-content button.active {
+      background-color: #00ff99;
+      color: black;
+    }
+    .dropdown-toggle {
+      display: inline-block;
+    }
+    .dropdown-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+    .dropdown-content.show {
+      max-height: 200px;
+    }
+    .episodes-section {
+      max-width: 1000px;
+      margin: 0 auto 30px;
+      padding: 0 15px;
+    }
+    .episode-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 12px;
+    }
+    .episode-button {
+      background-color: #1c1c1c;
+      border: 1px solid #00ff99;
+      color: #00ff99;
+      padding: 10px;
+      border-radius: 6px;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .episode-button:hover {
+      background-color: #00ff99;
+      color: #000;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header>Your Name - Hindi Dub</header>
+  <div class="player-section">
+    <iframe id="videoPlayer" src="" allowfullscreen></iframe>
+    <div class="server-tabs">
+      <button onclick="setServer('filemoon')" id="filemoonBtn">Filemoon</button>
+    </div>
+    <div class="season-dropdown">
+      <button class="dropdown-toggle" onclick="toggleDropdown()">Seasons ▾</button>
+      <div class="dropdown-content" id="seasonDropdown">
+        <button onclick="setSeason('s1')" id="s1Btn">Season 1</button>
+      </div>
+    </div>
+  </div>
+  <div class="episodes-section">
+    <div class="episode-grid hidden" id="s1Episodes"></div>
+  </div>
+  <script>
+    const allEpisodes = {
+  "filemoon": {
+    "s1": [
+      {
+        "name": "Play",
+        "url": "https://filemoon.nl/e/4da1csaw05gw/Jujutsu_Kaisen_0_FanDub__RareToonsindia__1080P_FHD"
+      }
+    ]
+  }
+};
+    let currentServer = 'filemoon';
+    let currentSeason = 's1';
+    function loadEpisodes(server, season) {
+      const epList = allEpisodes[server][season];
+      const container = document.getElementById(season + 'Episodes');
+      container.innerHTML = '';
+      epList.forEach(ep => {
+        const btn = document.createElement('div');
+        btn.className = 'episode-button';
+        btn.textContent = ep.name;
+        btn.onclick = () => loadVideo(ep.url);
+        container.appendChild(btn);
+      });
+    }
+    function loadVideo(url) {
+      document.getElementById('videoPlayer').src = url;
+    }
+    function setServer(server) {
+      currentServer = server;
+      document.querySelectorAll('.server-tabs button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(server + 'Btn').classList.add('active');
+      setSeason(currentSeason);
+    }
+    function setSeason(season) {
+      currentSeason = season;
+      document.querySelectorAll('.dropdown-content button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(season + 'Btn').classList.add('active');
+      const seasonKeys = Object.keys(allEpisodes[currentServer]);
+      seasonKeys.forEach(s => {
+        const grid = document.getElementById(s + 'Episodes');
+        if (grid) grid.classList.add('hidden');
+      });
+      document.getElementById(season + 'Episodes').classList.remove('hidden');
+      loadEpisodes(currentServer, season);
+      const firstEp = allEpisodes[currentServer][season][0];
+      if (firstEp) loadVideo(firstEp.url);
+    }
+    function toggleDropdown() {
+      document.getElementById('seasonDropdown').classList.toggle('show');
+    }
+    setServer('filemoon');
+  </script>
+</body>
+</html>
