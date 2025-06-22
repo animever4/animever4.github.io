@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sakamoto - Old Days (English) - Watch All Episodes</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #0b0b0b;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+    }
+    header {
+      background-color: #141414;
+      padding: 15px 20px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #00ff99;
+      text-align: center;
+    }
+    .player-section {
+      max-width: 960px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+    iframe {
+      width: 100%;
+      height: 480px;
+      border: none;
+      border-radius: 8px;
+    }
+    .episodes-section {
+      max-width: 1000px;
+      margin: 0 auto 30px;
+      padding: 0 15px;
+    }
+    .episode-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 12px;
+    }
+    .episode-button {
+      background-color: #1c1c1c;
+      border: 1px solid #00ff99;
+      color: #00ff99;
+      padding: 10px;
+      border-radius: 6px;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .episode-button:hover {
+      background-color: #00ff99;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+  <header>Sakamoto - Old Days (English)</header>
+  <div class="player-section">
+    <iframe id="videoPlayer" src="" allowfullscreen></iframe>
+  </div>
+  <div class="episodes-section">
+    <div class="episode-grid" id="episodeGrid"></div>
+  </div>
+  <script>
+    const episodes = [
+      { "name": "S1 Episode-1", "url": "https://filemoon.nl/e/6x7l199mhvbt" },
+  { "name": "S1 Episode-2", "url": "https://filemoon.nl/e/6633tvh40g18" },
+  { "name": "S1 Episode-3", "url": "https://filemoon.nl/e/mqm9kxdav5x7" },
+  { "name": "S1 Episode-4", "url": "https://filemoon.nl/e/yw9mmr8ezxz5" },
+  { "name": "S1 Episode-5", "url": "https://filemoon.nl/e/k6im2gccquqh" },
+  { "name": "S1 Episode-6", "url": "https://filemoon.nl/e/u5vq3r5j3g31" },
+  { "name": "S1 Episode-7", "url": "https://filemoon.nl/e/y7cnpy0kla85" },
+  { "name": "S1 Episode-8", "url": "https://filemoon.nl/e/ifevzrutizu8" },
+  { "name": "S1 Episode-9", "url": "https://filemoon.nl/e/1sqs9shv2br7" },
+  { "name": "S1 Episode-10", "url": "https://filemoon.nl/e/h0q1huv2jjhu" },
+  { "name": "S1 Episode-11", "url": "https://filemoon.nl/e/u37ye03kcxlp/_Toonhub4u__Sakamoto_Days_S01E11_720p_NF_WEB-DL_Multi_Audio_ESub" }
+    ];
+    function loadVideo(url) {
+      document.getElementById('videoPlayer').src = url;
+    }
+    const grid = document.getElementById('episodeGrid');
+    episodes.forEach(ep => {
+      const btn = document.createElement('div');
+      btn.className = 'episode-button';
+      btn.textContent = ep.name;
+      btn.onclick = () => loadVideo(ep.url);
+      grid.appendChild(btn);
+    });
+    if (episodes.length > 0) {
+      loadVideo(episodes[0].url);
+    }
+  </script>
+</body>
+</html>
