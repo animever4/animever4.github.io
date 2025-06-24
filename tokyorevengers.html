@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Bleach - Watch All Episodes in Hindi</title>
+  <title>Tokyo Revengers - Hindi Dub - Watch All Episodes</title>
   <style>
     body {
       margin: 0;
@@ -11,7 +11,6 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       color: white;
     }
-
     header {
       background-color: #141414;
       padding: 15px 20px;
@@ -20,25 +19,21 @@
       color: #00ff99;
       text-align: center;
     }
-
     .player-section {
       max-width: 960px;
       margin: 20px auto;
       padding: 0 15px;
     }
-
     iframe {
       width: 100%;
       height: 480px;
       border: none;
       border-radius: 8px;
     }
-
     .server-tabs, .season-dropdown {
       text-align: center;
       margin-top: 20px;
     }
-
     .server-tabs button,
     .dropdown-toggle,
     .dropdown-content button {
@@ -52,39 +47,32 @@
       transition: background 0.3s;
       font-size: 16px;
     }
-
     .server-tabs button.active,
     .dropdown-content button.active {
       background-color: #00ff99;
       color: black;
     }
-
     .dropdown-toggle {
       display: inline-block;
     }
-
     .dropdown-content {
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.4s ease;
     }
-
     .dropdown-content.show {
       max-height: 200px;
     }
-
     .episodes-section {
       max-width: 1000px;
       margin: 0 auto 30px;
       padding: 0 15px;
     }
-
     .episode-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
       gap: 12px;
     }
-
     .episode-button {
       background-color: #1c1c1c;
       border: 1px solid #00ff99;
@@ -95,76 +83,69 @@
       cursor: pointer;
       transition: background 0.2s, color 0.2s;
     }
-
     .episode-button:hover {
       background-color: #00ff99;
       color: #000;
     }
-
     .hidden {
       display: none;
     }
   </style>
 </head>
 <body>
-  <header>Mob psycho 100 - Hindi Dub</header>
-
+  <header>Tokyo Revengers - Hindi Dub</header>
   <div class="player-section">
     <iframe id="videoPlayer" src="" allowfullscreen></iframe>
-
     <div class="server-tabs">
       <button onclick="setServer('filemoon')" id="filemoonBtn">Filemoon</button>
-      <button onclick="setServer('servabyss')" id="servabyssBtn">Servabyss</button>
-      <button onclick="setServer('vidgroud')" id="vidgroudBtn">Vidgroud</button>
     </div>
-
     <div class="season-dropdown">
       <button class="dropdown-toggle" onclick="toggleDropdown()">Seasons ▾</button>
       <div class="dropdown-content" id="seasonDropdown">
         <button onclick="setSeason('s1')" id="s1Btn">Season 1</button>
-
       </div>
     </div>
   </div>
-
   <div class="episodes-section">
-    <div class="episode-grid" id="season1Episodes"></div>
-    <div class="episode-grid hidden" id="season2Episodes"></div>
+    <div class="episode-grid hidden" id="s1Episodes"></div>
   </div>
-
   <script>
     const allEpisodes = {
-      filemoon: {
-        s1: [
-  { "name": "S1E1", "url": "https://filemoon.nl/e/uvenya1eme6a/_Toonworld4all__Mob_Psycho_100_S01E01_1080p_HEVC_10bit_BluRay_Multi_Audio_ESub" },
-  { "name": "S1E2", "url": "https://filemoon.nl/e/ft7zmykcrx6t/_Toonworld4all__Mob_Psycho_100_S01E02_1080p_HEVC_10bit_BluRay_Multi_Audio_ESub" },
-  { "name": "S1E3", "url": "https://filemoon.nl/e/r2zxitk4vqqq/_Toonworld4all__Mob_Psycho_100_S01E03_1080p_HEVC_10bit_BluRay_Multi_Audio_ESub" },
-  { "name": "S1E4", "url": "https://filemoon.nl/e/20kirwkybaph/_Toonworld4all__Mob_Psycho_100_S01E04_1080p_HEVC_10bit_BluRay_Multi_Audio_ESub" },
-  { "name": "S1E5", "url": "https://filemoon.nl/e/8fu52rhow5gg/_Toonworld4all__Mob_Psycho_100_S01E05_1080p_HEVC_10bit_BluRay_Multi_Audio_ESub" },
-  { "name": "S1E6", "url": "https://filemoon.nl/e/iwspl6ivdb1b/_Toonworld4all__Mob_Psycho_100_S01E06_1080p_HEVC_10bit_BluRay_Multi_Audio_ESub" },
-  { "name": "S1E7", "url": "https://filemoon.nl/e/yj7boqj8j1u5/_Toonworld4all__Mob_Psycho_100_S01E07_1080p_HEVC_10bit_BluRay_Multi_Audio_ESub" },
-  { "name": "S1E8", "url": "https://filemoon.nl/e/so39k3qnrawv/_Toonworld4all__Mob_Psycho_100_S01E08_1080p_HEVC_10bit_BluRay_Multi_Audio_ESub" },
-  { "name": "S1E9", "url": "https://filemoon.nl/e/gej9jrsb7sc0/_Toonworld4all__Mob_Psycho_100_S01E09_1080p_HEVC_10bit_BluRay_Multi_Audio_ESub" },
-  { "name": "S1E10", "url": "https://filemoon.nl/e/m17ufpsvp47t/_Toonworld4all__Mob_Psycho_100_S01E10_1080p_HEVC_10bit_BluRay_Multi_Audio_ESub" },
-  { "name": "S1E11", "url": "https://filemoon.nl/e/g0gca3qecjlp/_Toonworld4all__Mob_Psycho_100_S01E11_1080p_HEVC_10bit_BluRay_Multi_Audio_ESub" },
-  { "name": "S1E12", "url": "https://filemoon.nl/e/g0zoth5g3m21/_Toonworld4all__Mob_Psycho_100_S01E12_1080p_HEVC_10bit_BluRay_Multi_Audio_ESub" },
-  
-  
+  "filemoon": {
+    "s1": [
+  { name: "S1E1", url: "https://filemoon.nl/e/ix8kgt8jjj2r/Toonhub4u__Tokyo_Revengers_S01E01__Hin-Eng-Jap___1080p___English-Sub" },
+  { name: "S1E2", url: "https://filemoon.nl/e/hgchwsyouurf/S1_e2" },
+  { name: "S1E3", url: "https://filemoon.nl/e/c1bdl4iqs9fl/S1_e3" },
+  { name: "S1E4", url: "https://filemoon.nl/e/v70r4covqato/S1_e4" },
+  { name: "S1E5", url: "https://filemoon.nl/e/fphzplqy9d52/Toonhub4u__Tokyo_Revengers_S01E05__Hin-Eng-Jap___1080p___English-Sub" },
+  { name: "S1E6", url: "https://filemoon.nl/e/oxi4wzttu7yn/_Toonhub4u__Tokyo_Revengers_S01E06_720p_BDRip__Hindi-Eng-Jap__ESub" },
+  { name: "S1E7", url: "https://filemoon.nl/e/ekoy209lem1o/_Toonhub4u__Tokyo_Revengers_S01E07_720p_BDRip__Hindi-Eng-Jap__ESub" },
+  { name: "S1E8", url: "https://filemoon.nl/e/i65fu70jiyxr/S1_episode_8" },
+  { name: "S1E9", url: "https://filemoon.nl/e/cpoa6432l6rq/_Toonhub4u__Tokyo_Revengers_S01E09_720p_BDRip__Hindi-Eng-Jap__ESub" },
+  { name: "S1E10", url: "https://filemoon.nl/e/ec9vhqq5tpaj/S1_episode_10" },
+  { name: "S1E11", url: "https://filemoon.nl/e/vaykvylv3u7y/_Toonhub4u__Tokyo_Revengers_S01E11_720p_BDRip__Hindi-Eng-Jap__ESub" },
+  { name: "S1E12", url: "https://filemoon.nl/e/jzytgmwl0emv/_Toonhub4u__Tokyo_Revengers_S01E12_720p_BDRip__Hindi-Eng-Jap__ESub" },
+  { name: "S1E13", url: "https://filemoon.nl/e/7mz8s2vxmbr8/_Toonhub4u__Tokyo_Revengers_S01E13_720p_BDRip__Hindi-Eng-Jap__ESub" },
+  { name: "S1E14", url: "https://filemoon.nl/e/isghlv77usze/_Toonhub4u__Tokyo_Revengers_S01E14_720p_BDRip__Hindi-Eng-Jap__ESub" },
+  { name: "S1E15", url: "https://filemoon.nl/e/ux0vzvtlibev" },
+  { name: "S1E16", url: "https://filemoon.nl/e/dmnfip9x2zy1/_Toonhub4u__Tokyo_Revengers_S01E16_720p_BDRip__Hindi-Eng-Jap__ESub" },
+  { name: "S1E17", url: "https://filemoon.nl/e/0yzqq9pta79g/_Toonhub4u__Tokyo_Revengers_S01E17_720p_BDRip__Hindi-Eng-Jap__ESub" },
+  { name: "S1E18", url: "https://filemoon.nl/e/ze4coi58xk9t/_Toonhub4u__Tokyo_Revengers_S01E18_720p_BDRip__Hindi-Eng-Jap__ESub" },
+  { name: "S1E19", url: "https://filemoon.nl/e/z4mgg08fakan/_Toonhub4u__Tokyo_Revengers_S01E19_720p_BDRip__Hindi-Eng-Jap__ESub" },
+  { name: "S1E20", url: "https://filemoon.nl/e/lnkrf93j337m/_Toonhub4u__Tokyo_Revengers_S01E20_720p_BDRip__Hindi-Eng-Jap__ESub" },
+  { name: "S1E21", url: "https://filemoon.nl/e/r36il1nqo0dh/_Toonhub4u__Tokyo_Revengers_S01E21_720p_BDRip__Hindi-Eng-Jap__ESub" },
+  { name: "S1E22", url: "https://filemoon.nl/e/6wai2aj9sfl8/_Toonhub4u__Tokyo_Revengers_S01E22_720p_BDRip__Hindi-Eng-Jap__ESub" },
+  { name: "S1E23", url: "https://filemoon.nl/e/dd2er4jwm2lc/_Toonhub4u__Tokyo_Revengers_S01E23_720p_BDRip__Hindi-Eng-Jap__ESub" },
+  { name: "S1E24", url: "https://filemoon.nl/e/hfu40i1vequs" },
 ]
-        
-      },
-      servabyss: { s1: [], s2: [] },
-      vidgroud: { s1: [], s2: [] }
-    };
-
+  }
+};
     let currentServer = 'filemoon';
     let currentSeason = 's1';
-
     function loadEpisodes(server, season) {
       const epList = allEpisodes[server][season];
-      const container = document.getElementById(season === 's1' ? 'season1Episodes' : 'season2Episodes');
+      const container = document.getElementById(season + 'Episodes');
       container.innerHTML = '';
-
       epList.forEach(ep => {
         const btn = document.createElement('div');
         btn.className = 'episode-button';
@@ -173,39 +154,32 @@
         container.appendChild(btn);
       });
     }
-
     function loadVideo(url) {
       document.getElementById('videoPlayer').src = url;
     }
-
     function setServer(server) {
       currentServer = server;
       document.querySelectorAll('.server-tabs button').forEach(btn => btn.classList.remove('active'));
       document.getElementById(server + 'Btn').classList.add('active');
-      setSeason(currentSeason); // refresh season view
+      setSeason(currentSeason);
     }
-
     function setSeason(season) {
       currentSeason = season;
       document.querySelectorAll('.dropdown-content button').forEach(btn => btn.classList.remove('active'));
       document.getElementById(season + 'Btn').classList.add('active');
-
-      document.getElementById('season1Episodes').classList.add('hidden');
-      document.getElementById('season2Episodes').classList.add('hidden');
-
-      document.getElementById(season === 's1' ? 'season1Episodes' : 'season2Episodes').classList.remove('hidden');
-
+      const seasonKeys = Object.keys(allEpisodes[currentServer]);
+      seasonKeys.forEach(s => {
+        const grid = document.getElementById(s + 'Episodes');
+        if (grid) grid.classList.add('hidden');
+      });
+      document.getElementById(season + 'Episodes').classList.remove('hidden');
       loadEpisodes(currentServer, season);
-
       const firstEp = allEpisodes[currentServer][season][0];
       if (firstEp) loadVideo(firstEp.url);
     }
-
     function toggleDropdown() {
       document.getElementById('seasonDropdown').classList.toggle('show');
     }
-
-    // Default load
     setServer('filemoon');
   </script>
 </body>
