@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Solo Leveling - Watch All Episodes in Hindi</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #0b0b0b;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+    }
+
+    header {
+      background-color: #141414;
+      padding: 15px 20px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #00ff99;
+      text-align: center;
+    }
+
+    .player-section {
+      max-width: 960px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 480px;
+      border: none;
+      border-radius: 8px;
+    }
+
+    .server-tabs, .season-dropdown {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .server-tabs button,
+    .dropdown-toggle,
+    .dropdown-content button {
+      background-color: #222;
+      color: white;
+      padding: 10px 16px;
+      border: 1px solid #00ff99;
+      margin: 5px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.3s;
+      font-size: 16px;
+    }
+
+    .server-tabs button.active,
+    .dropdown-content button.active {
+      background-color: #00ff99;
+      color: black;
+    }
+
+    .dropdown-toggle {
+      display: inline-block;
+    }
+
+    .dropdown-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+
+    .dropdown-content.show {
+      max-height: 200px;
+    }
+
+    .episodes-section {
+      max-width: 1000px;
+      margin: 0 auto 30px;
+      padding: 0 15px;
+    }
+
+    .episode-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 12px;
+    }
+
+    .episode-button {
+      background-color: #1c1c1c;
+      border: 1px solid #00ff99;
+      color: #00ff99;
+      padding: 10px;
+      border-radius: 6px;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .episode-button:hover {
+      background-color: #00ff99;
+      color: #000;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header>Solo Leveling  - Hindi Dub</header>
+
+  <div class="player-section">
+    <iframe id="videoPlayer" src="" allowfullscreen></iframe>
+
+    <div class="server-tabs">
+      <button onclick="setServer('filemoon')" id="filemoonBtn">Filemoon</button>
+      <button onclick="setServer('servabyss')" id="servabyssBtn">Servabyss</button>
+      <button onclick="setServer('vidgroud')" id="vidgroudBtn">Vidgroud</button>
+    </div>
+
+    <div class="season-dropdown">
+      <button class="dropdown-toggle" onclick="toggleDropdown()">Seasons ▾</button>
+      <div class="dropdown-content" id="seasonDropdown">
+        <button onclick="setSeason('s1')" id="s1Btn">Season 1</button>
+        <button onclick="setSeason('s2')" id="s2Btn">Season 2</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="episodes-section">
+    <div class="episode-grid" id="season1Episodes"></div>
+    <div class="episode-grid hidden" id="season2Episodes"></div>
+  </div>
+
+  <script>
+    const allEpisodes = {
+      filemoon: {
+        s1: [
+  { "name": "S1E1", "url": "https://filemoon.nl/e/jwhgvb6g9cwl/_Toonworld4all__Jujutsu_Kaisen_S01E01_1080p_x265_10bit_BluRay_Multi_Audio_ESub__SonyYay_Dub_" },
+  { "name": "S1E2", "url": "https://filemoon.nl/e/0t14zsu1debf/_Toonworld4all__Jujutsu_Kaisen_S01E02__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S1E3", "url": "https://filemoon.nl/e/ck6bkppp9qty/_Toonworld4all__Jujutsu_Kaisen_S01E03__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S1E4", "url": "https://filemoon.nl/e/lsfhk57vfs85/_Toonworld4all__Jujutsu_Kaisen_S01E04__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S1E5", "url": "https://filemoon.nl/e/7dcri80iw8sg/_Toonworld4all__Jujutsu_Kaisen_S01E05__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S1E6", "url": "https://filemoon.nl/e/3zwbvwwxsgn9/_Toonworld4all__Jujutsu_Kaisen_S01E06__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S1E7", "url": "https://filemoon.nl/e/tdjwqqzhj3br/_Toonworld4all__Jujutsu_Kaisen_S01E07__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S1E8", "url": "https://filemoon.nl/e/0fpfhyffcrh6/_Toonworld4all__Jujutsu_Kaisen_S01E08__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S1E9", "url": "https://filemoon.nl/e/xepcbbvnebc1/_Toonworld4all__Jujutsu_Kaisen_S01E09__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S1E10", "url": "https://filemoon.nl/e/sslhr5mey86l/_Toonworld4all__Jujutsu_Kaisen_S01E10__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S1E11", "url": "https://filemoon.nl/e/32y532q2btke/_Toonworld4all__Jujutsu_Kaisen_S01E11__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S1E12", "url": "https://filemoon.nl/e/abiyz7t9k8s9/_Toonhub4u__Jujutsu_Kaisen_S01E12__BDRip_720p_x264___Multi_Audio__ESub" },
+  { "name": "S1E13", "url": "https://filemoon.nl/e/mutz7w9mf3zx/_Toonworld4all__Jujutsu_Kaisen_S01E13__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S1E14", "url": "https://filemoon.nl/e/cl9fbog6ycjd/_Toonworld4all__Jujutsu_Kaisen_S01E14__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S1E15", "url": "https://filemoon.nl/e/0tn66yly96du/_Toonworld4all__Jujutsu_Kaisen_S01E15__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S1E16", "url": "https://filemoon.nl/e/p13d2b9wrgr2/_Toonworld4all__Jujutsu_Kaisen_S01E16__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S1E17", "url": "https://filemoon.nl/e/0thdm0263t2j/_Toonworld4all__Jujutsu_Kaisen_S01E17__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S1E18", "url": "https://filemoon.nl/e/b7q35q1vgcgz/_Toonhub4u__Jujutsu_Kaisen_S01E18__BDRip_720p_x264___Multi_Audio__ESub" },
+  { "name": "S1E19", "url": "https://filemoon.nl/e/jbilsscd1prp/_Toonworld4all__Jujutsu_Kaisen_S01E19__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S1E20", "url": "https://filemoon.nl/e/0y567bwgpdka/_Toonworld4all__Jujutsu_Kaisen_S01E20__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S1E21", "url": "https://filemoon.nl/e/la9uelsxnk5k/_Toonworld4all__Jujutsu_Kaisen_S01E21__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S1E22", "url": "https://filemoon.nl/e/aol6eke3v50d/_Toonworld4all__Jujutsu_Kaisen_S01E22__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S1E23", "url": "https://filemoon.nl/e/ytfn1q01y6vo/_Toonworld4all__Jujutsu_Kaisen_S01E23__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S1E24", "url": "https://filemoon.nl/e/dcufwdi4qt61/_Toonworld4all__Jujutsu_Kaisen_S01E24__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+],
+        s2: [
+  { "name": "S2E1", "url": "https://filemoon.nl/e/k0k2t7jm4ex1/_Toonworld4all__Jujutsu_Kaisen_S02E01__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S2E2", "url": "https://filemoon.nl/e/isnpm9bgs0xf/_Toonworld4all__Jujutsu_Kaisen_S02E02__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S2E3", "url": "https://filemoon.nl/e/rexo7emi1799/_Toonworld4all__Jujutsu_Kaisen_S02E03__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S2E4", "url": "https://filemoon.nl/e/mwt2zszma8bp/_Toonworld4all__Jujutsu_Kaisen_S02E04__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S2E5", "url": "https://filemoon.nl/e/cjn5821f6ubd/_Toonworld4all__Jujutsu_Kaisen_S02E05__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S2E6", "url": "https://filemoon.nl/e/f5m43007o0v0/_Toonworld4all__Jujutsu_Kaisen_S02E06__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S2E7", "url": "https://filemoon.nl/e/3d5xt65i1ugt/_Toonworld4all__Jujutsu_Kaisen_S02E07__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S2E8", "url": "https://filemoon.nl/e/xxgfnvryqtom/_Toonworld4all__Jujutsu_Kaisen_S02E08__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S2E9", "url": "https://filemoon.nl/e/ofxksgrlf18w/_Toonworld4all__Jujutsu_Kaisen_S02E09__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S2E10", "url": "https://filemoon.nl/e/lurpe7recb8f/_Toonworld4all__Jujutsu_Kaisen_S02E10__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S2E11", "url": "https://filemoon.nl/e/2f6e4g3lio7t/_Toonworld4all__Jujutsu_Kaisen_S02E11__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S2E12", "url": "https://filemoon.nl/e/6y6tri7brw97/_Toonworld4all__Jujutsu_Kaisen_S02E12__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S2E13", "url": "https://filemoon.nl/e/cl6qgnhyz952/_Toonworld4all__Jujutsu_Kaisen_S02E13__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S2E14", "url": "https://filemoon.nl/e/0ms0rm1b762z/_Toonworld4all__Jujutsu_Kaisen_S02E14__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S2E15", "url": "https://filemoon.nl/e/v19mkz5wo7yd/_Toonworld4all__Jujutsu_Kaisen_S02E15__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S2E16", "url": "https://filemoon.nl/e/vhgelnu562aj/_Toonworld4all__Jujutsu_Kaisen_S02E16__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S2E17", "url": "https://filemoon.nl/e/97mq19z3iwgw/_Toonworld4all__Jujutsu_Kaisen_S02E17__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S2E18", "url": "https://filemoon.nl/e/1l5ghyk8ueer/_Toonworld4all__Jujutsu_Kaisen_S02E18__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S2E19", "url": "https://filemoon.nl/e/ofaqp3c93kyd/_Toonworld4all__Jujutsu_Kaisen_S02E19__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S2E20", "url": "https://filemoon.nl/e/6tr88cb8pbov/_Toonworld4all__Jujutsu_Kaisen_S02E20__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S2E21", "url": "https://filemoon.nl/e/8uv9z4emy1tv/_Toonworld4all__Jujutsu_Kaisen_S02E21__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S2E22", "url": "https://filemoon.nl/e/031rxarkhhf6/_Toonworld4all__Jujutsu_Kaisen_S02E22__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+  { "name": "S2E23", "url": "https://filemoon.nl/e/1e6bm5oy7kv5/_Toonworld4all__Jujutsu_Kaisen_S02E23__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
+]
+      },
+      servabyss: { s1: [], s2: [] },
+      vidgroud: { s1: [], s2: [] }
+    };
+
+    let currentServer = 'filemoon';
+    let currentSeason = 's1';
+
+    function loadEpisodes(server, season) {
+      const epList = allEpisodes[server][season];
+      const container = document.getElementById(season === 's1' ? 'season1Episodes' : 'season2Episodes');
+      container.innerHTML = '';
+
+      epList.forEach(ep => {
+        const btn = document.createElement('div');
+        btn.className = 'episode-button';
+        btn.textContent = ep.name;
+        btn.onclick = () => loadVideo(ep.url);
+        container.appendChild(btn);
+      });
+    }
+
+    function loadVideo(url) {
+      document.getElementById('videoPlayer').src = url;
+    }
+
+    function setServer(server) {
+      currentServer = server;
+      document.querySelectorAll('.server-tabs button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(server + 'Btn').classList.add('active');
+      setSeason(currentSeason); // refresh season view
+    }
+
+    function setSeason(season) {
+      currentSeason = season;
+      document.querySelectorAll('.dropdown-content button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(season + 'Btn').classList.add('active');
+
+      document.getElementById('season1Episodes').classList.add('hidden');
+      document.getElementById('season2Episodes').classList.add('hidden');
+
+      document.getElementById(season === 's1' ? 'season1Episodes' : 'season2Episodes').classList.remove('hidden');
+
+      loadEpisodes(currentServer, season);
+
+      const firstEp = allEpisodes[currentServer][season][0];
+      if (firstEp) loadVideo(firstEp.url);
+    }
+
+    function toggleDropdown() {
+      document.getElementById('seasonDropdown').classList.toggle('show');
+    }
+
+    // Default load
+    setServer('filemoon');
+  </script>
+</body>
+</html>
