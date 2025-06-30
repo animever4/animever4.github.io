@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Solo Leveling - Watch All Episodes in Hindi</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #0b0b0b;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+    }
+
+    header {
+      background-color: #141414;
+      padding: 15px 20px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #00ff99;
+      text-align: center;
+    }
+
+    .player-section {
+      max-width: 960px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 480px;
+      border: none;
+      border-radius: 8px;
+    }
+
+    .server-tabs, .season-dropdown {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .server-tabs button,
+    .dropdown-toggle,
+    .dropdown-content button {
+      background-color: #222;
+      color: white;
+      padding: 10px 16px;
+      border: 1px solid #00ff99;
+      margin: 5px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.3s;
+      font-size: 16px;
+    }
+
+    .server-tabs button.active,
+    .dropdown-content button.active {
+      background-color: #00ff99;
+      color: black;
+    }
+
+    .dropdown-toggle {
+      display: inline-block;
+    }
+
+    .dropdown-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+
+    .dropdown-content.show {
+      max-height: 200px;
+    }
+
+    .episodes-section {
+      max-width: 1000px;
+      margin: 0 auto 30px;
+      padding: 0 15px;
+    }
+
+    .episode-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 12px;
+    }
+
+    .episode-button {
+      background-color: #1c1c1c;
+      border: 1px solid #00ff99;
+      color: #00ff99;
+      padding: 10px;
+      border-radius: 6px;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .episode-button:hover {
+      background-color: #00ff99;
+      color: #000;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header>Vinland Saga- Hindi Dub</header>
+
+  <div class="player-section">
+    <iframe id="videoPlayer" src="" allowfullscreen></iframe>
+
+    <div class="server-tabs">
+      <button onclick="setServer('filemoon')" id="filemoonBtn">Filemoon</button>
+      <button onclick="setServer('servabyss')" id="servabyssBtn">Servabyss</button>
+      <button onclick="setServer('vidgroud')" id="vidgroudBtn">Vidgroud</button>
+    </div>
+
+    <div class="season-dropdown">
+      <button class="dropdown-toggle" onclick="toggleDropdown()">Seasons ▾</button>
+      <div class="dropdown-content" id="seasonDropdown">
+        <button onclick="setSeason('s1')" id="s1Btn">Season 1</button>
+        <button onclick="setSeason('s2')" id="s2Btn">Season 2</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="episodes-section">
+    <div class="episode-grid" id="season1Episodes"></div>
+    <div class="episode-grid hidden" id="season2Episodes"></div>
+  </div>
+
+  <script>
+    const allEpisodes = {
+      filemoon: {
+        s1: [
+ { "name": "S1E1", "url": "https://filemoon.nl/e/8vg2uqojtoy1/VINLAND_SAGA_S01E01__RareToonsIndia_" },
+  { "name": "S1E2", "url": "https://filemoon.nl/e/4gbc1lhs4ofr/VINLAND_SAGA_S01E02__RareToonsIndia_" },
+  { "name": "S1E3", "url": "https://filemoon.nl/e/tb9hpin6fhml/VINLAND_SAGA_S01E03__RareToonsIndia_" },
+  { "name": "S1E4", "url": "https://filemoon.nl/e/7u1ndvtrcviz/VINLAND_SAGA_S01E04__RareToonsIndia_" },
+  { "name": "S1E5", "url": "https://filemoon.nl/e/detj835nwc9v/VINLAND_SAGA_S01E05__RareToonsIndia_" },
+  { "name": "S1E6", "url": "https://filemoon.nl/e/f0ltnersyj1t/VINLAND_SAGA_S01E06__RareToonsIndia_" },
+  { "name": "S1E7", "url": "https://filemoon.nl/e/fcu4392ofphs/VINLAND_SAGA_S01E07__RareToonsIndia_" },
+  { "name": "S1E8", "url": "https://filemoon.nl/e/zo4l2wcse2ua/VINLAND_SAGA_S01E08__RareToonsIndia_" },
+  { "name": "S1E9", "url": "https://filemoon.nl/e/mqjni8lk0ohk/VINLAND_SAGA_S01E09__RareToonsIndia_" },
+  { "name": "S1E10", "url": "https://filemoon.nl/e/079t22v2d0ml/VINLAND_SAGA_S01E10__RareToonsIndia_" },
+  { "name": "S1E11", "url": "https://filemoon.nl/e/bj1b3s6h6r80/VINLAND_SAGA_S01E11__RareToonsIndia_" },
+  { "name": "S1E12", "url": "https://filemoon.nl/e/rx9t1ss577i8/VINLAND_SAGA_S01E12__RareToonsIndia_" },
+  { "name": "S1E13", "url": "https://filemoon.nl/e/jfvfmi74a90e/VINLAND_SAGA_S01E13__RareToonsIndia_" },
+  { "name": "S1E14", "url": "https://filemoon.nl/e/qap085eff1x3/VINLAND_SAGA_S01E14__RareToonsIndia_" },
+  { "name": "S1E15", "url": "https://filemoon.nl/e/g6h216ulk4uf/VINLAND_SAGA_S01E15__RareToonsIndia_" },
+  { "name": "S1E16", "url": "https://filemoon.nl/e/rgl404o51fii/VINLAND_SAGA_S01E16__RareToonsIndia_" },
+  { "name": "S1E17", "url": "https://filemoon.nl/e/u68j9yredh41/VINLAND_SAGA_S01E17__RareToonsIndia_" },
+  { "name": "S1E18", "url": "https://filemoon.nl/e/eaqs3546zzpg/VINLAND_SAGA_S01E18__RareToonsIndia_" },
+  { "name": "S1E19", "url": "https://filemoon.nl/e/i11vq2bk8qx4/VINLAND_SAGA_S01E19__RareToonsIndia_" },
+  { "name": "S1E20", "url": "https://filemoon.nl/e/o2x37kynbdqc/VINLAND_SAGA_S01E20__RareToonsIndia_" },
+  { "name": "S1E21", "url": "https://filemoon.nl/e/ol6uzrnp6upr/VINLAND_SAGA_S01E21__RareToonsIndia_" },
+  { "name": "S1E22", "url": "https://filemoon.nl/e/3azfb050kmpn/VINLAND_SAGA_S01E22__RareToonsIndia_" },
+  { "name": "S1E23", "url": "https://filemoon.nl/e/uclst2x25y8y/VINLAND_SAGA_S01E23__RareToonsIndia_" },
+  { "name": "S1E24", "url": "https://filemoon.nl/e/7fw4wewhsh30/VINLAND_SAGA_S01E24__RareToonsIndia_" },
+],
+        s2: [
+  { "name": "S2E1", "url": "https://filemoon.nl/e/dkpg6igm74e8/_Toonworld4all__Vinland_Saga_S02E01_1080p_HEVC_10bit_WEB-DL_Multi_Audio_ESub" },
+  { "name": "S2E2", "url": "https://filemoon.nl/e/yr4od57fptf6/_Toonworld4all__Vinland_Saga_S02E02_1080p_HEVC_10bit_WEB-DL_Multi_Audio_ESub" },
+  { "name": "S2E3", "url": "https://filemoon.nl/e/tf1m9fxsaoct/_Toonworld4all__Vinland_Saga_S02E03_720p_HD_WEB-DL_Multi_Audio_ESub" },
+  { "name": "S2E4", "url": "https://filemoon.nl/e/tbk86m86warb/_Toonworld4all__Vinland_Saga_S02E04_1080p_HEVC_10bit_WEB-DL_Multi_Audio_ESub" },
+  { "name": "S2E5", "url": "https://filemoon.nl/e/yafjyunfxsp6/_Toonworld4all__Vinland_Saga_S02E05_1080p_HEVC_10bit_WEB-DL_Multi_Audio_ESub" },
+  { "name": "S2E6", "url": "https://filemoon.nl/e/k6rlz9qsvm6h/_Toonworld4all__Vinland_Saga_S02E06_1080p_HEVC_10bit_WEB-DL_Multi_Audio_ESub" },
+  { "name": "S2E7", "url": "https://filemoon.nl/e/1opt96e7v0ap/_Toonworld4all__Vinland_Saga_S02E07_1080p_HEVC_10bit_WEB-DL_Multi_Audio_ESub" },
+  { "name": "S2E8", "url": "https://filemoon.nl/e/pikk72kjsom5/_Toonworld4all__Vinland_Saga_S02E08_1080p_HEVC_10bit_WEB-DL_Multi_Audio_ESub" },
+  { "name": "S2E9", "url": "https://filemoon.nl/e/fqemi4zl7ryj/_Toonworld4all__Vinland_Saga_S02E09_1080p_HEVC_10bit_WEB-DL_Multi_Audio_ESub" },
+  { "name": "S2E10", "url": "https://filemoon.nl/e/ipmh1zchqjse/_Toonworld4all__Vinland_Saga_S02E10_1080p_HEVC_10bit_WEB-DL_Multi_Audio_ESub" },
+  { "name": "S2E11", "url": "https://filemoon.nl/e/jfoy8twsmqpj/_Toonworld4all__Vinland_Saga_S02E11_720p_HD_WEB-DL_Multi_Audio_ESub" },
+  { "name": "S2E12", "url": "https://filemoon.nl/e/g41ec0tjyl2e/_Toonworld4all__Vinland_Saga_S02E12_720p_HD_WEB-DL_Multi_Audio_ESub" },
+  { "name": "S2E13", "url": "https://filemoon.nl/e/ksgxke4burgf/_Toonworld4all__Vinland_Saga_S02E13_1080p_HEVC_10bit_WEB-DL_Multi_Audio_ESub" },
+  { "name": "S2E14", "url": "https://filemoon.nl/e/n82ootjqgi51/_Toonworld4all__Vinland_Saga_S02E14_1080p_HEVC_10bit_WEB-DL_Multi_Audio_ESub" },
+  { "name": "S2E15", "url": "https://filemoon.nl/e/mgkyrrvtba18/_Toonworld4all__Vinland_Saga_S02E15_1080p_HEVC_10bit_WEB-DL_Multi_Audio_ESub" },
+  { "name": "S2E16", "url": "https://filemoon.nl/e/bv811phgl8zv/_Toonworld4all__Vinland_Saga_S02E16_1080p_HEVC_10bit_WEB-DL_Multi_Audio_ESub" },
+  { "name": "S2E17", "url": "https://filemoon.nl/e/efh2jyb3nmlw/_Toonworld4all__Vinland_Saga_S02E17_1080p_HEVC_10bit_WEB-DL_Multi_Audio_ESub" },
+  { "name": "S2E18", "url": "https://filemoon.nl/e/9fgvj8pvp1g5/_Toonworld4all__Vinland_Saga_S02E18_1080p_HEVC_10bit_WEB-DL_Multi_Audio_ESub" },
+  { "name": "S2E19", "url": "https://filemoon.nl/e/xgecvwhviadv/_Toonworld4all__Vinland_Saga_S02E19_720p_HD_WEB-DL_Multi_Audio_ESub" },
+  { "name": "S2E20", "url": "https://filemoon.nl/e/lrzf21kybnx7/Vinland_Saga_S02E20__RareToonsIndia__1080P_FHD" },
+  { "name": "S2E21", "url": "https://filemoon.nl/e/tmxeq28dycci/_Toonworld4all__Vinland_Saga_S02E21_720p_HD_WEB-DL_Multi_Audio_ESub" },
+  { "name": "S2E22", "url": "https://filemoon.nl/e/ewbot56z52hy/_Toonworld4all__Vinland_Saga_S02E22_720p_HD_WEB-DL_Multi_Audio_ESub" },
+  { "name": "S2E23", "url": "https://filemoon.nl/e/jlznwhfw7mq5/_Toonworld4all__Vinland_Saga_S02E23_720p_HD_WEB-DL_Multi_Audio_ESub" },
+  { "name": "S2E24", "url": "https://filemoon.nl/e/psl9o14h3c8k/_Toonworld4all__Vinland_Saga_S02E24_720p_HD_WEB-DL_Multi_Audio_ESub" }
+]
+      },
+      servabyss: { s1: [], s2: [] },
+      vidgroud: { s1: [], s2: [] }
+    };
+
+    let currentServer = 'filemoon';
+    let currentSeason = 's1';
+
+    function loadEpisodes(server, season) {
+      const epList = allEpisodes[server][season];
+      const container = document.getElementById(season === 's1' ? 'season1Episodes' : 'season2Episodes');
+      container.innerHTML = '';
+
+      epList.forEach(ep => {
+        const btn = document.createElement('div');
+        btn.className = 'episode-button';
+        btn.textContent = ep.name;
+        btn.onclick = () => loadVideo(ep.url);
+        container.appendChild(btn);
+      });
+    }
+
+    function loadVideo(url) {
+      document.getElementById('videoPlayer').src = url;
+    }
+
+    function setServer(server) {
+      currentServer = server;
+      document.querySelectorAll('.server-tabs button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(server + 'Btn').classList.add('active');
+      setSeason(currentSeason); // refresh season view
+    }
+
+    function setSeason(season) {
+      currentSeason = season;
+      document.querySelectorAll('.dropdown-content button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(season + 'Btn').classList.add('active');
+
+      document.getElementById('season1Episodes').classList.add('hidden');
+      document.getElementById('season2Episodes').classList.add('hidden');
+
+      document.getElementById(season === 's1' ? 'season1Episodes' : 'season2Episodes').classList.remove('hidden');
+
+      loadEpisodes(currentServer, season);
+
+      const firstEp = allEpisodes[currentServer][season][0];
+      if (firstEp) loadVideo(firstEp.url);
+    }
+
+    function toggleDropdown() {
+      document.getElementById('seasonDropdown').classList.toggle('show');
+    }
+
+    // Default load
+    setServer('filemoon');
+  </script>
+</body>
+</html>

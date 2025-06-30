@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>The Shiuji Family - Hindi Dub - Watch All Episodes</title>
+  <title>Solo Leveling - Watch All Episodes in Hindi</title>
   <style>
     body {
       margin: 0;
@@ -11,6 +11,7 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       color: white;
     }
+
     header {
       background-color: #141414;
       padding: 15px 20px;
@@ -19,21 +20,25 @@
       color: #00ff99;
       text-align: center;
     }
+
     .player-section {
       max-width: 960px;
       margin: 20px auto;
       padding: 0 15px;
     }
+
     iframe {
       width: 100%;
       height: 480px;
       border: none;
       border-radius: 8px;
     }
+
     .server-tabs, .season-dropdown {
       text-align: center;
       margin-top: 20px;
     }
+
     .server-tabs button,
     .dropdown-toggle,
     .dropdown-content button {
@@ -47,32 +52,39 @@
       transition: background 0.3s;
       font-size: 16px;
     }
+
     .server-tabs button.active,
     .dropdown-content button.active {
       background-color: #00ff99;
       color: black;
     }
+
     .dropdown-toggle {
       display: inline-block;
     }
+
     .dropdown-content {
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.4s ease;
     }
+
     .dropdown-content.show {
       max-height: 200px;
     }
+
     .episodes-section {
       max-width: 1000px;
       margin: 0 auto 30px;
       padding: 0 15px;
     }
+
     .episode-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
       gap: 12px;
     }
+
     .episode-button {
       background-color: #1c1c1c;
       border: 1px solid #00ff99;
@@ -83,81 +95,79 @@
       cursor: pointer;
       transition: background 0.2s, color 0.2s;
     }
+
     .episode-button:hover {
       background-color: #00ff99;
       color: #000;
     }
+
     .hidden {
       display: none;
     }
   </style>
 </head>
 <body>
-  <header>The Shiuji Family - Hindi Dub</header>
+  <header>One Punch Man  - Hindi Dub</header>
+
   <div class="player-section">
     <iframe id="videoPlayer" src="" allowfullscreen></iframe>
+
     <div class="server-tabs">
       <button onclick="setServer('filemoon')" id="filemoonBtn">Filemoon</button>
+      <button onclick="setServer('servabyss')" id="servabyssBtn">Servabyss</button>
+      <button onclick="setServer('vidgroud')" id="vidgroudBtn">Vidgroud</button>
     </div>
+
     <div class="season-dropdown">
       <button class="dropdown-toggle" onclick="toggleDropdown()">Seasons ▾</button>
       <div class="dropdown-content" id="seasonDropdown">
         <button onclick="setSeason('s1')" id="s1Btn">Season 1</button>
+        <button onclick="setSeason('s2')" id="s2Btn">Season 2</button>
       </div>
     </div>
   </div>
+
   <div class="episodes-section">
-    <div class="episode-grid hidden" id="s1Episodes"></div>
+    <div class="episode-grid" id="season1Episodes"></div>
+    <div class="episode-grid hidden" id="season2Episodes"></div>
   </div>
+
   <script>
     const allEpisodes = {
-  "filemoon": {
-    "s1": [
-      {
-        "name": "S1EP01",
-        "url": "https://filemoon.nl/e/l77i0cune0gb/_Toonhub4u__The_Shiunji_Family_Children_S01E01_720p_HD_WEB-DL_Multi_Audio_ESub"
+      filemoon: {
+        s1: [
+  { "name": "S1 Episode-1", "url": "https://filemoon.nl/e/orb8m82n5gnb" },
+  { "name": "S1 Episode-2", "url": "https://filemoon.nl/e/lyihujz3ilyu" },
+  { "name": "S1 Episode-3", "url": "https://filemoon.nl/e/s735uhlx7zd0" },
+  { "name": "S1 Episode-4", "url": "https://filemoon.nl/e/zpb2vkmw57ov" },
+  { "name": "S1 Episode-5", "url": "https://filemoon.nl/e/uzqqwiydyr6g" },
+  { "name": "S1 Episode-6", "url": "https://filemoon.nl/e/9k2ql0hqd6b0" },
+  { "name": "S1 Episode-7", "url": "https://filemoon.nl/e/zkqvtyg3l20t" },
+  { "name": "S1 Episode-8", "url": "https://filemoon.nl/e/ognypepspydc" },
+  { "name": "S1 Episode-9", "url": "https://filemoon.nl/e/tedtfkzjhdyt" },
+  { "name": "S1 Episode-10", "url": "https://filemoon.nl/e/roasogpqu6ln" },
+  { "name": "S1 Episode-11", "url": "https://filemoon.nl/e/zsxyxhfu4mb3" },
+  { "name": "S1 Episode-12", "url": "https://filemoon.nl/e/93g2qld3wgsi" },
+],
+        s2: [
+    { "name": "S2 Start Episode-1", "url": "https://filemoon.nl/e/iyfuivd0d5g6/_Toonworld4all__One_Punch_Man_S02E01__1080p_BD_x265_10bit_Multi_Audio__ESub" },
+  { "name": "S2 Episode-2", "url": "https://filemoon.nl/e/lq73r8wnj1bb/_Toonhub4u__One_Punch_Man_S02E02__720p_BD_Multi_Audio__ESub" },
+  { "name": "S2 Episode-3", "url": "https://filemoon.nl/e/fnzwl3htk2ls/_Toonhub4u__One_Punch_Man_S02E03__720p_BD_Multi_Audio__ESub" },
+  { "name": "S2 Episode-4", "url": "https://filemoon.nl/e/o00kb4d20tv2/_Toonhub4u__One_Punch_Man_S02E04__720p_BD_Multi_Audio__ESub" },
+]
       },
-      {
-        "name": "S1EP02",
-        "url": "https://filemoon.nl/e/07ruha7mkh5f/_Toonhub4u__The_Shiunji_Family_Children_S01E02_1080p_HEVC_10bit_WEB-DL_Multi_Audio_ESub"
-      },
-      {
-        "name": "S1EP03",
-        "url": "https://filemoon.nl/e/qs74ybt5xhgb/_Toonhub4u__The_Shiunji_Family_Children_S01E03_1080p_HEVC_10bit_WEB-DL_Multi_Audio_ESub"
-      },
-      {
-        "name": "S1EP04",
-        "url": "https://filemoon.nl/e/c08a60zaa1mw/_Toonhub4u__The_Shiunji_Family_Children_S01E04_1080p_HEVC_10bit_WEB-DL_Multi_Audio_ESub"
-      },
-      {
-        "name": "S1EP05",
-        "url": "https://filemoon.nl/e/zxmamoy0wprq/_Toonhub4u__The_Shiunji_Family_Children_S01E05_1080p_HEVC_10bit_WEB-DL_Multi_Audio_ESub"
-      },
-      {
-        "name": "S1EP06",
-        "url": "https://hindianimezone.upns.online/#6hau8t"
-      },
- {
-   "name": "S1EP07",
-   "url": "https://filemoon.nl/e/gaxj1kfqyt75/_Toonhub4u__The_Shiunji_Family_Children_S01E07_1080p_HEVC_10bit_WEB-DL_Multi_Audio_ESub"
- },
-{
-  "name": "S1EP08",
-  "url": "https://gogoanime.me.uk/newplayer.php?id=the-children-of-shiunji-family-19556?ep=138167&amp;type=hd-1&amp;category=dub"
-},
-{
-  "name": "S1EP09",
-  "url": "https://desidubanime.strp2p.site/#jmqkm"
-}
-    ]
-  }
-};
+      servabyss: { s1: [], s2: [] },
+      vidgroud: { s1: [], s2: [] }
+    };
+
     let currentServer = 'filemoon';
     let currentSeason = 's1';
+
     function loadEpisodes(server, season) {
       const epList = allEpisodes[server][season];
-      const container = document.getElementById(season + 'Episodes');
+      const container = document.getElementById(season === 's1' ? 'season1Episodes' : 'season2Episodes');
       container.innerHTML = '';
+
       epList.forEach(ep => {
         const btn = document.createElement('div');
         btn.className = 'episode-button';
@@ -166,32 +176,39 @@
         container.appendChild(btn);
       });
     }
+
     function loadVideo(url) {
       document.getElementById('videoPlayer').src = url;
     }
+
     function setServer(server) {
       currentServer = server;
       document.querySelectorAll('.server-tabs button').forEach(btn => btn.classList.remove('active'));
       document.getElementById(server + 'Btn').classList.add('active');
-      setSeason(currentSeason);
+      setSeason(currentSeason); // refresh season view
     }
+
     function setSeason(season) {
       currentSeason = season;
       document.querySelectorAll('.dropdown-content button').forEach(btn => btn.classList.remove('active'));
       document.getElementById(season + 'Btn').classList.add('active');
-      const seasonKeys = Object.keys(allEpisodes[currentServer]);
-      seasonKeys.forEach(s => {
-        const grid = document.getElementById(s + 'Episodes');
-        if (grid) grid.classList.add('hidden');
-      });
-      document.getElementById(season + 'Episodes').classList.remove('hidden');
+
+      document.getElementById('season1Episodes').classList.add('hidden');
+      document.getElementById('season2Episodes').classList.add('hidden');
+
+      document.getElementById(season === 's1' ? 'season1Episodes' : 'season2Episodes').classList.remove('hidden');
+
       loadEpisodes(currentServer, season);
+
       const firstEp = allEpisodes[currentServer][season][0];
       if (firstEp) loadVideo(firstEp.url);
     }
+
     function toggleDropdown() {
       document.getElementById('seasonDropdown').classList.toggle('show');
     }
+
+    // Default load
     setServer('filemoon');
   </script>
 </body>
