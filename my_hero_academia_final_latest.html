@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>One Punch Man Hindi Dub - All Seasons</title>
+<style>
+    :root {
+        --primary: #00ff99;
+        --secondary: #008852;
+        --bg: #0b0b0b;
+        --card-bg: #1c1c1c;
+    }
+
+    body {
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        background: var(--bg);
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+
+    header {
+        text-align: center;
+        padding: 30px 20px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        font-size: 2em;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #000;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+
+    /* PLAYER STYLES */
+    #player-container {
+        position: relative;
+        width: 95%;
+        max-width: 900px;
+        aspect-ratio: 16 / 9;
+        margin: 20px auto;
+        background: #000;
+        border-radius: 20px;
+        border: 2px solid rgba(0, 255, 153, 0.2);
+        overflow: hidden;
+        box-shadow: 0 0 30px rgba(0, 255, 153, 0.2);
+    }
+
+    iframe { width: 100%; height: 100%; border: none; }
+
+    .loader {
+        position: absolute; top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        border: 5px solid #333;
+        border-top: 5px solid var(--primary);
+        border-radius: 50%;
+        width: 50px; height: 50px;
+        animation: spin 1s linear infinite;
+        z-index: 10;
+    }
+
+    @keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+
+    /* SEASON SELECTOR */
+    .season-container {
+        max-width: 1000px;
+        margin: 10px auto;
+        padding: 0 15px;
+    }
+
+    .season-label {
+        font-size: 1.2em;
+        font-weight: bold;
+        margin-bottom: 10px;
+        display: block;
+        color: var(--primary);
+    }
+
+    .season-tabs {
+        display: flex;
+        overflow-x: auto;
+        gap: 12px;
+        padding: 10px 5px;
+        scrollbar-width: thin;
+        scrollbar-color: var(--primary) transparent;
+    }
+
+    .season-tabs::-webkit-scrollbar { height: 6px; }
+    .season-tabs::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+
+    .season-tab {
+        flex: 0 0 auto;
+        padding: 12px 25px;
+        background: var(--card-bg);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+    }
+
+    .season-tab.active {
+        background: var(--primary);
+        color: #000;
+        box-shadow: 0 0 15px var(--primary);
+        border-color: transparent;
+    }
+
+    /* EPISODE GRID */
+    #episode-buttons {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        gap: 12px;
+        padding: 20px;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .episode-btn {
+        background: rgba(255, 255, 255, 0.05);
+        color: #fff;
+        border: 1px solid rgba(0, 255, 153, 0.3);
+        padding: 15px 5px;
+        border-radius: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
+    }
+
+    .episode-btn:hover {
+        background: var(--primary);
+        color: #000;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 255, 153, 0.4);
+    }
+
+    .hidden { display: none; }
+
+    @media (max-width: 600px) {
+        header { font-size: 1.4em; }
+        .season-tab { padding: 10px 18px; font-size: 0.9em; }
+    }
+</style>
+</head>
+<body>
+
+<header>One Punch Man</header>
+
+<div id="player-container">
+    <div id="loading-spinner" class="loader"></div>
+    <iframe id="video-player" src="" allowfullscreen onload="hideLoader()"></iframe>
+</div>
+
+<div class="season-container">
+    <span class="season-label">Select Season:</span>
+    <div class="season-tabs" id="season-tabs-list"></div>
+</div>
+
+<div id="episode-buttons"></div>
+
+<script>
+const episodes = {
+    1: [{name:"Ep 1",url:"https://short.icu/TJprewITq"},{name:"Ep 2",url:"https://short.icu/nQBTCam74"},{name:"Ep 3",url:"https://short.icu/Cg_au3UVc"},{name:"Ep 4",url:"https://short.icu/8Dknc-cDo"},{name:"Ep 5",url:"https://short.icu/10sSRfZrN"},{name:"Ep 6",url:"https://short.icu/0_JHVTlA3"},{name:"Ep 7",url:"https://short.icu/eTaD6Q9PU"},{name:"Ep 8",url:"https://short.icu/f_HJ5TDr3"},{name:"Ep 9",url:"https://short.icu/xE2IrscxI"},{name:"Ep 10",url:"https://short.icu/UsD_C__WJ"},{name:"Ep 11",url:"https://short.icu/fCsr7k8JJ"},{name:"Ep 12",url:"https://short.icu/fWg1xpkk2"},{name:"Ep 13",url:"https://short.icu/vOOmY-7at"}],
+    2: [{name:"Ep 1",url:"https://short.icu/6nFq9q1Ai"},{name:"Ep 2",url:"https://short.icu/Rybi-FWz7"},{name:"Ep 3",url:"https://short.icu/LSI7KiysH"},{name:"Ep 4",url:"https://short.icu/fbTw_C4wx"},{name:"Ep 5",url:"https://short.icu/EbPKcKdjh"},{name:"Ep 6",url:"https://short.icu/ZTzj2O99j"},{name:"Ep 7",url:"https://short.icu/Jv_SyH7yG"},{name:"Ep 8",url:"https://short.icu/k6r1XpG76"},{name:"Ep 9",url:"https://short.icu/jtqQn7NiR"},{name:"Ep 10",url:"https://short.icu/nq70QfbND"},{name:"Ep 11",url:"https://short.icu/raSItlHucd"},{name:"Ep 12",url:"https://short.icu/yWxQ4VUgF"},{name:"Ep 13",url:"https://short.icu/ldoM6X77e"},{name:"Ep 14",url:"https://short.icu/pIQppiBrk"},{name:"Ep 15",url:"https://short.icu/rC1l6P4Bj"},{name:"Ep 16",url:"https://short.icu/qLuUOG9nK"},{name:"Ep 17",url:"https://short.icu/m6eSpIKVy"},{name:"Ep 18",url:"https://short.icu/djM8vDgYJ"},{name:"Ep 19",url:"https://short.icu/pFrysMP-P"},{name:"Ep 20",url:"https://short.icu/vSvIJ76lc"},{name:"Ep 21",url:"https://short.icu/Y7x1U1rHY"},{name:"Ep 22",url:"https://short.icu/tLHUt3kcS"},{name:"Ep 23",url:"https://short.icu/8ueuu843A"},{name:"Ep 24",url:"https://short.icu/MbSrifj8_"},{name:"Ep 25",url:"https://short.icu/tnyCv2VsP"}],
+    3: [{name:"Ep 1",url:"https://short.icu/NQDfYnkEK"},{name:"Ep 2",url:"https://short.icu/IgkpMTPBD"},{name:"Ep 3",url:"https://short.icu/F7rMSAuaX"},{name:"Ep 4",url:"https://short.icu/_CEJlj4gn"},{name:"Ep 5",url:"https://short.icu/wjHX8Xdia"},{name:"Ep 6",url:"https://short.icu/8VyinC3FN"},{name:"Ep 7",url:"https://short.icu/CHuUYPjB6"},{name:"Ep 8",url:"https://short.icu/QngkvFObG"},{name:"Ep 9",url:"https://short.icu/i959BzNU5"},{name:"Ep 10",url:"https://short.icu/9Lw4mnteb"},{name:"Ep 11",url:"https://short.icu/AuoAUGkQV"},{name:"Ep 12",url:"https://short.icu/3iEv1D8CO"},{name:"Ep 13",url:"https://short.icu/JhvBC3klK"},{name:"Ep 14",url:"https://short.icu/tq2JJ2h-t"},{name:"Ep 15",url:"https://short.icu/B9MImVNpI"},{name:"Ep 16",url:"https://short.icu/on6U1iQu2L"},{name:"Ep 17",url:"https://short.icu/MS67qCBvV"},{name:"Ep 18",url:"https://short.icu/iRdZ6ingSx"},{name:"Ep 19",url:"https://short.icu/BbI9SAXYz"},{name:"Ep 20",url:"https://short.icu/e0YUuWMFO"},{name:"Ep 21",url:"https://short.icu/1-J0SzGaw"},{name:"Ep 22",url:"https://short.icu/cQk5XhS5d"},{name:"Ep 23",url:"https://short.icu/56D2XJbs5"},{name:"Ep 24",url:"https://short.icu/mxAe2scQp"},{name:"Ep 25",url:"https://short.icu/clQa_2Gcq"}],
+    4: [{name:"Ep 1",url:"https://short.icu/5SxOSvDsy"},{name:"Ep 2",url:"https://short.icu/jvssZMzez"},{name:"Ep 3",url:"https://short.icu/qZd4m-YEY"},{name:"Ep 4",url:"https://short.icu/fu_dhP7QK"},{name:"Ep 5",url:"https://short.icu/Ig5Fq1Ooe"},{name:"Ep 6",url:"https://short.icu/2rR9tLPqV"},{name:"Ep 7",url:"https://short.icu/a0j0LD8z6"},{name:"Ep 8",url:"https://short.icu/Mih8hDd9I"},{name:"Ep 9",url:"https://short.icu/1G7IVblKl"},{name:"Ep 10",url:"https://short.icu/QSjfpFMaF"},{name:"Ep 11",url:"https://short.icu/3qw4_LWD0"},{name:"Ep 12",url:"https://short.icu/FzlwAmtY-"},{name:"Ep 13",url:"https://short.icu/dus2bN5Pj"},{name:"Ep 14",url:"https://short.icu/D3nj4_hXK"},{name:"Ep 15",url:"https://short.icu/AIbZ725Ho"},{name:"Ep 16",url:"https://short.icu/2VeFLXalF"},{name:"Ep 17",url:"https://short.icu/a3iCQOoDB"},{name:"Ep 18",url:"https://short.icu/KWY_ywyHU"},{name:"Ep 19",url:"https://short.icu/jtxchCSQF"},{name:"Ep 20",url:"https://short.icu/AxNyuyPkY"},{name:"Ep 21",url:"https://short.icu/PDgIREITh"},{name:"Ep 22",url:"https://short.icu/mFCJTa_1b"},{name:"Ep 23",url:"https://short.icu/JZMcpSEqu"},{name:"Ep 24",url:"https://short.icu/27fELYzQ1"},{name:"Ep 25",url:"https://short.icu/WzZSf883K"},{name:"OVA 1",url:"https://short.icu/WJyHkJrU1"},{name:"OVA 2",url:"https://short.icu/dOOFTbNlt"}],
+    5: [{name:"Ep 1",url:"https://short.icu/ywdRLSeAZ"},{name:"Ep 2",url:"https://short.icu/GLR1Rv7WJ"},{name:"Ep 3",url:"https://short.icu/BMWj1dv3y"},{name:"Ep 4",url:"https://short.icu/l7rXmFOje"},{name:"Ep 5",url:"https://short.icu/QPpSoPru7"},{name:"Ep 6",url:"https://short.icu/NwphlvU6t"},{name:"Ep 7",url:"https://short.icu/lZnpLnMA8"},{name:"Ep 8",url:"https://short.icu/n0QzdzBEGl"},{name:"Ep 9",url:"https://short.icu/lWUjmozMX"},{name:"Ep 10",url:"https://short.icu/frVhb0Gqo"},{name:"Ep 11",url:"https://short.icu/vMLq3TVdN"},{name:"Ep 12",url:"https://short.icu/h8ZNSgZN_"},{name:"Ep 13",url:"https://short.icu/WBmYlKZTyO"},{name:"Ep 14",url:"https://short.icu/yNaUjnxzb"},{name:"Ep 15",url:"https://short.icu/pI_z2qCUkw"},{name:"Ep 16",url:"https://short.icu/eXrIb9TOR"},{name:"Ep 17",url:"https://short.icu/P1JL4rbAZ"},{name:"Ep 18",url:"https://short.icu/g1GQ4RfjY"},{name:"Ep 19",url:"https://short.icu/i_nmK4Yfo"},{name:"Ep 20",url:"https://short.icu/fr-ZGNI9i"},{name:"Ep 21",url:"https://short.icu/oe6QtAeWO"},{name:"Ep 22",url:"https://short.icu/PvQ3sIPeS"},{name:"Ep 23",url:"https://short.icu/N_FG42_bq"},{name:"Ep 24",url:"https://short.icu/wpXwEIKZ-"},{name:"Ep 25",url:"https://short.icu/iM93Xqy-_"},{name:"OVA 1",url:"https://short.icu/ehDRDAYZ-"},{name:"OVA 2",url:"https://short.icu/J8GAdJx-EW"}],
+    6: [{name:"Ep 1",url:"https://short.icu/QfA8YVAvd"},{name:"Ep 2",url:"https://short.icu/BjeRBoBW7"},{name:"Ep 3",url:"https://short.icu/aTTQfbNPE"},{name:"Ep 4",url:"https://short.icu/3Gx0eQ6Di"},{name:"Ep 5",url:"https://short.icu/4IjIt9B8q"},{name:"Ep 6",url:"https://short.icu/IPkHqkmtO"},{name:"Ep 7",url:"https://short.icu/HoieQc_7R"},{name:"Ep 8",url:"https://short.icu/4gPlK1Zcj"},{name:"Ep 9",url:"https://short.icu/oZOHBQMFe"},{name:"Ep 10",url:"https://short.icu/hZpOh-3bD"},{name:"Ep 11",url:"https://short.icu/T9mAa6i60"},{name:"Ep 12",url:"https://short.icu/kd1yJI9j3"},{name:"Ep 13",url:"https://short.icu/I7J5BQ1Ae"},{name:"Ep 14",url:"https://short.icu/FIwkzhRk8"},{name:"Ep 15",url:"https://short.icu/jiNMwVrRG"},{name:"Ep 16",url:"https://short.icu/nn76C3ZGb"},{name:"Ep 17",url:"https://short.icu/colWLb5yj"},{name:"Ep 18",url:"https://short.icu/Ua7DXazCq"},{name:"Ep 19",url:"https://short.icu/lrobkYuEA"},{name:"Ep 20",url:"https://short.icu/fMlpTh8E5"},{name:"Ep 21",url:"https://short.icu/5U1FJlgpp"},{name:"Ep 22",url:"https://short.icu/0zcl4M9QO"},{name:"Ep 23",url:"https://short.icu/YdZUqKYsf"},{name:"Ep 24",url:"https://short.icu/vtHBwI4cH"},{name:"Ep 25",url:"https://short.icu/npVmu_P-3"},{name:"Ep 26",url:"https://short.icu/WmHB1nvXm"}],
+    7: [{name:"Ep 1",url:"https://short.icu/GVhh0fxWZ"},{name:"Ep 2",url:"https://short.icu/IAMjYMxzy"},{name:"Ep 3",url:"https://short.icu/QFsDXE4bs"},{name:"Ep 4",url:"https://short.icu/9nAoR9okc"},{name:"Ep 5",url:"https://short.icu/8j486Z_yd"},{name:"Ep 6",url:"https://short.icu/iqL5JfBMf"},{name:"Ep 7",url:"https://short.icu/speo2J2i0"},{name:"Ep 8",url:"https://short.icu/ILhcXUcx1n"},{name:"Ep 9",url:"https://short.icu/AAtV_rfyX"},{name:"Ep 10",url:"https://short.icu/JAnpYJj9u"},{name:"Ep 11",url:"https://short.icu/m8Y01aR7B"},{name:"Ep 12",url:"https://short.icu/xzcnwegF6"},{name:"Ep 13",url:"https://short.icu/pjXXJfDXq"},{name:"Ep 14",url:"https://short.icu/lQAbxaWZv"},{name:"Ep 15",url:"https://short.icu/5cm0d83yw"},{name:"Ep 16",url:"https://short.icu/I6g6B-tJH"},{name:"Ep 17",url:"https://short.icu/Mnh6JPAg_"},{name:"Ep 18",url:"https://short.icu/WMUU0Eo0P"},{name:"Ep 19",url:"https://short.icu/O56RdI_p7"},{name:"Ep 20",url:"https://short.icu/jbBrLjJAwt"},{name:"Ep 21",url:"https://short.icu/t8UbKygqQF"}]
+};
+
+let currentSeason = 1;
+
+function showLoader() { document.getElementById('loading-spinner').classList.remove('hidden'); }
+function hideLoader() { document.getElementById('loading-spinner').classList.add('hidden'); }
+
+function initSeasonTabs() {
+    const tabContainer = document.getElementById('season-tabs-list');
+    for (let i = 1; i <= 7; i++) {
+        const tab = document.createElement('div');
+        tab.className = `season-tab ${i === 1 ? 'active' : ''}`;
+        tab.innerText = `Season ${i}`;
+        tab.onclick = () => selectSeason(i, tab);
+        tabContainer.appendChild(tab);
+    }
+}
+
+function selectSeason(num, element) {
+    document.querySelectorAll('.season-tab').forEach(t => t.classList.remove('active'));
+    element.classList.add('active');
+    currentSeason = num;
+    loadEpisodes();
+}
+
+function loadEpisodes() {
+    const container = document.getElementById('episode-buttons');
+    container.innerHTML = '';
+    
+    const eps = episodes[currentSeason] || [];
+    eps.forEach(ep => {
+        const btn = document.createElement('button');
+        btn.className = 'episode-btn';
+        btn.textContent = ep.name;
+        btn.onclick = () => {
+            showLoader();
+            document.getElementById('video-player').src = ep.url;
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        };
+        container.appendChild(btn);
+    });
+
+    if(eps.length > 0){
+        showLoader();
+        document.getElementById('video-player').src = eps[0].url;
+    }
+}
+
+window.onload = () => {
+    initSeasonTabs();
+    loadEpisodes();
+};
+</script>
+
+</body>
+</html>
