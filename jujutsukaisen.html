@@ -1,246 +1,273 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Solo Leveling - Watch All Episodes in Hindi</title>
-  <style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jujutsu Kaisen Hindi Dub - All Episodes</title>
+<style>
+    :root {
+        --primary: #ff512f;
+        --secondary: #dd2476;
+        --bg: #0f0f1a;
+        --card-bg: #1e1e2f;
+    }
+
     body {
-      margin: 0;
-      background-color: #0b0b0b;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: white;
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        background: var(--bg);
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
     }
 
     header {
-      background-color: #141414;
-      padding: 15px 20px;
-      font-size: 24px;
-      font-weight: bold;
-      color: #00ff99;
-      text-align: center;
+        text-align: center;
+        padding: 30px 20px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        font-size: 2em;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.5);
     }
 
-    .player-section {
-      max-width: 960px;
-      margin: 20px auto;
-      padding: 0 15px;
+    /* PLAYER STYLES */
+    #player-container {
+        position: relative;
+        width: 95%;
+        max-width: 900px;
+        aspect-ratio: 16 / 9;
+        margin: 20px auto;
+        background: #000;
+        border-radius: 20px;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        overflow: hidden;
+        box-shadow: 0 0 30px rgba(255, 81, 47, 0.3);
     }
 
-    iframe {
-      width: 100%;
-      height: 480px;
-      border: none;
-      border-radius: 8px;
+    iframe { width: 100%; height: 100%; border: none; }
+
+    .loader {
+        position: absolute; top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        border: 5px solid #333;
+        border-top: 5px solid var(--primary);
+        border-radius: 50%;
+        width: 50px; height: 50px;
+        animation: spin 1s linear infinite;
+        z-index: 10;
     }
 
-    .server-tabs, .season-dropdown {
-      text-align: center;
-      margin-top: 20px;
+    @keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+
+    /* SEASON SELECTOR */
+    .season-container {
+        max-width: 1000px;
+        margin: 10px auto;
+        padding: 0 15px;
     }
 
-    .server-tabs button,
-    .dropdown-toggle,
-    .dropdown-content button {
-      background-color: #222;
-      color: white;
-      padding: 10px 16px;
-      border: 1px solid #00ff99;
-      margin: 5px;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: background 0.3s;
-      font-size: 16px;
+    .season-label {
+        font-size: 1.2em;
+        font-weight: bold;
+        margin-bottom: 10px;
+        display: block;
+        color: var(--primary);
     }
 
-    .server-tabs button.active,
-    .dropdown-content button.active {
-      background-color: #00ff99;
-      color: black;
+    .season-tabs {
+        display: flex;
+        overflow-x: auto;
+        gap: 12px;
+        padding: 10px 5px;
+        scrollbar-width: thin;
+        scrollbar-color: var(--primary) transparent;
     }
 
-    .dropdown-toggle {
-      display: inline-block;
+    .season-tabs::-webkit-scrollbar { height: 6px; }
+    .season-tabs::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+
+    .season-tab {
+        flex: 0 0 auto;
+        padding: 12px 25px;
+        background: var(--card-bg);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+        color: white;
     }
 
-    .dropdown-content {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s ease;
+    .season-tab.active {
+        background: var(--primary);
+        box-shadow: 0 0 15px var(--primary);
+        border-color: transparent;
     }
 
-    .dropdown-content.show {
-      max-height: 200px;
+    /* EPISODE GRID */
+    #episode-buttons {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 12px;
+        padding: 20px;
+        max-width: 1000px;
+        margin: 0 auto;
     }
 
-    .episodes-section {
-      max-width: 1000px;
-      margin: 0 auto 30px;
-      padding: 0 15px;
+    .episode-btn {
+        background: rgba(255, 255, 255, 0.05);
+        color: #fff;
+        border: 1px solid rgba(255,255,255,0.1);
+        padding: 15px 5px;
+        border-radius: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
     }
 
-    .episode-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-      gap: 12px;
+    .episode-btn:hover {
+        background: var(--secondary);
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(221, 36, 118, 0.4);
     }
 
-    .episode-button {
-      background-color: #1c1c1c;
-      border: 1px solid #00ff99;
-      color: #00ff99;
-      padding: 10px;
-      border-radius: 6px;
-      text-align: center;
-      cursor: pointer;
-      transition: background 0.2s, color 0.2s;
-    }
+    .hidden { display: none; }
 
-    .episode-button:hover {
-      background-color: #00ff99;
-      color: #000;
+    @media (max-width: 600px) {
+        header { font-size: 1.4em; }
+        .season-tab { padding: 10px 18px; font-size: 0.9em; }
     }
-
-    .hidden {
-      display: none;
-    }
-  </style>
+</style>
 </head>
 <body>
-  <header>Solo Leveling  - Hindi Dub</header>
 
-  <div class="player-section">
-    <iframe id="videoPlayer" src="" allowfullscreen></iframe>
+<header>Jujutsu Kaisen</header>
 
-    <div class="server-tabs">
-      <button onclick="setServer('filemoon')" id="filemoonBtn">Filemoon</button>
-      <button onclick="setServer('servabyss')" id="servabyssBtn">Servabyss</button>
-      <button onclick="setServer('vidgroud')" id="vidgroudBtn">Vidgroud</button>
-    </div>
+<div id="player-container">
+    <div id="loading-spinner" class="loader"></div>
+    <iframe id="video-player" src="" allowfullscreen onload="hideLoader()"></iframe>
+</div>
 
-    <div class="season-dropdown">
-      <button class="dropdown-toggle" onclick="toggleDropdown()">Seasons ▾</button>
-      <div class="dropdown-content" id="seasonDropdown">
-        <button onclick="setSeason('s1')" id="s1Btn">Season 1</button>
-        <button onclick="setSeason('s2')" id="s2Btn">Season 2</button>
-      </div>
-    </div>
-  </div>
+<div class="season-container">
+    <span class="season-label">Select Season:</span>
+    <div class="season-tabs" id="season-tabs-list"></div>
+</div>
 
-  <div class="episodes-section">
-    <div class="episode-grid" id="season1Episodes"></div>
-    <div class="episode-grid hidden" id="season2Episodes"></div>
-  </div>
+<div id="episode-buttons"></div>
 
-  <script>
-    const allEpisodes = {
-      filemoon: {
-        s1: [
-  { "name": "S1E1", "url": "https://filemoon.nl/e/jwhgvb6g9cwl/_Toonworld4all__Jujutsu_Kaisen_S01E01_1080p_x265_10bit_BluRay_Multi_Audio_ESub__SonyYay_Dub_" },
-  { "name": "S1E2", "url": "https://filemoon.nl/e/0t14zsu1debf/_Toonworld4all__Jujutsu_Kaisen_S01E02__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S1E3", "url": "https://filemoon.nl/e/ck6bkppp9qty/_Toonworld4all__Jujutsu_Kaisen_S01E03__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S1E4", "url": "https://filemoon.nl/e/lsfhk57vfs85/_Toonworld4all__Jujutsu_Kaisen_S01E04__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S1E5", "url": "https://filemoon.nl/e/7dcri80iw8sg/_Toonworld4all__Jujutsu_Kaisen_S01E05__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S1E6", "url": "https://filemoon.nl/e/3zwbvwwxsgn9/_Toonworld4all__Jujutsu_Kaisen_S01E06__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S1E7", "url": "https://filemoon.nl/e/tdjwqqzhj3br/_Toonworld4all__Jujutsu_Kaisen_S01E07__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S1E8", "url": "https://filemoon.nl/e/0fpfhyffcrh6/_Toonworld4all__Jujutsu_Kaisen_S01E08__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S1E9", "url": "https://filemoon.nl/e/xepcbbvnebc1/_Toonworld4all__Jujutsu_Kaisen_S01E09__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S1E10", "url": "https://filemoon.nl/e/sslhr5mey86l/_Toonworld4all__Jujutsu_Kaisen_S01E10__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S1E11", "url": "https://filemoon.nl/e/32y532q2btke/_Toonworld4all__Jujutsu_Kaisen_S01E11__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S1E12", "url": "https://filemoon.nl/e/abiyz7t9k8s9/_Toonhub4u__Jujutsu_Kaisen_S01E12__BDRip_720p_x264___Multi_Audio__ESub" },
-  { "name": "S1E13", "url": "https://filemoon.nl/e/mutz7w9mf3zx/_Toonworld4all__Jujutsu_Kaisen_S01E13__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S1E14", "url": "https://filemoon.nl/e/cl9fbog6ycjd/_Toonworld4all__Jujutsu_Kaisen_S01E14__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S1E15", "url": "https://filemoon.nl/e/0tn66yly96du/_Toonworld4all__Jujutsu_Kaisen_S01E15__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S1E16", "url": "https://filemoon.nl/e/p13d2b9wrgr2/_Toonworld4all__Jujutsu_Kaisen_S01E16__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S1E17", "url": "https://filemoon.nl/e/0thdm0263t2j/_Toonworld4all__Jujutsu_Kaisen_S01E17__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S1E18", "url": "https://filemoon.nl/e/b7q35q1vgcgz/_Toonhub4u__Jujutsu_Kaisen_S01E18__BDRip_720p_x264___Multi_Audio__ESub" },
-  { "name": "S1E19", "url": "https://filemoon.nl/e/jbilsscd1prp/_Toonworld4all__Jujutsu_Kaisen_S01E19__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S1E20", "url": "https://filemoon.nl/e/0y567bwgpdka/_Toonworld4all__Jujutsu_Kaisen_S01E20__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S1E21", "url": "https://filemoon.nl/e/la9uelsxnk5k/_Toonworld4all__Jujutsu_Kaisen_S01E21__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S1E22", "url": "https://filemoon.nl/e/aol6eke3v50d/_Toonworld4all__Jujutsu_Kaisen_S01E22__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S1E23", "url": "https://filemoon.nl/e/ytfn1q01y6vo/_Toonworld4all__Jujutsu_Kaisen_S01E23__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S1E24", "url": "https://filemoon.nl/e/dcufwdi4qt61/_Toonworld4all__Jujutsu_Kaisen_S01E24__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-],
-        s2: [
-  { "name": "S2E1", "url": "https://filemoon.nl/e/k0k2t7jm4ex1/_Toonworld4all__Jujutsu_Kaisen_S02E01__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S2E2", "url": "https://filemoon.nl/e/isnpm9bgs0xf/_Toonworld4all__Jujutsu_Kaisen_S02E02__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S2E3", "url": "https://filemoon.nl/e/rexo7emi1799/_Toonworld4all__Jujutsu_Kaisen_S02E03__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S2E4", "url": "https://filemoon.nl/e/mwt2zszma8bp/_Toonworld4all__Jujutsu_Kaisen_S02E04__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S2E5", "url": "https://filemoon.nl/e/cjn5821f6ubd/_Toonworld4all__Jujutsu_Kaisen_S02E05__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S2E6", "url": "https://filemoon.nl/e/f5m43007o0v0/_Toonworld4all__Jujutsu_Kaisen_S02E06__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S2E7", "url": "https://filemoon.nl/e/3d5xt65i1ugt/_Toonworld4all__Jujutsu_Kaisen_S02E07__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S2E8", "url": "https://filemoon.nl/e/xxgfnvryqtom/_Toonworld4all__Jujutsu_Kaisen_S02E08__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S2E9", "url": "https://filemoon.nl/e/ofxksgrlf18w/_Toonworld4all__Jujutsu_Kaisen_S02E09__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S2E10", "url": "https://filemoon.nl/e/lurpe7recb8f/_Toonworld4all__Jujutsu_Kaisen_S02E10__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S2E11", "url": "https://filemoon.nl/e/2f6e4g3lio7t/_Toonworld4all__Jujutsu_Kaisen_S02E11__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S2E12", "url": "https://filemoon.nl/e/6y6tri7brw97/_Toonworld4all__Jujutsu_Kaisen_S02E12__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S2E13", "url": "https://filemoon.nl/e/cl6qgnhyz952/_Toonworld4all__Jujutsu_Kaisen_S02E13__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S2E14", "url": "https://filemoon.nl/e/0ms0rm1b762z/_Toonworld4all__Jujutsu_Kaisen_S02E14__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S2E15", "url": "https://filemoon.nl/e/v19mkz5wo7yd/_Toonworld4all__Jujutsu_Kaisen_S02E15__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S2E16", "url": "https://filemoon.nl/e/vhgelnu562aj/_Toonworld4all__Jujutsu_Kaisen_S02E16__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S2E17", "url": "https://filemoon.nl/e/97mq19z3iwgw/_Toonworld4all__Jujutsu_Kaisen_S02E17__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S2E18", "url": "https://filemoon.nl/e/1l5ghyk8ueer/_Toonworld4all__Jujutsu_Kaisen_S02E18__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S2E19", "url": "https://filemoon.nl/e/ofaqp3c93kyd/_Toonworld4all__Jujutsu_Kaisen_S02E19__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S2E20", "url": "https://filemoon.nl/e/6tr88cb8pbov/_Toonworld4all__Jujutsu_Kaisen_S02E20__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S2E21", "url": "https://filemoon.nl/e/8uv9z4emy1tv/_Toonworld4all__Jujutsu_Kaisen_S02E21__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S2E22", "url": "https://filemoon.nl/e/031rxarkhhf6/_Toonworld4all__Jujutsu_Kaisen_S02E22__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-  { "name": "S2E23", "url": "https://filemoon.nl/e/1e6bm5oy7kv5/_Toonworld4all__Jujutsu_Kaisen_S02E23__BDRip_1080p_x265_10bit___Multi_Audio__ESub" },
-]
-      },
-      servabyss: { s1: [], s2: [] },
-      vidgroud: { s1: [], s2: [] }
-    };
+<script>
+// Data integrated from your first file
+const episodes = {
+    1: [
+        { "name": "1", "url": "https://short.icu/sjTvSXysN" },
+        { "name": "2", "url": "https://short.icu/QmiubMl5P" },
+        { "name": "3", "url": "https://short.icu/UpTbQ7b3f" },
+        { "name": "4", "url": "https://short.icu/QumXz5R5Ur" },
+        { "name": "5", "url": "https://short.icu/hTlQAn-M9" },
+        { "name": "6", "url": "https://short.icu/8W8MFq9Hz" },
+        { "name": "7", "url": "https://short.icu/Ypr15QiFJ" },
+        { "name": "8", "url": "https://short.icu/OlTX8R55T" },
+        { "name": "9", "url": "https://short.icu/Hn21z8aOt" },
+        { "name": "10", "url": "https://short.icu/orAkmY4sA" },
+        { "name": "11", "url": "https://short.icu/OIgEMaUoH" },
+        { "name": "12", "url": "https://short.icu/1AfhfiP__" },
+        { "name": "13", "url": "https://short.icu/LL2dKPYo_" },
+        { "name": "14", "url": "https://short.icu/_eo_OU79X" },
+        { "name": "15", "url": "https://short.icu/US2fkGk51" },
+        { "name": "16", "url": "https://short.icu/jv7wn-mPA" },
+        { "name": "17", "url": "https://short.icu/hegyxzIpg" },
+        { "name": "18", "url": "https://short.icu/ifyupuAUw" },
+        { "name": "19", "url": "https://short.icu/5XFZwm0dM" },
+        { "name": "20", "url": "https://short.icu/O6y3cz1Te" },
+        { "name": "21", "url": "https://short.icu/lOt3pb0dm" },
+        { "name": "22", "url": "https://short.icu/I7ZGoMIGe" },
+        { "name": "23", "url": "https://short.icu/VP7fx7zyl" },
+        { "name": "24", "url": "https://short.icu/PlpsAtGPn" }
+    ],
+    2: [
+        { "name": "1", "url": "https://short.icu/H4ZLe0Unl" },
+        { "name": "2", "url": "https://short.icu/t1S1xd9xeA" },
+        { "name": "3", "url": "https://short.icu/dJ0KZXHAv" },
+        { "name": "4", "url": "https://short.icu/a371T4AT4" },
+        { "name": "5", "url": "https://short.icu/Jt5Sy-OT_" },
+        { "name": "6", "url": "https://short.icu/0ZJLyeGkd" },
+        { "name": "7", "url": "https://short.icu/91NOtPyN3" },
+        { "name": "8", "url": "https://short.icu/DupTlmNwP" },
+        { "name": "9", "url": "https://short.icu/np2W9_usJ" },
+        { "name": "10", "url": "https://short.icu/pzwLFJIpH" },
+        { "name": "11", "url": "https://short.icu/rAqDbkK-Y" },
+        { "name": "12", "url": "https://short.icu/G58J5e4o3" },
+        { "name": "13", "url": "https://short.icu/bRKLaOMo2" },
+        { "name": "14", "url": "https://short.icu/JgDzLC12J" },
+        { "name": "15", "url": "https://short.icu/zN7S8ngFJ" },
+        { "name": "16", "url": "https://short.icu/UE5AYXpUF" },
+        { "name": "17", "url": "https://short.icu/pOl0etlod" },
+        { "name": "18", "url": "https://short.icu/-MGA82_Oy" },
+        { "name": "19", "url": "https://short.icu/bpeiY5EFN" },
+        { "name": "20", "url": "https://short.icu/x4DrarLuq" },
+        { "name": "21", "url": "https://short.icu/xTIWih6Dx" },
+        { "name": "22", "url": "https://short.icu/DBZ1KGR9p" },
+        { "name": "23", "url": "https://short.icu/cChy91u2A" }
+    ]
+};
 
-    let currentServer = 'filemoon';
-    let currentSeason = 's1';
+let currentSeason = 1;
 
-    function loadEpisodes(server, season) {
-      const epList = allEpisodes[server][season];
-      const container = document.getElementById(season === 's1' ? 'season1Episodes' : 'season2Episodes');
-      container.innerHTML = '';
+function showLoader() { document.getElementById('loading-spinner').classList.remove('hidden'); }
+function hideLoader() { document.getElementById('loading-spinner').classList.add('hidden'); }
 
-      epList.forEach(ep => {
-        const btn = document.createElement('div');
-        btn.className = 'episode-button';
-        btn.textContent = ep.name;
-        btn.onclick = () => loadVideo(ep.url);
+function initSeasonTabs() {
+    const tabContainer = document.getElementById('season-tabs-list');
+    const seasonNames = ["Season 1: Cursed Child", "Season 2: Shibuya Incident"];
+
+    for (let i = 1; i <= 2; i++) {
+        const tab = document.createElement('div');
+        tab.className = `season-tab ${i === 1 ? 'active' : ''}`;
+        tab.innerText = seasonNames[i-1];
+        tab.onclick = () => selectSeason(i, tab);
+        tabContainer.appendChild(tab);
+    }
+}
+
+function selectSeason(num, element) {
+    document.querySelectorAll('.season-tab').forEach(t => t.classList.remove('active'));
+    element.classList.add('active');
+    currentSeason = num;
+    loadEpisodes();
+}
+
+function loadEpisodes() {
+    const container = document.getElementById('episode-buttons');
+    container.innerHTML = '';
+    
+    const eps = episodes[currentSeason] || [];
+    eps.forEach(ep => {
+        const btn = document.createElement('button');
+        btn.className = 'episode-btn';
+        btn.textContent = `Ep ${ep.name}`;
+        btn.onclick = () => {
+            showLoader();
+            document.getElementById('video-player').src = ep.url;
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        };
         container.appendChild(btn);
-      });
+    });
+
+    if(eps.length > 0){
+        showLoader();
+        document.getElementById('video-player').src = eps[0].url;
     }
+}
 
-    function loadVideo(url) {
-      document.getElementById('videoPlayer').src = url;
-    }
+window.onload = () => {
+    initSeasonTabs();
+    loadEpisodes();
+};
+</script>
 
-    function setServer(server) {
-      currentServer = server;
-      document.querySelectorAll('.server-tabs button').forEach(btn => btn.classList.remove('active'));
-      document.getElementById(server + 'Btn').classList.add('active');
-      setSeason(currentSeason); // refresh season view
-    }
-
-    function setSeason(season) {
-      currentSeason = season;
-      document.querySelectorAll('.dropdown-content button').forEach(btn => btn.classList.remove('active'));
-      document.getElementById(season + 'Btn').classList.add('active');
-
-      document.getElementById('season1Episodes').classList.add('hidden');
-      document.getElementById('season2Episodes').classList.add('hidden');
-
-      document.getElementById(season === 's1' ? 'season1Episodes' : 'season2Episodes').classList.remove('hidden');
-
-      loadEpisodes(currentServer, season);
-
-      const firstEp = allEpisodes[currentServer][season][0];
-      if (firstEp) loadVideo(firstEp.url);
-    }
-
-    function toggleDropdown() {
-      document.getElementById('seasonDropdown').classList.toggle('show');
-    }
-
-    // Default load
-    setServer('filemoon');
-  </script>
 </body>
 </html>
