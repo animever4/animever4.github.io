@@ -1,215 +1,254 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Solo Leveling - Watch All Episodes in Hindi</title>
-  <style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>One Punch Man Hindi Dub - All Episodes</title>
+<style>
+    :root {
+        --primary: #00ff99;
+        --secondary: #008852;
+        --bg: #0b0b0b;
+        --card-bg: #1c1c1c;
+    }
+
     body {
-      margin: 0;
-      background-color: #0b0b0b;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: white;
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        background: var(--bg);
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
     }
 
     header {
-      background-color: #141414;
-      padding: 15px 20px;
-      font-size: 24px;
-      font-weight: bold;
-      color: #00ff99;
-      text-align: center;
+        text-align: center;
+        padding: 30px 20px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        font-size: 2em;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #000;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.5);
     }
 
-    .player-section {
-      max-width: 960px;
-      margin: 20px auto;
-      padding: 0 15px;
+    /* PLAYER STYLES */
+    #player-container {
+        position: relative;
+        width: 95%;
+        max-width: 900px;
+        aspect-ratio: 16 / 9;
+        margin: 20px auto;
+        background: #000;
+        border-radius: 20px;
+        border: 2px solid rgba(0, 255, 153, 0.2);
+        overflow: hidden;
+        box-shadow: 0 0 30px rgba(0, 255, 153, 0.2);
     }
 
-    iframe {
-      width: 100%;
-      height: 480px;
-      border: none;
-      border-radius: 8px;
+    iframe { width: 100%; height: 100%; border: none; }
+
+    .loader {
+        position: absolute; top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        border: 5px solid #333;
+        border-top: 5px solid var(--primary);
+        border-radius: 50%;
+        width: 50px; height: 50px;
+        animation: spin 1s linear infinite;
+        z-index: 10;
     }
 
-    .server-tabs, .season-dropdown {
-      text-align: center;
-      margin-top: 20px;
+    @keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+
+    /* SEASON SELECTOR */
+    .season-container {
+        max-width: 1000px;
+        margin: 10px auto;
+        padding: 0 15px;
     }
 
-    .server-tabs button,
-    .dropdown-toggle,
-    .dropdown-content button {
-      background-color: #222;
-      color: white;
-      padding: 10px 16px;
-      border: 1px solid #00ff99;
-      margin: 5px;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: background 0.3s;
-      font-size: 16px;
+    .season-label {
+        font-size: 1.2em;
+        font-weight: bold;
+        margin-bottom: 10px;
+        display: block;
+        color: var(--primary);
     }
 
-    .server-tabs button.active,
-    .dropdown-content button.active {
-      background-color: #00ff99;
-      color: black;
+    .season-tabs {
+        display: flex;
+        overflow-x: auto;
+        gap: 12px;
+        padding: 10px 5px;
+        scrollbar-width: thin;
+        scrollbar-color: var(--primary) transparent;
     }
 
-    .dropdown-toggle {
-      display: inline-block;
+    .season-tabs::-webkit-scrollbar { height: 6px; }
+    .season-tabs::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+
+    .season-tab {
+        flex: 0 0 auto;
+        padding: 12px 25px;
+        background: var(--card-bg);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        white-space: nowrap;
     }
 
-    .dropdown-content {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s ease;
+    .season-tab.active {
+        background: var(--primary);
+        color: #000;
+        box-shadow: 0 0 15px var(--primary);
+        border-color: transparent;
     }
 
-    .dropdown-content.show {
-      max-height: 200px;
+    /* EPISODE GRID */
+    #episode-buttons {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        gap: 12px;
+        padding: 20px;
+        max-width: 1000px;
+        margin: 0 auto;
     }
 
-    .episodes-section {
-      max-width: 1000px;
-      margin: 0 auto 30px;
-      padding: 0 15px;
+    .episode-btn {
+        background: rgba(255, 255, 255, 0.05);
+        color: #fff;
+        border: 1px solid rgba(0, 255, 153, 0.3);
+        padding: 15px 5px;
+        border-radius: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
     }
 
-    .episode-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-      gap: 12px;
+    .episode-btn:hover {
+        background: var(--primary);
+        color: #000;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 255, 153, 0.4);
     }
 
-    .episode-button {
-      background-color: #1c1c1c;
-      border: 1px solid #00ff99;
-      color: #00ff99;
-      padding: 10px;
-      border-radius: 6px;
-      text-align: center;
-      cursor: pointer;
-      transition: background 0.2s, color 0.2s;
-    }
+    .hidden { display: none; }
 
-    .episode-button:hover {
-      background-color: #00ff99;
-      color: #000;
+    @media (max-width: 600px) {
+        header { font-size: 1.4em; }
+        .season-tab { padding: 10px 18px; font-size: 0.9em; }
     }
-
-    .hidden {
-      display: none;
-    }
-  </style>
+</style>
 </head>
 <body>
-  <header>One Punch Man  - Hindi Dub</header>
 
-  <div class="player-section">
-    <iframe id="videoPlayer" src="" allowfullscreen></iframe>
+<header>One Punch Man</header>
 
-    <div class="server-tabs">
-      <button onclick="setServer('filemoon')" id="filemoonBtn">Filemoon</button>
-      <button onclick="setServer('servabyss')" id="servabyssBtn">Servabyss</button>
-      <button onclick="setServer('vidgroud')" id="vidgroudBtn">Vidgroud</button>
-    </div>
+<div id="player-container">
+    <div id="loading-spinner" class="loader"></div>
+    <iframe id="video-player" src="" allowfullscreen onload="hideLoader()"></iframe>
+</div>
 
-    <div class="season-dropdown">
-      <button class="dropdown-toggle" onclick="toggleDropdown()">Seasons ▾</button>
-      <div class="dropdown-content" id="seasonDropdown">
-        <button onclick="setSeason('s1')" id="s1Btn">Season 1</button>
-        <button onclick="setSeason('s2')" id="s2Btn">Season 2</button>
-      </div>
-    </div>
-  </div>
+<div class="season-container">
+    <span class="season-label">Select Season:</span>
+    <div class="season-tabs" id="season-tabs-list">
+        </div>
+</div>
 
-  <div class="episodes-section">
-    <div class="episode-grid" id="season1Episodes"></div>
-    <div class="episode-grid hidden" id="season2Episodes"></div>
-  </div>
+<div id="episode-buttons"></div>
 
-  <script>
-    const allEpisodes = {
-      filemoon: {
-        s1: [
-  { "name": "S1 Episode-1", "url": "https://filemoon.nl/e/orb8m82n5gnb" },
-  { "name": "S1 Episode-2", "url": "https://filemoon.nl/e/lyihujz3ilyu" },
-  { "name": "S1 Episode-3", "url": "https://filemoon.nl/e/s735uhlx7zd0" },
-  { "name": "S1 Episode-4", "url": "https://filemoon.nl/e/zpb2vkmw57ov" },
-  { "name": "S1 Episode-5", "url": "https://filemoon.nl/e/uzqqwiydyr6g" },
-  { "name": "S1 Episode-6", "url": "https://filemoon.nl/e/9k2ql0hqd6b0" },
-  { "name": "S1 Episode-7", "url": "https://filemoon.nl/e/zkqvtyg3l20t" },
-  { "name": "S1 Episode-8", "url": "https://filemoon.nl/e/ognypepspydc" },
-  { "name": "S1 Episode-9", "url": "https://filemoon.nl/e/tedtfkzjhdyt" },
-  { "name": "S1 Episode-10", "url": "https://filemoon.nl/e/roasogpqu6ln" },
-  { "name": "S1 Episode-11", "url": "https://filemoon.nl/e/zsxyxhfu4mb3" },
-  { "name": "S1 Episode-12", "url": "https://filemoon.nl/e/93g2qld3wgsi" },
-],
-        s2: [
-    { "name": "S2 Start Episode-1", "url": "https://filemoon.nl/e/iyfuivd0d5g6/_Toonworld4all__One_Punch_Man_S02E01__1080p_BD_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S2 Episode-2", "url": "https://filemoon.nl/e/lq73r8wnj1bb/_Toonhub4u__One_Punch_Man_S02E02__720p_BD_Multi_Audio__ESub" },
-  { "name": "S2 Episode-3", "url": "https://filemoon.nl/e/fnzwl3htk2ls/_Toonhub4u__One_Punch_Man_S02E03__720p_BD_Multi_Audio__ESub" },
-  { "name": "S2 Episode-4", "url": "https://filemoon.nl/e/o00kb4d20tv2/_Toonhub4u__One_Punch_Man_S02E04__720p_BD_Multi_Audio__ESub" },
-]
-      },
-      servabyss: { s1: [], s2: [] },
-      vidgroud: { s1: [], s2: [] }
-    };
+<script>
+const episodes = {
+    1: [
+        { "name": "1", "url": "https://short.icu/-pQoCNca7" },
+        { "name": "2", "url": "https://short.icu/_8HKwdFoN" },
+        { "name": "3", "url": "https://short.icu/3fDdlhlVI" },
+        { "name": "4", "url": "https://short.icu/FIGXAQ0xc" },
+        { "name": "5", "url": "https://short.icu/3jtNoSYdU" },
+        { "name": "6", "url": "https://short.icu/MEmXOD_6f" },
+        { "name": "7", "url": "https://short.icu/xmBOf8lOj" },
+        { "name": "8", "url": "https://short.icu/Xl3nxTkpyR" },
+        { "name": "9", "url": "https://short.icu/4D7tYygLy" },
+        { "name": "10", "url": "https://short.icu/KJ88eBow7" },
+        { "name": "11", "url": "https://short.icu/6Yt1dABp3" },
+        { "name": "12", "url": "https://short.icu/9GDzDFKY2" }
+    ],
+    2: [
+        { "name": "13", "url": "https://short.icu/3LUQOWu5P" },
+        { "name": "14", "url": "https://short.icu/0nfEcezTV" },
+        { "name": "15", "url": "https://short.icu/4oZ2TUw6l" },
+        { "name": "16", "url": "https://short.icu/X785pUJo-" },
+        { "name": "17", "url": "https://short.icu/TeZiikg88" },
+        { "name": "18", "url": "https://short.icu/0VDfsRE1J" },
+        { "name": "19", "url": "https://short.icu/aCAXoya0u" },
+        { "name": "20", "url": "https://short.icu/SNxfQw2rF" }
+    ],
+    3: [
+        { "name": "21", "url": "https://short.icu/FqCZQsdLm" },
+        { "name": "22", "url": "https://short.icu/TO1Xmwm4j" },
+        { "name": "23", "url": "https://short.icu/_sz-ZtmJ8" },
+        { "name": "24", "url": "https://short.icu/FHg7hWESe" }
+    ]
+};
 
-    let currentServer = 'filemoon';
-    let currentSeason = 's1';
+let currentSeason = 1;
 
-    function loadEpisodes(server, season) {
-      const epList = allEpisodes[server][season];
-      const container = document.getElementById(season === 's1' ? 'season1Episodes' : 'season2Episodes');
-      container.innerHTML = '';
+function showLoader() { document.getElementById('loading-spinner').classList.remove('hidden'); }
+function hideLoader() { document.getElementById('loading-spinner').classList.add('hidden'); }
 
-      epList.forEach(ep => {
-        const btn = document.createElement('div');
-        btn.className = 'episode-button';
-        btn.textContent = ep.name;
-        btn.onclick = () => loadVideo(ep.url);
+function initSeasonTabs() {
+    const tabContainer = document.getElementById('season-tabs-list');
+    const seasonNames = ["Season 1", "Season 2", "Season 3"];
+
+    for (let i = 1; i <= 3; i++) {
+        const tab = document.createElement('div');
+        tab.className = `season-tab ${i === 1 ? 'active' : ''}`;
+        tab.innerText = seasonNames[i-1];
+        tab.onclick = () => selectSeason(i, tab);
+        tabContainer.appendChild(tab);
+    }
+}
+
+function selectSeason(num, element) {
+    document.querySelectorAll('.season-tab').forEach(t => t.classList.remove('active'));
+    element.classList.add('active');
+    currentSeason = num;
+    loadEpisodes();
+}
+
+function loadEpisodes() {
+    const container = document.getElementById('episode-buttons');
+    container.innerHTML = '';
+    
+    const eps = episodes[currentSeason] || [];
+    eps.forEach(ep => {
+        const btn = document.createElement('button');
+        btn.className = 'episode-btn';
+        btn.textContent = `Ep ${ep.name}`;
+        btn.onclick = () => {
+            showLoader();
+            document.getElementById('video-player').src = ep.url;
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        };
         container.appendChild(btn);
-      });
+    });
+
+    if(eps.length > 0){
+        showLoader();
+        document.getElementById('video-player').src = eps[0].url;
     }
+}
 
-    function loadVideo(url) {
-      document.getElementById('videoPlayer').src = url;
-    }
+window.onload = () => {
+    initSeasonTabs();
+    loadEpisodes();
+};
+</script>
 
-    function setServer(server) {
-      currentServer = server;
-      document.querySelectorAll('.server-tabs button').forEach(btn => btn.classList.remove('active'));
-      document.getElementById(server + 'Btn').classList.add('active');
-      setSeason(currentSeason); // refresh season view
-    }
-
-    function setSeason(season) {
-      currentSeason = season;
-      document.querySelectorAll('.dropdown-content button').forEach(btn => btn.classList.remove('active'));
-      document.getElementById(season + 'Btn').classList.add('active');
-
-      document.getElementById('season1Episodes').classList.add('hidden');
-      document.getElementById('season2Episodes').classList.add('hidden');
-
-      document.getElementById(season === 's1' ? 'season1Episodes' : 'season2Episodes').classList.remove('hidden');
-
-      loadEpisodes(currentServer, season);
-
-      const firstEp = allEpisodes[currentServer][season][0];
-      if (firstEp) loadVideo(firstEp.url);
-    }
-
-    function toggleDropdown() {
-      document.getElementById('seasonDropdown').classList.toggle('show');
-    }
-
-    // Default load
-    setServer('filemoon');
-  </script>
 </body>
 </html>

@@ -1,186 +1,235 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tokyo Revengers - Hindi Dub - Watch All Episodes</title>
-  <style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tokyo Revengers Hindi Dub - All Episodes</title>
+<style>
+    :root {
+        --primary: #ffcc00; /* Tokyo Revengers Yellow */
+        --secondary: #333333;
+        --bg: #0b0b0b;
+        --card-bg: #1c1c1c;
+    }
+
     body {
-      margin: 0;
-      background-color: #0b0b0b;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: white;
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        background: var(--bg);
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
     }
+
     header {
-      background-color: #141414;
-      padding: 15px 20px;
-      font-size: 24px;
-      font-weight: bold;
-      color: #00ff99;
-      text-align: center;
+        text-align: center;
+        padding: 30px 20px;
+        background: linear-gradient(135deg, var(--primary), #e6b800);
+        font-size: 2em;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #000;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.5);
     }
-    .player-section {
-      max-width: 960px;
-      margin: 20px auto;
-      padding: 0 15px;
+
+    /* PLAYER STYLES */
+    #player-container {
+        position: relative;
+        width: 95%;
+        max-width: 900px;
+        aspect-ratio: 16 / 9;
+        margin: 20px auto;
+        background: #000;
+        border-radius: 20px;
+        border: 2px solid rgba(255, 204, 0, 0.2);
+        overflow: hidden;
+        box-shadow: 0 0 30px rgba(255, 204, 0, 0.1);
     }
-    iframe {
-      width: 100%;
-      height: 480px;
-      border: none;
-      border-radius: 8px;
+
+    iframe { width: 100%; height: 100%; border: none; }
+
+    .loader {
+        position: absolute; top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        border: 5px solid #333;
+        border-top: 5px solid var(--primary);
+        border-radius: 50%;
+        width: 50px; height: 50px;
+        animation: spin 1s linear infinite;
+        z-index: 10;
     }
-    .server-tabs, .season-dropdown {
-      text-align: center;
-      margin-top: 20px;
+
+    @keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+
+    /* SEASON SELECTOR */
+    .season-container {
+        max-width: 1000px;
+        margin: 10px auto;
+        padding: 0 15px;
     }
-    .server-tabs button,
-    .dropdown-toggle,
-    .dropdown-content button {
-      background-color: #222;
-      color: white;
-      padding: 10px 16px;
-      border: 1px solid #00ff99;
-      margin: 5px;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: background 0.3s;
-      font-size: 16px;
+
+    .season-label {
+        font-size: 1.2em;
+        font-weight: bold;
+        margin-bottom: 10px;
+        display: block;
+        color: var(--primary);
     }
-    .server-tabs button.active,
-    .dropdown-content button.active {
-      background-color: #00ff99;
-      color: black;
+
+    .season-tabs {
+        display: flex;
+        overflow-x: auto;
+        gap: 12px;
+        padding: 10px 5px;
+        scrollbar-width: thin;
+        scrollbar-color: var(--primary) transparent;
     }
-    .dropdown-toggle {
-      display: inline-block;
+
+    .season-tabs::-webkit-scrollbar { height: 6px; }
+    .season-tabs::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+
+    .season-tab {
+        flex: 0 0 auto;
+        padding: 12px 25px;
+        background: var(--card-bg);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        white-space: nowrap;
     }
-    .dropdown-content {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s ease;
+
+    .season-tab.active {
+        background: var(--primary);
+        color: #000;
+        box-shadow: 0 0 15px var(--primary);
+        border-color: transparent;
     }
-    .dropdown-content.show {
-      max-height: 200px;
+
+    /* EPISODE GRID */
+    #episode-buttons {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 12px;
+        padding: 20px;
+        max-width: 1000px;
+        margin: 0 auto;
     }
-    .episodes-section {
-      max-width: 1000px;
-      margin: 0 auto 30px;
-      padding: 0 15px;
+
+    .episode-btn {
+        background: rgba(255, 255, 255, 0.05);
+        color: #fff;
+        border: 1px solid rgba(255, 204, 0, 0.3);
+        padding: 15px 5px;
+        border-radius: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
     }
-    .episode-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-      gap: 12px;
+
+    .episode-btn:hover {
+        background: var(--primary);
+        color: #000;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(255, 204, 0, 0.3);
     }
-    .episode-button {
-      background-color: #1c1c1c;
-      border: 1px solid #00ff99;
-      color: #00ff99;
-      padding: 10px;
-      border-radius: 6px;
-      text-align: center;
-      cursor: pointer;
-      transition: background 0.2s, color 0.2s;
+
+    .hidden { display: none; }
+
+    @media (max-width: 600px) {
+        header { font-size: 1.4em; }
+        .season-tab { padding: 10px 18px; font-size: 0.9em; }
     }
-    .episode-button:hover {
-      background-color: #00ff99;
-      color: #000;
-    }
-    .hidden {
-      display: none;
-    }
-  </style>
+</style>
 </head>
 <body>
-  <header>Tokyo Revengers - Hindi Dub</header>
-  <div class="player-section">
-    <iframe id="videoPlayer" src="" allowfullscreen></iframe>
-    <div class="server-tabs">
-      <button onclick="setServer('filemoon')" id="filemoonBtn">Filemoon</button>
-    </div>
-    <div class="season-dropdown">
-      <button class="dropdown-toggle" onclick="toggleDropdown()">Seasons ▾</button>
-      <div class="dropdown-content" id="seasonDropdown">
-        <button onclick="setSeason('s1')" id="s1Btn">Season 1</button>
-      </div>
-    </div>
-  </div>
-  <div class="episodes-section">
-    <div class="episode-grid hidden" id="s1Episodes"></div>
-  </div>
-  <script>
-    const allEpisodes = {
-  "filemoon": {
-    "s1": [
-  { name: "S1E1", url: "https://filemoon.nl/e/ix8kgt8jjj2r/Toonhub4u__Tokyo_Revengers_S01E01__Hin-Eng-Jap___1080p___English-Sub" },
-  { name: "S1E2", url: "https://filemoon.nl/e/hgchwsyouurf/S1_e2" },
-  { name: "S1E3", url: "https://filemoon.nl/e/c1bdl4iqs9fl/S1_e3" },
-  { name: "S1E4", url: "https://filemoon.nl/e/v70r4covqato/S1_e4" },
-  { name: "S1E5", url: "https://filemoon.nl/e/fphzplqy9d52/Toonhub4u__Tokyo_Revengers_S01E05__Hin-Eng-Jap___1080p___English-Sub" },
-  { name: "S1E6", url: "https://filemoon.nl/e/oxi4wzttu7yn/_Toonhub4u__Tokyo_Revengers_S01E06_720p_BDRip__Hindi-Eng-Jap__ESub" },
-  { name: "S1E7", url: "https://filemoon.nl/e/ekoy209lem1o/_Toonhub4u__Tokyo_Revengers_S01E07_720p_BDRip__Hindi-Eng-Jap__ESub" },
-  { name: "S1E8", url: "https://filemoon.nl/e/i65fu70jiyxr/S1_episode_8" },
-  { name: "S1E9", url: "https://filemoon.nl/e/cpoa6432l6rq/_Toonhub4u__Tokyo_Revengers_S01E09_720p_BDRip__Hindi-Eng-Jap__ESub" },
-  { name: "S1E10", url: "https://filemoon.nl/e/ec9vhqq5tpaj/S1_episode_10" },
-  { name: "S1E11", url: "https://filemoon.nl/e/vaykvylv3u7y/_Toonhub4u__Tokyo_Revengers_S01E11_720p_BDRip__Hindi-Eng-Jap__ESub" },
-  { name: "S1E12", url: "https://filemoon.nl/e/jzytgmwl0emv/_Toonhub4u__Tokyo_Revengers_S01E12_720p_BDRip__Hindi-Eng-Jap__ESub" },
-  { name: "S1E13", url: "https://filemoon.nl/e/7mz8s2vxmbr8/_Toonhub4u__Tokyo_Revengers_S01E13_720p_BDRip__Hindi-Eng-Jap__ESub" },
-  { name: "S1E14", url: "https://filemoon.nl/e/isghlv77usze/_Toonhub4u__Tokyo_Revengers_S01E14_720p_BDRip__Hindi-Eng-Jap__ESub" },
-  { name: "S1E15", url: "https://filemoon.nl/e/ux0vzvtlibev" },
-  { name: "S1E16", url: "https://filemoon.nl/e/dmnfip9x2zy1/_Toonhub4u__Tokyo_Revengers_S01E16_720p_BDRip__Hindi-Eng-Jap__ESub" },
-  { name: "S1E17", url: "https://filemoon.nl/e/0yzqq9pta79g/_Toonhub4u__Tokyo_Revengers_S01E17_720p_BDRip__Hindi-Eng-Jap__ESub" },
-  { name: "S1E18", url: "https://filemoon.nl/e/ze4coi58xk9t/_Toonhub4u__Tokyo_Revengers_S01E18_720p_BDRip__Hindi-Eng-Jap__ESub" },
-  { name: "S1E19", url: "https://filemoon.nl/e/z4mgg08fakan/_Toonhub4u__Tokyo_Revengers_S01E19_720p_BDRip__Hindi-Eng-Jap__ESub" },
-  { name: "S1E20", url: "https://filemoon.nl/e/lnkrf93j337m/_Toonhub4u__Tokyo_Revengers_S01E20_720p_BDRip__Hindi-Eng-Jap__ESub" },
-  { name: "S1E21", url: "https://filemoon.nl/e/r36il1nqo0dh/_Toonhub4u__Tokyo_Revengers_S01E21_720p_BDRip__Hindi-Eng-Jap__ESub" },
-  { name: "S1E22", url: "https://filemoon.nl/e/6wai2aj9sfl8/_Toonhub4u__Tokyo_Revengers_S01E22_720p_BDRip__Hindi-Eng-Jap__ESub" },
-  { name: "S1E23", url: "https://filemoon.nl/e/dd2er4jwm2lc/_Toonhub4u__Tokyo_Revengers_S01E23_720p_BDRip__Hindi-Eng-Jap__ESub" },
-  { name: "S1E24", url: "https://filemoon.nl/e/hfu40i1vequs" },
-]
-  }
+
+<header>Tokyo Revengers</header>
+
+<div id="player-container">
+    <div id="loading-spinner" class="loader"></div>
+    <iframe id="video-player" src="" allowfullscreen onload="hideLoader()"></iframe>
+</div>
+
+<div class="season-container">
+    <span class="season-label">Select Season:</span>
+    <div class="season-tabs" id="season-tabs-list">
+        <div class="season-tab active" onclick="selectSeason(1, this)">Season 1</div>
+        </div>
+</div>
+
+<div id="episode-buttons"></div>
+
+<script>
+const episodes = {
+    1: [
+        { name: "Ep 1", url: "https://short.icu/8LqrffRIM" },
+        { name: "Ep 2", url: "https://short.icu/BGqmwGCKu" },
+        { name: "Ep 3", url: "https://short.icu/7dRquvvrH" },
+        { name: "Ep 4", url: "https://short.icu/0Lsta9vFc" },
+        { name: "Ep 5", url: "https://short.icu/kWtpQ0ZZu" },
+        { name: "Ep 6", url: "https://short.icu/e2mBgQnIC" },
+        { name: "Ep 7", url: "https://short.icu/_ughrMgZF" },
+        { name: "Ep 8", url: "https://short.icu/AUN7IlIyK" },
+        { name: "Ep 9", url: "https://short.icu/O4TGfQEYy" },
+        { name: "Ep 10", url: "https://short.icu/IYET8eayn" },
+        { name: "Ep 11", url: "https://short.icu/akGjDI1oY" },
+        { name: "Ep 12", url: "https://short.icu/ZGxMyMFTL" },
+        { name: "Ep 13", url: "https://short.icu/om9EPw48t" },
+        { name: "Ep 14", url: "https://short.icu/tt6TRA0O0" },
+        { name: "Ep 15", url: "https://short.icu/ERXzOfyEx" },
+        { name: "Ep 16", url: "https://short.icu/mIximppVK" },
+        { name: "Ep 17", url: "https://short.icu/57I0jk-WP" },
+        { name: "Ep 18", url: "https://short.icu/yZb20L-XV" },
+        { name: "Ep 19", url: "https://short.icu/CAdGS1ZXK" },
+        { name: "Ep 20", url: "https://short.icu/3zpwDP-iP" },
+        { name: "Ep 21", url: "https://short.icu/BY2GrxFbH" },
+        { name: "Ep 22", url: "https://short.icu/VwbXJFJ3p" },
+        { name: "Ep 23", url: "https://short.icu/Vz_QE_LqX" },
+        { name: "Ep 24", url: "https://short.icu/T5pkgrFeg" }
+    ]
 };
-    let currentServer = 'filemoon';
-    let currentSeason = 's1';
-    function loadEpisodes(server, season) {
-      const epList = allEpisodes[server][season];
-      const container = document.getElementById(season + 'Episodes');
-      container.innerHTML = '';
-      epList.forEach(ep => {
-        const btn = document.createElement('div');
-        btn.className = 'episode-button';
+
+function showLoader() { document.getElementById('loading-spinner').classList.remove('hidden'); }
+function hideLoader() { document.getElementById('loading-spinner').classList.add('hidden'); }
+
+function selectSeason(num, element) {
+    document.querySelectorAll('.season-tab').forEach(t => t.classList.remove('active'));
+    element.classList.add('active');
+    loadEpisodes(num);
+}
+
+function loadEpisodes(seasonNum) {
+    const container = document.getElementById('episode-buttons');
+    container.innerHTML = '';
+    
+    const eps = episodes[seasonNum] || [];
+    eps.forEach(ep => {
+        const btn = document.createElement('button');
+        btn.className = 'episode-btn';
         btn.textContent = ep.name;
-        btn.onclick = () => loadVideo(ep.url);
+        btn.onclick = () => {
+            showLoader();
+            document.getElementById('video-player').src = ep.url;
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        };
         container.appendChild(btn);
-      });
+    });
+
+    // Auto-load first episode
+    if(eps.length > 0){
+        showLoader();
+        document.getElementById('video-player').src = eps[0].url;
     }
-    function loadVideo(url) {
-      document.getElementById('videoPlayer').src = url;
-    }
-    function setServer(server) {
-      currentServer = server;
-      document.querySelectorAll('.server-tabs button').forEach(btn => btn.classList.remove('active'));
-      document.getElementById(server + 'Btn').classList.add('active');
-      setSeason(currentSeason);
-    }
-    function setSeason(season) {
-      currentSeason = season;
-      document.querySelectorAll('.dropdown-content button').forEach(btn => btn.classList.remove('active'));
-      document.getElementById(season + 'Btn').classList.add('active');
-      const seasonKeys = Object.keys(allEpisodes[currentServer]);
-      seasonKeys.forEach(s => {
-        const grid = document.getElementById(s + 'Episodes');
-        if (grid) grid.classList.add('hidden');
-      });
-      document.getElementById(season + 'Episodes').classList.remove('hidden');
-      loadEpisodes(currentServer, season);
-      const firstEp = allEpisodes[currentServer][season][0];
-      if (firstEp) loadVideo(firstEp.url);
-    }
-    function toggleDropdown() {
-      document.getElementById('seasonDropdown').classList.toggle('show');
-    }
-    setServer('filemoon');
-  </script>
+}
+
+window.onload = () => {
+    loadEpisodes(1);
+};
+</script>
+
 </body>
 </html>
