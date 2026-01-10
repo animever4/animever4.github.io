@@ -38,7 +38,7 @@
         width: 95%;
         max-width: 900px;
         aspect-ratio: 16 / 9;
-        margin: 20px auto;
+        margin: 20px auto 10px auto;
         background: #000;
         border-radius: 20px;
         border: 2px solid rgba(255, 255, 255, 0.1);
@@ -60,6 +60,31 @@
     }
 
     @keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+
+    /* DOWNLOAD BUTTON */
+    .download-container {
+        text-align: center;
+        margin-bottom: 20px;
+        min-height: 45px;
+    }
+
+    #download-btn {
+        display: inline-block;
+        padding: 12px 30px;
+        background: linear-gradient(135deg, #11998e, #38ef7d);
+        color: white;
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: bold;
+        font-size: 1em;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(56, 239, 125, 0.3);
+    }
+
+    #download-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(56, 239, 125, 0.5);
+    }
 
     /* SEASON SELECTOR */
     .season-container {
@@ -152,6 +177,10 @@
     <iframe id="video-player" src="" allowfullscreen onload="hideLoader()"></iframe>
 </div>
 
+<div class="download-container">
+    <a id="download-btn" href="#" target="_blank">📥 Download Episode <span id="dl-ep-num">1</span></a>
+</div>
+
 <div class="season-container">
     <span class="season-label">Select Season:</span>
     <div class="season-tabs" id="season-tabs-list"></div>
@@ -160,7 +189,6 @@
 <div id="episode-buttons"></div>
 
 <script>
-// Data integrated from your first file
 const episodes = {
     1: [
         { "name": "1", "url": "https://short.icu/sjTvSXysN" },
@@ -211,7 +239,17 @@ const episodes = {
         { "name": "20", "url": "https://short.icu/x4DrarLuq" },
         { "name": "21", "url": "https://short.icu/xTIWih6Dx" },
         { "name": "22", "url": "https://short.icu/DBZ1KGR9p" },
-        { "name": "23", "url": "https://short.icu/cChy91u2A" }
+        { "name": "23", "url": "https://short.icu/cChy91u2A" },
+        { "name": "24", "url": "https://drive.google.com/file/d/12ya2ytU-FErPGxcqdBVz_TH52BU38Fkg/preview" }
+    ],
+    3: [
+        { 
+            "name": "1", 
+            "url": "https://drive.google.com/file/d/12ya2ytU-FErPGxcqdBVz_TH52BU38Fkg/preview",
+            "download": "https://drive.google.com/file/d/12ya2ytU-FErPGxcqdBVz_TH52BU38Fkg/view?usp=drivesdk" 
+        }
+        // ADD MORE EPISODES HERE:
+        // { "name": "2", "url": "PREVIEW_LINK", "download": "VIEW_LINK" }
     ]
 };
 
@@ -220,11 +258,30 @@ let currentSeason = 1;
 function showLoader() { document.getElementById('loading-spinner').classList.remove('hidden'); }
 function hideLoader() { document.getElementById('loading-spinner').classList.add('hidden'); }
 
+function updateDownloadButton(ep) {
+    const btn = document.getElementById('download-btn');
+    const epNumSpan = document.getElementById('dl-ep-num');
+    
+    // Update the text to show the correct episode number
+    epNumSpan.innerText = ep.name;
+
+    if (ep.download) {
+        btn.style.display = 'inline-block';
+        btn.href = ep.download;
+    } else if (ep.url.includes('drive.google.com')) {
+        btn.style.display = 'inline-block';
+        btn.href = ep.url.replace('/preview', '/view');
+    } else {
+        // Hide button if no download link is available for short.icu links
+        btn.style.display = 'none';
+    }
+}
+
 function initSeasonTabs() {
     const tabContainer = document.getElementById('season-tabs-list');
-    const seasonNames = ["Season 1: Cursed Child", "Season 2: Shibuya Incident"];
+    const seasonNames = ["Season 1", "Season 2", "Season 3"];
 
-    for (let i = 1; i <= 2; i++) {
+    for (let i = 1; i <= 3; i++) {
         const tab = document.createElement('div');
         tab.className = `season-tab ${i === 1 ? 'active' : ''}`;
         tab.innerText = seasonNames[i-1];
@@ -245,13 +302,14 @@ function loadEpisodes() {
     container.innerHTML = '';
     
     const eps = episodes[currentSeason] || [];
-    eps.forEach(ep => {
+    eps.forEach((ep) => {
         const btn = document.createElement('button');
         btn.className = 'episode-btn';
         btn.textContent = `Ep ${ep.name}`;
         btn.onclick = () => {
             showLoader();
             document.getElementById('video-player').src = ep.url;
+            updateDownloadButton(ep);
             window.scrollTo({top: 0, behavior: 'smooth'});
         };
         container.appendChild(btn);
@@ -260,6 +318,7 @@ function loadEpisodes() {
     if(eps.length > 0){
         showLoader();
         document.getElementById('video-player').src = eps[0].url;
+        updateDownloadButton(eps[0]);
     }
 }
 
