@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bleach - All Episodes</title>
+<style>
+    :root {
+        --primary: #ff4500;
+        --secondary: #ff8c00;
+        --bg: #0f0f1a;
+        --card-bg: #1e1e2f;
+        --download-btn: #2ecc71;
+    }
+
+    body {
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        background: var(--bg);
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+
+    header {
+        text-align: center;
+        padding: 30px 20px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        font-size: 2em;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+
+    #player-container {
+        position: relative;
+        width: 95%;
+        max-width: 900px;
+        aspect-ratio: 16 / 9;
+        margin: 20px auto;
+        background: #000;
+        border-radius: 20px;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        overflow: hidden;
+        box-shadow: 0 0 30px rgba(255, 69, 0, 0.3);
+    }
+
+    iframe { width: 100%; height: 100%; border: none; }
+
+    .loader {
+        position: absolute; top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        border: 5px solid #333;
+        border-top: 5px solid var(--primary);
+        border-radius: 50%;
+        width: 50px; height: 50px;
+        animation: spin 1s linear infinite;
+        z-index: 10;
+    }
+
+    @keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+
+    .download-container {
+        text-align: center;
+        margin: 10px auto;
+        max-width: 900px;
+    }
+
+    .download-btn {
+        display: inline-block;
+        background: var(--download-btn);
+        color: white;
+        text-decoration: none;
+        padding: 12px 30px;
+        border-radius: 50px;
+        font-weight: bold;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+    }
+
+    .download-btn:hover {
+        transform: scale(1.05);
+        background: #27ae60;
+        box-shadow: 0 6px 20px rgba(46, 204, 113, 0.5);
+    }
+
+    .season-container {
+        max-width: 1000px;
+        margin: 10px auto;
+        padding: 0 15px;
+    }
+
+    .season-label {
+        font-size: 1.2em;
+        font-weight: bold;
+        margin-bottom: 10px;
+        display: block;
+        color: var(--primary);
+    }
+
+    .season-tabs {
+        display: flex;
+        overflow-x: auto;
+        gap: 12px;
+        padding: 10px 5px;
+        scrollbar-width: thin;
+        scrollbar-color: var(--primary) transparent;
+    }
+
+    .season-tabs::-webkit-scrollbar { height: 6px; }
+    .season-tabs::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+
+    .season-tab {
+        flex: 0 0 auto;
+        padding: 12px 25px;
+        background: var(--card-bg);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+    }
+
+    .season-tab.active {
+        background: var(--primary);
+        box-shadow: 0 0 15px var(--primary);
+        border-color: transparent;
+    }
+
+    #episode-buttons {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 12px;
+        padding: 20px;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .episode-btn {
+        background: rgba(255, 255, 255, 0.05);
+        color: #fff;
+        border: 1px solid rgba(255,255,255,0.1);
+        padding: 15px 5px;
+        border-radius: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
+    }
+
+    .episode-btn:hover {
+        background: var(--secondary);
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
+    }
+
+    .hidden { display: none; }
+
+    @media (max-width: 600px) {
+        header { font-size: 1.4em; }
+        .season-tab { padding: 10px 18px; font-size: 0.9em; }
+    }
+</style>
+</head>
+<body>
+
+<header>Bleach Thousand Years Of Blood War</header>
+
+<div id="player-container">
+    <div id="loading-spinner" class="loader"></div>
+    <iframe id="video-player" src="" allowfullscreen onload="hideLoader()"></iframe>
+</div>
+
+<div class="download-container" id="download-area"></div>
+
+<div class="season-container">
+    <span class="season-label">Select Season:</span>
+    <div class="season-tabs" id="season-tabs-list"></div>
+</div>
+
+<div id="episode-buttons"></div>
+
+<script>
+const episodes = {
+    1: [
+        { "name": "1", "url": "https://short.icu/LPpCwa9Vm" },
+        { "name": "2", "url": "https://short.icu/YPerREED1" },
+        { "name": "3", "url": "https://short.icu/eJ4cSaIBC" },
+        { "name": "4", "url": "https://short.icu/NobCcLABx" },
+        { "name": "5", "url": "https://short.icu/iuANu5NVM" },
+        { "name": "6", "url": "https://short.icu/64pq1lA2e" },
+        { "name": "7", "url": "https://short.icu/axEY3-t5q" },
+        { "name": "8", "url": "https://short.icu/zov-n-nHl" },
+        { "name": "9", "url": "https://short.icu/FjPKC8Qi9" },
+        { "name": "10", "url": "https://short.icu/2Cg_PeXUe" },
+        { "name": "11", "url": "https://short.icu/W-SfsUTSh" },
+        { "name": "12", "url": "https://short.icu/YNszpujYF" },
+        { "name": "13", "url": "https://short.icu/kH_sAOEAF" }
+    ],
+    2: [
+        { "name": "1", "url": "https://short.icu/8prLGRnxm6" },
+        { "name": "2", "url": "https://short.icu/W3LVc-umZ" },
+        { "name": "3", "url": "https://short.icu/0G4T73Y4M" },
+        { "name": "4", "url": "https://short.icu/cgJsk1a_A" },
+        { "name": "5", "url": "https://short.icu/rxs3q4v42" },
+        { "name": "6", "url": "https://short.icu/aAUzIz1Fy" },
+        { "name": "7", "url": "https://short.icu/9NKJy_D26" },
+        { "name": "8", "url": "https://short.icu/O5gP9_3W9" },
+        { "name": "9", "url": "https://short.icu/vF8M2wNpr" },
+        { "name": "10", "url": "https://short.icu/GsUNchP69" },
+        { "name": "11", "url": "https://short.icu/M0PBmS14w" },
+        { "name": "12", "url": "https://short.icu/GyBxRmIzZ" },
+        { "name": "13", "url": "https://short.icu/E7ukELmxw" }
+    ],
+    3: [
+        { "name": "1", "url": "https://short.icu/ebeQLXHeV" },
+        { "name": "2", "url": "https://short.icu/DSUHQ6IWG" },
+        { "name": "3", "url": "https://short.icu/Kxoiwp3OE" },
+        { "name": "4", "url": "https://short.icu/AMyAkpR_N" },
+        { "name": "5", "url": "https://short.icu/2oxKcjTbH" },
+        { "name": "6", "url": "https://short.icu/RPwUIurww" },
+        { "name": "7", "url": "https://short.icu/hBmQPrKA4" },
+        { "name": "8", "url": "https://short.icu/DV2fXpsZh" },
+        { "name": "9", "url": "https://short.icu/-wHbBws9A" },
+        { "name": "10", "url": "https://short.icu/-X4D5oVAW" },
+        { "name": "11", "url": "https://short.icu/RaZ-xIE8Y" },
+        { "name": "12", "url": "https://short.icu/T3vfIRHGi" },
+        { "name": "13", "url": "https://short.icu/LWY83zN5m" },
+        { "name": "14", "url": "https://short.icu/zWKuIHL6-" }
+    ]
+};
+
+let currentSeason = 1;
+
+function showLoader() { document.getElementById('loading-spinner').classList.remove('hidden'); }
+function hideLoader() { document.getElementById('loading-spinner').classList.add('hidden'); }
+
+function initSeasonTabs() {
+    const tabContainer = document.getElementById('season-tabs-list');
+    const seasonNames = ["Season 1", "Season 2", "Season 3"];
+
+    for (let i = 1; i <= seasonNames.length; i++) {
+        const tab = document.createElement('div');
+        tab.className = `season-tab ${i === 1 ? 'active' : ''}`;
+        tab.innerText = seasonNames[i-1];
+        tab.onclick = () => selectSeason(i, tab);
+        tabContainer.appendChild(tab);
+    }
+}
+
+function selectSeason(num, element) {
+    document.querySelectorAll('.season-tab').forEach(t => t.classList.remove('active'));
+    element.classList.add('active');
+    currentSeason = num;
+    loadEpisodes();
+}
+
+function loadEpisodes() {
+    const container = document.getElementById('episode-buttons');
+    const downloadArea = document.getElementById('download-area');
+    container.innerHTML = '';
+    downloadArea.innerHTML = ''; 
+    
+    const eps = episodes[currentSeason] || [];
+    eps.forEach(ep => {
+        const btn = document.createElement('button');
+        btn.className = 'episode-btn';
+        btn.textContent = `Ep ${ep.name}`;
+        btn.onclick = () => {
+            showLoader();
+            document.getElementById('video-player').src = ep.url;
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        };
+        container.appendChild(btn);
+    });
+
+    if(eps.length > 0){
+        showLoader();
+        document.getElementById('video-player').src = eps[0].url;
+    }
+}
+
+window.onload = () => {
+    initSeasonTabs();
+    loadEpisodes();
+};
+</script>
+
+</body>
+</html>
