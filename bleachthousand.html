@@ -72,12 +72,13 @@
         background: var(--download-btn);
         color: white;
         text-decoration: none;
-        padding: 12px 30px;
+        padding: 15px 40px;
         border-radius: 50px;
         font-weight: bold;
         text-transform: uppercase;
         transition: all 0.3s ease;
         box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+        cursor: pointer;
     }
 
     .download-btn:hover {
@@ -174,7 +175,11 @@
     <iframe id="video-player" src="" allowfullscreen onload="hideLoader()"></iframe>
 </div>
 
-<div class="download-container" id="download-area"></div>
+<div class="download-container" id="download-area">
+    <a href="https://t.me/+9pBU-6UMCnk3YjM9" target="_blank" class="download-btn">
+        📥 Download Episodes
+    </a>
+</div>
 
 <div class="season-container">
     <span class="season-label">Select Season:</span>
@@ -260,9 +265,9 @@ function selectSeason(num, element) {
 
 function loadEpisodes() {
     const container = document.getElementById('episode-buttons');
-    const downloadArea = document.getElementById('download-area');
+    // We removed 'downloadArea.innerHTML = ""' to keep the universal button persistent
+    
     container.innerHTML = '';
-    downloadArea.innerHTML = ''; 
     
     const eps = episodes[currentSeason] || [];
     eps.forEach(ep => {
