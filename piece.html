@@ -1,123 +1,252 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Attack on Titan - All Episodes</title>
-  <style>
-    body { background: black; color: white; font-family: Arial, sans-serif; margin: 0; padding: 0; }
-    .container { padding: 20px; }
-    h1, h2 { color: limegreen; }
-    .server-buttons button { margin-right: 10px; padding: 8px 12px; background: #007BFF; color: white; border: none; cursor: pointer; border-radius: 5px; }
-    .server-buttons button:hover { background: #0056b3; }
-    .episode-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
-    .episode-list button { background: #6c757d; color: white; border: 2px solid #03C03C; border-radius: 5px; padding: 8px 10px; cursor: pointer; }
-    iframe { width: 100%; height: 400px; border: 2px solid white; margin-top: 20px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>One Piece - All Episodes</title>
+<style>
+    :root {
+        --primary: #ff512f;
+        --secondary: #dd2476;
+        --bg: #0f0f1a;
+        --card-bg: #1e1e2f;
+    }
+
+    body {
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        background: var(--bg);
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+
+    header {
+        text-align: center;
+        padding: 30px 20px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        font-size: 2em;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+
+    /* PLAYER STYLES */
+    #player-container {
+        position: relative;
+        width: 95%;
+        max-width: 900px;
+        aspect-ratio: 16 / 9;
+        margin: 20px auto;
+        background: #000;
+        border-radius: 20px;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        overflow: hidden;
+        box-shadow: 0 0 30px rgba(255, 81, 47, 0.3);
+    }
+
+    iframe { width: 100%; height: 100%; border: none; }
+
+    .loader {
+        position: absolute; top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        border: 5px solid #333;
+        border-top: 5px solid var(--primary);
+        border-radius: 50%;
+        width: 50px; height: 50px;
+        animation: spin 1s linear infinite;
+        z-index: 10;
+    }
+
+    @keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+
+    /* SEASON SELECTOR */
+    .season-container {
+        max-width: 1000px;
+        margin: 10px auto;
+        padding: 0 15px;
+    }
+
+    .season-label {
+        font-size: 1.2em;
+        font-weight: bold;
+        margin-bottom: 10px;
+        display: block;
+        color: var(--primary);
+    }
+
+    .season-tabs {
+        display: flex;
+        overflow-x: auto;
+        gap: 12px;
+        padding: 10px 5px;
+        scrollbar-width: thin;
+        scrollbar-color: var(--primary) transparent;
+    }
+
+    .season-tabs::-webkit-scrollbar { height: 6px; }
+    .season-tabs::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+
+    .season-tab {
+        flex: 0 0 auto;
+        padding: 12px 25px;
+        background: var(--card-bg);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+    }
+
+    .season-tab.active {
+        background: var(--primary);
+        box-shadow: 0 0 15px var(--primary);
+        border-color: transparent;
+    }
+
+    /* EPISODE GRID */
+    #episode-buttons {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 12px;
+        padding: 20px;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .episode-btn {
+        background: rgba(255, 255, 255, 0.05);
+        color: #fff;
+        border: 1px solid rgba(255,255,255,0.1);
+        padding: 15px 5px;
+        border-radius: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
+    }
+
+    .episode-btn:hover {
+        background: var(--secondary);
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(221, 36, 118, 0.4);
+    }
+
+    .hidden { display: none; }
+
+    @media (max-width: 600px) {
+        header { font-size: 1.4em; }
+        .season-tab { padding: 10px 18px; font-size: 0.9em; }
+    }
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>One Piece</h1>
 
-    <div class="server-buttons">
-      <button onclick="setServer('filemoon')">Filemoon</button>
-      <button onclick="setServer('servabyss')">Servabyss</button>
-      <button onclick="setServer('vidgroud')">Vidgroud</button>
-    </div>
+<header>One Piece</header>
 
-    <div class="episode-list" id="episodeButtons"></div>
+<div id="player-container">
+    <div id="loading-spinner" class="loader"></div>
+    <iframe id="video-player" src="" allowfullscreen onload="hideLoader()"></iframe>
+</div>
 
-    <iframe id="videoPlayer" src="" allowfullscreen></iframe>
-  </div>
+<div class="season-container">
+    <span class="season-label">Select Season:</span>
+    <div class="season-tabs" id="season-tabs-list"></div>
+</div>
 
-  <script>
-    const allEpisodes = {
-      filemoon: [
-  { "name": "S1E1", "url": "https://filemoon.nl/e/lh8rj4fe38r9/_Toonworld4all__One_Piece_S01E001_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E2", "url": "https://filemoon.nl/e/3r07pmzdaovw/_Toonworld4all__One_Piece_S01E002_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E3", "url": "https://filemoon.nl/e/swkzwadsnql1/_Toonworld4all__One_Piece_S01E003_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E4", "url": "https://filemoon.nl/e/2hfqeo8jr44q/_Toonworld4all__One_Piece_S01E004_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E5", "url": "https://filemoon.nl/e/nqsy5byvn87r/_Toonworld4all__One_Piece_S01E005_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E6", "url": "https://filemoon.nl/e/91tz9ony1a2w/_Toonworld4all__One_Piece_S01E006_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E7", "url": "https://filemoon.nl/e/rfn9po17t1lq/_Toonworld4all__One_Piece_S01E007_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E8", "url": "https://filemoon.nl/e/9eksao80fjd3/_Toonworld4all__One_Piece_S01E008_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E9", "url": "https://filemoon.nl/e/qaq2tee4pjyn/_Toonworld4all__One_Piece_S01E009_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E10", "url": "https://filemoon.nl/e/3dsuclb8adyl/_Toonworld4all__One_Piece_S01E010_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E11", "url": "https://filemoon.nl/e/h5kfgx690m54/_Toonworld4all__One_Piece_S01E011_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E12", "url": "https://filemoon.nl/e/3xbttkkojmyg/_Toonworld4all__One_Piece_S01E012_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E13", "url": "https://filemoon.nl/e/5u857hh8tt78/_Toonworld4all__One_Piece_S01E013_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E14", "url": "https://filemoon.nl/e/0kgdk6ryffsd/_Toonworld4all__One_Piece_S01E014_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E15", "url": "https://filemoon.nl/e/ep6wu893y5oj/_Toonworld4all__One_Piece_S01E015_Remastered__1080p_BD_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E16", "url": "https://filemoon.nl/e/zngtbe3u7w0f/_Toonworld4all__One_Piece_S01E016_Remastered__1080p_BD_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E17", "url": "https://filemoon.nl/e/a6ii85ohyn0p/_Toonworld4all__One_Piece_S01E017_Remastered__1080p_BD_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E18", "url": "https://filemoon.nl/e/8yz08ijhpfhs/_Toonworld4all__One_Piece_S01E018_Remastered__1080p_BD_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E19", "url": "https://filemoon.nl/e/scw46sl43uen/_Toonworld4all__One_Piece_S01E019_Remastered__1080p_BD_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E20", "url": "https://filemoon.nl/e/kl1a8w2ta08r/_Toonworld4all__One_Piece_S01E020_Remastered__1080p_BD_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E21", "url": "https://filemoon.nl/e/hpzekloun37a/_Toonworld4all__One_Piece_S01E021_Remastered__1080p_BD_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E22", "url": "https://filemoon.nl/e/bs649toq8xj0/_Toonworld4all__One_Piece_S01E022_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E23", "url": "https://filemoon.nl/e/zzk1n21su3v5/_Toonworld4all__One_Piece_S01E023_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E24", "url": "https://filemoon.nl/e/7i7oaf9wxoof/_Toonworld4all__One_Piece_S01E024_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E25", "url": "https://filemoon.nl/e/okaeo99zz4ur/_Toonworld4all__One_Piece_S01E025_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E26", "url": "https://filemoon.nl/e/xv4o31mcb68v/_Toonworld4all__One_Piece_S01E026_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E27", "url": "https://filemoon.nl/e/cif4hf1nfz8i/_Toonworld4all__One_Piece_S01E027_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E28", "url": "https://filemoon.nl/e/wr4umaa9unc5/_Toonworld4all__One_Piece_S01E028_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E29", "url": "https://filemoon.nl/e/du52nzpjmrc4/_Toonworld4all__One_Piece_S01E029_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E30", "url": "https://filemoon.nl/e/tbpj741ecdxd/_Toonworld4all__One_Piece_S01E030_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E31", "url": "https://filemoon.nl/e/38xonxecn62y/_Toonworld4all__One_Piece_S01E031_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E32", "url": "https://filemoon.nl/e/zle8bjguixhh/_Toonworld4all__One_Piece_S01E032_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E33", "url": "https://filemoon.nl/e/xpciniyme0c3/_Toonworld4all__One_Piece_S01E033_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E34", "url": "https://filemoon.nl/e/bpo7gkie66bt/_Toonworld4all__One_Piece_S01E034_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E35", "url": "https://filemoon.nl/e/p3i5xuk9kb70/_Toonworld4all__One_Piece_S01E035_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E36", "url": "https://filemoon.nl/e/2xsbaupww7l5/_Toonworld4all__One_Piece_S01E036_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E37", "url": "https://filemoon.nl/e/81wtq1nfftyw/_Toonworld4all__One_Piece_S01E037_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E38", "url": "https://filemoon.nl/e/7o96lwbvwqob/_Toonworld4all__One_Piece_S01E038_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E39", "url": "https://filemoon.nl/e/wifhm2hc0mpd/_Toonworld4all__One_Piece_S01E039_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E40", "url": "https://filemoon.nl/e/5wpxo6m5ctek/_Toonworld4all__One_Piece_S01E040_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E41", "url": "https://filemoon.nl/e/ci2mn0sqevus/_Toonworld4all__One_Piece_S01E041_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E42", "url": "https://filemoon.nl/e/ndb3vd5jnzhd/_Toonworld4all__One_Piece_S01E042_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E43", "url": "https://filemoon.nl/e/njp13y57svwe/_Toonworld4all__One_Piece_S01E043_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E44", "url": "https://filemoon.nl/e/92hn38ggm529/_Toonworld4all__One_Piece_S01E044_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E45", "url": "https://filemoon.nl/e/u2jizw64okrf/_Toonworld4all__One_Piece_S01E045_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E46", "url": "https://filemoon.nl/e/9psdjbtm1b4x/_Toonworld4all__One_Piece_S01E046_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E47", "url": "https://filemoon.nl/e/ogvf5rb3bu2s/_Toonworld4all__One_Piece_S01E047_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E48", "url": "https://filemoon.nl/e/w7kb1aric8ox/_Toonworld4all__One_Piece_S01E048_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E49", "url": "https://filemoon.nl/e/vy0iauu1bkx3/_Toonworld4all__One_Piece_S01E049_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E50", "url": "https://filemoon.nl/e/sa74j4w8y7nr/_Toonworld4all__One_Piece_S01E050_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E51", "url": "https://filemoon.nl/e/1ki5f5861wie/_Toonworld4all__One_Piece_S01E051_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E52", "url": "https://filemoon.nl/e/aysb9762klyp/_Toonworld4all__One_Piece_S01E052_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E53", "url": "https://filemoon.nl/e/4jdl1dtahszu/_Toonworld4all__One_Piece_S01E053_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E54", "url": "https://filemoon.nl/e/xjiar2fawi8i/_Toonworld4all__One_Piece_S01E054_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E55", "url": "https://filemoon.nl/e/9boieicdv716/_Toonworld4all__One_Piece_S01E055_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E56", "url": "https://filemoon.nl/e/ixd88n4n7hif/_Toonworld4all__One_Piece_S01E056_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E57", "url": "https://filemoon.nl/e/6aa8emwuwzy8/_Toonworld4all__One_Piece_S01E057_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E58", "url": "https://filemoon.nl/e/mc98egvbbyiu/_Toonworld4all__One_Piece_S01E058_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E59", "url": "https://filemoon.nl/e/bk3bs07zx4oz/_Toonworld4all__One_Piece_S01E059_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E60", "url": "https://filemoon.nl/e/whls3z5ly0rw/_Toonworld4all__One_Piece_S01E060_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-  { "name": "S1E61", "url": "https://filemoon.nl/e/09yomg8sc5mq/_Toonworld4all__One_Piece_S01E061_Remastered__1080p_x265_10bit_Multi_Audio__ESub" },
-]
-    };
+<div id="episode-buttons"></div>
 
-    function loadEpisodes(server) {
-      const container = document.getElementById('episodeButtons');
-      container.innerHTML = '';
-      allEpisodes[server].forEach(ep => {
+<script>
+// Links are the same, but labels changed to start from 1
+const episodes = {
+    1: [
+        { "name": "1", "url": "https://short.icu/ZyTis2bKp" },
+        { "name": "2", "url": "https://short.icu/0JVhWhAFS" },
+        { "name": "3", "url": "https://short.icu/xLAWKrPi1" },
+        { "name": "4", "url": "https://short.icu/u2e8C4AVH" },
+        { "name": "5", "url": "https://short.icu/c2L4AsN5d" },
+        { "name": "6", "url": "https://short.icu/v0WykQKQI" },
+        { "name": "7", "url": "https://short.icu/J5xjLHUGq" },
+        { "name": "8", "url": "https://short.icu/6aJEzkO5S" },
+        { "name": "9", "url": "https://short.icu/DXys6BFrr" },
+        { "name": "10", "url": "https://short.icu/9zQlKv2Ce" },
+        { "name": "11", "url": "https://short.icu/ITwMmq7xz" },
+        { "name": "12", "url": "https://short.icu/0tqDT6giQ" },
+        { "name": "13", "url": "https://short.icu/IKbZI8WYZ" },
+        { "name": "14", "url": "https://short.icu/qeyzdcOfg" },
+        { "name": "15", "url": "https://short.icu/HrYKpr76g" },
+        { "name": "16", "url": "https://short.icu/DnVV_hlHG" },
+        { "name": "17", "url": "https://short.icu/xtiDk9JTd" },
+        { "name": "18", "url": "https://short.icu/_W-aumhLl" },
+        { "name": "19", "url": "https://short.icu/eZik8dcXL" },
+        { "name": "20", "url": "https://short.icu/o3VkansiO" },
+        { "name": "21", "url": "https://short.icu/4N-9N40G5" },
+        { "name": "22", "url": "https://short.icu/xOEZLyRqd" },
+        { "name": "23", "url": "https://short.icu/eKqdvhczM" },
+        { "name": "24", "url": "https://short.icu/uRd8Egy6U" },
+        { "name": "25", "url": "https://short.icu/ofS_MGxf6" },
+        { "name": "26", "url": "https://short.icu/JJUVX0Bb_q" },
+        { "name": "27", "url": "https://short.icu/sQsn46b1H" },
+        { "name": "28", "url": "https://short.icu/w9hz8gxdg" },
+        { "name": "29", "url": "https://short.icu/hUJWgjx7q" }
+    ]
+};
+
+let currentSeason = 1;
+
+function showLoader() { document.getElementById('loading-spinner').classList.remove('hidden'); }
+function hideLoader() { document.getElementById('loading-spinner').classList.add('hidden'); }
+
+function initSeasonTabs() {
+    const tabContainer = document.getElementById('season-tabs-list');
+    const seasonNames = ["Wano Country Arc"]; // Season Name added here
+
+    for (let i = 1; i <= seasonNames.length; i++) {
+        const tab = document.createElement('div');
+        tab.className = `season-tab ${i === 1 ? 'active' : ''}`;
+        tab.innerText = seasonNames[i-1];
+        tab.onclick = () => selectSeason(i, tab);
+        tabContainer.appendChild(tab);
+    }
+}
+
+function selectSeason(num, element) {
+    document.querySelectorAll('.season-tab').forEach(t => t.classList.remove('active'));
+    element.classList.add('active');
+    currentSeason = num;
+    loadEpisodes();
+}
+
+function loadEpisodes() {
+    const container = document.getElementById('episode-buttons');
+    container.innerHTML = '';
+    
+    const eps = episodes[currentSeason] || [];
+    eps.forEach(ep => {
         const btn = document.createElement('button');
-        btn.textContent = ep.name;
-        btn.onclick = () => loadVideo(ep.url);
+        btn.className = 'episode-btn';
+        btn.textContent = `Ep ${ep.name}`;
+        btn.onclick = () => {
+            showLoader();
+            document.getElementById('video-player').src = ep.url;
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        };
         container.appendChild(btn);
-      });
-    }
+    });
 
-    function loadVideo(url) {
-      document.getElementById('videoPlayer').src = url;
+    if(eps.length > 0){
+        showLoader();
+        document.getElementById('video-player').src = eps[0].url;
     }
+}
 
-    function setServer(serverName) {
-      loadEpisodes(serverName);
-      loadVideo(allEpisodes[serverName][0].url);
-    }
+window.onload = () => {
+    initSeasonTabs();
+    loadEpisodes();
+};
+</script>
 
-    setServer('filemoon');
-  </script>
 </body>
 </html>
