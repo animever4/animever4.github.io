@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suicide Squad - Season 1</title>
+    <style>
+        :root {
+            --primary: #ff4500;
+            --secondary: #ff8c00;
+            --bg: #0f0f1a;
+            --card-bg: #1e1e2f;
+            --text: #ffffff;
+            --download: #2ecc71;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            font-size: 2em;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        #player-container {
+            position: relative;
+            width: 95%;
+            max-width: 900px;
+            aspect-ratio: 16 / 9;
+            margin: 20px auto;
+            background: #000;
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(255, 69, 0, 0.3);
+        }
+
+        iframe { width: 100%; height: 100%; border: none; }
+
+        .loader {
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            border: 5px solid #333;
+            border-top: 5px solid var(--primary);
+            border-radius: 50%;
+            width: 50px; height: 50px;
+            animation: spin 1s linear infinite;
+            z-index: 10;
+        }
+
+        @keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+
+        .main-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .season-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.1em;
+            cursor: default;
+        }
+
+        /* Download Button Styling */
+        .download-link {
+            text-decoration: none;
+            background: var(--download);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1em;
+            transition: transform 0.2s, background 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+        }
+
+        .download-link:hover {
+            background: #27ae60;
+            transform: scale(1.05);
+        }
+
+        .episode-label {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin: 10px 0 15px 0;
+            display: block;
+            color: var(--secondary);
+        }
+
+        #episode-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 12px;
+        }
+
+        .episode-btn {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 15px 5px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .episode-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .episode-btn.active {
+            background: var(--secondary);
+            border-color: white;
+            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
+        }
+
+        .hidden { display: none; }
+
+        @media (max-width: 600px) {
+            header { font-size: 1.4em; }
+            .action-bar { flex-direction: column; align-items: flex-start; }
+            .download-link { width: 100%; text-align: center; justify-content: center; box-sizing: border-box; }
+        }
+    </style>
+</head>
+<body>
+
+<header>Suicide Squad</header>
+
+<div id="player-container">
+    <div id="loading-spinner" class="loader"></div>
+    <iframe id="video-player" src="" allowfullscreen onload="hideLoader()"></iframe>
+</div>
+
+<div class="main-container">
+    <div class="action-bar">
+        <button class="season-btn">Season 1</button>
+        <a href="https://t.me/+77ABQGExLHQ2OTc1" target="_blank" class="download-link">
+            📥 Download All Episodes
+        </a>
+    </div>
+
+    <span class="episode-label">Select Episode:</span>
+    <div id="episode-buttons"></div>
+</div>
+
+<script>
+const episodes = [
+    { "name": "1", "url": "https://pro.iqsmartgames.com/stream/up8dxf9?autoplay=1" },
+    { "name": "2", "url": "https://pro.iqsmartgames.com/stream/wzgp6sm?autoplay=1" },
+    { "name": "3", "url": "https://pro.iqsmartgames.com/stream/ppnende?autoplay=1" },
+    { "name": "4", "url": "https://pro.iqsmartgames.com/stream/ccv908u?autoplay=1" },
+    { "name": "5", "url": "https://pro.iqsmartgames.com/stream/htmmysn?autoplay=1" },
+    { "name": "6", "url": "https://pro.iqsmartgames.com/stream/kz0pbhn?autoplay=1" },
+    { "name": "7", "url": "https://pro.iqsmartgames.com/stream/ab8dqlu?autoplay=1" },
+    { "name": "8", "url": "https://pro.iqsmartgames.com/stream/j3084as?autoplay=1" },
+    { "name": "9", "url": "https://pro.iqsmartgames.com/stream/hp53r1i?autoplay=1" },
+    { "name": "10", "url": "https://pro.iqsmartgames.com/stream/lq93pkt?autoplay=1" }
+];
+
+function showLoader() { document.getElementById('loading-spinner').classList.remove('hidden'); }
+function hideLoader() { document.getElementById('loading-spinner').classList.add('hidden'); }
+
+function loadEpisodes() {
+    const container = document.getElementById('episode-buttons');
+    container.innerHTML = '';
+    
+    episodes.forEach((ep, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'episode-btn';
+        if (index === 0) btn.classList.add('active');
+
+        btn.textContent = `Ep ${ep.name}`;
+        btn.onclick = () => {
+            showLoader();
+            document.querySelectorAll('.episode-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('video-player').src = ep.url;
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        };
+        container.appendChild(btn);
+    });
+
+    if(episodes.length > 0){
+        showLoader();
+        document.getElementById('video-player').src = episodes[0].url;
+    }
+}
+
+window.onload = loadEpisodes;
+</script>
+
+</body>
+</html>
