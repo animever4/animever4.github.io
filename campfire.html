@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mobile Suit Gundam GQuuuuuuX - All Episodes</title>
+<title>Campfire Cooking - All Episodes</title>
 <style>
     :root {
-        --primary: #ff4500;
-        --secondary: #ff8c00;
-        --bg: #0f0f1a;
-        --card-bg: #1e1e2f;
+        --primary: #e67e22; /* Campfire Orange */
+        --secondary: #f1c40f; /* Flame Yellow */
+        --bg: #1a120b; /* Dark Earthy Brown */
+        --card-bg: #2c1e14;
         --download-btn: #2ecc71;
     }
 
@@ -43,7 +43,7 @@
         border-radius: 20px;
         border: 2px solid rgba(255, 255, 255, 0.1);
         overflow: hidden;
-        box-shadow: 0 0 30px rgba(255, 69, 0, 0.3);
+        box-shadow: 0 0 30px rgba(230, 126, 34, 0.3);
     }
 
     iframe { width: 100%; height: 100%; border: none; }
@@ -61,33 +61,9 @@
 
     @keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
 
-    .download-container {
-        text-align: center;
-        margin: 10px auto;
-        max-width: 900px;
-    }
-
-    .download-btn {
-        display: inline-block;
-        background: var(--download-btn);
-        color: white;
-        text-decoration: none;
-        padding: 12px 30px;
-        border-radius: 50px;
-        font-weight: bold;
-        text-transform: uppercase;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
-    }
-
-    .download-btn:hover {
-        transform: scale(1.05);
-        background: #27ae60;
-    }
-
     .season-container {
         max-width: 1000px;
-        margin: 20px auto;
+        margin: 10px auto;
         padding: 0 15px;
     }
 
@@ -104,7 +80,12 @@
         overflow-x: auto;
         gap: 12px;
         padding: 10px 5px;
+        scrollbar-width: thin;
+        scrollbar-color: var(--primary) transparent;
     }
+
+    .season-tabs::-webkit-scrollbar { height: 6px; }
+    .season-tabs::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
 
     .season-tab {
         flex: 0 0 auto;
@@ -115,11 +96,13 @@
         cursor: pointer;
         font-weight: bold;
         transition: all 0.3s ease;
+        white-space: nowrap;
     }
 
     .season-tab.active {
         background: var(--primary);
         box-shadow: 0 0 15px var(--primary);
+        border-color: transparent;
     }
 
     #episode-buttons {
@@ -145,20 +128,27 @@
 
     .episode-btn:hover {
         background: var(--secondary);
+        color: #000;
         transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(241, 196, 15, 0.4);
+    }
+
+    .hidden { display: none; }
+
+    @media (max-width: 600px) {
+        header { font-size: 1.4em; }
+        .season-tab { padding: 10px 18px; font-size: 0.9em; }
     }
 </style>
 </head>
 <body>
 
-<header>Mobile Suit Gundam GQuuuuuuX</header>
+<header>Campfire Cooking in Another World</header>
 
 <div id="player-container">
     <div id="loading-spinner" class="loader"></div>
     <iframe id="video-player" src="" allowfullscreen onload="hideLoader()"></iframe>
 </div>
-
-<div class="download-container" id="download-area"></div>
 
 <div class="season-container">
     <span class="season-label">Select Season:</span>
@@ -168,68 +158,77 @@
 <div id="episode-buttons"></div>
 
 <script>
-const episodeData = {
+const episodes = {
     1: [
-        { "name": "S1E1", "url": "https://short.icu/9mgdkGh0H" },
-        { "name": "S1E2", "url": "https://short.icu/izA3dqFvg" },
-        { "name": "S1E3", "url": "https://short.icu/MhBDf6Z4Y" },
-        { "name": "S1E4", "url": "https://short.icu/LRQ0oVswh" },
-        { "name": "S1E5", "url": "https://short.icu/XU4DCEzmc" },
-        { "name": "S1E6", "url": "https://short.icu/9Z2HTnR_j" },
-        { "name": "S1EP7", "url": "https://short.icu/F7u3a1I9-" },
-        { "name": "S1EP8", "url": "https://short.icu/IHxkriIy4" }
+        { "name": "1", "url": "https://short.icu/WkYW2G_r3" },
+        { "name": "2", "url": "https://short.icu/i693ObJQg" },
+        { "name": "3", "url": "https://short.icu/qfSy6P68T" },
+        { "name": "4", "url": "https://short.icu/EqKR7s72y" },
+        { "name": "5", "url": "https://short.icu/lgHN-mruT" },
+        { "name": "6", "url": "https://short.icu/yV4CvJhKG" },
+        { "name": "7", "url": "https://short.icu/U4EveBiaT" },
+        { "name": "8", "url": "https://short.icu/Yh9VjZ_YN" },
+        { "name": "9", "url": "https://short.icu/gWlx0Nc_a" },
+        { "name": "10", "url": "https://short.icu/pQlWrZZJ1" },
+        { "name": "11", "url": "https://short.icu/rRSt6bC_R" },
+        { "name": "12", "url": "https://short.icu/tGisn5aP1" }
+    ],
+    2: [
+        { "name": "1", "url": "https://short.icu/i88CTaKP7" },
+        { "name": "2", "url": "https://short.icu/QyeJVaPoG" },
+        { "name": "3", "url": "https://short.icu/ePxzkVEyi" },
+        { "name": "4", "url": "https://short.icu/cnAoUf9r7" },
+        { "name": "5", "url": "https://short.icu/3jXGHD15o" },
+        { "name": "6", "url": "https://short.icu/xCC9a_fI3" },
+        { "name": "7", "url": "https://short.icu/_OBRy6_IP" },
+        { "name": "8", "url": "https://short.icu/OfULlgaYP" },
+        { "name": "9", "url": "https://short.icu/Co5Eb4jvJ" }
     ]
 };
 
 let currentSeason = 1;
 
-function showLoader() { document.getElementById('loading-spinner').style.display = 'block'; }
-function hideLoader() { document.getElementById('loading-spinner').style.display = 'none'; }
+function showLoader() { document.getElementById('loading-spinner').classList.remove('hidden'); }
+function hideLoader() { document.getElementById('loading-spinner').classList.add('hidden'); }
 
 function initSeasonTabs() {
-    const tabList = document.getElementById('season-tabs-list');
-    Object.keys(episodeData).forEach(season => {
+    const tabContainer = document.getElementById('season-tabs-list');
+    const seasonNames = ["Season 1", "Season 2"];
+
+    for (let i = 1; i <= 2; i++) {
         const tab = document.createElement('div');
-        tab.className = `season-tab ${season == currentSeason ? 'active' : ''}`;
-        tab.textContent = `Season ${season}`;
-        tab.onclick = () => {
-            document.querySelectorAll('.season-tab').forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            currentSeason = season;
-            loadEpisodes();
-        };
-        tabList.appendChild(tab);
-    });
+        tab.className = `season-tab ${i === 1 ? 'active' : ''}`;
+        tab.innerText = seasonNames[i-1];
+        tab.onclick = () => selectSeason(i, tab);
+        tabContainer.appendChild(tab);
+    }
+}
+
+function selectSeason(num, element) {
+    document.querySelectorAll('.season-tab').forEach(t => t.classList.remove('active'));
+    element.classList.add('active');
+    currentSeason = num;
+    loadEpisodes();
 }
 
 function loadEpisodes() {
     const container = document.getElementById('episode-buttons');
-    const downloadArea = document.getElementById('download-area');
     container.innerHTML = '';
     
-    const eps = episodeData[currentSeason];
+    const eps = episodes[currentSeason] || [];
     eps.forEach(ep => {
         const btn = document.createElement('button');
         btn.className = 'episode-btn';
-        btn.textContent = ep.name;
+        btn.textContent = `Ep ${ep.name}`;
         btn.onclick = () => {
             showLoader();
             document.getElementById('video-player').src = ep.url;
-            
-            downloadArea.innerHTML = ''; 
-            const dBtn = document.createElement('a');
-            dBtn.className = 'download-btn';
-            dBtn.href = ep.url.replace("/e/", "/d/"); 
-            dBtn.target = "_blank";
-            dBtn.textContent = `⬇ Download ${ep.name}`;
-            downloadArea.appendChild(dBtn);
-            
             window.scrollTo({top: 0, behavior: 'smooth'});
         };
         container.appendChild(btn);
     });
 
-    if(eps.length > 0) {
+    if(eps.length > 0){
         showLoader();
         document.getElementById('video-player').src = eps[0].url;
     }
@@ -240,5 +239,6 @@ window.onload = () => {
     loadEpisodes();
 };
 </script>
+
 </body>
 </html>
