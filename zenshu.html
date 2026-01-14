@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zenshu</title>
+<style>
+    :root {
+        --primary: #ff4500;
+        --secondary: #ff8c00;
+        --bg: #0f0f1a;
+        --card-bg: #1e1e2f;
+        --download-btn: #2ecc71;
+        --telegram-btn: #0088cc;
+    }
+
+    body {
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        background: var(--bg);
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+
+    header {
+        text-align: center;
+        padding: 30px 20px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        font-size: 2em;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+
+    #player-container {
+        position: relative;
+        width: 95%;
+        max-width: 900px;
+        aspect-ratio: 16 / 9;
+        margin: 20px auto;
+        background: #000;
+        border-radius: 20px;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        overflow: hidden;
+        box-shadow: 0 0 30px rgba(255, 69, 0, 0.3);
+    }
+
+    iframe { width: 100%; height: 100%; border: none; }
+
+    .loader {
+        position: absolute; top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        border: 5px solid #333;
+        border-top: 5px solid var(--primary);
+        border-radius: 50%;
+        width: 50px; height: 50px;
+        animation: spin 1s linear infinite;
+        z-index: 10;
+    }
+
+    @keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+
+    .download-container {
+        text-align: center;
+        margin: 10px auto;
+        max-width: 900px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .download-btn {
+        display: inline-block;
+        background: var(--download-btn);
+        color: white;
+        text-decoration: none;
+        padding: 12px 30px;
+        border-radius: 50px;
+        font-weight: bold;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+        cursor: pointer;
+        border: none;
+    }
+
+    .telegram-btn {
+        background: var(--telegram-btn);
+        box-shadow: 0 4px 15px rgba(0, 136, 204, 0.3);
+    }
+
+    .download-btn:hover {
+        transform: scale(1.05);
+        filter: brightness(1.1);
+    }
+
+    .season-container {
+        max-width: 1000px;
+        margin: 20px auto;
+        padding: 0 15px;
+    }
+
+    .season-label {
+        font-size: 1.2em;
+        font-weight: bold;
+        margin-bottom: 10px;
+        display: block;
+        color: var(--primary);
+    }
+
+    .season-tabs {
+        display: flex;
+        overflow-x: auto;
+        gap: 12px;
+        padding: 10px 5px;
+    }
+
+    .season-tab {
+        flex: 0 0 auto;
+        padding: 12px 25px;
+        background: var(--card-bg);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+
+    .season-tab.active {
+        background: var(--primary);
+        box-shadow: 0 0 15px var(--primary);
+    }
+
+    #episode-buttons {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 12px;
+        padding: 20px;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .episode-btn {
+        background: rgba(255, 255, 255, 0.05);
+        color: #fff;
+        border: 1px solid rgba(255,255,255,0.1);
+        padding: 15px 5px;
+        border-radius: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
+    }
+
+    .episode-btn:hover {
+        background: var(--secondary);
+        transform: translateY(-3px);
+    }
+</style>
+</head>
+<body>
+
+<header>Zenshu</header>
+
+<div id="player-container">
+    <div id="loading-spinner" class="loader"></div>
+    <iframe id="video-player" src="" allowfullscreen onload="hideLoader()"></iframe>
+</div>
+
+<div class="download-container">
+    <a href="https://t.me/+QR-0cJYVtWE3NzM1" target="_blank" class="download-btn telegram-btn">
+     Download
+    </a>
+    <div id="episode-download-area"></div>
+</div>
+
+<div class="season-container">
+    <span class="season-label">Select Season:</span>
+    <div class="season-tabs" id="season-tabs-list"></div>
+</div>
+
+<div id="episode-buttons"></div>
+
+<script>
+const episodeData = {
+    1: [
+  { name: "S1 Episode-1", url: "https://short.icu/WKwzHc6Tk" },
+  { name: "S1 Episode-2", url: "https://short.icu/4Ku-UqZFJ" },
+  { name: "S1 Episode-3", url: "https://short.icu/wo62dd36H" },
+  { name: "S1 Episode-4", url: "https://short.icu/MZD84v4PZ" },
+  { name: "S1 Episode-5", url: "https://short.icu/K_lFoGKg4" },
+  { name: "S1 Episode-6", url: "https://short.icu/i9_9rVsKT" },
+  { name: "S1 Episode-7", url: "https://short.icu/fDA2X4xot" },
+  { name: "S1 Episode-8", url: "https://short.icu/ZMFskfX4o" },
+  { name: "S1 Episode-9", url: "https://short.icu/R8g1Hfdib" },
+  { name: "S1 Episode-10", url: "https://short.icu/YQpVHGlOU" },
+  { name: "S1 Episode-11", url: "https://short.icu/77ICm0K5b" },
+  { name: "S1 Episode-12", url: "https://short.icu/sGwVJ3Lrz" },
+]
+};
+
+let currentSeason = 1;
+
+function showLoader() { document.getElementById('loading-spinner').style.display = 'block'; }
+function hideLoader() { document.getElementById('loading-spinner').style.display = 'none'; }
+
+function initSeasonTabs() {
+    const tabList = document.getElementById('season-tabs-list');
+    Object.keys(episodeData).forEach(season => {
+        const tab = document.createElement('div');
+        tab.className = `season-tab ${season == currentSeason ? 'active' : ''}`;
+        tab.textContent = `Season ${season}`;
+        tab.onclick = () => {
+            document.querySelectorAll('.season-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            currentSeason = season;
+            loadEpisodes();
+        };
+        tabList.appendChild(tab);
+    });
+}
+
+function loadEpisodes() {
+    const container = document.getElementById('episode-buttons');
+    const episodeDownloadArea = document.getElementById('episode-download-area');
+    container.innerHTML = '';
+    
+    const eps = episodeData[currentSeason];
+    eps.forEach(ep => {
+        const btn = document.createElement('button');
+        btn.className = 'episode-btn';
+        btn.textContent = ep.name;
+        btn.onclick = () => {
+            showLoader();
+            document.getElementById('video-player').src = ep.url;
+            
+            // Updates the specific episode download button
+            episodeDownloadArea.innerHTML = ''; 
+            const dBtn = document.createElement('a');
+            dBtn.className = 'download-btn';
+            dBtn.href = ep.url.replace("/e/", "/d/"); 
+            dBtn.target = "_blank";
+            dBtn.textContent = `⬇ Download ${ep.name}`;
+            episodeDownloadArea.appendChild(dBtn);
+            
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        };
+        container.appendChild(btn);
+    });
+
+    if(eps.length > 0) {
+        showLoader();
+        document.getElementById('video-player').src = eps[0].url;
+    }
+}
+
+window.onload = () => {
+    initSeasonTabs();
+    loadEpisodes();
+};
+</script>
+</body>
+</html>
