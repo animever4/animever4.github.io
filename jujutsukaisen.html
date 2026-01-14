@@ -3,6 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YGR1LPCM5K"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-YGR1LPCM5K');
+</script>
+
 <title>Jujutsu Kaisen Hindi Dub - All Episodes</title>
 <style>
     :root {
@@ -10,7 +19,6 @@
         --secondary: #dd2476;
         --bg: #0f0f1a;
         --card-bg: #1e1e2f;
-        --accent: #38ef7d;
     }
 
     body {
@@ -33,35 +41,13 @@
         box-shadow: 0 4px 20px rgba(0,0,0,0.5);
     }
 
-    /* ANNOUNCEMENT MESSAGE */
-    #announcement-banner {
-        background: rgba(255, 81, 47, 0.1);
-        border: 1px solid var(--primary);
-        color: #fff;
-        text-align: center;
-        padding: 15px;
-        margin: 15px auto;
-        width: 90%;
-        max-width: 870px;
-        border-radius: 10px;
-        font-weight: 600;
-        animation: pulse 2s infinite;
-        display: none; /* Hidden by default, shown by JS */
-    }
-
-    @keyframes pulse {
-        0% { box-shadow: 0 0 0 0 rgba(255, 81, 47, 0.4); }
-        70% { box-shadow: 0 0 0 10px rgba(255, 81, 47, 0); }
-        100% { box-shadow: 0 0 0 0 rgba(255, 81, 47, 0); }
-    }
-
     /* PLAYER STYLES */
     #player-container {
         position: relative;
         width: 95%;
         max-width: 900px;
         aspect-ratio: 16 / 9;
-        margin: 10px auto;
+        margin: 20px auto 10px auto;
         background: #000;
         border-radius: 20px;
         border: 2px solid rgba(255, 255, 255, 0.1);
@@ -94,11 +80,12 @@
     #download-btn {
         display: inline-block;
         padding: 12px 30px;
-        background: linear-gradient(135deg, #11998e, var(--accent));
+        background: linear-gradient(135deg, #11998e, #38ef7d);
         color: white;
         text-decoration: none;
         border-radius: 50px;
         font-weight: bold;
+        font-size: 1em;
         transition: all 0.3s ease;
         box-shadow: 0 4px 15px rgba(56, 239, 125, 0.3);
     }
@@ -132,6 +119,9 @@
         scrollbar-color: var(--primary) transparent;
     }
 
+    .season-tabs::-webkit-scrollbar { height: 6px; }
+    .season-tabs::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+
     .season-tab {
         flex: 0 0 auto;
         padding: 12px 25px;
@@ -141,6 +131,7 @@
         cursor: pointer;
         font-weight: bold;
         transition: all 0.3s ease;
+        white-space: nowrap;
         color: white;
     }
 
@@ -169,11 +160,13 @@
         font-weight: 600;
         cursor: pointer;
         transition: all 0.2s;
+        text-align: center;
     }
 
     .episode-btn:hover {
         background: var(--secondary);
         transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(221, 36, 118, 0.4);
     }
 
     .hidden { display: none; }
@@ -187,10 +180,6 @@
 <body>
 
 <header>Jujutsu Kaisen</header>
-
-<div id="announcement-banner">
-    🚀 Episode 2 will be added at 9:00 PM today! Stay tuned 🥳
-</div>
 
 <div id="player-container">
     <div id="loading-spinner" class="loader"></div>
@@ -209,34 +198,60 @@
 <div id="episode-buttons"></div>
 
 <script>
-// Data from original file
 const episodes = {
     1: [
-        { "name": "1", "url": "https://short.icu/sjTvSXysN" },
-        { "name": "2", "url": "https://short.icu/QmiubMl5P" },
-        { "name": "3", "url": "https://short.icu/UpTbQ7b3f" },
-        { "name": "4", "url": "https://short.icu/QumXz5R5Ur" },
-        { "name": "5", "url": "https://short.icu/hTlQAn-M9" },
-        { "name": "6", "url": "https://short.icu/8W8MFq9Hz" },
-        { "name": "7", "url": "https://short.icu/Ypr15QiFJ" },
-        { "name": "8", "url": "https://short.icu/OlTX8R55T" },
-        { "name": "9", "url": "https://short.icu/Hn21z8aOt" },
-        { "name": "10", "url": "https://short.icu/orAkmY4sA" },
-        { "name": "11", "url": "https://short.icu/OIgEMaUoH" },
-        { "name": "12", "url": "https://short.icu/1AfhfiP__" },
-        { "name": "13", "url": "https://short.icu/LL2dKPYo_" },
-        { "name": "14", "url": "https://short.icu/_eo_OU79X" },
-        { "name": "15", "url": "https://short.icu/US2fkGk51" },
-        { "name": "16", "url": "https://short.icu/jv7wn-mPA" },
-        { "name": "17", "url": "https://short.icu/hegyxzIpg" },
-        { "name": "18", "url": "https://short.icu/ifyupuAUw" },
-        { "name": "19", "url": "https://short.icu/5XFZwm0dM" },
-        { "name": "20", "url": "https://short.icu/O6y3cz1Te" },
-        { "name": "21", "url": "https://short.icu/lOt3pb0dm" },
-        { "name": "22", "url": "https://short.icu/I7ZGoMIGe" },
-        { "name": "23", "url": "https://short.icu/VP7fx7zyl" },
-        { "name": "24", "url": "https://short.icu/PlpsAtGPn" }
-    ],
+    { "name": "S1E1", "url": "https://short.icu/GpbYgh2NI" },
+    { "name": "S1E2", "url": "https://short.icu/nSiFHhxF-" },
+    { "name": "S1E3", "url": "https://short.icu/tPye7jes2" },
+    { "name": "S1E4", "url": "https://short.icu/jAMseTe0y" },
+    { "name": "S1E5", "url": "https://short.icu/UqVmRh7Q1" },
+    { "name": "S1E6", "url": "https://short.icu/7woN4fZ0p" },
+    { "name": "S1E7", "url": "https://short.icu/BEY-wneiB" },
+    { "name": "S1E8", "url": "https://short.icu/xHwzetvKK" },
+    { "name": "S1E9", "url": "https://short.icu/nmsLEG16U" },
+    { "name": "S1E10", "url": "https://short.icu/Ke1A8b6El" },
+    { "name": "S1E11", "url": "https://short.icu/4JI5oZEmD" },
+    { "name": "S1E12", "url": "https://short.icu/i8ENv1M8r" },
+    { "name": "S1E13", "url": "https://short.icu/2pTkvJMFd" },
+    { "name": "S1E14", "url": "https://short.icu/-3ye_kcBe" },
+    { "name": "S1E15", "url": "https://short.icu/N57d7ioY2" },
+    { "name": "S02E01", "url": "https://short.icu/RBussU-O9" },
+    { "name": "S02E02", "url": "https://short.icu/WpwOkJPjd" },
+    { "name": "S02E03", "url": "https://short.icu/uX2ecO4QH" },
+    { "name": "S02E04", "url": "https://short.icu/ukFWB6tE3" },
+    { "name": "S02E05", "url": "https://short.icu/VntiAbPXF" },
+    { "name": "S02E06", "url": "https://short.icu/4YEGW0z75" },
+    { "name": "S02E07", "url": "https://short.icu/PKKk36e_8" },
+    { "name": "S02E08", "url": "https://short.icu/e4URLaox6" },
+    { "name": "S02E09", "url": "https://short.icu/bsTxx_FSA" },
+    { "name": "S02E10", "url": "https://short.icu/HmUY-xb8Ay" },
+    { "name": "S02E11", "url": "https://short.icu/Aprn8PMzG" },
+    { "name": "S02E12", "url": "https://short.icu/F8NUzYlzJ" },
+    { "name": "S3E1", "url": "https://short.icu/_GHtjYxkK" },
+    { "name": "S3E2", "url": "https://short.icu/W5lnj5_bHO" },
+    { "name": "S3E3", "url": "https://short.icu/PMwz_UpVn" },
+    { "name": "S3E4", "url": "https://short.icu/vhZJEgZdx" },
+    { "name": "S3E5", "url": "https://short.icu/QQf_jiV7m" },
+    { "name": "S3E6", "url": "https://short.icu/0_q0GRJxp" },
+    { "name": "S3E7", "url": "https://short.icu/fH0nbKHNc" },
+    { "name": "S3E8", "url": "https://short.icu/8Vucmm7m3" },
+    { "name": "S3E9", "url": "https://short.icu/-JeCi2EbY" },
+    { "name": "S3E10", "url": "https://short.icu/WheOPeMj_n" },
+    { "name": "S3E11", "url": "https://short.icu/m3ePZ0bQf" },
+    { "name": "S3E12", "url": "https://short.icu/atrLvLOM4" },
+    { "name": "S4E1", "url": "https://short.icu/-MrEgll1Z" },
+    { "name": "S4E2", "url": "https://short.icu/PjFMYrJ6p" },
+    { "name": "S4E3", "url": "https://short.icu/kwrlwSN03" },
+    { "name": "S4E4", "url": "https://short.icu/0tEDlDOzV" },
+    { "name": "S4E5", "url": "https://short.icu/6UG197TmC" },
+    { "name": "S4E6", "url": "https://short.icu/tu0kMsK5c" },
+    { "name": "S4E7", "url": "https://short.icu/G8WWpf_cu" },
+    { "name": "S4E8", "url": "https://short.icu/fYkDHlNSq" },
+    { "name": "S4E9", "url": "https://short.icu/Fkrgna-3z" },
+    { "name": "S4E10", "url": "https://short.icu/qiGMd_pVd" },
+    { "name": "S4E11", "url": "https://short.icu/zcFEJzX-D" },
+    { "name": "S4E12", "url": "https://short.icu/dhspFQaJt" },
+],
     2: [
         { "name": "1", "url": "https://short.icu/H4ZLe0Unl" },
         { "name": "2", "url": "https://short.icu/t1S1xd9xeA" },
@@ -269,29 +284,22 @@ const episodes = {
             "url": "https://drive.google.com/file/d/12ya2ytU-FErPGxcqdBVz_TH52BU38Fkg/preview",
             "download": "https://drive.google.com/file/d/12ya2ytU-FErPGxcqdBVz_TH52BU38Fkg/view?usp=drivesdk" 
         },
-    { "name": "2",
-     "url":"https://drive.google.com/file/d/1ub3j0WlaptXvXvPBIfmtQdWg6qynTznf/preview",
-     "download": "https://drive.google.com/file/d/1ub3j0WlaptXvXvPBIfmtQdWg6qynTznf/view?usp=drivesdk"
-    }
+         { 
+            "name": "2", 
+            "url": "https://drive.google.com/file/d/12ya2ytU-FErPGxcqdBVz_TH52BU38Fkg/preview",
+            "download": "https://drive.google.com/file/d/12ya2ytU-FErPGxcqdBVz_TH52BU38Fkg/view?usp=drivesdk" 
+        },
+        { 
+            "name": "3", 
+            "url": "https://pro.iqsmartgames.com/stream/jytynpm?autoplay=1",
+            "download": "https://drive.google.com/file/d/12ya2ytU-FErPGxcqdBVz_TH52BU38Fkg/view?usp=drivesdk" 
+        }
+        // ADD MORE EPISODES HERE:
+        // { "name": "2", "url": "PREVIEW_LINK", "download": "VIEW_LINK" }
     ]
 };
 
 let currentSeason = 1;
-
-function checkAnnouncement() {
-    const now = new Date();
-    const banner = document.getElementById('announcement-banner');
-    
-    // Set the target time to 9:00 PM today
-    const target = new Date();
-    target.setHours(21, 0, 0, 0); 
-
-    if (now < target) {
-        banner.style.display = 'block';
-    } else {
-        banner.style.display = 'none';
-    }
-}
 
 function showLoader() { document.getElementById('loading-spinner').classList.remove('hidden'); }
 function hideLoader() { document.getElementById('loading-spinner').classList.add('hidden'); }
@@ -299,15 +307,18 @@ function hideLoader() { document.getElementById('loading-spinner').classList.add
 function updateDownloadButton(ep) {
     const btn = document.getElementById('download-btn');
     const epNumSpan = document.getElementById('dl-ep-num');
+    
+    // Update the text to show the correct episode number
     epNumSpan.innerText = ep.name;
 
     if (ep.download) {
         btn.style.display = 'inline-block';
         btn.href = ep.download;
-    } else if (ep.url && ep.url.includes('drive.google.com')) {
+    } else if (ep.url.includes('drive.google.com')) {
         btn.style.display = 'inline-block';
         btn.href = ep.url.replace('/preview', '/view');
     } else {
+        // Hide button if no download link is available for short.icu links
         btn.style.display = 'none';
     }
 }
@@ -335,8 +346,8 @@ function selectSeason(num, element) {
 function loadEpisodes() {
     const container = document.getElementById('episode-buttons');
     container.innerHTML = '';
-    const eps = episodes[currentSeason] || [];
     
+    const eps = episodes[currentSeason] || [];
     eps.forEach((ep) => {
         const btn = document.createElement('button');
         btn.className = 'episode-btn';
@@ -358,12 +369,10 @@ function loadEpisodes() {
 }
 
 window.onload = () => {
-    checkAnnouncement();
     initSeasonTabs();
     loadEpisodes();
-    // Re-check every minute to hide message exactly at 9:00 PM
-    setInterval(checkAnnouncement, 60000);
 };
 </script>
+
 </body>
 </html>
