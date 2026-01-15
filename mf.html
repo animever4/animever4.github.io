@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MF</title>
+<title>MF GHOST - Player</title>
 <style>
     /* 🎨 Replicating the Zenshu Theme */
     :root {
@@ -173,9 +173,9 @@
 
 <div class="download-container">
     <a href="https://t.me/+TWbt2jrZc48wYjA1" target="_blank" class="download-btn telegram-btn">
-     DOWNLOAD
+     DOWNLOAD 
     </a>
-    <div id="episode-download-area"></div>
+  
 </div>
 
 <div class="season-container">
@@ -190,11 +190,10 @@
 const episodeData = {
     1: [
         { name: "S1 Episode-1", url: "https://pro.iqsmartgames.com/stream/lnk4n0d?autoplay=1" },
-        { name: "S1 Episode-2", url: "https://pro.iqsmartgames.com/stream/frlg80i?autoplay=1" }
+        { name: "S1 Episode-2", url: "https://pro.iqsmartgames.com/stream/frlg80i?autoplay=1" },
+        { name: "S1 Episode-3", url: "ERROR" },
+        { name: "S1 Episode-4", url: "ERROR" }
     ],
-    
-        
-    
 };
 
 let currentSeason = 1;
@@ -221,6 +220,7 @@ function initSeasonTabs() {
 function loadEpisodes() {
     const container = document.getElementById('episode-buttons');
     const episodeDownloadArea = document.getElementById('episode-download-area');
+    const videoPlayer = document.getElementById('video-player');
     container.innerHTML = '';
     
     const eps = episodeData[currentSeason];
@@ -229,15 +229,28 @@ function loadEpisodes() {
         btn.className = 'episode-btn';
         btn.textContent = ep.name;
         btn.onclick = () => {
-            showLoader();
-            document.getElementById('video-player').src = ep.url;
+            episodeDownloadArea.innerHTML = ''; 
+            
+            if (ep.url === "ERROR") {
+                hideLoader();
+                // Display error message inside the iframe
+                const errorHtml = `
+                    <body style="background:#000; color:#fff; display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh; margin:0; font-family:sans-serif;">
+                        <h2 style="color:#ff4500;">⚠️ Error Happening</h2>
+                        <p>Please download this episode to watch.</p>
+                    </body>
+                `;
+                videoPlayer.srcdoc = errorHtml;
+            } else {
+                showLoader();
+                videoPlayer.removeAttribute('srcdoc');
+                videoPlayer.src = ep.url;
+            }
             
             // Updates the specific episode download button
-            episodeDownloadArea.innerHTML = ''; 
             const dBtn = document.createElement('a');
             dBtn.className = 'download-btn';
-            // Zenshu logic: replaces /e/ (embed) with /d/ (download) in the URL
-            dBtn.href = ep.url.replace("/e/", "/d/"); 
+            dBtn.href = ep.url === "ERROR" ? "https://t.me/+TWbt2jrZc48wYjA1" : ep.url.replace("/stream/", "/d/"); 
             dBtn.target = "_blank";
             dBtn.textContent = `⬇ Download ${ep.name}`;
             episodeDownloadArea.appendChild(dBtn);
@@ -248,8 +261,8 @@ function loadEpisodes() {
     });
 
     if(eps.length > 0) {
-        showLoader();
-        document.getElementById('video-player').src = eps[0].url;
+        // Automatically click first episode on load
+        container.children[0].click();
     }
 }
 
