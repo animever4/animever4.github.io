@@ -1,225 +1,303 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Bleach - Watch All Episodes in Hindi</title>
-  <style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YGR1LPCM5K"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-YGR1LPCM5K');
+</script>
+
+<title>Bleach - All Episodes</title>
+<style>
+    :root {
+        --primary: #f15a24; /* Bleach Orange */
+        --secondary: #111;
+        --bg: #050505;
+        --card-bg: #1a1a1a;
+        --download-btn: #f15a24;
+    }
+
     body {
-      margin: 0;
-      background-color: #0b0b0b;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: white;
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        background: var(--bg);
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
     }
 
     header {
-      background-color: #141414;
-      padding: 15px 20px;
-      font-size: 24px;
-      font-weight: bold;
-      color: #00ff99;
-      text-align: center;
+        text-align: center;
+        padding: 30px 20px;
+        background: linear-gradient(135deg, var(--primary), #000);
+        font-size: 2em;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.8);
     }
 
-    .player-section {
-      max-width: 960px;
-      margin: 20px auto;
-      padding: 0 15px;
+    #player-container {
+        position: relative;
+        width: 95%;
+        max-width: 900px;
+        aspect-ratio: 16 / 9;
+        margin: 20px auto;
+        background: #000;
+        border-radius: 20px;
+        border: 2px solid rgba(241, 90, 36, 0.3);
+        overflow: hidden;
+        box-shadow: 0 0 30px rgba(241, 90, 36, 0.4);
     }
 
-    iframe {
-      width: 100%;
-      height: 480px;
-      border: none;
-      border-radius: 8px;
+    iframe { width: 100%; height: 100%; border: none; }
+
+    .loader {
+        position: absolute; top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        border: 5px solid #333;
+        border-top: 5px solid var(--primary);
+        border-radius: 50%;
+        width: 50px; height: 50px;
+        animation: spin 1s linear infinite;
+        z-index: 10;
     }
 
-    .server-tabs, .season-dropdown {
-      text-align: center;
-      margin-top: 20px;
+    @keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+
+    .download-container {
+        text-align: center;
+        margin: 10px auto;
+        max-width: 900px;
     }
 
-    .server-tabs button,
-    .dropdown-toggle,
-    .dropdown-content button {
-      background-color: #222;
-      color: white;
-      padding: 10px 16px;
-      border: 1px solid #00ff99;
-      margin: 5px;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: background 0.3s;
-      font-size: 16px;
+    .download-btn {
+        display: inline-block;
+        background: var(--download-btn);
+        color: white;
+        text-decoration: none;
+        padding: 12px 30px;
+        border-radius: 50px;
+        font-weight: bold;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(241, 90, 36, 0.3);
     }
 
-    .server-tabs button.active,
-    .dropdown-content button.active {
-      background-color: #00ff99;
-      color: black;
+    .download-btn:hover {
+        transform: scale(1.05);
+        background: #ff7e52;
     }
 
-    .dropdown-toggle {
-      display: inline-block;
+    .season-container {
+        max-width: 1000px;
+        margin: 10px auto;
+        padding: 0 15px;
     }
 
-    .dropdown-content {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s ease;
+    .season-label {
+        font-size: 1.2em;
+        font-weight: bold;
+        margin-bottom: 10px;
+        display: block;
+        color: var(--primary);
     }
 
-    .dropdown-content.show {
-      max-height: 200px;
+    .season-tabs {
+        display: flex;
+        overflow-x: auto;
+        gap: 12px;
+        padding: 10px 5px;
+        scrollbar-width: thin;
+        scrollbar-color: var(--primary) transparent;
     }
 
-    .episodes-section {
-      max-width: 1000px;
-      margin: 0 auto 30px;
-      padding: 0 15px;
+    .season-tab {
+        flex: 0 0 auto;
+        padding: 12px 25px;
+        background: var(--card-bg);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        white-space: nowrap;
     }
 
-    .episode-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-      gap: 12px;
+    .season-tab.active {
+        background: var(--primary);
+        box-shadow: 0 0 15px var(--primary);
+        border-color: transparent;
     }
 
-    .episode-button {
-      background-color: #1c1c1c;
-      border: 1px solid #00ff99;
-      color: #00ff99;
-      padding: 10px;
-      border-radius: 6px;
-      text-align: center;
-      cursor: pointer;
-      transition: background 0.2s, color 0.2s;
+    #episode-buttons {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 12px;
+        padding: 20px;
+        max-width: 1000px;
+        margin: 0 auto;
     }
 
-    .episode-button:hover {
-      background-color: #00ff99;
-      color: #000;
+    .episode-btn {
+        background: rgba(255, 255, 255, 0.05);
+        color: #fff;
+        border: 1px solid rgba(255,255,255,0.1);
+        padding: 15px 5px;
+        border-radius: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
     }
 
-    .hidden {
-      display: none;
+    .episode-btn:hover {
+        background: var(--primary);
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(241, 90, 36, 0.4);
     }
-  </style>
+
+    .hidden { display: none; }
+
+    @media (max-width: 600px) {
+        header { font-size: 1.4em; }
+        .season-tab { padding: 10px 18px; font-size: 0.9em; }
+    }
+</style>
 </head>
 <body>
-  <header>Bleach Thousand-Year Blood War - Hindi Dub</header>
 
-  <div class="player-section">
-    <iframe id="videoPlayer" src="" allowfullscreen></iframe>
+<header>Bleach</header>
 
-    <div class="server-tabs">
-      <button onclick="setServer('filemoon')" id="filemoonBtn">Filemoon</button>
-      <button onclick="setServer('servabyss')" id="servabyssBtn">Servabyss</button>
-      <button onclick="setServer('vidgroud')" id="vidgroudBtn">Vidgroud</button>
-    </div>
+<div id="player-container">
+    <div id="loading-spinner" class="loader"></div>
+    <iframe id="video-player" src="" allowfullscreen onload="hideLoader()"></iframe>
+</div>
 
-    <div class="season-dropdown">
-      <button class="dropdown-toggle" onclick="toggleDropdown()">Seasons ▾</button>
-      <div class="dropdown-content" id="seasonDropdown">
-        <button onclick="setSeason('s1')" id="s1Btn">Season 1</button>
-        <button onclick="setSeason('s2')" id="s2Btn">Season 2</button>
-      </div>
-    </div>
-  </div>
+<div class="download-container" id="download-area"></div>
 
-  <div class="episodes-section">
-    <div class="episode-grid" id="season1Episodes"></div>
-    <div class="episode-grid hidden" id="season2Episodes"></div>
-  </div>
+<div class="season-container">
+    <span class="season-label">Select Season:</span>
+    <div class="season-tabs" id="season-tabs-list"></div>
+</div>
 
-  <script>
-    const allEpisodes = {
-      filemoon: {
-        s1: [
-          { name: "S1EP01", url: "https://filemoon.nl/e/9eudvtmwe2dl" },
-          { name: "S1EP02", url: "https://filemoon.nl/e/irqqbakndyhr" },
-          { name: "S1EP03", url: "https://filemoon.nl/e/8ibxyk4avo23" },
-          { name: "S1EP04", url: "https://filemoon.nl/e/7fvw5o3y8x8p" },
-          { name: "S1EP05", url: "https://filemoon.nl/e/pazp9oa8e0ox" },
-          { name: "S1EP06", url: "https://filemoon.nl/e/bx32tpt603d4" },
-          { name: "S1EP07", url: "https://filemoon.nl/e/x6a7hgu7icw4" },
-          { name: "S1EP08", url: "https://filemoon.nl/e/mgcn9dw7cbip" },
-          { name: "S1EP09", url: "https://filemoon.nl/e/6acpoxnqwwdp" },
-          { name: "S1EP10", url: "https://filemoon.nl/e/3ot6uzyoo5u6" },
-          { name: "S1EP11", url: "https://filemoon.nl/e/8dsjs4t38xsq" },
-          { name: "S1EP12", url: "https://filemoon.nl/e/hk5hqnopyrub" },
-          { name: "S1EP13", url: "https://filemoon.nl/e/gkrf29cm9r2t" }
-        ],
-        s2: [
-          { name: "S2EP01", url: "https://filemoon.nl/e/nhx1ea901rs3" },
-          { name: "S2EP02", url: "https://filemoon.nl/e/amwv4g0gfwkp" },
-          { name: "S2EP03", url: "https://filemoon.nl/e/54363rjcpie1" },
-          { name: "S2EP04", url: "https://filemoon.nl/e/qxe5vtfoyeoc" },
-          { name: "S2EP05", url: "https://filemoon.nl/e/d0ctavba2kb9" },
-          { name: "S2EP06", url: "https://filemoon.nl/e/on9v1oxhdrxa" },
-          { name: "S2EP07", url: "https://filemoon.nl/e/1m1bkwkedegx" },
-          { name: "S2EP08", url: "https://filemoon.nl/e/8ubu0aujk015" },
-          { name: "S2EP09", url: "https://filemoon.nl/e/9y8it784mjqp" },
-          { name: "S2EP10", url: "https://filemoon.nl/e/y4j1uteo3ami" },
-          { name: "S2EP11", url: "https://filemoon.nl/e/v5nwox7j8hpb" },
-          { name: "S2EP12", url: "https://filemoon.nl/e/igw86gkjcjjl" },
-          { name: "S2EP13", url: "https://filemoon.nl/e/obqob2be9x9a" }
-        ]
-      },
-      servabyss: { s1: [], s2: [] },
-      vidgroud: { s1: [], s2: [] }
-    };
+<div id="episode-buttons"></div>
 
-    let currentServer = 'filemoon';
-    let currentSeason = 's1';
+<script>
+// Replace this with your actual download base link if needed
+const globalDownloadLink = "https://t.me/+PfYemtN4JMU0MDY1";
 
-    function loadEpisodes(server, season) {
-      const epList = allEpisodes[server][season];
-      const container = document.getElementById(season === 's1' ? 'season1Episodes' : 'season2Episodes');
-      container.innerHTML = '';
+const episodes = {
+    1: [
+        { "name": "Episode 01", "url": "https://pro.iqsmartgames.com/stream/fdi6nsg?autoplay=1" },
+        { "name": "Episode 02", "url": "https://pro.iqsmartgames.com/stream/r3nxds3?autoplay=1" },
+        { "name": "Episode 03", "url": "https://pro.iqsmartgames.com/stream/yk9inse?autoplay=1" },
+        { "name": "Episode 04", "url": "https://pro.iqsmartgames.com/stream/an5o4y8?autoplay=1" },
+        { "name": "Episode 05", "url": "https://pro.iqsmartgames.com/stream/yvrtzn3?autoplay=1" },
+        { "name": "Episode 06", "url": "https://pro.iqsmartgames.com/stream/q8nzzwq?autoplay=1" },
+        { "name": "Episode 07", "url": "https://pro.iqsmartgames.com/stream/oamlj7g?autoplay=1" },
+        { "name": "Episode 08", "url": "https://pro.iqsmartgames.com/stream/wzjpb29?autoplay=1" },
+        { "name": "Episode 09", "url": "https://pro.iqsmartgames.com/stream/x4dd0ag?autoplay=1" },
+        { "name": "Episode 10", "url": "https://pro.iqsmartgames.com/stream/tl9fwz3?autoplay=1" },
+        { "name": "Episode 11", "url": "https://pro.iqsmartgames.com/stream/d8nec9a?autoplay=1" },
+        { "name": "Episode 12", "url": "https://pro.iqsmartgames.com/stream/oovuwod?autoplay=1" },
+        { "name": "Episode 13", "url": "https://pro.iqsmartgames.com/stream/aujia9g?autoplay=1" },
+        { "name": "Episode 14", "url": "https://pro.iqsmartgames.com/stream/luzt38z?autoplay=1" },
+        { "name": "Episode 15", "url": "https://pro.iqsmartgames.com/stream/taqbb8r?autoplay=1" },
+        { "name": "Episode 16", "url": "https://pro.iqsmartgames.com/stream/jowm0vy?autoplay=1" },
+        { "name": "Episode 17", "url": "https://pro.iqsmartgames.com/stream/cacd73k?autoplay=1" },
+        { "name": "Episode 18", "url": "https://pro.iqsmartgames.com/stream/hkm6b6t?autoplay=1" },
+        { "name": "Episode 19", "url": "https://pro.iqsmartgames.com/stream/yzd6j2p?autoplay=1" },
+        { "name": "Episode 20", "url": "https://pro.iqsmartgames.com/stream/wq1ym76?autoplay=1" },
+        { "name": "Episode 21", "url": "https://pro.iqsmartgames.com/stream/toy0ht4?autoplay=1" },
+        { "name": "Episode 22", "url": "https://pro.iqsmartgames.com/stream/m212syp?autoplay=1" },
+        { "name": "Episode 23", "url": "https://pro.iqsmartgames.com/stream/wccjw7y?autoplay=1" },
+        { "name": "Episode 24", "url": "https://pro.iqsmartgames.com/stream/prr2010?autoplay=1" },
+        { "name": "Episode 25", "url": "https://pro.iqsmartgames.com/stream/xaqqfpg?autoplay=1" },
+        { "name": "Episode 26", "url": "https://pro.iqsmartgames.com/stream/euqkhr9?autoplay=1" },
+        { "name": "Episode 27", "url": "https://pro.iqsmartgames.com/stream/los7y4r?autoplay=1" },
+        { "name": "Episode 28", "url": "https://pro.iqsmartgames.com/stream/af1u7ya?autoplay=1" },
+        { "name": "Episode 29", "url": "https://pro.iqsmartgames.com/stream/bd45two?autoplay=1" },
+        { "name": "Episode 30", "url": "https://pro.iqsmartgames.com/stream/m6k5oix?autoplay=1" },
+        { "name": "Episode 31", "url": "https://pro.iqsmartgames.com/stream/j4tk1dh?autoplay=1" },
+        { "name": "Episode 32", "url": "https://pro.iqsmartgames.com/stream/ru4kgpe?autoplay=1" },
+        { "name": "Episode 33", "url": "https://pro.iqsmartgames.com/stream/mdfccxo?autoplay=1" },
+        { "name": "Episode 34", "url": "https://pro.iqsmartgames.com/stream/g0prjiy?autoplay=1" },
+        { "name": "Episode 35", "url": "https://pro.iqsmartgames.com/stream/p31reck?autoplay=1" }
+    ]
+};
 
-      epList.forEach(ep => {
-        const btn = document.createElement('div');
-        btn.className = 'episode-button';
+let currentSeason = 1;
+
+function showLoader() { document.getElementById('loading-spinner').classList.remove('hidden'); }
+function hideLoader() { document.getElementById('loading-spinner').classList.add('hidden'); }
+
+function initSeasonTabs() {
+    const tabContainer = document.getElementById('season-tabs-list');
+    const seasonNames = ["Season 1"]; 
+
+    for (let i = 1; i <= seasonNames.length; i++) {
+        const tab = document.createElement('div');
+        tab.className = `season-tab ${i === 1 ? 'active' : ''}`;
+        tab.innerText = seasonNames[i-1];
+        tab.onclick = () => selectSeason(i, tab);
+        tabContainer.appendChild(tab);
+    }
+}
+
+function selectSeason(num, element) {
+    document.querySelectorAll('.season-tab').forEach(t => t.classList.remove('active'));
+    element.classList.add('active');
+    currentSeason = num;
+    loadEpisodes();
+}
+
+function updateDownloadButton(episodeName) {
+    const downloadArea = document.getElementById('download-area');
+    downloadArea.innerHTML = ''; 
+    
+    const dBtn = document.createElement('a');
+    dBtn.className = 'download-btn';
+    dBtn.href = globalDownloadLink; 
+    dBtn.target = "_blank";
+    dBtn.textContent = `⬇ Download ${episodeName}`;
+    downloadArea.appendChild(dBtn);
+}
+
+function loadEpisodes() {
+    const container = document.getElementById('episode-buttons');
+    container.innerHTML = '';
+    
+    const eps = episodes[currentSeason] || [];
+    eps.forEach(ep => {
+        const btn = document.createElement('button');
+        btn.className = 'episode-btn';
         btn.textContent = ep.name;
-        btn.onclick = () => loadVideo(ep.url);
+        btn.onclick = () => {
+            showLoader();
+            document.getElementById('video-player').src = ep.url;
+            updateDownloadButton(ep.name);
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        };
         container.appendChild(btn);
-      });
+    });
+
+    if(eps.length > 0){
+        showLoader();
+        document.getElementById('video-player').src = eps[0].url;
+        updateDownloadButton(eps[0].name);
     }
+}
 
-    function loadVideo(url) {
-      document.getElementById('videoPlayer').src = url;
-    }
+window.onload = () => {
+    initSeasonTabs();
+    loadEpisodes();
+};
+</script>
 
-    function setServer(server) {
-      currentServer = server;
-      document.querySelectorAll('.server-tabs button').forEach(btn => btn.classList.remove('active'));
-      document.getElementById(server + 'Btn').classList.add('active');
-      setSeason(currentSeason); // refresh season view
-    }
-
-    function setSeason(season) {
-      currentSeason = season;
-      document.querySelectorAll('.dropdown-content button').forEach(btn => btn.classList.remove('active'));
-      document.getElementById(season + 'Btn').classList.add('active');
-
-      document.getElementById('season1Episodes').classList.add('hidden');
-      document.getElementById('season2Episodes').classList.add('hidden');
-
-      document.getElementById(season === 's1' ? 'season1Episodes' : 'season2Episodes').classList.remove('hidden');
-
-      loadEpisodes(currentServer, season);
-
-      const firstEp = allEpisodes[currentServer][season][0];
-      if (firstEp) loadVideo(firstEp.url);
-    }
-
-    function toggleDropdown() {
-      document.getElementById('seasonDropdown').classList.toggle('show');
-    }
-
-    // Default load
-    setServer('filemoon');
-  </script>
 </body>
 </html>
