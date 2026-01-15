@@ -71,8 +71,26 @@
 
     .download-container {
         text-align: center;
-        margin: 10px auto;
+        margin: 20px auto;
         max-width: 900px;
+    }
+
+    .main-download-btn {
+        display: inline-block;
+        background: var(--download-btn);
+        color: #fff;
+        padding: 15px 30px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: bold;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+    }
+
+    .main-download-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(46, 204, 113, 0.5);
     }
 
     .season-container {
@@ -160,7 +178,9 @@
     <iframe id="video-player" src="" allowfullscreen onload="hideLoader()"></iframe>
 </div>
 
-<div class="download-container" id="download-area"></div>
+<div class="download-container">
+    <a href="https://t.me/+VcNIWEroKe5lNmU1" target="_blank" class="main-download-btn">Download</a>
+</div>
 
 <div class="season-container">
     <span class="season-label">Select Season:</span>
@@ -375,9 +395,7 @@ function selectSeason(num, element) {
 
 function loadEpisodes() {
     const container = document.getElementById('episode-buttons');
-    const downloadArea = document.getElementById('download-area');
     container.innerHTML = '';
-    downloadArea.innerHTML = ''; 
     
     const eps = episodes[currentSeason] || [];
     eps.forEach(ep => {
