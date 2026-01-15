@@ -175,7 +175,7 @@
     <a href="https://t.me/+TWbt2jrZc48wYjA1" target="_blank" class="download-btn telegram-btn">
      DOWNLOAD 
     </a>
-  
+    <div id="episode-download-area"></div>
 </div>
 
 <div class="season-container">
@@ -191,8 +191,8 @@ const episodeData = {
     1: [
         { name: "S1 Episode-1", url: "https://pro.iqsmartgames.com/stream/lnk4n0d?autoplay=1" },
         { name: "S1 Episode-2", url: "https://pro.iqsmartgames.com/stream/frlg80i?autoplay=1" },
-        { name: "S1 Episode-3", url: "ERROR" },
-        { name: "S1 Episode-4", url: "ERROR" }
+        { name: "S1 Episode-3", url: "https://pro.iqsmartgames.com/stream/od82hil?autoplay=1" },
+        { name: "S1 Episode-4", url: "https://pro.iqsmartgames.com/stream/bjnjd23?autoplay=1" }
     ],
 };
 
@@ -233,7 +233,6 @@ function loadEpisodes() {
             
             if (ep.url === "ERROR") {
                 hideLoader();
-                // Display error message inside the iframe
                 const errorHtml = `
                     <body style="background:#000; color:#fff; display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh; margin:0; font-family:sans-serif;">
                         <h2 style="color:#ff4500;">⚠️ Error Happening</h2>
@@ -247,7 +246,6 @@ function loadEpisodes() {
                 videoPlayer.src = ep.url;
             }
             
-            // Updates the specific episode download button
             const dBtn = document.createElement('a');
             dBtn.className = 'download-btn';
             dBtn.href = ep.url === "ERROR" ? "https://t.me/+TWbt2jrZc48wYjA1" : ep.url.replace("/stream/", "/d/"); 
@@ -261,7 +259,6 @@ function loadEpisodes() {
     });
 
     if(eps.length > 0) {
-        // Automatically click first episode on load
         container.children[0].click();
     }
 }
