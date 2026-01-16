@@ -1,161 +1,359 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Attack on Titan - All Episodes</title>
-  <style>
-    body { background: black; color: white; font-family: Arial, sans-serif; margin: 0; padding: 0; }
-    .container { padding: 20px; }
-    h1, h2 { color: limegreen; }
-    .server-buttons button { margin-right: 10px; padding: 8px 12px; background: #007BFF; color: white; border: none; cursor: pointer; border-radius: 5px; }
-    .server-buttons button:hover { background: #0056b3; }
-    .episode-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
-    .episode-list button { background: #6c757d; color: white; border: 2px solid #03C03C; border-radius: 5px; padding: 8px 10px; cursor: pointer; }
-    iframe { width: 100%; height: 400px; border: 2px solid white; margin-top: 20px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Attack on Titan - All Episodes</title>
+<style>
+    :root {
+        --primary: #00d4ff; 
+        --secondary: #0056b3;
+        --bg: #020b14;
+        --card-bg: #0a192f;
+        --glow: rgba(0, 212, 255, 0.5);
+    }
+
+    body {
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        background: var(--bg);
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+
+    header {
+        text-align: center;
+        padding: 30px 20px;
+        background: linear-gradient(135deg, var(--secondary), #000);
+        font-size: 2em;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+        border-bottom: 2px solid var(--primary);
+        text-shadow: 0 0 10px var(--glow);
+    }
+
+    #player-container {
+        position: relative;
+        width: 95%;
+        max-width: 900px;
+        aspect-ratio: 16 / 9;
+        margin: 20px auto;
+        background: #000;
+        border-radius: 20px;
+        border: 2px solid var(--primary);
+        overflow: hidden;
+        box-shadow: 0 0 30px var(--glow);
+    }
+
+    iframe { width: 100%; height: 100%; border: none; }
+
+    .loader {
+        position: absolute; top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        border: 5px solid #111;
+        border-top: 5px solid var(--primary);
+        border-radius: 50%;
+        width: 50px; height: 50px;
+        animation: spin 1s linear infinite;
+        z-index: 10;
+    }
+
+    @keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+
+    .download-container {
+        text-align: center;
+        margin: 20px auto;
+        max-width: 900px;
+    }
+
+    .main-download-btn {
+        display: inline-block;
+        background: transparent;
+        color: var(--primary);
+        border: 2px solid var(--primary);
+        padding: 15px 35px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: bold;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 15px var(--glow);
+    }
+
+    .main-download-btn:hover {
+        background: var(--primary);
+        color: #000;
+        transform: scale(1.05);
+        box-shadow: 0 0 30px var(--primary);
+    }
+
+    .season-container {
+        max-width: 1000px;
+        margin: 10px auto;
+        padding: 0 15px;
+    }
+
+    .season-label {
+        font-size: 1.1em;
+        font-weight: bold;
+        margin-bottom: 10px;
+        display: block;
+        color: var(--primary);
+        text-transform: uppercase;
+    }
+
+    .season-tabs {
+        display: flex;
+        overflow-x: auto;
+        gap: 12px;
+        padding: 10px 5px;
+        scrollbar-width: thin;
+        scrollbar-color: var(--primary) transparent;
+    }
+
+    .season-tab {
+        flex: 0 0 auto;
+        padding: 12px 25px;
+        background: var(--card-bg);
+        border: 1px solid rgba(0, 212, 255, 0.3);
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+        color: #fff;
+    }
+
+    .season-tab.active {
+        background: var(--primary);
+        color: #000;
+        box-shadow: 0 0 20px var(--glow);
+        border-color: var(--primary);
+    }
+
+    #episode-buttons {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 12px;
+        padding: 20px;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .episode-btn {
+        background: rgba(0, 212, 255, 0.05);
+        color: #fff;
+        border: 1px solid rgba(0, 212, 255, 0.2);
+        padding: 15px 5px;
+        border-radius: 10px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
+    }
+
+    .episode-btn:hover {
+        background: var(--secondary);
+        border-color: var(--primary);
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px var(--glow);
+    }
+
+    .hidden { display: none; }
+
+    @media (max-width: 600px) {
+        header { font-size: 1.4em; }
+        .season-tab { padding: 10px 18px; font-size: 0.9em; }
+    }
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>Attack on Titan - Streaming</h1>
 
-    <div class="server-buttons">
-      <button onclick="setServer('filemoon')">Filemoon</button>
-      <button onclick="setServer('servabyss')">Servabyss</button>
-      <button onclick="setServer('vidgroud')">Vidgroud</button>
-    </div>
+<header>Attack on Titan</header>
 
-    <div class="episode-list" id="episodeButtons"></div>
+<div id="player-container">
+    <div id="loading-spinner" class="loader"></div>
+    <iframe id="video-player" src="" allowfullscreen onload="hideLoader()"></iframe>
+</div>
 
-    <iframe id="videoPlayer" src="" allowfullscreen></iframe>
-  </div>
+<div class="download-container">
+    <a href="https://t.me/+g_yYUf4KWBIxM2I1" target="_blank" class="main-download-btn">Download</a>
+</div>
 
-  <script>
-    const allEpisodes = {
-      filemoon: [
-        { name: "S1E1", url: "https://filemoon.nl/e/cqxxq9x0poyw/" },
-        { name: "S1E2", url: "https://filemoon.nl/e/q0uwconcj5qs/" },
-        { name: "S1E3", url: "https://filemoon.nl/e/ii4ldqvdwodm/" },
-        { name: "S1E4", url: "https://filemoon.nl/e/n3oylvkj2xie/" },
-        { name: "S1E5", url: "https://filemoon.nl/e/bycntapoqbi9/" },
-        { name: "S1E6", url: "https://filemoon.nl/e/aufhv375rp1m/" },
-        { name: "S1E7", url: "https://filemoon.nl/e/blwwlh2gzwe7/" },
-        { name: "S1E8", url: "https://filemoon.nl/e/zykcxs0ameg1/" },
-        { name: "S1E9", url: "https://filemoon.nl/e/4e5jxppg49g0/" },
-        { name: "S1E10", url: "https://filemoon.nl/e/y7f9ee7qayd8/" },
-        { name: "S1E11", url: "https://filemoon.nl/e/uox2su2llwp2/" },
-        { name: "S1E12", url: "https://filemoon.nl/e/c1421lv9b5y5/" },
-        { name: "S1E13", url: "https://filemoon.nl/e/nx7tx9e82ncb/" },
-        { name: "S1E14", url: "https://filemoon.nl/e/515gkjlzlu4y/" },
-        { name: "S1E15", url: "https://filemoon.nl/e/it7hjxdiwrcw/" },
-        { name: "S1E16", url: "https://filemoon.nl/e/wlnkc5m43knw/" },
-        { name: "S1E17", url: "https://filemoon.nl/e/t4gj125r6xvh/" },
-        { name: "S1E18", url: "https://filemoon.nl/e/xomhmmvbmsbc/" },
-        { name: "S1E19", url: "https://filemoon.nl/e/73bfattjxyzf/" },
-        { name: "S1E20", url: "https://filemoon.nl/e/o9yf84bkvk2v/" },
-        { name: "S1E21", url: "https://filemoon.nl/e/ym5h3hwoxgx8/" },
-        { name: "S1E22", url: "https://filemoon.nl/e/lvo3cf4nyza3/" },
-        { name: "S1E23", url: "https://filemoon.nl/e/3dx63909wtxv/" },
-        { name: "S1E24", url: "https://filemoon.nl/e/vi2wh05qdi1r/" },
-        { name: "S1E25", url: "https://filemoon.nl/e/0gham78zz84o/" },
-        { name: "S2E26", url: "https://filemoon.nl/e/0zveujx7l18s/" },
-        { name: "S2E27", url: "https://filemoon.nl/e/0vl09jndlkz9/" },
-        { name: "S2E28", url: "https://filemoon.nl/e/8w4xiucq9mgv/" },
-        { name: "S2E29", url: "https://filemoon.nl/e/scirepqvkcg9/" },
-        { name: "S2E30", url: "https://filemoon.nl/e/uhj3wpu1qrme/" },
-        { name: "S2E31", url: "https://filemoon.nl/e/pw070z0kk8y1/" },
-        { name: "S2E32", url: "https://filemoon.nl/e/kbrjfutgdwcu/" },
-        { name: "S2E33", url: "https://filemoon.nl/e/e6blanim6oj4/" },
-        { name: "S2E34", url: "https://filemoon.nl/e/1c599ze1qc6z/" },
-        { name: "S2E35", url: "https://filemoon.nl/e/ywc0z9vi45dl/" },
-        { name: "S2E36", url: "https://filemoon.nl/e/np4vo1n06pmt/" },
-        { name: "S2E37", url: "https://filemoon.nl/e/7wec6w5ff72p/" },
-        { name: "S3E38", url: "https://filemoon.nl/e/wnmncwe4h3tp/" },
-        { name: "S3E39", url: "https://filemoon.nl/e/gk1z07xyadi0/" },
-        { name: "S3E40", url: "https://filemoon.nl/e/3k3swllyi7ob/" },
-        { name: "S3E41", url: "https://filemoon.nl/e/b2d2xdc6tlwg/" },
-        { name: "S3E42", url: "https://filemoon.nl/e/pvpz2bxx0u5b/" },
-        { name: "S3E43", url: "https://filemoon.nl/e/1gz974udfey8/" },
-        { name: "S3E44", url: "https://filemoon.nl/e/phfy9noqoyzo/" },
-        { name: "S3E45", url: "https://filemoon.nl/e/3yhuic69gp30/" },
-        { name: "S3E46", url: "https://filemoon.nl/e/uoy6rao49ylp/" },
-        { name: "S3E47", url: "https://filemoon.nl/e/6c7pbm2k5y79/" },
-        { name: "S3E48", url: "https://filemoon.nl/e/ifi15bsiwlkx/" },
-        { name: "S3E49", url: "https://filemoon.nl/e/uby57brxskmo/" },
-        { name: "S3E50", url: "https://filemoon.nl/e/4y87nkffrycb/" },
-        { name: "S3E51", url: "https://filemoon.nl/e/8cpxibtbnk22/" },
-        { name: "S3E52", url: "https://filemoon.nl/e/isvyesympjao/" },
-        { name: "S3E53", url: "https://filemoon.nl/e/r0trhxqzc5jy/" },
-        { name: "S3E54", url: "https://filemoon.nl/e/y5muw9vz7am1/" },
-        { name: "S3E55", url: "https://filemoon.nl/e/ssssevz205ji/" },
-        { name: "S3E56", url: "https://filemoon.nl/e/hfb18y7vki9p/" },
-        { name: "S3E57", url: "https://filemoon.nl/e/yh4tri63fpn1/" },
-        { name: "S3E58", url: "https://filemoon.nl/e/fahjpdfg0prh/" },
-        { name: "S3E59", url: "https://filemoon.nl/e/rd5y4u8ikm6n/" },
-        { name: "S4E1", url: "https://filemoon.nl/e/875bplklxaw6" },
-        { name: "S4E2", url: "https://filemoon.nl/e/p97pvjygf1tz" },
-        { name: "S4E3", url: "https://filemoon.nl/e/k08nhzk46x3n" },
-        { name: "S4E4", url: "https://filemoon.nl/e/kbpcejz9oxbi" },
-        { name: "S4E5", url: "https://filemoon.nl/e/jyt0ip7lzga7" },
-        { name: "S4E6", url: "https://filemoon.nl/e/os5qcxueznkg" },
-        { name: "S4E7", url: "https://filemoon.nl/e/ae9b6w98o10i" },
-        { name: "S4E8", url: "https://filemoon.nl/e/4yd6yo3ox2lp" },
-        { name: "S4E9", url: "https://filemoon.nl/e/vvo3643o4qiw" },
-        { name: "S4E10", url: "https://filemoon.nl/e/z1k0rvghr79f" },
-        { name: "S4E11", url: "https://filemoon.nl/e/loppowp0a4ac" },
-        { name: "S4E12", url: "https://filemoon.nl/e/5xy8oy19u7bc" },
-        { name: "S4E13", url: "https://filemoon.nl/e/2hac4ti0ty9i" },
-        { name: "S4E14", url: "https://filemoon.nl/e/foladq8rxorl" },
-        { name: "S4E15", url: "https://filemoon.nl/e/4kv1ibdtzb1w" },
-        { name: "S4E16", url: "https://filemoon.nl/e/4pj8vxekuqgm" },
-        { name: "S4E17", url: "https://filemoon.nl/e/azk2pl91pvsh" },
-        { name: "S4E18", url: "https://filemoon.nl/e/5ccpxeez7r3m" },
-        { name: "S4E19", url: "https://filemoon.nl/e/7ktz49z2x9f3" },
-        { name: "S4E20", url: "https://filemoon.nl/e/qwkvufjsa9b6" },
-        { name: "S4E21", url: "https://filemoon.nl/e/ydcnu8xgn2cm" },
-        { name: "S4E22", url: "https://filemoon.nl/e/q9b9z8eb5nsa" },
-        { name: "S4E23", url: "https://filemoon.nl/e/xth03wqfczl1" },
-        { name: "S4E24", url: "https://filemoon.nl/e/b4p2jtqlbenx" },
-        { name: "S4E25", url: "https://filemoon.nl/e/f41eesp3yvex" },
-        { name: "S4E26", url: "https://filemoon.nl/e/7kfocbunja94" },
-        { name: "S4E27", url: "https://filemoon.nl/e/0sphix6j9c3l" },
-        { name: "S4E28", url: "https://filemoon.nl/e/pnl6efuby4nz" },
-        { name: "S4E29", url: "https://filemoon.nl/e/znq93q2x5n4d" },
-        { name: "S4E30", url: "https://filemoon.nl/e/wj0zit296702" },
-        { name: "OAD S1E1", url: "https://filemoon.nl/e/wmjif102j5nc" },
-        { name: "OAD S1E2", url: "https://filemoon.nl/e/535qoif48saa" },
-        { name: "OAD S1E3", url: "https://filemoon.nl/e/tzcawhgrgrbk" },
-        { name: "OAD S1E4", url: "https://filemoon.nl/e/kl177zf7t34k" },
-        { name: "OAD S1E5", url: "https://filemoon.nl/e/mc2uvwg2saog" },
-        { name: "OAD S1E6", url: "https://filemoon.nl/e/6gefsgjuk4ah" },
-        { name: "OAD S1E7", url: "https://filemoon.nl/e/by2tt4rnl5r6" },
-        { name: "OAD S1E8", url: "https://filemoon.nl/e/mzsrwtz4l0t9" }
-      ],
-      servabyss: [],
-      vidgroud: []
-    };
+<div class="season-container">
+    <span class="season-label">Explore Seasons:</span>
+    <div class="season-tabs" id="season-tabs-list"></div>
+</div>
 
-    function loadEpisodes(server) {
-      const container = document.getElementById('episodeButtons');
-      container.innerHTML = '';
-      allEpisodes[server].forEach(ep => {
+<div id="episode-buttons"></div>
+
+<script>
+const episodes = {
+    1: [
+        { "name": "EP 01", "url": "https://short.icu/zEsqLGWpxV" },
+        { "name": "EP 02", "url": "https://short.icu/A_HAnjTk-" },
+        { "name": "EP 03", "url": "https://short.icu/D29SWBRR6" },
+        { "name": "EP 04", "url": "https://short.icu/ZN_riznzE" },
+        { "name": "EP 05", "url": "https://short.icu/MlF2khnS1" },
+        { "name": "EP 06", "url": "https://short.icu/RNfaBUqBv" },
+        { "name": "EP 07", "url": "https://short.icu/XxNY0gaV2" },
+        { "name": "EP 08", "url": "https://short.icu/2EYhVGkH5" },
+        { "name": "EP 09", "url": "https://short.icu/4Bl-cX_-G" },
+        { "name": "EP 10", "url": "https://short.icu/vTkKEEo0k" },
+        { "name": "EP 11", "url": "https://short.icu/TjZWUl3yf" },
+        { "name": "EP 12", "url": "https://short.icu/2jAqYG_eX" },
+        { "name": "EP 13", "url": "https://short.icu/97akO0Ltz" },
+        { "name": "EP 14", "url": "https://short.icu/-sB_LlvNJ" },
+        { "name": "EP 15", "url": "https://short.icu/_8kNOKfU0" },
+        { "name": "EP 16", "url": "https://short.icu/v9JgInNpb" },
+        { "name": "EP 17", "url": "https://short.icu/zOYzvAlp7" },
+        { "name": "EP 18", "url": "https://short.icu/V3_xbXwlS" },
+        { "name": "EP 19", "url": "https://short.icu/Rvt-Mu1w-" },
+        { "name": "EP 20", "url": "https://short.icu/tHP7nhwdu" },
+        { "name": "EP 21", "url": "https://short.icu/5E5u0wtq5" },
+        { "name": "EP 22", "url": "https://short.icu/TC5wAFBYs" },
+        { "name": "EP 23", "url": "https://short.icu/G7hf-AL0_" },
+        { "name": "EP 24", "url": "https://short.icu/n1fQDvOwn" },
+        { "name": "EP 25", "url": "https://short.icu/9okfkuYJW" }
+    ],
+    2: [
+        { "name": "EP 01", "url": "https://short.icu/h9tNhumbk" },
+        { "name": "EP 02", "url": "https://short.icu/bCHsta3TaD" },
+        { "name": "EP 03", "url": "https://short.icu/n11z_3Ibs" },
+        { "name": "EP 04", "url": "https://short.icu/iGeBcB0FY" },
+        { "name": "EP 05", "url": "https://short.icu/IhMq1F9Vb" },
+        { "name": "EP 06", "url": "https://short.icu/1cDRI7FO-" },
+        { "name": "EP 07", "url": "https://short.icu/YVgtUjvwB" },
+        { "name": "EP 08", "url": "https://short.icu/aQmJ7bfXe" },
+        { "name": "EP 09", "url": "https://short.icu/uGa_CO6Ve" },
+        { "name": "EP 10", "url": "https://short.icu/7ovE5Aaoa" },
+        { "name": "EP 11", "url": "https://short.icu/r9vkGwQFl" },
+        { "name": "EP 12", "url": "https://short.icu/v81fOGiTu" }
+    ],
+    3: [
+        { "name": "EP 01", "url": "https://short.icu/snZjeTR9J" },
+        { "name": "EP 02", "url": "https://short.icu/aBjK9Rxnh" },
+        { "name": "EP 03", "url": "https://short.icu/DtnLqhhjo" },
+        { "name": "EP 04", "url": "https://short.icu/3k2xjKAPT" },
+        { "name": "EP 05", "url": "https://short.icu/oaiZKbCWS" },
+        { "name": "EP 06", "url": "https://short.icu/b5_j-ZeBZ" },
+        { "name": "EP 07", "url": "https://short.icu/wy5QEeHNK" },
+        { "name": "EP 08", "url": "https://short.icu/RKdE7WHx0" },
+        { "name": "EP 09", "url": "https://short.icu/4WRYyc-m_" },
+        { "name": "EP 10", "url": "https://short.icu/p1lTWcmPc" },
+        { "name": "EP 11", "url": "https://short.icu/aW82yT0lS" },
+        { "name": "EP 12", "url": "https://short.icu/iP1yHhcTL" },
+        { "name": "EP 13", "url": "https://short.icu/ENpK0_2RA" },
+        { "name": "EP 14", "url": "https://short.icu/PPMx4pbZR" },
+        { "name": "EP 15", "url": "https://short.icu/ehMzhOQko" },
+        { "name": "EP 16", "url": "https://short.icu/bpK95St1Y" },
+        { "name": "EP 17", "url": "https://short.icu/LtUAAodWB" },
+        { "name": "EP 18", "url": "https://short.icu/CkbubB6lX" },
+        { "name": "EP 19", "url": "https://short.icu/B68K71VF3" },
+        { "name": "EP 20", "url": "https://short.icu/s_wK7brj2" },
+        { "name": "EP 21", "url": "https://short.icu/0EJTVSN6O" },
+        { "name": "EP 22", "url": "https://short.icu/ULml5Tljk" }
+    ],
+    4: [
+        { "name": "EP 01", "url": "https://short.icu/K6RECISaq" },
+        { "name": "EP 02", "url": "https://short.icu/Ep1meHwS5" },
+        { "name": "EP 03", "url": "https://short.icu/vazrTi5Qs" },
+        { "name": "EP 04", "url": "https://short.icu/6rn0EDnni" },
+        { "name": "EP 05", "url": "https://short.icu/E6MJ1z_dC" },
+        { "name": "EP 06", "url": "https://short.icu/mhLB2783F" },
+        { "name": "EP 07", "url": "https://short.icu/UBSoi1fpR" },
+        { "name": "EP 08", "url": "https://short.icu/KTlWawbP2" },
+        { "name": "EP 09", "url": "https://short.icu/lnsJ4sv3B" },
+        { "name": "EP 10", "url": "https://short.icu/qZL3t57cL" },
+        { "name": "EP 11", "url": "https://short.icu/u2JvK91tR" },
+        { "name": "EP 12", "url": "https://short.icu/4y9zmhstY" },
+        { "name": "EP 13", "url": "https://short.icu/2ZGVi-4Iw" },
+        { "name": "EP 14", "url": "https://short.icu/XQLjIs3J3" },
+        { "name": "EP 15", "url": "https://short.icu/C0ZuvYnDb" },
+        { "name": "EP 16", "url": "https://short.icu/LKZrXgUx4" },
+        { "name": "EP 17", "url": "https://short.icu/6VU9b0JCA" },
+        { "name": "EP 18", "url": "https://short.icu/uZPTxMg1M" },
+        { "name": "EP 19", "url": "https://short.icu/CNWF8_PXe" },
+        { "name": "EP 20", "url": "https://short.icu/OCR5Z1Xxe" },
+        { "name": "EP 21", "url": "https://short.icu/1iz-a95L3" },
+        { "name": "EP 22", "url": "https://short.icu/u896tidvb" },
+        { "name": "EP 23", "url": "https://short.icu/ozk4PI1pG" },
+        { "name": "EP 24", "url": "https://short.icu/phsXbvtRB" },
+        { "name": "EP 25", "url": "https://short.icu/CBFI_nvjD" },
+        { "name": "EP 26", "url": "https://short.icu/NYoZ4k3gz" },
+        { "name": "EP 27", "url": "https://short.icu/Ahd2MVHwk" },
+        { "name": "EP 28", "url": "https://short.icu/CVn4l6o3Z" },
+        { "name": "EP 29", "url": "https://short.icu/7I-P0fdh3" },
+        { "name": "EP 30", "url": "https://short.icu/c34MjbZ2T" }
+    ],
+    5: [
+        { "name": "EP 01", "url": "https://short.icu/QMoDk0OeH" },
+        { "name": "EP 02", "url": "https://short.icu/ScWitbByE" },
+        { "name": "EP 03", "url": "https://short.icu/XR-qeDUVU" },
+        { "name": "EP 04", "url": "https://short.icu/X1SVJkBLm" },
+        { "name": "EP 05", "url": "https://short.icu/6LoJxFe8k" },
+        { "name": "EP 06", "url": "https://short.icu/_KjbGyb3b" },
+        { "name": "EP 07", "url": "https://short.icu/bCuHctZ2_" },
+        { "name": "EP 08", "url": "https://short.icu/9MprQdVMx" }
+    ]
+};
+
+let currentSeason = 1;
+
+function showLoader() { document.getElementById('loading-spinner').classList.remove('hidden'); }
+function hideLoader() { document.getElementById('loading-spinner').classList.add('hidden'); }
+
+function initSeasonTabs() {
+    const tabContainer = document.getElementById('season-tabs-list');
+    const seasonNames = ["Season 1", "Season 2", "Season 3", "Final Season", "OADs"];
+
+    for (let i = 1; i <= seasonNames.length; i++) {
+        const tab = document.createElement('div');
+        tab.className = `season-tab ${i === 1 ? 'active' : ''}`;
+        tab.innerText = seasonNames[i-1];
+        tab.onclick = () => selectSeason(i, tab);
+        tabContainer.appendChild(tab);
+    }
+}
+
+function selectSeason(num, element) {
+    document.querySelectorAll('.season-tab').forEach(t => t.classList.remove('active'));
+    element.classList.add('active');
+    currentSeason = num;
+    loadEpisodes();
+}
+
+function loadEpisodes() {
+    const container = document.getElementById('episode-buttons');
+    container.innerHTML = '';
+    
+    const eps = episodes[currentSeason] || [];
+    eps.forEach(ep => {
         const btn = document.createElement('button');
+        btn.className = 'episode-btn';
         btn.textContent = ep.name;
-        btn.onclick = () => loadVideo(ep.url);
+        btn.onclick = () => {
+            showLoader();
+            document.getElementById('video-player').src = ep.url;
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        };
         container.appendChild(btn);
-      });
-    }
+    });
 
-    function loadVideo(url) {
-      document.getElementById('videoPlayer').src = url;
+    if(eps.length > 0){
+        showLoader();
+        document.getElementById('video-player').src = eps[0].url;
     }
+}
 
-    function setServer(serverName) {
-      loadEpisodes(serverName);
-      loadVideo(allEpisodes[serverName][0].url);
-    }
+window.onload = () => {
+    initSeasonTabs();
+    loadEpisodes();
+};
+</script>
 
-    setServer('filemoon');
-  </script>
 </body>
 </html>
