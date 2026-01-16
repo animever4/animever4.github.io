@@ -1,184 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
-<meta content="cc5ba621ddf52a4a1edcbb1ff32f1a22" name="ppck-ver"/>
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-YGR1LPCM5K"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-YGR1LPCM5K');
-</script>
-
-<title>Animeverse</title>
-<style>
-    :root {
-      --primary-color: #f47e21;
-      --secondary-color: #ff0000;
-      --bg-dark: #000;
-    }
-
-    body {
-      font-family: 'Helvetica Neue', Arial, sans-serif;
-      background: #000 url('./IMG_20250528_184959.jpg') no-repeat center center fixed;
-      background-size: cover;
-      color: #fff;
-      margin: 0;
-      padding: 0;
-      overflow-x: hidden;
-    }
-
-    /* --- Snowflake Animation Styles --- */
-    .snowflake {
-      position: fixed;
-      top: -10px;
-      color: #fff;
-      font-size: 1rem;
-      user-select: none;
-      z-index: 9999;
-      pointer-events: none;
-      animation: fall linear forwards;
-    }
-
-    @keyframes fall {
-      to {
-        transform: translateY(105vh);
-      }
-    }
-
-    /* --- Header & Navigation --- */
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 15px;
-      background: rgba(0, 0, 0, 0.95);
-      border-bottom: 1px solid #333;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    .menu-btn, .search-trigger {
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: #fff;
-      background: none;
-      border: none;
-    }
-
-    .logo-container img {
-      height: 42px;
-      border-radius: 10px;
-      border: 1px solid #444;
-    }
-
-    /* --- Side Navigation Drawer --- */
-    #sideNav {
-      position: fixed;
-      left: 0; top: 0; width: 250px; height: 100%;
-      background: #111; z-index: 2000; padding: 20px;
-      transform: translateX(-100%);
-      transition: transform 0.3s ease-in-out;
-    }
-    #sideNav.open { transform: translateX(0); box-shadow: 5px 0 15px rgba(0,0,0,0.5); }
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>Animeverse | Premium HD Hindi Dubbed</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
     
-    .nav-label { color: #555; font-size: 0.75rem; text-transform: uppercase; margin: 20px 0 10px 15px; letter-spacing: 1px; }
-    
-    #sideNav a {
-      display: block; color: var(--primary-color); padding: 12px 15px;
-      text-decoration: none; font-weight: 600; border-bottom: 1px solid #222;
-      font-size: 0.95rem;
-    }
-    #sideNav a:hover { background: #1a1a1a; }
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
 
-    .overlay {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.7); display: none; z-index: 1500;
-    }
+    <style>
+        :root { --primary-color: #f47e21; --secondary-color: #ff0000; --accent-glow: 0 0 15px rgba(244, 126, 33, 0.4); }
+        body { font-family: 'Poppins', sans-serif; background: #000 url('./IMG_20250528_184959.jpg') no-repeat center center fixed; background-size: cover; color: #fff; margin: 0; padding: 0; overflow-x: hidden; scroll-behavior: smooth; }
 
-    /* --- Search & Suggestions --- */
-    .search-section { padding: 20px; max-width: 600px; margin: 0 auto; display: none; position: relative; }
-    .search-section.active { display: block; }
-    .search-box { display: flex; position: relative; align-items: center; }
-    .search-box input {
-      flex: 1; background: #111; border: 1px solid #333;
-      color: #fff; padding: 12px 40px 12px 12px; border-radius: 6px 0 0 6px; outline: none;
-    }
-    #clearSearchIcon { position: absolute; right: 110px; cursor: pointer; color: #888; display: none; font-size: 1.2rem; }
-    .search-box button { background: var(--secondary-color); color: #fff; border: none; padding: 0 20px; font-weight: bold; border-radius: 0 6px 6px 0; height: 43px; cursor: pointer; }
-    #suggestions {
-      position: absolute; top: 100%; left: 20px; right: 20px;
-      background: rgba(30,30,30,0.95); max-height: 180px; overflow-y: auto;
-      border-radius: 0 0 6px 6px; display: none; z-index: 10; margin-top: 4px;
-      box-shadow: 0 4px 8px rgba(244, 126, 33, 0.5);
-    }
-    #suggestions div { padding: 10px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        /* --- HEADER --- */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background: rgba(0, 0, 0, 0.9); border-bottom: 2px solid var(--primary-color); position: sticky; top: 0; z-index: 1000; }
+        .logo-container img { height: 40px; border-radius: 8px; filter: drop-shadow(var(--accent-glow)); }
+        .menu-btn, .search-trigger { font-size: 1.6rem; cursor: pointer; color: #fff; background: none; border: none; outline: none; transition: 0.3s; }
 
-    /* --- Grid & Content --- */
-    .container { padding: 16px; }
-    h2 { position: relative; padding-left: 12px; margin: 32px auto 24px; font-weight: 800; font-size: 20px; text-transform: uppercase; max-width: 960px; }
-    h2::before { content: ""; position: absolute; left: 0; top: 0; height: 100%; width: 6px; background-color: var(--primary-color); border-radius: 3px; }
-    .anime-grid { display: grid; gap: 15px; grid-template-columns: repeat(3, 1fr); max-width: 960px; margin: 0 auto; }
-    @media (min-width: 768px) { .anime-grid { grid-template-columns: repeat(5, 1fr); } }
-    .anime-card { background: rgba(20,20,20,0.9); border-radius: 8px; overflow: hidden; text-align: center; text-decoration: none; color: white; transition: transform 0.2s; box-shadow: 0 0 8px rgba(244, 126, 33, 0.4); }
-    .anime-card img { width: 100%; aspect-ratio: 2/3; object-fit: cover; }
-    .anime-title { padding: 8px 6px; font-size: 0.8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 700; }
+        /* --- SIDEBAR MENU --- */
+        #sideNav { position: fixed; left: 0; top: 0; width: 260px; height: 100%; background: #0a0a0a; z-index: 2000; padding: 30px 20px; transform: translateX(-100%); transition: 0.4s; box-sizing: border-box; }
+        #sideNav.open { transform: translateX(0); box-shadow: 10px 0 50px #000; }
+        #sideNav a { display: block; color: #eee; padding: 12px; text-decoration: none; font-size: 15px; border-radius: 8px; margin-bottom: 5px; }
+        #sideNav a:hover { background: var(--primary-color); color: white; }
+        .close-btn { text-align: right; font-size: 1.5rem; cursor: pointer; color: var(--primary-color); margin-bottom: 20px; }
 
-    /* --- Footer --- */
-    footer {
-      background: rgba(0,0,0,0.9); padding: 40px 20px 110px; border-top: 1px solid #333; margin-top: 50px; text-align: center;
-    }
-    .footer-desc h2 { color: #f75f00; font-size: 24px; margin-bottom: 10px; padding: 0; text-align: center; }
-    .footer-desc h2::before { display: none; }
-    .footer-desc p { font-size: 14px; line-height: 1.6; color: #ccc; max-width: 600px; margin: 0 auto 20px; }
-    .copyright { border-top: 1px solid #222; padding-top: 20px; font-size: 12px; color: #666; margin-top: 20px; }
+        /* --- SEARCH SECTION --- */
+        .search-section { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-20px);
+            max-height: 0; 
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 0 15px;
+            position: relative;
+            z-index: 1500;
+        }
+        .search-section.active { 
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            max-height: 120px; 
+            padding: 15px 15px;
+        }
+        .search-box { 
+            display: flex; 
+            background: #111; 
+            border: 2px solid var(--primary-color); 
+            border-radius: 30px; 
+            overflow: hidden; 
+            box-shadow: 0 0 15px rgba(244, 126, 33, 0.5); 
+        }
+        .search-box input { flex: 1; background: transparent; border: none; color: #fff; padding: 12px 40px 12px 20px; outline: none; font-size: 14px; width: 100%; }
+        .go-btn { background: var(--primary-color); border: none; color: white; padding: 0 20px; font-weight: 800; cursor: pointer; }
 
-    /* --- Bottom Actions --- */
-    .bottom-actions { position: fixed; bottom: 0; width: 100%; display: flex; gap: 10px; padding: 10px; background: rgba(0,0,0,0.9); box-sizing: border-box; z-index: 1001; }
-    .btn-action { flex: 1; padding: 14px; border-radius: 6px; text-align: center; text-decoration: none; font-weight: bold; color: #fff; font-size: 0.9rem; }
-    .btn-skip { background: #ff0000; }
-    .btn-telegram { background: #4ba2d1; }
-</style>
+        /* --- SUGGESTIONS --- */
+        #suggestions { 
+            position: absolute; top: 100%; left: 15px; right: 15px; 
+            background: rgba(15, 15, 15, 0.98); backdrop-filter: blur(10px);
+            border-radius: 15px; border: 1px solid var(--primary-color); 
+            max-height: 250px; overflow-y: auto; display: none; margin-top: 10px; z-index: 9999; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+        #suggestions div { padding: 14px 20px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px; transition: 0.2s; color: #eee; }
+        #suggestions div:hover { background: var(--primary-color); color: white; padding-left: 25px; }
+
+        /* --- GRIDS & CARDS --- */
+        .hero { padding: 15px; width: 100%; box-sizing: border-box; }
+        .hero-card { background: #111; background-size: cover; background-position: center; height: 170px; border-radius: 12px; border: 1px solid var(--primary-color); display: flex; align-items: center; padding: 15px 20px; position: relative; overflow: hidden; }
+        .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to right, rgba(0,0,0,0.95) 45%, transparent); z-index: 1; }
+        .hero-content { position: relative; z-index: 2; width: 100%; }
+        .hero-tag { background: var(--secondary-color); padding: 2px 8px; border-radius: 4px; font-size: 8px; font-weight: 800; text-transform: uppercase; }
+        .hero-card h1 { margin: 4px 0; font-size: 1.1rem; font-weight: 800; text-transform: uppercase; line-height: 1.2; } 
+        .hero-card p { font-size: 9.5px; color: #bbb; margin: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4; max-width: 65%; }
+        .hero-btn { display: inline-block; background: var(--primary-color); color: #fff; padding: 7px 16px; border-radius: 20px; text-decoration: none; font-weight: bold; margin-top: 10px; font-size: 9px; }
+
+        .container { padding: 10px; max-width: 1100px; margin: 0 auto; }
+        h2 { border-left: 4px solid var(--primary-color); padding-left: 10px; margin: 25px 0 15px; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px; }
+        .anime-grid { display: grid; gap: 10px; grid-template-columns: repeat(3, 1fr); }
+        @media (min-width: 768px) { .anime-grid { grid-template-columns: repeat(6, 1fr); } }
+
+        .anime-card { background: rgba(15,15,15,0.95); border-radius: 8px; overflow: hidden; text-decoration: none; color: white; border: 1px solid rgba(255,255,255,0.1); position: relative; transition: 0.3s; }
+        .badge-hd { position: absolute; top: 5px; left: 5px; background: var(--primary-color); font-size: 8px; padding: 2px 6px; border-radius: 3px; font-weight: bold; z-index: 5; }
+        .card-info { position: absolute; bottom: 35px; left: 0; right: 0; background: rgba(0,0,0,0.8); font-size: 8px; padding: 4px; text-align: center; color: var(--primary-color); font-weight: bold; }
+        .anime-card img { width: 100%; aspect-ratio: 2/3; object-fit: cover; }
+        .anime-title { padding: 6px 4px; font-size: 0.7rem; font-weight: 600; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+        footer { background: #000; padding: 40px 20px 100px; text-align: center; border-top: 1px solid #1a1a1a; margin-top: 40px; }
+        .bottom-actions { position: fixed; bottom: 0; width: 100%; display: flex; gap: 8px; padding: 10px; background: rgba(0,0,0,0.95); z-index: 1001; box-sizing: border-box; }
+        .btn-action { flex: 1; padding: 13px; border-radius: 8px; text-align: center; text-decoration: none; font-weight: bold; color: #fff; font-size: 0.75rem; }
+    </style>
 </head>
 <body>
 
-<div class="overlay" id="overlay" onclick="toggleMenu()"></div>
-
-<nav id="sideNav">
-    <div style="text-align:right; font-size:1.2rem; cursor:pointer; color:#888; margin-bottom: 20px;" onclick="toggleMenu()">CLOSE ✕</div>
-    
-    <div class="nav-label">Main Menu</div>
-    <a href="./index.html">Home</a>
-    <a href="./adventure.html">Adventure</a>
-    <a href="./action.html">Action</a>
-    
-    <div class="nav-label">Quick Links</div>
-    <a href="./about us.html">About Us</a>
-    <a href="./contact us.html">Contact Us</a>
-    <a href="./privacy policy.html">Privacy Policy</a>
-    <a href="./terms.html">Terms & Conditions</a>
-</nav>
-
 <header>
-    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    <button class="menu-btn" onclick="document.getElementById('sideNav').classList.add('open')">☰</button>
     <div class="logo-container">
-        <img src="/Gemini_Generated_Image_u4n26yu4n26yu4n2.png" alt="Animeverse">
+        <img src="/Gemini_Generated_Image_u4n26yu4n26yu4n2.png" alt="Animeverse Logo">
     </div>
     <button class="search-trigger" onclick="toggleSearch()">🔍</button>
 </header>
 
+<nav id="sideNav">
+    <div class="close-btn" onclick="document.getElementById('sideNav').classList.remove('open')">✕</div>
+    <a href="./index.html">🏠 Home</a>
+    <a href="./adventure.html">⚔️ Adventure</a>
+    <a href="./action.html">🥊 Action</a>
+    <a href="./about us.html">ℹ️ About Us</a>
+    <a href="./contact us.html">📞 Contact Us</a>
+    <a href="https://t.me/animeverse648" target="_blank">✈️ Telegram</a>
+</nav>
+
 <div class="search-section" id="searchContainer">
     <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Search anime and cartoons..." autocomplete="off">
-        <span id="clearSearchIcon" onclick="clearSearch()">✕</span>
-        <button id="searchBtn">SEARCH</button>
+        <div style="position: relative; flex: 1; display: flex; align-items: center;">
+            <input type="text" id="searchInput" placeholder="Search anime..." autocomplete="off">
+            <span id="clearSearch" style="display: none; position: absolute; right: 12px; cursor: pointer; color: #888; font-size: 20px;">&times;</span>
+        </div>
+        <button class="go-btn" onclick="triggerSearch()">GO</button>
     </div>
     <div id="suggestions"></div>
+</div>
+
+<div class="hero" id="heroSection">
+    <div class="hero-card" id="heroCard">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <span class="hero-tag">🔥 Trending Now</span>
+            <h1 id="heroTitle">Solo Leveling</h1>
+            <p id="heroDesc">Loading world's top anime...</p>
+            <a href="#" id="heroBtn" class="hero-btn">WATCH HD</a>
+        </div>
+    </div>
 </div>
 
 <div class="container">
@@ -186,14 +141,17 @@
         <h2>Latest series</h2>
         <div class="anime-grid" id="latestContainer"></div>
     </section>
+    
     <section id="popularSection">
         <h2 id="popularHeading">Popular Anime</h2>
         <div class="anime-grid" id="popularContainer"></div>
     </section>
+
     <section id="trendingSection">
         <h2>Trending Anime</h2>
         <div class="anime-grid" id="trendingContainer"></div>
     </section>
+
     <section id="movieSection">
         <h2>Movies</h2>
         <div class="anime-grid" id="movieContainer"></div>
@@ -201,185 +159,170 @@
 </div>
 
 <footer>
-  <div class="footer-desc">
-    <h2>Animeverse</h2>
-    <p>Watch the best anime series and movies. Hindi dubbed episodes available. Stream now, for free!</p>
-    <div class="social-icons">
-        <a href="https://youtube.com/@animia-g6q" style="margin: 0 10px;"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" width="30"></a>
-        <a href="https://t.me/animverse019" style="margin: 0 10px;"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" width="30"></a>
+    <div style="font-size: 2.rem; font-weight: 800; color: var(--primary-color); letter-spacing: 4px; margin-bottom: 8px;">ANIMEVERSE</div>
+    <div style="max-width: 500px; margin: 0 auto 15px; font-size: 12px; color: #999; line-height: 1.5; padding: 0 20px; font-family: 'Quicksand', sans-serif;">
+        Your ultimate destination for <strong>Premium Hindi Dubbed Anime</strong>.
     </div>
-  </div>
-  <div class="copyright">
-    &copy; 2026 Animeverse. All rights reserved.
-  </div>
+    <p style="font-size: 10px; color: #444; letter-spacing: 1px;">&copy;   | 2026 ANIMEVERSE | 
 </footer>
 
 <div class="bottom-actions">
-    <a href="https://youtube.com/@animia-g6q?si=iL8eBKKlYXeYLGLE" class="btn-action btn-skip">YouTube</a>
-    <a href="https://t.me/animeverse648" class="btn-action btn-telegram">Telegram</a>
+    <a href="https://youtube.com/@animia-g6q" class="btn-action" style="background:#ff0000;">YOUTUBE</a>
+    <a href="https://t.me/animeverse648" class="btn-action" style="background:#0088cc;">TELEGRAM</a>
 </div>
 
 <script>
-/* --- 1. CONFIGURATION & DATA --- */
-const apiKey = 'eef0f9c16ca61d6c843e7d43ddc5e1d8';
-const manualPosters = {
-  'naruto': './Screenshot_2025-05-31-15-02-28-42_680d03679600f7af0b4c700c6b270fe7.jpg'
+const firebaseConfig = {
+    apiKey: "AIzaSyAe5XKQlowY_AroKkQ80SeAYPqLnF02KoE",
+    databaseURL: "https://animeverse-9eada-default-rtdb.firebaseio.com/",
+    projectId: "animeverse-9eada",
+    appId: "1:296666771306:web:df732df90b1e5e9108ff13"
 };
-
-const defaultTitles = ['Fairy Tail',
-    'Tokyo Ghoul' ,'The Daily Life Of The Immortal King', 'Jujutsu Kaisen', 'one punch man', 'Mf Ghost', 'Campfire Cooking','Bleach'];
-const trendingTitles = ['Naruto Shippuden', 'One Piece', 'Attack on Titan', 'Dragon Ball Z',  'Jujutsu Kaisen', 'Demon Slayer: Kimetsu no Yaiba','naruto'];
-const movieTitles = ['Your Name', 'Garden of Words', 'suzume no tojimari', 'Stand by me', 'Weathering with You', 'Jujutsu-kaisen-0'];
-const latestmovieTitles = [ 'Suicide Squad Isekai', 'Demon Slayer: Kimetsu no Yaiba', 'Mobile Suit Gundam',
- 'Naruto Shippuden','Tokyo Revengers',
- 'Goddess of the Cafe Terrace Season 2', 'Narenare: Cheer for You','Bleach Thousand-year Blood War','Zenshu'];
-const hindiTitles = ['Bleach','Classroom of Elite', 'Kochikame','solo leveling','chainsaw man','attack on titan','death note','spy x family','dandan','Suicide Squad Isekai','tokyo ghoul','Mobile Suit Gundam','Campfire Cooking','Mf Ghost'];
-const allTitles = [...new Set([...defaultTitles, ...trendingTitles, ...movieTitles, ...hindiTitles])];
-
-const linkMap = {
-  'bleach': './bleach.html',
-  'fairy tail': './fairy.html',
-    'mf ghost': './mf.html',
-    'campfire cooking': './campfire.html',
-    'mobile suit gundam': './mobile.html',
-    'tokyo ghoul': './ghoul.html',
-  'classroom of elite': './classroom_of_elite_final_latest.html',
-  'death note': './death_note_final_latest.html',
-  'bleach thousand-year blood war': './bleachthousand.html',
-  'attack on titan': './attack on titan.html',
-  'solo leveling': './solo leveling.html',
-  'chainsaw man': './chain.html',
-  'demon slayer: kimetsu no yaiba': './demonslayer.html',
-  'spy x family': './spy_x_family_final_latest.html',
-  'dan da dan': './dan_final_latest.html',
-  'my hero academia': './my_hero_academia_final_latest.html',
-  'one piece': './piece.html',
-  'naruto shippuden': './narutos.html',
-  'your name': './your_name_final_latest.html',
-  'suzume': './suzume_final_latest.html',
-  'weathering with you': './weathering_with_you_final_latest.html',
-  'jujutsu kaisen': './jujutsukaisen.html',
-  'the daily life of the immortal king': './daily life.html',
-  'tokyo revengers': './tokyorevengers.html',
-  'one punch man': './onepunch.html',
-  'suicide squad isekai': './sucidesquade.html',
-  'zenshu': './zenshu.html'
-};
-
-/* --- 2. SNOWFLAKE LOGIC --- */
-function createSnowflake() {
-    const snowflake = document.createElement('div');
-    snowflake.classList.add('snowflake');
-    snowflake.innerHTML = '❄';
-    
-    const startX = Math.random() * window.innerWidth;
-    const duration = Math.random() * 3 + 4; // Falls between 4-7 seconds
-    const size = Math.random() * 10 + 10 + 'px';
-    const opacity = Math.random() * 0.5 + 0.3; // Slight transparency
-
-    snowflake.style.left = startX + 'px';
-    snowflake.style.animationDuration = duration + 's';
-    snowflake.style.fontSize = size;
-    snowflake.style.opacity = opacity;
-
-    document.body.appendChild(snowflake);
-
-    setTimeout(() => {
-        snowflake.remove();
-    }, duration * 1000);
-}
-setInterval(createSnowflake, 300); // Snowfall frequency
-
-/* --- 3. UI FUNCTIONS --- */
-function toggleMenu() {
-    const nav = document.getElementById('sideNav');
-    const over = document.getElementById('overlay');
-    nav.classList.toggle('open');
-    over.style.display = nav.classList.contains('open') ? 'block' : 'none';
-}
-
-function toggleSearch() {
-    const s = document.getElementById('searchContainer');
-    s.classList.toggle('active');
-    if(s.classList.contains('active')) document.getElementById('searchInput').focus();
-}
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+const tmdbKey = 'eef0f9c16ca61d6c843e7d43ddc5e1d8';
 
 const searchInput = document.getElementById('searchInput');
 const suggestionsBox = document.getElementById('suggestions');
-const clearIcon = document.getElementById('clearSearchIcon');
+const searchContainer = document.getElementById('searchContainer');
+const clearBtn = document.getElementById('clearSearch');
 
-searchInput.addEventListener('input', (e) => {
-    const val = e.target.value.toLowerCase().trim();
-    clearIcon.style.display = val.length > 0 ? 'block' : 'none';
-    if (val.length < 2) { suggestionsBox.style.display = 'none'; return; }
-    const matches = allTitles.filter(t => t.toLowerCase().includes(val));
-    if (matches.length > 0) {
-        suggestionsBox.innerHTML = '';
-        matches.forEach(title => {
-            const div = document.createElement('div');
-            div.textContent = title;
-            div.onclick = () => { searchInput.value = title; suggestionsBox.style.display = 'none'; performSearch(title); };
-            suggestionsBox.appendChild(div);
-        });
-        suggestionsBox.style.display = 'block';
+/* --- DATA & SUGGESTION LOGIC --- */
+const defaultTitles = ['Tokyo Ghoul', 'The Daily Life Of The Immortal King', 'Jujutsu Kaisen', 'one punch man', 'Mf Ghost', 'Campfire Cooking'];
+const trendingTitles = ['Naruto Shippuden', 'One Piece', 'Attack on Titan', 'Dragon Ball Z', 'Jujutsu Kaisen', 'Demon Slayer: Kimetsu no Yaiba'];
+const movieTitles = ['Your Name', 'Garden of Words', 'suzume no tojimari', 'Stand by Me Doraemon', 'Weathering with You', 'Jujutsu-kaisen-0'];
+const latestmovieTitles = ['Suicide Squad Isekai', 'Demon Slayer: Kimetsu no Yaiba', 'Mobile Suit Gundam', 'Naruto Shippuden', 'Tokyo Revengers',  'Narenare: Cheer for You', 'Bleach Thousand-year Blood War', 'Zenshu'];
+const hindiTitles = ['Classroom of Elite', 'Kochikame','solo leveling','chainsaw man','attack on titan','death note','spy x family','dandan','Suicide Squad Isekai','tokyo ghoul','Mobile Suit Gundam','Campfire Cooking','Mf Ghost'];
+
+// Unified list for suggestions
+const allTitles = [...new Set([...defaultTitles, ...trendingTitles, ...movieTitles, ...latestmovieTitles, ...hindiTitles])];
+
+const linkMap = {
+    'mf ghost': './mf.html', 'campfire cooking': './campfire.html', 'mobile suit gundam': './mobile.html', 'tokyo ghoul': './ghoul.html',
+    'classroom of elite': './classroom_of_elite_final_latest.html', 'death note': './death_note_final_latest.html', 
+    'bleach thousand-year blood war': './bleachthousand.html', 'attack on titan': './attack on titan.html', 
+    'solo leveling': './solo leveling.html', 'chainsaw man': './chain.html', 'demon slayer: kimetsu no yaiba': './demonslayer.html',
+    'spy x family': './spy_x_family_final_latest.html', 'dan da dan': './dan_final_latest.html', 'my hero academia': './my_hero_academia_final_latest.html',
+    'one piece': './piece.html', 'naruto shippuden': './narutos.html', 'your name': './your_name_final_latest.html',
+    'suzume': './suzume_final_latest.html', 'weathering with you': './weathering_with_you_final_latest.html',
+    'jujutsu kaisen': './jujutsukaisen.html', 'the daily life of the immortal king': './daily life.html',
+    'tokyo revengers': './tokyorevengers.html', 'one punch man': './onepunch.html', 
+    'suicide squad isekai': './sucidesquade.html', 'zenshu': './zenshu.html'
+};
+
+/* --- UI FUNCTIONS --- */
+function toggleSearch() { 
+    searchContainer.classList.toggle('active'); 
+    if(searchContainer.classList.contains('active')) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setTimeout(() => { searchInput.focus(); }, 400); 
+    } else {
+        suggestionsBox.style.display = 'none';
     }
-});
-
-function clearSearch() {
-    searchInput.value = '';
-    clearIcon.style.display = 'none';
-    suggestionsBox.style.display = 'none';
-    document.getElementById('popularHeading').textContent = 'Popular Anime';
-    document.getElementById('latestSection').style.display = 'block';
-    document.getElementById('trendingSection').style.display = 'block';
-    document.getElementById('movieSection').style.display = 'block';
-    loadGrid(defaultTitles, 'latestContainer');
-    loadGrid(latestmovieTitles, 'popularContainer');
 }
 
-async function performSearch(term) {
+function triggerSearch() {
+    const val = searchInput.value.trim();
+    if(val) selectSearch(val);
+}
+
+window.selectSearch = function(term) {
+    const exists = allTitles.some(t => t.toLowerCase().includes(term.toLowerCase()));
+    if (!exists && term !== "") {
+        alert("Sorry! This anime is not available on our site.");
+        return;
+    }
+    searchInput.value = term;
+    suggestionsBox.style.display = 'none';
+    clearBtn.style.display = 'block';
     document.getElementById('popularHeading').textContent = `Results for "${term}"`;
     loadGrid([term], 'popularContainer');
     document.getElementById('latestSection').style.display = 'none';
     document.getElementById('trendingSection').style.display = 'none';
     document.getElementById('movieSection').style.display = 'none';
+    document.getElementById('heroSection').style.display = 'none';
+};
+
+searchInput.addEventListener('input', (e) => {
+    const val = e.target.value.toLowerCase().trim();
+    clearBtn.style.display = val.length > 0 ? 'block' : 'none';
+    if (val === '') { resetUI(); return; }
+    const matches = allTitles.filter(t => t.toLowerCase().includes(val));
+    if (matches.length > 0) {
+        suggestionsBox.innerHTML = matches.map(m => `<div onclick="selectSearch('${m}')">🔍 ${m}</div>`).join('');
+        suggestionsBox.style.display = 'block';
+    } else {
+        suggestionsBox.innerHTML = `<div style="color:#888; padding:10px;">No results found</div>`;
+        suggestionsBox.style.display = 'block';
+    }
+});
+
+clearBtn.addEventListener('click', () => {
+    searchInput.value = '';
+    clearBtn.style.display = 'none';
+    suggestionsBox.style.display = 'none';
+    resetUI();
+    searchInput.focus();
+});
+
+function resetUI() {
+    suggestionsBox.style.display = 'none';
+    document.getElementById('popularHeading').textContent = "Popular Anime";
+    document.getElementById('latestSection').style.display = 'block';
+    document.getElementById('trendingSection').style.display = 'block';
+    document.getElementById('movieSection').style.display = 'block';
+    document.getElementById('heroSection').style.display = 'block';
+    loadGrid(latestmovieTitles, 'popularContainer');
+}
+
+document.addEventListener('click', (e) => {
+    if (!searchContainer.contains(e.target) && !e.target.classList.contains('search-trigger')) {
+        searchContainer.classList.remove('active');
+        suggestionsBox.style.display = 'none';
+    }
+});
+
+/* --- API DATA LOADING --- */
+async function loadHero() {
+    const today = new Date().toISOString().slice(0, 10);
+    db.ref(`trending/${today}`).orderByValue().limitToLast(1).once('value', async (snap) => {
+        let top = "Solo Leveling"; 
+        if (snap.exists()) snap.forEach(c => { top = c.key.replace(/_/g, ' '); });
+        const res = await fetch(`https://api.themoviedb.org/3/search/multi?query=${encodeURIComponent(top)}&api_key=${tmdbKey}`);
+        const data = await res.json();
+        const item = data.results[0];
+        if(item) {
+            document.getElementById('heroTitle').innerText = top;
+            document.getElementById('heroDesc').innerText = item.overview || "Watch trending anime.";
+            document.getElementById('heroCard').style.backgroundImage = `url('https://image.tmdb.org/t/p/original${item.backdrop_path}')`;
+            document.getElementById('heroBtn').href = linkMap[top.toLowerCase()] || '#';
+        }
+    });
 }
 
 async function loadGrid(titles, containerId) {
     const container = document.getElementById(containerId);
     container.innerHTML = '';
-    
     for(const t of titles) {
-        let posterUrl = '';
-        const lowerT = t.toLowerCase();
-        
-        if(manualPosters[lowerT]) {
-            posterUrl = manualPosters[lowerT];
-        } 
-        else {
-            try {
-                const res = await fetch(`https://api.themoviedb.org/3/search/multi?query=${encodeURIComponent(t)}&api_key=${apiKey}`);
-                const data = await res.json();
-                if(data.results && data.results[0]) {
-                    posterUrl = 'https://image.tmdb.org/t/p/w342' + data.results[0].poster_path;
-                }
-            } catch (err) { console.error("API error", err); }
-        }
-
-        if(posterUrl) {
-            const link = linkMap[lowerT] || '#';
-            container.innerHTML += `
-                <a href="${link}" class="anime-card">
-                    <img src="${posterUrl}" loading="lazy">
-                    <div class="anime-title">${t}</div>
-                </a>`;
-        }
+        try {
+            const res = await fetch(`https://api.themoviedb.org/3/search/multi?query=${encodeURIComponent(t)}&api_key=${tmdbKey}`);
+            const data = await res.json();
+            const item = data.results[0];
+            if(item) {
+                const rating = (Math.random()*(9.2-8.0)+8.0).toFixed(1);
+                container.innerHTML += `
+                    <a href="${linkMap[t.toLowerCase()] || '#'}" class="anime-card">
+                        <span class="badge-hd">HD | HINDI</span>
+                        <img src="https://image.tmdb.org/t/p/w342${item.poster_path}" loading="lazy">
+                        <div class="card-info">⭐ ${rating} Rating</div>
+                        <div class="anime-title">${t}</div>
+                    </a>`;
+            }
+        } catch(e) {}
     }
 }
 
-document.getElementById('searchBtn').onclick = () => performSearch(searchInput.value);
-
-/* --- 4. INITIAL LOAD --- */
+loadHero();
 loadGrid(defaultTitles, 'latestContainer');
 loadGrid(latestmovieTitles, 'popularContainer');
 loadGrid(trendingTitles, 'trendingContainer');
