@@ -117,7 +117,7 @@
     <div class="search-box">
         <div style="position: relative; flex: 1; display: flex; align-items: center;">
             <input type="text" id="searchInput" placeholder="Search anime..." autocomplete="off">
-            <span id="clearSearch" style="display: none; position: absolute; right: 12px; cursor: pointer; color: #888; font-size: 20px;">&times;</span>
+            <span id="clearSearch" style="display: none; position: absolute; right: 12px; cursor: pointer; color: #888; font-size: 22px; font-weight: bold;">&times;</span>
         </div>
         <button class="go-btn" onclick="triggerSearch()">GO</button>
     </div>
@@ -128,9 +128,9 @@
     <div class="hero-card" id="heroCard">
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <span class="hero-tag">🔥 Trending Now</span>
+            <span class="hero-tag">🔥 Trending Globally</span>
             <h1 id="heroTitle">Solo Leveling</h1>
-            <p id="heroDesc">Loading world's top anime...</p>
+            <p id="heroDesc">Loading world's most popular anime...</p>
             <a href="#" id="heroBtn" class="hero-btn">WATCH HD</a>
         </div>
     </div>
@@ -187,14 +187,13 @@ const suggestionsBox = document.getElementById('suggestions');
 const searchContainer = document.getElementById('searchContainer');
 const clearBtn = document.getElementById('clearSearch');
 
-/* --- DATA & SUGGESTION LOGIC --- */
+/* --- DATA --- */
 const defaultTitles = ['Tokyo Ghoul', 'The Daily Life Of The Immortal King', 'Jujutsu Kaisen', 'one punch man', 'Mf Ghost', 'Campfire Cooking'];
 const trendingTitles = ['Naruto Shippuden', 'One Piece', 'Attack on Titan', 'Dragon Ball Z', 'Jujutsu Kaisen', 'Demon Slayer: Kimetsu no Yaiba'];
 const movieTitles = ['Your Name', 'Garden of Words', 'suzume no tojimari', 'Stand by Me Doraemon', 'Weathering with You', 'Jujutsu-kaisen-0'];
 const latestmovieTitles = ['Suicide Squad Isekai', 'Demon Slayer: Kimetsu no Yaiba', 'Mobile Suit Gundam', 'Naruto Shippuden', 'Tokyo Revengers',  'Narenare: Cheer for You', 'Bleach Thousand-year Blood War', 'Zenshu'];
 const hindiTitles = ['Classroom of Elite', 'Kochikame','solo leveling','chainsaw man','attack on titan','death note','spy x family','dandan','Suicide Squad Isekai','tokyo ghoul','Mobile Suit Gundam','Campfire Cooking','Mf Ghost'];
 
-// Unified list for suggestions
 const allTitles = [...new Set([...defaultTitles, ...trendingTitles, ...movieTitles, ...latestmovieTitles, ...hindiTitles])];
 
 const linkMap = {
@@ -210,7 +209,41 @@ const linkMap = {
     'suicide squad isekai': './sucidesquade.html', 'zenshu': './zenshu.html'
 };
 
+/* --- TRACKING & HERO LOGIC --- */
+
+function trackClick(animeTitle) {
+    if (!animeTitle) return;
+    const sanitizedTitle = animeTitle.toLowerCase().replace(/\./g, '_').replace(/\s+/g, '_');
+    const clickRef = db.ref('global_clicks/' + sanitizedTitle);
+    clickRef.transaction((currentClicks) => {
+        return (currentClicks || 0) + 1;
+    });
+}
+
+async function loadHero() {
+    const clicksRef = db.ref('global_clicks');
+    // Fetch top anime based on click count from Firebase
+    clicksRef.orderByValue().limitToLast(1).once('value', async (snap) => {
+        let top = "Solo Leveling"; 
+        if (snap.exists()) {
+            snap.forEach(c => { top = c.key.replace(/_/g, ' '); });
+        }
+        const res = await fetch(`https://api.themoviedb.org/3/search/multi?query=${encodeURIComponent(top)}&api_key=${tmdbKey}`);
+        const data = await res.json();
+        const item = data.results[0];
+        if(item) {
+            document.getElementById('heroTitle').innerText = top.toUpperCase();
+            document.getElementById('heroDesc').innerText = item.overview || "Trending now globally.";
+            document.getElementById('heroCard').style.backgroundImage = `url('https://image.tmdb.org/t/p/original${item.backdrop_path}')`;
+            const btn = document.getElementById('heroBtn');
+            btn.href = linkMap[top.toLowerCase()] || '#';
+            btn.onclick = () => trackClick(top);
+        }
+    });
+}
+
 /* --- UI FUNCTIONS --- */
+
 function toggleSearch() { 
     searchContainer.classList.toggle('active'); 
     if(searchContainer.classList.contains('active')) {
@@ -232,9 +265,10 @@ window.selectSearch = function(term) {
         alert("Sorry! This anime is not available on our site.");
         return;
     }
+    trackClick(term);
     searchInput.value = term;
-    suggestionsBox.style.display = 'none';
     clearBtn.style.display = 'block';
+    suggestionsBox.style.display = 'none';
     document.getElementById('popularHeading').textContent = `Results for "${term}"`;
     loadGrid([term], 'popularContainer');
     document.getElementById('latestSection').style.display = 'none';
@@ -282,23 +316,7 @@ document.addEventListener('click', (e) => {
     }
 });
 
-/* --- API DATA LOADING --- */
-async function loadHero() {
-    const today = new Date().toISOString().slice(0, 10);
-    db.ref(`trending/${today}`).orderByValue().limitToLast(1).once('value', async (snap) => {
-        let top = "Solo Leveling"; 
-        if (snap.exists()) snap.forEach(c => { top = c.key.replace(/_/g, ' '); });
-        const res = await fetch(`https://api.themoviedb.org/3/search/multi?query=${encodeURIComponent(top)}&api_key=${tmdbKey}`);
-        const data = await res.json();
-        const item = data.results[0];
-        if(item) {
-            document.getElementById('heroTitle').innerText = top;
-            document.getElementById('heroDesc').innerText = item.overview || "Watch trending anime.";
-            document.getElementById('heroCard').style.backgroundImage = `url('https://image.tmdb.org/t/p/original${item.backdrop_path}')`;
-            document.getElementById('heroBtn').href = linkMap[top.toLowerCase()] || '#';
-        }
-    });
-}
+/* --- GRID LOADING --- */
 
 async function loadGrid(titles, containerId) {
     const container = document.getElementById(containerId);
@@ -310,18 +328,22 @@ async function loadGrid(titles, containerId) {
             const item = data.results[0];
             if(item) {
                 const rating = (Math.random()*(9.2-8.0)+8.0).toFixed(1);
-                container.innerHTML += `
-                    <a href="${linkMap[t.toLowerCase()] || '#'}" class="anime-card">
-                        <span class="badge-hd">HD | HINDI</span>
-                        <img src="https://image.tmdb.org/t/p/w342${item.poster_path}" loading="lazy">
-                        <div class="card-info">⭐ ${rating} Rating</div>
-                        <div class="anime-title">${t}</div>
-                    </a>`;
+                const card = document.createElement('a');
+                card.href = linkMap[t.toLowerCase()] || '#';
+                card.className = 'anime-card';
+                card.onclick = () => trackClick(t);
+                card.innerHTML = `
+                    <span class="badge-hd">HD | HINDI</span>
+                    <img src="https://image.tmdb.org/t/p/w342${item.poster_path}" loading="lazy">
+                    <div class="card-info">⭐ ${rating} Rating</div>
+                    <div class="anime-title">${t}</div>`;
+                container.appendChild(card);
             }
         } catch(e) {}
     }
 }
 
+// Initial Run
 loadHero();
 loadGrid(defaultTitles, 'latestContainer');
 loadGrid(latestmovieTitles, 'popularContainer');
