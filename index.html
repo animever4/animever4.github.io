@@ -76,8 +76,8 @@
 <nav id="sideNav">
     <div class="close-btn" onclick="document.getElementById('sideNav').classList.remove('open')">✕</div>
     <a href="./index.html">🏠 Home</a>
-    <a href="./adventure.html">⚔️ Adventure</a>
-    <a href="./action.html">🥊 Action</a>
+    <a href="./adventure.html" onclick="smartCheck(event, this)">⚔️ Adventure</a>
+    <a href="./action.html" onclick="smartCheck(event, this)">🥊 Action</a>
     <a href="./about us.html">ℹ️ About Us</a>
     <a href="./contact us.html">📞 Contact Us</a>
     <a href="https://t.me/animeverse648" target="_blank">✈️ Telegram</a>
@@ -134,7 +134,7 @@
         <div style="font-size: clamp(30px, 10vw, 50px); margin-bottom: 10px;">⏳</div>
         <h2 style="margin:0 0 10px 0; color:var(--primary-color); border:none; font-family: 'Poppins', sans-serif; font-size: 1.2rem; letter-spacing: 1px;">COMING SOON</h2>
         <p style="font-size:13px; color:#eee; line-height:1.5; font-family: 'Quicksand', sans-serif; margin-bottom: 20px;">
-            We're currently processing this series. High-quality <strong>Hindi Dubbed</strong> episodes will be available shortly!
+            We're currently processing this section. High-quality <strong>Hindi Dubbed</strong> episodes will be available shortly!
         </p>
         <div style="display: flex; flex-direction: column; gap: 10px;">
             <a href="https://t.me/animeverse648" target="_blank" onclick="closeModal()" style="background:#0088cc; color:white; text-decoration:none; padding:12px; border-radius:10px; font-weight:bold; font-size: 13px; display: block;">✈️ REQUEST ON TELEGRAM</a>
@@ -195,7 +195,6 @@ const linkMap = {
     'one punch man': './onepunch.html', 'suicide squad isekai': './sucidesquade.html', 'zenshu': './zenshu.html', 'jujutsu-kaisen-0':'./jjk0.html',
     'stand by me doraemon': './stand.html',
     'garden of words': './Garden.html'
-    
 };
 
 const newReleases = ['Dark Moon', 'Fairy Tail', 'Suicide Squad Isekai', 'Zenshu', 'Dan Da Dan'];
@@ -203,6 +202,31 @@ const newReleases = ['Dark Moon', 'Fairy Tail', 'Suicide Squad Isekai', 'Zenshu'
 /* --- MODAL CONTROL --- */
 function showComingSoon() { document.getElementById('comingSoonModal').style.display = 'flex'; }
 function closeModal() { document.getElementById('comingSoonModal').style.display = 'none'; }
+
+// This function automatically detects if the file exists!
+function smartCheck(event, element) {
+    event.preventDefault(); // Stop the link from opening immediately
+    const url = element.getAttribute('href');
+    
+    // Close the sidebar first
+    document.getElementById('sideNav').classList.remove('open');
+
+    // Try to see if the file exists on the server
+    fetch(url, { method: 'HEAD' })
+    .then(response => {
+        if (response.ok) {
+            // File exists! Navigate to it.
+            window.location.href = url;
+        } else {
+            // File is missing (404)! Show modal.
+            showComingSoon();
+        }
+    })
+    .catch(() => {
+        // Error (like file not found on local dev)! Show modal.
+        showComingSoon();
+    });
+}
 
 /* --- TRACKING & HERO LOGIC --- */
 function trackClick(animeTitle) {
@@ -296,7 +320,6 @@ async function loadGrid(titles, containerId) {
                 const rating = (Math.random()*(9.2-8.0)+8.0).toFixed(1);
                 const card = document.createElement('a');
                 
-                // Link Verification Logic
                 const target = linkMap[t.toLowerCase()];
                 if (target) {
                     card.href = target;
@@ -305,7 +328,6 @@ async function loadGrid(titles, containerId) {
                     card.onclick = (e) => { e.preventDefault(); showComingSoon(); };
                 }
                 
-                // New Badge Logic
                 const isNew = newReleases.some(nt => nt.toLowerCase() === t.toLowerCase());
                 const nBadge = isNew ? `<span style="position: absolute; top: 5px; right: 5px; background: #0088cc; font-size: 8px; padding: 2px 6px; border-radius: 3px; font-weight: bold; z-index: 5; box-shadow: 0 0 5px #0088cc;">NEW</span>` : '';
 
