@@ -1,166 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Your Name - Hindi Dub - Watch All Episodes</title>
-  <style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JUJUTSU KAISEN 0</title>
+<style>
+    /* 🎨 Your Name "Twilight" Theme */
+    :root {
+        --primary: #ff6b81; /* Sunset Pink */
+        --secondary: #4834d4; /* Deep Twilight Blue */
+        --bg: #0b0c1b; /* Night Sky */
+        --card-bg: rgba(30, 39, 46, 0.8);
+        --download-btn: #eb4d4b;
+        --telegram-btn: #0088cc;
+        --accent: #f9ca24; /* Comet Gold */
+    }
+
     body {
-      margin: 0;
-      background-color: #0b0b0b;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: white;
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        background: var(--bg);
+        background-image: radial-gradient(circle at top, #1e272e 0%, #0b0c1b 100%);
+        color: #fff;
+        margin: 0;
+        padding: 0;
     }
+
     header {
-      background-color: #141414;
-      padding: 15px 20px;
-      font-size: 24px;
-      font-weight: bold;
-      color: #00ff99;
-      text-align: center;
+        text-align: center;
+        padding: 40px 20px;
+        background: linear-gradient(135deg, var(--secondary), var(--primary));
+        font-size: 2.2em;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+        border-bottom: 3px solid var(--accent);
     }
-    .player-section {
-      max-width: 960px;
-      margin: 20px auto;
-      padding: 0 15px;
+
+    #player-container {
+        position: relative;
+        width: 95%;
+        max-width: 900px;
+        aspect-ratio: 16 / 9;
+        margin: 30px auto;
+        background: #000;
+        border-radius: 20px;
+        border: 2px solid rgba(255, 107, 129, 0.3);
+        overflow: hidden;
+        box-shadow: 0 0 40px rgba(72, 52, 212, 0.4);
     }
-    iframe {
-      width: 100%;
-      height: 480px;
-      border: none;
-      border-radius: 8px;
+
+    iframe { width: 100%; height: 100%; border: none; }
+
+    .loader {
+        position: absolute; top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        border: 5px solid #1a1a1a;
+        border-top: 5px solid var(--primary);
+        border-radius: 50%;
+        width: 50px; height: 50px;
+        animation: spin 1s linear infinite;
+        display: none;
     }
-    .server-tabs, .season-dropdown {
-      text-align: center;
-      margin-top: 20px;
+
+    @keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+
+    .action-container {
+        text-align: center;
+        margin: 20px auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
     }
-    .server-tabs button,
-    .dropdown-toggle,
-    .dropdown-content button {
-      background-color: #222;
-      color: white;
-      padding: 10px 16px;
-      border: 1px solid #00ff99;
-      margin: 5px;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: background 0.3s;
-      font-size: 16px;
+
+    .download-btn {
+        display: inline-block;
+        background: var(--download-btn);
+        color: white;
+        text-decoration: none;
+        padding: 14px 40px;
+        border-radius: 50px;
+        font-weight: bold;
+        transition: 0.3s;
+        box-shadow: 0 5px 15px rgba(235, 77, 75, 0.4);
+        border: none;
+        cursor: pointer;
     }
-    .server-tabs button.active,
-    .dropdown-content button.active {
-      background-color: #00ff99;
-      color: black;
+
+    .telegram-btn {
+        background: var(--telegram-btn);
+        box-shadow: 0 5px 15px rgba(0, 136, 204, 0.3);
     }
-    .dropdown-toggle {
-      display: inline-block;
+
+    .download-btn:hover { transform: scale(1.05); filter: brightness(1.1); }
+
+    .content-box {
+        max-width: 900px;
+        margin: 20px auto;
+        padding: 25px;
+        background: var(--card-bg);
+        border-radius: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
     }
-    .dropdown-content {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s ease;
+
+    .part-label {
+        color: var(--accent);
+        font-weight: bold;
+        margin-bottom: 15px;
+        display: block;
     }
-    .dropdown-content.show {
-      max-height: 200px;
+
+    .btn-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        gap: 12px;
     }
-    .episodes-section {
-      max-width: 1000px;
-      margin: 0 auto 30px;
-      padding: 0 15px;
+
+    .movie-part-btn {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 107, 129, 0.3);
+        padding: 15px;
+        color: #fff;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.3s;
+        font-weight: 600;
     }
-    .episode-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-      gap: 12px;
+
+    .movie-part-btn:hover, .movie-part-btn.active {
+        background: var(--primary);
+        border-color: var(--accent);
     }
-    .episode-button {
-      background-color: #1c1c1c;
-      border: 1px solid #00ff99;
-      color: #00ff99;
-      padding: 10px;
-      border-radius: 6px;
-      text-align: center;
-      cursor: pointer;
-      transition: background 0.2s, color 0.2s;
-    }
-    .episode-button:hover {
-      background-color: #00ff99;
-      color: #000;
-    }
-    .hidden {
-      display: none;
-    }
-  </style>
+
+    h3 { margin-top: 0; color: var(--primary); }
+    p { color: #d1d1d1; line-height: 1.7; }
+</style>
 </head>
 <body>
-  <header>Your Name - Hindi Dub</header>
-  <div class="player-section">
-    <iframe id="videoPlayer" src="" allowfullscreen></iframe>
-    <div class="server-tabs">
-      <button onclick="setServer('filemoon')" id="filemoonBtn">Filemoon</button>
-    </div>
-    <div class="season-dropdown">
-      <button class="dropdown-toggle" onclick="toggleDropdown()">Seasons ▾</button>
-      <div class="dropdown-content" id="seasonDropdown">
-        <button onclick="setSeason('s1')" id="s1Btn">Season 1</button>
-      </div>
-    </div>
-  </div>
-  <div class="episodes-section">
-    <div class="episode-grid hidden" id="s1Episodes"></div>
-  </div>
-  <script>
-    const allEpisodes = {
-  "filemoon": {
-    "s1": [
-      {
-        "name": "Play",
-        "url": "https://filemoon.nl/e/4da1csaw05gw/Jujutsu_Kaisen_0_FanDub__RareToonsindia__1080P_FHD"
-      }
-    ]
-  }
-};
-    let currentServer = 'filemoon';
-    let currentSeason = 's1';
-    function loadEpisodes(server, season) {
-      const epList = allEpisodes[server][season];
-      const container = document.getElementById(season + 'Episodes');
-      container.innerHTML = '';
-      epList.forEach(ep => {
+
+<header>JUJUTSU KAISEN 0</header>
+
+<div id="player-container">
+    <div id="loader" class="loader"></div>
+    <iframe id="main-player" src="https://short.icu/Nqd-Qi0Uj" allowfullscreen></iframe>
+</div>
+
+<div class="action-container">
+    <div id="dynamic-download"></div>
+    <a href="https://t.me/+6RgvaeWoyYU2ZTE9" class="download-btn telegram-btn" target="_blank">DOWNLOAD</a>
+</div>
+
+
+
+
+
+    <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin:30px 0;">
+    
+    <h3>Synopsis</h3>
+    <p>Jujutsu Kaisen 0 is a prequel about high schooler Yuta Okkotsu, haunted by the powerful, vengeful spirit of his deceased childhood sweetheart, Rika Orimoto, who manifests as a monstrous curse. Recruited by Satoru Gojo to attend Jujutsu High, Yuta learns to control Rika's immense power alongside classmates Maki Zenin, Toge Inumaki, and Panda, all while facing the threat of the villainous Suguru Geto and his plan to unleash a curse-fueled apocalypse on the non-sorcerer world. </p>
+</div>
+
+<script>
+    
+
+    const player = document.getElementById('main-player');
+    const loader = document.getElementById('loader');
+    const container = document.getElementById('part-container');
+    const downloadArea = document.getElementById('dynamic-download');
+
+    function switchPart(part, btn) {
+        loader.style.display = 'block';
+        
+        // Remove active class from all
+        document.querySelectorAll('.movie-part-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        if (part.url === "ERROR") {
+            loader.style.display = 'none';
+            player.srcdoc = `
+                <body style="background:#000; color:#fff; display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh; margin:0; font-family:sans-serif;">
+                    <h2 style="color:#ff6b81;">🎬 Content Moving</h2>
+                    <p>This part is only available via the Download button below.</p>
+                </body>`;
+        } else {
+            player.removeAttribute('srcdoc');
+            player.src = part.url;
+            player.onload = () => loader.style.display = 'none';
+        }
+
+        // Update Download Button
+        downloadArea.innerHTML = `<a href="${part.dlink}" class="download-btn" target="_blank">⬇ DOWNLOAD ${part.name.toUpperCase()}</a>`;
+        
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    movieParts.forEach(part => {
         const btn = document.createElement('div');
-        btn.className = 'episode-button';
-        btn.textContent = ep.name;
-        btn.onclick = () => loadVideo(ep.url);
+        btn.className = 'movie-part-btn';
+        btn.textContent = part.name;
+        btn.onclick = () => switchPart(part, btn);
         container.appendChild(btn);
-      });
-    }
-    function loadVideo(url) {
-      document.getElementById('videoPlayer').src = url;
-    }
-    function setServer(server) {
-      currentServer = server;
-      document.querySelectorAll('.server-tabs button').forEach(btn => btn.classList.remove('active'));
-      document.getElementById(server + 'Btn').classList.add('active');
-      setSeason(currentSeason);
-    }
-    function setSeason(season) {
-      currentSeason = season;
-      document.querySelectorAll('.dropdown-content button').forEach(btn => btn.classList.remove('active'));
-      document.getElementById(season + 'Btn').classList.add('active');
-      const seasonKeys = Object.keys(allEpisodes[currentServer]);
-      seasonKeys.forEach(s => {
-        const grid = document.getElementById(s + 'Episodes');
-        if (grid) grid.classList.add('hidden');
-      });
-      document.getElementById(season + 'Episodes').classList.remove('hidden');
-      loadEpisodes(currentServer, season);
-      const firstEp = allEpisodes[currentServer][season][0];
-      if (firstEp) loadVideo(firstEp.url);
-    }
-    function toggleDropdown() {
-      document.getElementById('seasonDropdown').classList.toggle('show');
-    }
-    setServer('filemoon');
-  </script>
+    });
+
+    // Auto-load first option
+    if(container.children.length > 0) container.children[0].click();
+</script>
+
 </body>
-</html>
+</html>-
