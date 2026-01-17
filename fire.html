@@ -1,116 +1,326 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Attack on Titan - All Episodes</title>
-  <style>
-    body { background: black; color: white; font-family: Arial, sans-serif; margin: 0; padding: 0; }
-    .container { padding: 20px; }
-    h1, h2 { color: limegreen; }
-    .server-buttons button { margin-right: 10px; padding: 8px 12px; background: #007BFF; color: white; border: none; cursor: pointer; border-radius: 5px; }
-    .server-buttons button:hover { background: #0056b3; }
-    .episode-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
-    .episode-list button { background: #6c757d; color: white; border: 2px solid #03C03C; border-radius: 5px; padding: 8px 10px; cursor: pointer; }
-    iframe { width: 100%; height: 400px; border: 2px solid white; margin-top: 20px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YGR1LPCM5K"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-YGR1LPCM5K');
+</script>
+
+<title>Fire Force - All Episodes</title>
+<style>
+    :root {
+        --primary: #0077be; 
+        --secondary: #002366;
+        --bg: #050505;
+        --card-bg: #1a1a1a;
+        --download-green: #2ecc71;
+    }
+
+    body {
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        background: var(--bg);
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+
+    header {
+        text-align: center;
+        padding: 30px 20px;
+        background: linear-gradient(135deg, var(--primary), #000);
+        font-size: 1.8em;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+    }
+
+    #player-container {
+        position: relative;
+        width: 95%;
+        max-width: 900px;
+        aspect-ratio: 16 / 9;
+        margin: 20px auto 10px auto;
+        background: #000;
+        border-radius: 20px;
+        border: 2px solid rgba(0, 119, 190, 0.3);
+        overflow: hidden;
+        box-shadow: 0 0 30px rgba(0, 119, 190, 0.4);
+    }
+
+    iframe { width: 100%; height: 100%; border: none; }
+
+    /* Download Button Styles */
+    .download-container {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .download-btn {
+        display: inline-block;
+        background: var(--download-green);
+        color: white;
+        padding: 12px 30px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: transform 0.2s, background 0.2s;
+        box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+    }
+
+    .download-btn:hover {
+        transform: scale(1.05);
+        background: #27ae60;
+    }
+
+    .loader {
+        position: absolute; top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        border: 5px solid #333;
+        border-top: 5px solid var(--primary);
+        border-radius: 50%;
+        width: 50px; height: 50px;
+        animation: spin 1s linear infinite;
+        z-index: 10;
+    }
+
+    @keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+
+    .season-container {
+        max-width: 1000px;
+        margin: 10px auto;
+        padding: 0 15px;
+    }
+
+    .season-label {
+        font-size: 1.1em;
+        font-weight: bold;
+        margin-bottom: 10px;
+        display: block;
+        color: var(--primary);
+    }
+
+    .season-tabs {
+        display: flex;
+        overflow-x: auto;
+        gap: 12px;
+        padding: 10px 5px;
+        scrollbar-width: thin;
+        scrollbar-color: var(--primary) transparent;
+    }
+
+    .season-tab {
+        flex: 0 0 auto;
+        padding: 10px 20px;
+        background: var(--card-bg);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+    }
+
+    .season-tab.active {
+        background: var(--primary);
+        box-shadow: 0 0 15px var(--primary);
+        border-color: transparent;
+    }
+
+    #episode-buttons {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 12px;
+        padding: 20px;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .episode-btn {
+        background: rgba(255, 255, 255, 0.05);
+        color: #fff;
+        border: 1px solid rgba(255,255,255,0.1);
+        padding: 15px 5px;
+        border-radius: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
+    }
+
+    .episode-btn:hover {
+        background: var(--primary);
+        transform: translateY(-3px);
+    }
+
+    .hidden { display: none; }
+
+    @media (max-width: 600px) {
+        header { font-size: 1.4em; }
+        .season-tab { padding: 10px 18px; font-size: 0.9em; }
+    }
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>Fire Force - Streaming</h1>
 
-    <div class="server-buttons">
-      <button onclick="setServer('filemoon')">Filemoon</button>
-      <button onclick="setServer('servabyss')">Servabyss</button>
-      <button onclick="setServer('vidgroud')">Vidgroud</button>
-    </div>
+<header>Fire Force</header>
 
-    <div class="episode-list" id="episodeButtons"></div>
+<div id="player-container">
+    <div id="loading-spinner" class="loader"></div>
+    <iframe id="video-player" src="" allowfullscreen onload="hideLoader()"></iframe>
+</div>
 
-    <iframe id="videoPlayer" src="" allowfullscreen></iframe>
-  </div>
+<div class="download-container">
+    <a href="https://t.me/+2BxLZR6uiLhmMDll" id="download-link" class="download-btn" target="_blank">⬇ Download Current Episode</a>
+</div>
 
-  <script>
-    const allEpisodes = {
-      filemoon: [
-    { "name": "01", "url": "https://filemoon.nl/e/6f2f0pesks80/_RAI__Fire_Force_S1E01_-_Hindi_Censored" },
-    { "name": "02", "url": "https://filemoon.nl/e/bhfuwzsqag1j/_RAI__Fire_Force_S1E02_-_Hindi_Censored" },
-    { "name": "03", "url": "https://filemoon.nl/e/6vejudmql31d/_RAI__Fire_Force_S1E03_-_Hindi_Censored" },
-    { "name": "04", "url": "https://filemoon.nl/e/ij93kza9ikoh/_RAI__Fire_Force_S1E04_-_Hindi_Censored" },
-    { "name": "05", "url": "https://filemoon.nl/e/638034b6c3nn/_RAI__Fire_Force_S1E05_-_Hindi_Censored" },
-    { "name": "06", "url": "https://filemoon.nl/e/6dll26wv32eg/_RAI__Fire_Force_S1E06_-_Hindi_Censored" },
-    { "name": "07", "url": "https://filemoon.nl/e/5rbvpcuwvctp/_RAI__Fire_Force_S1E07_-_Hindi_Censored" },
-    { "name": "08", "url": "https://filemoon.nl/e/bck0fboppxex/_RAI__Fire_Force_S1E08_-_Hindi_Censored" },
-    { "name": "09", "url": "https://filemoon.nl/e/6197d0u4xzrn/_RAI__Fire_Force_S1E09_-_Hindi_Censored" },
-    { "name": "10", "url": "https://filemoon.nl/e/w2fdec5iutr9/_RAI__Fire_Force_S1E10_-_Hindi_Censored" },
-    { "name": "11", "url": "https://filemoon.nl/e/hhny10jow5wc/_RAI__Fire_Force_S1E11_-_Hindi_Censored" },
-    { "name": "12", "url": "https://filemoon.nl/e/jvgl0odd3q6g/_RAI__Fire_Force_S1E12_-_Hindi_Censored" },
-    { "name": "13", "url": "https://filemoon.nl/e/mzdnxqr6bmek/_RAI__Fire_Force_S1E13_-_Hindi_Censored" },
-    { "name": "14", "url": "https://filemoon.nl/e/2lim43rxjv42/_RAI__Fire_Force_S1E14_-_Hindi_Censored" },
-    { "name": "15", "url": "https://filemoon.nl/e/uu81xo4gc1hm/_RAI__Fire_Force_S1E15_-_Hindi_Censored" },
-    { "name": "16", "url": "https://filemoon.nl/e/tsao0jbx2zmb/_RAI__Fire_Force_S1E16_-_Hindi_Censored" },
-    { "name": "17", "url": "https://filemoon.nl/e/n0qj545f1a3w/_RAI__Fire_Force_S1E17_-_Hindi_Censored" },
-    { "name": "18", "url": "https://filemoon.nl/e/pdsyhho9sudn/_RAI__Fire_Force_S1E18_-_Hindi_Censored" },
-    { "name": "19", "url": "https://filemoon.nl/e/bswywlll9h2m/_RAI__Fire_Force_S1E19_-_Hindi_Censored" },
-    { "name": "20", "url": "https://filemoon.nl/e/hsmomeczza1v/_RAI__Fire_Force_S1E20_-_Hindi_Censored" },
-    { "name": "21", "url": "https://filemoon.nl/e/diviv2brcayw/_RAI__Fire_Force_S1E21_-_Hindi_Censored" },
-    { "name": "22", "url": "https://filemoon.nl/e/clzidgzelalm/_RAI__Fire_Force_S1E22_-_Hindi_Censored" },
-    { "name": "23", "url": "https://filemoon.nl/e/gqtka07rsi95/_RAI__Fire_Force_S1E23_-_Hindi_Censored" },
-    { "name": "24", "url": "https://filemoon.nl/e/idj3rcssnihg/_RAI__Fire_Force_S1E24_-_Hindi_Censored" },
-    { "name": "01", "url": "https://filemoon.nl/e/psmrpnjc9hs2/Fire_Force_S02E01__Hindi_" },
-    { "name": "02", "url": "https://filemoon.nl/e/ueozecsu6b4f/Fire_Force_S02E02__Hindi_" },
-    { "name": "03", "url": "https://filemoon.nl/e/t4or06e6olcs/Fire_Force_S02E03__Hindi_" },
-    { "name": "04", "url": "https://filemoon.nl/e/gmh3e21vsl8n/Fire_Force_S02E04__Hindi_" },
-    { "name": "05", "url": "https://filemoon.nl/e/mu47a19izffq/Fire_Force_S02E05__Hindi_" },
-    { "name": "06", "url": "https://filemoon.nl/e/27kqlwn0yqit/Fire_Force_S02E06__Hindi_" },
-    { "name": "07", "url": "https://filemoon.nl/e/kgmvjym4y7zg/Fire_Force_S02E07__Hindi_" },
-    { "name": "08", "url": "https://filemoon.nl/e/p752wopl70tc/Fire_Force_S02E08__Hindi_" },
-    { "name": "09", "url": "https://filemoon.nl/e/iwasatlfuosc/Fire_Force_S02E09__Hindi_" },
-    { "name": "10", "url": "https://filemoon.nl/e/nd90wrho5qa1/Fire_Force_S02E10__Hindi_" },
-    { "name": "11", "url": "https://filemoon.nl/e/znuo0mloehiz/Fire_Force_S02E11__Hindi_" },
-    { "name": "12", "url": "https://filemoon.nl/e/vdd3ma3kcb80/Fire_Force_S02E12__Hindi_" },
-    { "name": "13", "url": "https://filemoon.nl/e/ci32ejjyf6ke/Fire_Force_S02E13__Hindi_" },
-    { "name": "14", "url": "https://filemoon.nl/e/jejn1bqnhmi6/Fire_Force_S02E14__Hindi_" },
-    { "name": "15", "url": "https://filemoon.nl/e/3zpasc0k90a0/Fire_Force_S02E15__Hindi_" },
-    { "name": "16", "url": "https://filemoon.nl/e/tppz7rhskqdb/Fire_Force_S02E16__Hindi_" },
-    { "name": "17", "url": "https://filemoon.nl/e/18n9d2so2vfb/Fire_Force_S02E17__Hindi_" },
-    { "name": "18", "url": "https://filemoon.nl/e/fhbglbzc6wbj/Fire_Force_S02E18__Hindi_" },
-    { "name": "19", "url": "https://filemoon.nl/e/3bx5rquqtwl7/Fire_Force_S02E19__Hindi_" },
-    { "name": "20", "url": "https://filemoon.nl/e/tl6srj1fjdgl/Fire_Force_S02E20__Hindi_" },
-    { "name": "21", "url": "https://filemoon.nl/e/89kgp1lqfkur/Fire_Force_S02E21__Hindi_" },
-    { "name": "22", "url": "https://filemoon.nl/e/amj9wdf1j5q9/Fire_Force_S02E22__Hindi_" },
-    { "name": "23", "url": "https://filemoon.nl/e/ikops8mk3hki/Fire_Force_S02E23__Hindi_" },
-    { "name": "24", "url": "https://filemoon.nl/e/ubzk1rc43ifu/Fire_Force_S02E24__Hindi_" },
-    { "name": "S3EP01 Start With MaltiAudio", "url": "https://filemoon.nl/e/8emwifcrdxq1/_Toonhub4u__Fire_Force_S03E01_1080p_x265_10bit_WEB-DL_Multi_Audio_ESub" },
-    { "name": "S3EP02", "url": "https://filemoon.to/e/z3er8eseajmi/_Toonhub4u__Fire_Force_S03E02_1080p_x265_10bit_WEB-DL_Multi_Audio_ESub" },
-    { "name": "S3EP03", "url": "https://filemoon.nl/e/maof70yh4ll4/_Toonhub4u__Fire_Force_S03E03_1080p_x265_10bit_WEB-DL_Multi_Audio_ESub" },
-    { "name": "S3EP04", "url": "https://filemoon.nl/e/rbfgm2lmvp98/_Toonhub4u__Fire_Force_S03E04_1080p_x265_10bit_WEB-DL_Multi_Audio_ESub" },
-    { "name": "S3EP05", "url": "https://filemoon.nl/e/9jnxdgxt7ism/Fire_Force_S03E05__Hindi__1080P_FHD" },
-    { "name": "S3EP06", "url": "https://filemoon.nl/e/kt1dg118j3kh/_Toonhub4u__Fire_Force_S03E06_1080p_x265_10bit_WEB-DL_Multi_Audio_ESub" },
-]
-    };
+<div class="season-container">
+    <span class="season-label">Select Season:</span>
+    <div class="season-tabs" id="season-tabs-list"></div>
+</div>
 
-    function loadEpisodes(server) {
-      const container = document.getElementById('episodeButtons');
-      container.innerHTML = '';
-      allEpisodes[server].forEach(ep => {
+<div id="episode-buttons"></div>
+
+<script>
+const episodes = {
+    1: [
+        { "name": "Episode 1", "url": "https://short.icu/xUHmbsW5o" },
+        { "name": "Episode 2", "url": "https://short.icu/9Uq4plKL0" },
+        { "name": "Episode 3", "url": "https://short.icu/BcmzCq6hN" },
+        { "name": "Episode 4", "url": "https://short.icu/UfxEZ6edV" },
+        { "name": "Episode 5", "url": "https://short.icu/H6ZFuEyjw" },
+        { "name": "Episode 6", "url": "https://short.icu/Pk-KUH3HE" },
+        { "name": "Episode 7", "url": "https://short.icu/VR-nsVHJB" },
+        { "name": "Episode 8", "url": "https://short.icu/dEF2h7LKb" },
+        { "name": "Episode 9", "url": "https://short.icu/ezbocx_8B" },
+        { "name": "Episode 10", "url": "https://short.icu/7wX1A9s7D" },
+        { "name": "Episode 11", "url": "https://short.icu/OKyjXI_td" },
+        { "name": "Episode 12", "url": "https://short.icu/zXcXV652K" },
+        { "name": "Episode 13", "url": "https://short.icu/5eXzGGfJ7" },
+        { "name": "Episode 14", "url": "https://short.icu/s_3xioieu" },
+        { "name": "Episode 15", "url": "https://short.icu/pH65MYPs_" },
+        { "name": "Episode 16", "url": "https://short.icu/ZMYo3vPoD" },
+        { "name": "Episode 17", "url": "https://short.icu/tXwhEp5qZ" },
+        { "name": "Episode 18", "url": "https://short.icu/qmiedSf4a" },
+        { "name": "Episode 19", "url": "https://short.icu/KwvOIFULh" },
+        { "name": "Episode 20", "url": "https://short.icu/tieiLl1OH" },
+        { "name": "Episode 21", "url": "https://short.icu/CsKgtBApe" },
+        { "name": "Episode 22", "url": "https://short.icu/2L8-mxY2b" },
+        { "name": "Episode 23", "url": "https://short.icu/fbvYCd6u_" },
+        { "name": "Episode 24", "url": "https://short.icu/Fovhdczdc" }
+    ],
+    2: [
+        { "name": "Episode 1", "url": "https://short.icu/7O3Rzfsky" },
+        { "name": "Episode 2", "url": "https://short.icu/ATgJD-LlE" },
+        { "name": "Episode 3", "url": "https://short.icu/FpmS2uUH_m" },
+        { "name": "Episode 4", "url": "https://short.icu/PjYWG-r-A" },
+        { "name": "Episode 5", "url": "https://short.icu/Gtm9rljcP" },
+        { "name": "Episode 6", "url": "https://short.icu/-40u7nrVq" },
+        { "name": "Episode 7", "url": "https://short.icu/zEX84neQ0" },
+        { "name": "Episode 8", "url": "https://short.icu/ecqclA3X3" },
+        { "name": "Episode 9", "url": "https://short.icu/pIkWY-o_T" },
+        { "name": "Episode 10", "url": "https://short.icu/Fmjo9gc10" },
+        { "name": "Episode 11", "url": "https://short.icu/7kw2KTodd" },
+        { "name": "Episode 12", "url": "https://short.icu/Z7-wGpxeO" },
+        { "name": "Episode 13", "url": "https://short.icu/gxvUF83Tu" },
+        { "name": "Episode 14", "url": "https://short.icu/s2DLV_HkI" },
+        { "name": "Episode 15", "url": "https://short.icu/tRYo7j3Xp" },
+        { "name": "Episode 16", "url": "https://short.icu/cUjYYRusq" },
+        { "name": "Episode 17", "url": "https://short.icu/79qw64Pfl" },
+        { "name": "Episode 18", "url": "https://short.icu/aBqJDYaoQ" },
+        { "name": "Episode 19", "url": "https://short.icu/RSysQldeh" },
+        { "name": "Episode 20", "url": "https://short.icu/1FimEBMte" },
+        { "name": "Episode 21", "url": "https://short.icu/9aJAgST4c" },
+        { "name": "Episode 22", "url": "https://short.icu/nQgP5U8ch" },
+        { "name": "Episode 23", "url": "https://short.icu/ei1Pz5PaL" },
+        { "name": "Episode 24", "url": "https://short.icu/nltW9L956" }
+    ],
+    3: [
+        { "name": "Episode 1", "url": "https://short.icu/l4yZvXjwh" },
+        { "name": "Episode 2", "url": "https://short.icu/sU2q3_rxs" },
+        { "name": "Episode 3", "url": "https://short.icu/dxBXyp6mE" },
+        { "name": "Episode 4", "url": "https://short.icu/ro1P5pkzc" },
+        { "name": "Episode 5", "url": "https://short.icu/YXsuYpbdQ" },
+        { "name": "Episode 6", "url": "https://short.icu/tAt_H-1rs" },
+        { "name": "Episode 7", "url": "https://short.icu/pr_iWTlCzC" },
+        { "name": "Episode 8", "url": "https://short.icu/RO8xAJBfM" },
+        { "name": "Episode 9", "url": "https://short.icu/Xhi2pdGzG" },
+        { "name": "Episode 10", "url": "https://short.icu/1F9QtTFhP" },
+        { "name": "Episode 11", "url": "https://short.icu/PgcOzu5pS" },
+        { "name": "Episode 12", "url": "https://short.icu/yUgK98H0c" },
+        { "name": "Episode 13", "url": "https://short.icu/znZEJVWt4W" },
+        { "name": "Episode 14", "url": "https://pro.iqsmartgames.com/stream/jwf0pev?autoplay=1" }
+    ]
+};
+
+let currentSeason = 1;
+
+function showLoader() { document.getElementById('loading-spinner').classList.remove('hidden'); }
+function hideLoader() { document.getElementById('loading-spinner').classList.add('hidden'); }
+
+// Function to handle switching the video and updating the download link
+function changeEpisode(name, url) {
+    showLoader();
+    document.getElementById('video-player').src = url;
+    
+    // Update the download button link and text
+    const dlLink = document.getElementById('download-link');
+    dlLink.href = url;
+    dlLink.textContent = `⬇ Download ${name} (S${currentSeason})`;
+    
+    window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function initSeasonTabs() {
+    const tabContainer = document.getElementById('season-tabs-list');
+    const seasonNames = ["Season 1", "Season 2", "Season 3"];
+
+    for (let i = 1; i <= seasonNames.length; i++) {
+        const tab = document.createElement('div');
+        tab.className = `season-tab ${i === 1 ? 'active' : ''}`;
+        tab.innerText = seasonNames[i-1];
+        tab.onclick = () => selectSeason(i, tab);
+        tabContainer.appendChild(tab);
+    }
+}
+
+function selectSeason(num, element) {
+    document.querySelectorAll('.season-tab').forEach(t => t.classList.remove('active'));
+    element.classList.add('active');
+    currentSeason = num;
+    loadEpisodes();
+}
+
+function loadEpisodes() {
+    const container = document.getElementById('episode-buttons');
+    container.innerHTML = '';
+    
+    const eps = episodes[currentSeason] || [];
+    eps.forEach(ep => {
         const btn = document.createElement('button');
+        btn.className = 'episode-btn';
         btn.textContent = ep.name;
-        btn.onclick = () => loadVideo(ep.url);
+        btn.onclick = () => changeEpisode(ep.name, ep.url);
         container.appendChild(btn);
-      });
-    }
+    });
 
-    function loadVideo(url) {
-      document.getElementById('videoPlayer').src = url;
+    if(eps.length > 0){
+        // Load the first episode of the season by default
+        changeEpisode(eps[0].name, eps[0].url);
     }
+}
 
-    function setServer(serverName) {
-      loadEpisodes(serverName);
-      loadVideo(allEpisodes[serverName][0].url);
-    }
+window.onload = () => {
+    initSeasonTabs();
+    loadEpisodes();
+};
+</script>
 
-    setServer('filemoon');
-  </script>
 </body>
 </html>
