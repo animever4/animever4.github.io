@@ -66,10 +66,7 @@
             text-align: center;
             margin: 10px auto;
             max-width: 900px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
+            min-height: 60px;
         }
 
         .download-btn {
@@ -85,12 +82,6 @@
             box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
             cursor: pointer;
             border: none;
-            margin-top: 10px;
-        }
-
-        .telegram-btn {
-            background: var(--telegram-btn);
-            box-shadow: 0 4px 15px rgba(0, 136, 204, 0.3);
         }
 
         .download-btn:hover {
@@ -171,12 +162,7 @@
     <iframe id="video-player" src="" allow="autoplay; fullscreen; encrypted-media" allowfullscreen onload="hideLoader()"></iframe>
 </div>
 
-<div class="download-container">
-    
-    <a href="https://t.me/+TWbt2jrZc48wYjA1" target="_blank" class="download-btn telegram-btn">
-     DOWNLOAD 
-    </a>
-</div>
+<div class="download-container" id="dynamic-download-area"></div>
 
 <div class="season-container">
     <span class="season-label">Select Season:</span>
@@ -188,8 +174,16 @@
 <script>
 const episodeData = {
     1: [
-        { name: "S1 Ep-1", url: "https://pro.iqsmartgames.com/stream/llyu0yr?autoplay=1" },
-        
+        { 
+            name: "S1 Ep-1", 
+            url: "https://pro.iqsmartgames.com/stream/llyu0yr?autoplay=1",
+            downloadUrl: "https://gdmirrorbot.nl/clouddl?fid=0e8cb1b9e23f&exp=1768616293&tkn=7353338a7cb8a59cd792bc42394dfc410a488409b4e4e0cb8b2c0ac1efbba559"
+        },
+        { 
+            name: "S1 Ep-2", 
+            url: "https://gdmirrorbot.nl/clouddl?fid=0e8cb1b9e23f&exp=1768615056&tkn=41b3cd970d6a5c38bd432ea9998264f1a6313922b9f840eece2ba21ef34e2a2b",
+            downloadUrl: "https://gdmirrorbot.nl/clouddl?fid=0e8cb1b9e23f&exp=1768615056&tkn=41b3cd970d6a5c38bd432ea9998264f1a6313922b9f840eece2ba21ef34e2a2b"
+        }
     ],
 };
 
@@ -221,7 +215,7 @@ function initSeasonTabs() {
 
 function loadEpisodes() {
     const container = document.getElementById('episode-buttons');
-    const episodeDownloadArea = document.getElementById('episode-download-area');
+    const downloadArea = document.getElementById('dynamic-download-area');
     const videoPlayer = document.getElementById('video-player');
     container.innerHTML = '';
     
@@ -231,8 +225,7 @@ function loadEpisodes() {
         btn.className = 'episode-btn';
         btn.textContent = ep.name;
         btn.onclick = () => {
-            episodeDownloadArea.innerHTML = ''; 
-            
+            // Player Logic
             if (ep.url === "ERROR") {
                 hideLoader();
                 videoPlayer.srcdoc = `<body style="background:#000; color:#fff; display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh; margin:0; font-family:sans-serif;"><h2 style="color:#ff4500;">⚠️ Error</h2><p>Please download this episode.</p></body>`;
@@ -242,20 +235,26 @@ function loadEpisodes() {
                 videoPlayer.src = ep.url;
             }
             
-            // Generate Download Button
+            // Download Button Logic
+            downloadArea.innerHTML = ''; 
             const dBtn = document.createElement('a');
             dBtn.className = 'download-btn';
-            dBtn.href = ep.url === "ERROR" ? "#" : ep.url.replace("/stream/", "/d/"); 
+            
+            // Priority 1: Use specific downloadUrl. 
+            // Priority 2: If stream link, convert to /d/. 
+            // Priority 3: Fallback to base url.
+            let finalDownloadLink = ep.downloadUrl || (ep.url.includes("/stream/") ? ep.url.replace("/stream/", "/d/").replace("?autoplay=1", "") : ep.url);
+            
+            dBtn.href = ep.url === "ERROR" ? "#" : finalDownloadLink;
             dBtn.target = "_blank";
             dBtn.textContent = `⬇ Download ${ep.name}`;
-            episodeDownloadArea.appendChild(dBtn);
+            downloadArea.appendChild(dBtn);
             
             window.scrollTo({top: 0, behavior: 'smooth'});
         };
         container.appendChild(btn);
     });
 
-    // Auto-load first episode
     if(eps.length > 0) {
         container.children[0].click();
     }
