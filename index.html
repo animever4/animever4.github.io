@@ -26,44 +26,14 @@
         .close-btn { text-align: right; font-size: 1.5rem; cursor: pointer; color: var(--primary-color); margin-bottom: 20px; }
 
         /* --- SEARCH SECTION --- */
-        .search-section { 
-            max-width: 600px; 
-            margin: 0 auto; 
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-20px);
-            max-height: 0; 
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            padding: 0 15px;
-            position: relative;
-            z-index: 1500;
-        }
-        .search-section.active { 
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-            max-height: 120px; 
-            padding: 15px 15px;
-        }
-        .search-box { 
-            display: flex; 
-            background: #111; 
-            border: 2px solid var(--primary-color); 
-            border-radius: 30px; 
-            overflow: hidden; 
-            box-shadow: 0 0 15px rgba(244, 126, 33, 0.5); 
-        }
+        .search-section { max-width: 600px; margin: 0 auto; opacity: 0; visibility: hidden; transform: translateY(-20px); max-height: 0; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); padding: 0 15px; position: relative; z-index: 1500; }
+        .search-section.active { opacity: 1; visibility: visible; transform: translateY(0); max-height: 120px; padding: 15px 15px; }
+        .search-box { display: flex; background: #111; border: 2px solid var(--primary-color); border-radius: 30px; overflow: hidden; box-shadow: 0 0 15px rgba(244, 126, 33, 0.5); }
         .search-box input { flex: 1; background: transparent; border: none; color: #fff; padding: 12px 40px 12px 20px; outline: none; font-size: 14px; width: 100%; }
         .go-btn { background: var(--primary-color); border: none; color: white; padding: 0 20px; font-weight: 800; cursor: pointer; }
 
         /* --- SUGGESTIONS --- */
-        #suggestions { 
-            position: absolute; top: 100%; left: 15px; right: 15px; 
-            background: rgba(15, 15, 15, 0.98); backdrop-filter: blur(10px);
-            border-radius: 15px; border: 1px solid var(--primary-color); 
-            max-height: 250px; overflow-y: auto; display: none; margin-top: 10px; z-index: 9999; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-        }
+        #suggestions { position: absolute; top: 100%; left: 15px; right: 15px; background: rgba(15, 15, 15, 0.98); backdrop-filter: blur(10px); border-radius: 15px; border: 1px solid var(--primary-color); max-height: 250px; overflow-y: auto; display: none; margin-top: 10px; z-index: 9999; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
         #suggestions div { padding: 14px 20px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px; transition: 0.2s; color: #eee; }
         #suggestions div:hover { background: var(--primary-color); color: white; padding-left: 25px; }
 
@@ -158,12 +128,27 @@
     </section>
 </div>
 
+<div id="comingSoonModal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.9); backdrop-filter: blur(8px); align-items:center; justify-content:center; padding: 15px; box-sizing: border-box;">
+    <div style="background:#111; border:2px solid var(--primary-color); padding:30px 20px 20px; border-radius:20px; text-align:center; width:100%; max-width:350px; max-height: 90vh; overflow-y: auto; box-shadow: var(--accent-glow); position: relative; box-sizing: border-box;">
+        <div onclick="closeModal()" style="position: absolute; top: 10px; right: 15px; color: #888; font-size: 20px; cursor: pointer; font-weight: bold;">&times;</div>
+        <div style="font-size: clamp(30px, 10vw, 50px); margin-bottom: 10px;">⏳</div>
+        <h2 style="margin:0 0 10px 0; color:var(--primary-color); border:none; font-family: 'Poppins', sans-serif; font-size: 1.2rem; letter-spacing: 1px;">COMING SOON</h2>
+        <p style="font-size:13px; color:#eee; line-height:1.5; font-family: 'Quicksand', sans-serif; margin-bottom: 20px;">
+            We're currently processing this series. High-quality <strong>Hindi Dubbed</strong> episodes will be available shortly!
+        </p>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+            <a href="https://t.me/animeverse648" target="_blank" onclick="closeModal()" style="background:#0088cc; color:white; text-decoration:none; padding:12px; border-radius:10px; font-weight:bold; font-size: 13px; display: block;">✈️ REQUEST ON TELEGRAM</a>
+            <button onclick="closeModal()" style="background:transparent; color:#888; border:1px solid #444; padding:10px; border-radius:10px; font-weight:bold; cursor:pointer; font-size: 12px; width: 100%;">NOT NOW</button>
+        </div>
+    </div>
+</div>
+
 <footer>
-    <div style="font-size: 2.rem; font-weight: 800; color: var(--primary-color); letter-spacing: 4px; margin-bottom: 8px;">ANIMEVERSE</div>
+    <div style="font-size: 2rem; font-weight: 800; color: var(--primary-color); letter-spacing: 4px; margin-bottom: 8px;">ANIMEVERSE</div>
     <div style="max-width: 500px; margin: 0 auto 15px; font-size: 12px; color: #999; line-height: 1.5; padding: 0 20px; font-family: 'Quicksand', sans-serif;">
         Your ultimate destination for <strong>Premium Hindi Dubbed Anime</strong>.
     </div>
-    <p style="font-size: 10px; color: #444; letter-spacing: 1px;">&copy;   | 2026 ANIMEVERSE | 
+    <p style="font-size: 10px; color: #444; letter-spacing: 1px;">&copy; | 2026 ANIMEVERSE |</p>
 </footer>
 
 <div class="bottom-actions">
@@ -187,50 +172,49 @@ const suggestionsBox = document.getElementById('suggestions');
 const searchContainer = document.getElementById('searchContainer');
 const clearBtn = document.getElementById('clearSearch');
 
-/* --- DATA --- */
+/* --- DATA MAPS --- */
 const defaultTitles = ['Dark Moon','Fairy Tail','Fire Force','Tokyo Ghoul', 'The Daily Life Of The Immortal King', 'Jujutsu Kaisen', 'one punch man', 'Mf Ghost', 'Campfire Cooking'];
 const trendingTitles = ['Naruto Shippuden', 'One Piece', 'Attack on Titan', 'Dragon Ball Z', 'Jujutsu Kaisen', 'Demon Slayer: Kimetsu no Yaiba'];
-const movieTitles = ['Your Name', 'Garden of Words', 'suzume no tojimari', 'Stand by Me Doraemon', 'Weathering with You', 'Jujutsu-kaisen-0'];
+const movieTitles = ['Your Name', 'Garden of Words', 'suzume no tojimari', 'Stand By Me Doraemon', 'Weathering with You', 'Jujutsu-kaisen-0'];
 const latestmovieTitles = ['Suicide Squad Isekai', 'Demon Slayer: Kimetsu no Yaiba', 'Mobile Suit Gundam', 'Naruto Shippuden', 'Tokyo Revengers',  'Narenare: Cheer for You', 'Bleach Thousand-year Blood War', 'Zenshu'];
 const hindiTitles = ['Classroom of Elite', 'Kochikame','solo leveling','chainsaw man','attack on titan','death note','spy x family','dandan','Suicide Squad Isekai','tokyo ghoul','Mobile Suit Gundam','Campfire Cooking','Mf Ghost','Fairy Tail'];
 
 const allTitles = [...new Set([...defaultTitles, ...trendingTitles, ...movieTitles, ...latestmovieTitles, ...hindiTitles])];
 
-const linkMap = {'fire force': './fire.html',
-    'dark moon': './dark.html',
-    'fairy tail': './fairy.html',
+const linkMap = {
+    'fire force': './fire.html', 'dark moon': './dark.html', 'fairy tail': './fairy.html',
     'mf ghost': './mf.html', 'campfire cooking': './campfire.html', 'mobile suit gundam': './mobile.html', 'tokyo ghoul': './ghoul.html',
     'classroom of elite': './classroom_of_elite_final_latest.html', 'death note': './death_note_final_latest.html', 
     'bleach thousand-year blood war': './bleachthousand.html', 'attack on titan': './attack on titan.html', 
     'solo leveling': './solo leveling.html', 'chainsaw man': './chain.html', 'demon slayer: kimetsu no yaiba': './demonslayer.html',
-    'spy x family': './spy_x_family_final_latest.html', 'dan da dan': './dan_final_latest.html', 'my hero academia': './my_hero_academia_final_latest.html',
-    'one piece': './piece.html', 'naruto shippuden': './narutos.html', 'your name': './your_name_final_latest.html',
-    'suzume': './suzume_final_latest.html', 'weathering with you': './weathering_with_you_final_latest.html',
-    'jujutsu kaisen': './jujutsukaisen.html', 'the daily life of the immortal king': './daily life.html',
-    'tokyo revengers': './tokyorevengers.html', 'one punch man': './onepunch.html', 
-    'suicide squad isekai': './sucidesquade.html', 'zenshu': './zenshu.html',
-    'attack on titan': './attack on titan.html'
+    'spy x family': './spy_x_family_final_latest.html', 'dan da dan': './dan_final_latest.html', 'dandan': './dan_final_latest.html',
+    'my hero academia': './my_hero_academia_final_latest.html', 'one piece': './piece.html', 'naruto shippuden': './narutos.html', 
+    'your name': './your name.html', 'suzume no tojimari': './suzume.html',
+    'weathering with you': './weathering.html', 'jujutsu kaisen': './jujutsukaisen.html', 
+    'the daily life of the immortal king': './daily life.html', 'tokyo revengers': './tokyorevengers.html', 
+    'one punch man': './onepunch.html', 'suicide squad isekai': './sucidesquade.html', 'zenshu': './zenshu.html', 'jujutsu-kaisen-0':'./jjk0.html',
+    'stand by me doraemon': './stand.html',
+    'garden of words': './Garden.html'
+    
 };
 
-/* --- TRACKING & HERO LOGIC --- */
+const newReleases = ['Dark Moon', 'Fairy Tail', 'Suicide Squad Isekai', 'Zenshu', 'Dan Da Dan'];
 
+/* --- MODAL CONTROL --- */
+function showComingSoon() { document.getElementById('comingSoonModal').style.display = 'flex'; }
+function closeModal() { document.getElementById('comingSoonModal').style.display = 'none'; }
+
+/* --- TRACKING & HERO LOGIC --- */
 function trackClick(animeTitle) {
     if (!animeTitle) return;
     const sanitizedTitle = animeTitle.toLowerCase().replace(/\./g, '_').replace(/\s+/g, '_');
-    const clickRef = db.ref('global_clicks/' + sanitizedTitle);
-    clickRef.transaction((currentClicks) => {
-        return (currentClicks || 0) + 1;
-    });
+    db.ref('global_clicks/' + sanitizedTitle).transaction(c => (c || 0) + 1);
 }
 
 async function loadHero() {
-    const clicksRef = db.ref('global_clicks');
-    // Fetch top anime based on click count from Firebase
-    clicksRef.orderByValue().limitToLast(1).once('value', async (snap) => {
+    db.ref('global_clicks').orderByValue().limitToLast(1).once('value', async (snap) => {
         let top = "Solo Leveling"; 
-        if (snap.exists()) {
-            snap.forEach(c => { top = c.key.replace(/_/g, ' '); });
-        }
+        if (snap.exists()) snap.forEach(c => { top = c.key.replace(/_/g, ' '); });
         const res = await fetch(`https://api.themoviedb.org/3/search/multi?query=${encodeURIComponent(top)}&api_key=${tmdbKey}`);
         const data = await res.json();
         const item = data.results[0];
@@ -239,45 +223,34 @@ async function loadHero() {
             document.getElementById('heroDesc').innerText = item.overview || "Trending now globally.";
             document.getElementById('heroCard').style.backgroundImage = `url('https://image.tmdb.org/t/p/original${item.backdrop_path}')`;
             const btn = document.getElementById('heroBtn');
-            btn.href = linkMap[top.toLowerCase()] || '#';
-            btn.onclick = () => trackClick(top);
+            const target = linkMap[top.toLowerCase()];
+            if(target) { btn.href = target; btn.onclick = () => trackClick(top); }
+            else { btn.href = "javascript:void(0)"; btn.onclick = () => { trackClick(top); showComingSoon(); }; }
         }
     });
 }
 
 /* --- UI FUNCTIONS --- */
-
 function toggleSearch() { 
     searchContainer.classList.toggle('active'); 
     if(searchContainer.classList.contains('active')) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        setTimeout(() => { searchInput.focus(); }, 400); 
-    } else {
-        suggestionsBox.style.display = 'none';
-    }
+        setTimeout(() => searchInput.focus(), 400); 
+    } else suggestionsBox.style.display = 'none';
 }
 
-function triggerSearch() {
-    const val = searchInput.value.trim();
-    if(val) selectSearch(val);
-}
+function triggerSearch() { const val = searchInput.value.trim(); if(val) selectSearch(val); }
 
 window.selectSearch = function(term) {
     const exists = allTitles.some(t => t.toLowerCase().includes(term.toLowerCase()));
-    if (!exists && term !== "") {
-        alert("Sorry! This anime is not available on our site.");
-        return;
-    }
+    if (!exists && term !== "") { alert("Sorry! This anime is not available on our site."); return; }
     trackClick(term);
     searchInput.value = term;
     clearBtn.style.display = 'block';
     suggestionsBox.style.display = 'none';
     document.getElementById('popularHeading').textContent = `Results for "${term}"`;
     loadGrid([term], 'popularContainer');
-    document.getElementById('latestSection').style.display = 'none';
-    document.getElementById('trendingSection').style.display = 'none';
-    document.getElementById('movieSection').style.display = 'none';
-    document.getElementById('heroSection').style.display = 'none';
+    ['latestSection','trendingSection','movieSection','heroSection'].forEach(id => document.getElementById(id).style.display = 'none');
 };
 
 searchInput.addEventListener('input', (e) => {
@@ -294,32 +267,22 @@ searchInput.addEventListener('input', (e) => {
     }
 });
 
-clearBtn.addEventListener('click', () => {
-    searchInput.value = '';
-    clearBtn.style.display = 'none';
-    suggestionsBox.style.display = 'none';
-    resetUI();
-    searchInput.focus();
+clearBtn.addEventListener('click', () => { 
+    searchInput.value = ''; clearBtn.style.display = 'none'; suggestionsBox.style.display = 'none'; resetUI(); searchInput.focus(); 
 });
 
 function resetUI() {
     suggestionsBox.style.display = 'none';
     document.getElementById('popularHeading').textContent = "Popular Anime";
-    document.getElementById('latestSection').style.display = 'block';
-    document.getElementById('trendingSection').style.display = 'block';
-    document.getElementById('movieSection').style.display = 'block';
-    document.getElementById('heroSection').style.display = 'block';
+    ['latestSection','trendingSection','movieSection','heroSection'].forEach(id => document.getElementById(id).style.display = 'block');
     loadGrid(latestmovieTitles, 'popularContainer');
 }
 
-document.addEventListener('click', (e) => {
-    if (!searchContainer.contains(e.target) && !e.target.classList.contains('search-trigger')) {
-        searchContainer.classList.remove('active');
-        suggestionsBox.style.display = 'none';
-    }
+document.addEventListener('click', (e) => { 
+    if (!searchContainer.contains(e.target) && !e.target.classList.contains('search-trigger')) { 
+        searchContainer.classList.remove('active'); suggestionsBox.style.display = 'none'; 
+    } 
 });
-
-/* --- GRID LOADING --- */
 
 async function loadGrid(titles, containerId) {
     const container = document.getElementById(containerId);
@@ -332,21 +295,30 @@ async function loadGrid(titles, containerId) {
             if(item) {
                 const rating = (Math.random()*(9.2-8.0)+8.0).toFixed(1);
                 const card = document.createElement('a');
-                card.href = linkMap[t.toLowerCase()] || '#';
+                
+                // Link Verification Logic
+                const target = linkMap[t.toLowerCase()];
+                if (target) {
+                    card.href = target;
+                } else {
+                    card.href = "javascript:void(0)";
+                    card.onclick = (e) => { e.preventDefault(); showComingSoon(); };
+                }
+                
+                // New Badge Logic
+                const isNew = newReleases.some(nt => nt.toLowerCase() === t.toLowerCase());
+                const nBadge = isNew ? `<span style="position: absolute; top: 5px; right: 5px; background: #0088cc; font-size: 8px; padding: 2px 6px; border-radius: 3px; font-weight: bold; z-index: 5; box-shadow: 0 0 5px #0088cc;">NEW</span>` : '';
+
                 card.className = 'anime-card';
-                card.onclick = () => trackClick(t);
-                card.innerHTML = `
-                    <span class="badge-hd">HD | HINDI</span>
-                    <img src="https://image.tmdb.org/t/p/w342${item.poster_path}" loading="lazy">
-                    <div class="card-info">⭐ ${rating} Rating</div>
-                    <div class="anime-title">${t}</div>`;
+                card.addEventListener('click', () => trackClick(t));
+                card.innerHTML = `<span class="badge-hd">HD | HINDI</span>${nBadge}<img src="https://image.tmdb.org/t/p/w342${item.poster_path}" loading="lazy"><div class="card-info">⭐ ${rating} Rating</div><div class="anime-title">${t}</div>`;
                 container.appendChild(card);
             }
         } catch(e) {}
     }
 }
 
-// Initial Run
+// Startup
 loadHero();
 loadGrid(defaultTitles, 'latestContainer');
 loadGrid(latestmovieTitles, 'popularContainer');

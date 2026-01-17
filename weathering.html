@@ -1,63 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Attack on Titan - All Episodes</title>
-  <style>
-    body { background: black; color: white; font-family: Arial, sans-serif; margin: 0; padding: 0; }
-    .container { padding: 20px; }
-    h1, h2 { color: limegreen; }
-    .server-buttons button { margin-right: 10px; padding: 8px 12px; background: #007BFF; color: white; border: none; cursor: pointer; border-radius: 5px; }
-    .server-buttons button:hover { background: #0056b3; }
-    .episode-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
-    .episode-list button { background: #6c757d; color: white; border: 2px solid #03C03C; border-radius: 5px; padding: 8px 10px; cursor: pointer; }
-    iframe { width: 100%; height: 400px; border: 2px solid white; margin-top: 20px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WEATHERING WITH YOU</title>
+<style>
+    /* 🎨 Your Name "Twilight" Theme */
+    :root {
+        --primary: #ff6b81; /* Sunset Pink */
+        --secondary: #4834d4; /* Deep Twilight Blue */
+        --bg: #0b0c1b; /* Night Sky */
+        --card-bg: rgba(30, 39, 46, 0.8);
+        --download-btn: #eb4d4b;
+        --telegram-btn: #0088cc;
+        --accent: #f9ca24; /* Comet Gold */
+    }
+
+    body {
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        background: var(--bg);
+        background-image: radial-gradient(circle at top, #1e272e 0%, #0b0c1b 100%);
+        color: #fff;
+        margin: 0;
+        padding: 0;
+    }
+
+    header {
+        text-align: center;
+        padding: 40px 20px;
+        background: linear-gradient(135deg, var(--secondary), var(--primary));
+        font-size: 2.2em;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+        border-bottom: 3px solid var(--accent);
+    }
+
+    #player-container {
+        position: relative;
+        width: 95%;
+        max-width: 900px;
+        aspect-ratio: 16 / 9;
+        margin: 30px auto;
+        background: #000;
+        border-radius: 20px;
+        border: 2px solid rgba(255, 107, 129, 0.3);
+        overflow: hidden;
+        box-shadow: 0 0 40px rgba(72, 52, 212, 0.4);
+    }
+
+    iframe { width: 100%; height: 100%; border: none; }
+
+    .loader {
+        position: absolute; top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        border: 5px solid #1a1a1a;
+        border-top: 5px solid var(--primary);
+        border-radius: 50%;
+        width: 50px; height: 50px;
+        animation: spin 1s linear infinite;
+        display: none;
+    }
+
+    @keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+
+    .action-container {
+        text-align: center;
+        margin: 20px auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .download-btn {
+        display: inline-block;
+        background: var(--download-btn);
+        color: white;
+        text-decoration: none;
+        padding: 14px 40px;
+        border-radius: 50px;
+        font-weight: bold;
+        transition: 0.3s;
+        box-shadow: 0 5px 15px rgba(235, 77, 75, 0.4);
+        border: none;
+        cursor: pointer;
+    }
+
+    .telegram-btn {
+        background: var(--telegram-btn);
+        box-shadow: 0 5px 15px rgba(0, 136, 204, 0.3);
+    }
+
+    .download-btn:hover { transform: scale(1.05); filter: brightness(1.1); }
+
+    .content-box {
+        max-width: 900px;
+        margin: 20px auto;
+        padding: 25px;
+        background: var(--card-bg);
+        border-radius: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .part-label {
+        color: var(--accent);
+        font-weight: bold;
+        margin-bottom: 15px;
+        display: block;
+    }
+
+    .btn-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        gap: 12px;
+    }
+
+    .movie-part-btn {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 107, 129, 0.3);
+        padding: 15px;
+        color: #fff;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.3s;
+        font-weight: 600;
+    }
+
+    .movie-part-btn:hover, .movie-part-btn.active {
+        background: var(--primary);
+        border-color: var(--accent);
+    }
+
+    h3 { margin-top: 0; color: var(--primary); }
+    p { color: #d1d1d1; line-height: 1.7; }
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>Weathering With You</h1>
 
-    <div class="server-buttons">
-      <button onclick="setServer('filemoon')">Filemoon</button>
-      <button onclick="setServer('servabyss')">Servabyss</button>
-      <button onclick="setServer('vidgroud')">Vidgroud</button>
-    </div>
+<header>WEATHERING WITH YOU</header>
 
-    <div class="episode-list" id="episodeButtons"></div>
+<div id="player-container">
+    <div id="loader" class="loader"></div>
+    <iframe id="main-player" src="https://short.icu/dmtoho2e5" allowfullscreen></iframe>
+</div>
 
-    <iframe id="videoPlayer" src="" allowfullscreen></iframe>
-  </div>
+<div class="action-container">
+    <div id="dynamic-download"></div>
+    <a href="https://t.me/+brC7dG-S5z1lZTg1" class="download-btn telegram-btn" target="_blank">DOWNLOAD</a>
+</div>
 
-  <script>
-    const allEpisodes = {
-      filemoon: [
-  { "name": "Play", "url": "https://filemoon.nl/e/zih32mczr4ld/Weathering_With_You_Fandub__RareToonsIndia__720P_HD" },
-]
-    };
 
-    function loadEpisodes(server) {
-      const container = document.getElementById('episodeButtons');
-      container.innerHTML = '';
-      allEpisodes[server].forEach(ep => {
-        const btn = document.createElement('button');
-        btn.textContent = ep.name;
-        btn.onclick = () => loadVideo(ep.url);
+
+
+
+    <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin:30px 0;">
+    
+    <h3>Synopsis</h3>
+    <p>Weathering with You (Tenki no Ko) is a 2019 Japanese animated romantic fantasy film directed by Makoto Shinkai. The story follows Hodaka, a runaway teenager who moves to a gloomy, rain-soaked Tokyo and befriends Hina, a "sunshine girl" with the ability to control the weather and bring out the sun through prayer.</p>
+</div>
+
+<script>
+    
+
+    const player = document.getElementById('main-player');
+    const loader = document.getElementById('loader');
+    const container = document.getElementById('part-container');
+    const downloadArea = document.getElementById('dynamic-download');
+
+    function switchPart(part, btn) {
+        loader.style.display = 'block';
+        
+        // Remove active class from all
+        document.querySelectorAll('.movie-part-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        if (part.url === "ERROR") {
+            loader.style.display = 'none';
+            player.srcdoc = `
+                <body style="background:#000; color:#fff; display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh; margin:0; font-family:sans-serif;">
+                    <h2 style="color:#ff6b81;">🎬 Content Moving</h2>
+                    <p>This part is only available via the Download button below.</p>
+                </body>`;
+        } else {
+            player.removeAttribute('srcdoc');
+            player.src = part.url;
+            player.onload = () => loader.style.display = 'none';
+        }
+
+        // Update Download Button
+        downloadArea.innerHTML = `<a href="${part.dlink}" class="download-btn" target="_blank">⬇ DOWNLOAD ${part.name.toUpperCase()}</a>`;
+        
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    movieParts.forEach(part => {
+        const btn = document.createElement('div');
+        btn.className = 'movie-part-btn';
+        btn.textContent = part.name;
+        btn.onclick = () => switchPart(part, btn);
         container.appendChild(btn);
-      });
-    }
+    });
 
-    function loadVideo(url) {
-      document.getElementById('videoPlayer').src = url;
-    }
+    // Auto-load first option
+    if(container.children.length > 0) container.children[0].click();
+</script>
 
-    function setServer(serverName) {
-      loadEpisodes(serverName);
-      loadVideo(allEpisodes[serverName][0].url);
-    }
-
-    setServer('filemoon');
-  </script>
 </body>
-</html>
+</html>-
