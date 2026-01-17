@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DARK MOON</title>
+    <title>DARK MOON - Stream & Download</title>
     <style>
         :root {
             --primary: #ff4500;
             --secondary: #ff8c00;
             --bg: #0f0f1a;
             --card-bg: #1e1e2f;
-            --download-btn: #2ecc71;
-            --telegram-btn: #0088cc;
+            --tg-blue: #0088cc;
         }
 
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Roboto, sans-serif;
             background: var(--bg);
             color: #fff;
             margin: 0;
@@ -25,9 +24,9 @@
 
         header {
             text-align: center;
-            padding: 30px 20px;
+            padding: 25px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            font-size: 2em;
+            font-size: 1.8em;
             font-weight: 900;
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -37,14 +36,14 @@
         #player-container {
             position: relative;
             width: 95%;
-            max-width: 900px;
+            max-width: 850px;
             aspect-ratio: 16 / 9;
             margin: 20px auto;
             background: #000;
-            border-radius: 20px;
+            border-radius: 15px;
             border: 2px solid rgba(255, 255, 255, 0.1);
             overflow: hidden;
-            box-shadow: 0 0 30px rgba(255, 69, 0, 0.3);
+            box-shadow: 0 0 25px rgba(255, 69, 0, 0.2);
         }
 
         iframe { width: 100%; height: 100%; border: none; }
@@ -52,104 +51,80 @@
         .loader {
             position: absolute; top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            border: 5px solid #333;
-            border-top: 5px solid var(--primary);
+            border: 4px solid #333;
+            border-top: 4px solid var(--primary);
             border-radius: 50%;
-            width: 50px; height: 50px;
+            width: 40px; height: 40px;
             animation: spin 1s linear infinite;
             z-index: 10;
         }
 
         @keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
 
-        .download-container {
+        .download-section {
             text-align: center;
-            margin: 10px auto;
-            max-width: 900px;
-            min-height: 60px;
+            margin: 10px auto 25px;
         }
 
         .download-btn {
             display: inline-block;
-            background: var(--download-btn);
+            background: var(--tg-blue);
             color: white;
             text-decoration: none;
-            padding: 12px 30px;
+            padding: 14px 45px;
             border-radius: 50px;
             font-weight: bold;
             text-transform: uppercase;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
-            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 136, 204, 0.4);
             border: none;
+            cursor: pointer;
+            font-size: 1em;
         }
 
         .download-btn:hover {
             transform: scale(1.05);
-            filter: brightness(1.1);
+            background: #0099e6;
         }
 
-        .season-container {
-            max-width: 1000px;
-            margin: 20px auto;
-            padding: 0 15px;
-        }
-
-        .season-label {
-            font-size: 1.2em;
-            font-weight: bold;
-            margin-bottom: 10px;
-            display: block;
+        .ep-list-title {
+            max-width: 900px;
+            margin: 10px auto;
+            padding: 0 20px;
             color: var(--primary);
-        }
-
-        .season-tabs {
-            display: flex;
-            overflow-x: auto;
-            gap: 12px;
-            padding: 10px 5px;
-        }
-
-        .season-tab {
-            flex: 0 0 auto;
-            padding: 12px 25px;
-            background: var(--card-bg);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 50px;
-            cursor: pointer;
             font-weight: bold;
-            transition: all 0.3s ease;
+            font-size: 1.2em;
         }
 
-        .season-tab.active {
-            background: var(--primary);
-            box-shadow: 0 0 15px var(--primary);
-        }
-
-        #episode-buttons {
+        #episode-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
             gap: 12px;
-            padding: 20px;
-            max-width: 1000px;
+            padding: 10px 20px 40px;
+            max-width: 900px;
             margin: 0 auto;
         }
 
-        .episode-btn {
-            background: rgba(255, 255, 255, 0.05);
+        .ep-card {
+            background: var(--card-bg);
             color: #fff;
             border: 1px solid rgba(255,255,255,0.1);
             padding: 15px 5px;
-            border-radius: 12px;
-            font-weight: 600;
+            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.2s;
             text-align: center;
+            font-weight: 600;
+            transition: 0.2s;
         }
 
-        .episode-btn:hover {
-            background: var(--secondary);
+        .ep-card:hover {
+            background: var(--primary);
             transform: translateY(-3px);
+        }
+
+        .ep-card.active-ep {
+            border-color: var(--primary);
+            background: rgba(255, 69, 0, 0.2);
         }
     </style>
 </head>
@@ -159,108 +134,87 @@
 
 <div id="player-container">
     <div id="loading-spinner" class="loader"></div>
-    <iframe id="video-player" src="" allow="autoplay; fullscreen; encrypted-media" allowfullscreen onload="hideLoader()"></iframe>
+    <iframe id="video-player" src="" allowfullscreen onload="hideLoader()"></iframe>
 </div>
 
-<div class="download-container" id="dynamic-download-area"></div>
+<div class="download-section" id="download-area"></div>
 
-<div class="season-container">
-    <span class="season-label">Select Season:</span>
-    <div class="season-tabs" id="season-tabs-list"></div>
-</div>
-
-<div id="episode-buttons"></div>
+<div class="ep-list-title">Select Episode:</div>
+<div id="episode-grid"></div>
 
 <script>
-const episodeData = {
-    1: [
-        { 
-            name: "S1 Ep-1", 
-            url: "https://pro.iqsmartgames.com/stream/llyu0yr?autoplay=1",
-            downloadUrl: "https://gdmirrorbot.nl/clouddl?fid=0e8cb1b9e23f&exp=1768616293&tkn=7353338a7cb8a59cd792bc42394dfc410a488409b4e4e0cb8b2c0ac1efbba559"
-        },
-        { 
-            name: "S1 Ep-2", 
-            url: "https://gdmirrorbot.nl/clouddl?fid=0e8cb1b9e23f&exp=1768615056&tkn=41b3cd970d6a5c38bd432ea9998264f1a6313922b9f840eece2ba21ef34e2a2b",
-            downloadUrl: "https://gdmirrorbot.nl/clouddl?fid=0e8cb1b9e23f&exp=1768615056&tkn=41b3cd970d6a5c38bd432ea9998264f1a6313922b9f840eece2ba21ef34e2a2b"
-        }
-    ],
-};
+/** * BOT CONFIGURATION
+ * Your Bot: verse1_8bot
+ */
+const botUsername = "verse1_8bot"; 
 
-let currentSeason = 1;
+const darkMoonEpisodes = [
+    { 
+        title: "Ep 1", 
+        streamUrl: "https://pro.iqsmartgames.com/stream/llyu0yr?autoplay=1",
+        startCode: "DarkMoon_Ep1" 
+    },
+    { 
+        title: "Ep 2", 
+        streamUrl: "https://pro.iqsmartgames.com/stream/jixv8pi?autoplay=1",
+        startCode: "DarkMoon_Ep2" 
+    }
+];
 
-function showLoader() { 
-    document.getElementById('loading-spinner').style.display = 'block'; 
-}
+function showLoader() { document.getElementById('loading-spinner').style.display = 'block'; }
+function hideLoader() { document.getElementById('loading-spinner').style.display = 'none'; }
 
-function hideLoader() { 
-    document.getElementById('loading-spinner').style.display = 'none'; 
-}
+function initApp() {
+    const grid = document.getElementById('episode-grid');
+    const dlArea = document.getElementById('download-area');
+    const player = document.getElementById('video-player');
 
-function initSeasonTabs() {
-    const tabList = document.getElementById('season-tabs-list');
-    Object.keys(episodeData).forEach(season => {
-        const tab = document.createElement('div');
-        tab.className = `season-tab ${season == currentSeason ? 'active' : ''}`;
-        tab.textContent = `Season ${season}`;
-        tab.onclick = () => {
-            document.querySelectorAll('.season-tab').forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            currentSeason = season;
-            loadEpisodes();
-        };
-        tabList.appendChild(tab);
-    });
-}
+    darkMoonEpisodes.forEach((ep, index) => {
+        const card = document.createElement('div');
+        card.className = 'ep-card';
+        card.textContent = ep.title;
+        
+        card.onclick = () => {
+            // Update UI Active State
+            document.querySelectorAll('.ep-card').forEach(c => c.classList.remove('active-ep'));
+            card.classList.add('active-ep');
 
-function loadEpisodes() {
-    const container = document.getElementById('episode-buttons');
-    const downloadArea = document.getElementById('dynamic-download-area');
-    const videoPlayer = document.getElementById('video-player');
-    container.innerHTML = '';
-    
-    const eps = episodeData[currentSeason];
-    eps.forEach(ep => {
-        const btn = document.createElement('button');
-        btn.className = 'episode-btn';
-        btn.textContent = ep.name;
-        btn.onclick = () => {
-            // Player Logic
-            if (ep.url === "ERROR") {
-                hideLoader();
-                videoPlayer.srcdoc = `<body style="background:#000; color:#fff; display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh; margin:0; font-family:sans-serif;"><h2 style="color:#ff4500;">⚠️ Error</h2><p>Please download this episode.</p></body>`;
-            } else {
-                showLoader();
-                videoPlayer.removeAttribute('srcdoc');
-                videoPlayer.src = ep.url;
-            }
+            // Update Video Player
+            showLoader();
+            player.src = ep.streamUrl;
             
-            // Download Button Logic
-            downloadArea.innerHTML = ''; 
-            const dBtn = document.createElement('a');
-            dBtn.className = 'download-btn';
+            // Generate Download Button
+            dlArea.innerHTML = '';
+            const dlBtn = document.createElement('a');
+            dlBtn.className = 'download-btn';
             
-            // Priority 1: Use specific downloadUrl. 
-            // Priority 2: If stream link, convert to /d/. 
-            // Priority 3: Fallback to base url.
-            let finalDownloadLink = ep.downloadUrl || (ep.url.includes("/stream/") ? ep.url.replace("/stream/", "/d/").replace("?autoplay=1", "") : ep.url);
+            // Automatically shows "Download 1", "Download 2", etc.
+            dlBtn.textContent = `Download ${index + 1}`;
             
-            dBtn.href = ep.url === "ERROR" ? "#" : finalDownloadLink;
-            dBtn.target = "_blank";
-            dBtn.textContent = `⬇ Download ${ep.name}`;
-            downloadArea.appendChild(dBtn);
+            // Final Link: https://t.me/verse1_8bot?start=DarkMoon_EpX
+            dlBtn.href = `https://t.me/${botUsername}?start=${ep.startCode}`;
+            dlBtn.target = "_blank";
             
+            dlArea.appendChild(dlBtn);
+            
+            // Smooth scroll for mobile users
             window.scrollTo({top: 0, behavior: 'smooth'});
         };
-        container.appendChild(btn);
+
+        grid.appendChild(card);
     });
 
-    if(eps.length > 0) {
-        container.children[0].click();
+    // Auto-load the first episode on page start
+    if(darkMoonEpisodes.length > 0) {
+        grid.children[0].click();
     }
 }
 
-window.onload = () => {
+window.onload = initApp;
+</script>
+
+</body>
+</html>window.onload = () => {
     initSeasonTabs();
     loadEpisodes();
 };
