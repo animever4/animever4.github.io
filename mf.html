@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MF GHOST - Player</title>
+    <title>MF GHOST - Premium Player</title>
     <style>
         :root {
             --primary: #ff4500;
@@ -85,7 +85,6 @@
             box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
             cursor: pointer;
             border: none;
-            margin-top: 10px;
         }
 
         .telegram-btn {
@@ -117,6 +116,7 @@
             overflow-x: auto;
             gap: 12px;
             padding: 10px 5px;
+            scrollbar-width: none;
         }
 
         .season-tab {
@@ -187,14 +187,16 @@
 <div id="episode-buttons"></div>
 
 <script>
+const botUsername = "verse1_8bot"; 
+
 const episodeData = {
     1: [
-        { name: "S1 Ep-1", url: "https://pro.iqsmartgames.com/stream/lnk4n0d?autoplay=1" },
-        { name: "S1 Ep-2", url: "https://pro.iqsmartgames.com/stream/frlg80i?autoplay=1" },
-        { name: "S1 Ep-3", url: "https://pro.iqsmartgames.com/stream/od82hil?autoplay=1" },
-        { name: "S1 Ep-4", url: "https://pro.iqsmartgames.com/stream/bjnjd23?autoplay=1" },
-        { name: "S1 Ep-5", url: "https://pro.iqsmartgames.com/stream/nsf7xki?autoplay=1" },
-        { name: "S1 Ep-6", url: "https://pro.iqsmartgames.com/stream/o2tbb8d?autoplay=1" }
+        { name: "S1 Ep-1", url: "https://pro.iqsmartgames.com/stream/lnk4n0d?autoplay=1", ep: "01" },
+        { name: "S1 Ep-2", url: "https://pro.iqsmartgames.com/stream/frlg80i?autoplay=1", ep: "02" },
+        { name: "S1 Ep-3", url: "https://pro.iqsmartgames.com/stream/od82hil?autoplay=1", ep: "03" },
+        { name: "S1 Ep-4", url: "https://pro.iqsmartgames.com/stream/bjnjd23?autoplay=1", ep: "04" },
+        { name: "S1 Ep-5", url: "https://pro.iqsmartgames.com/stream/nsf7xki?autoplay=1", ep: "05" },
+        { name: "S1 Ep-6", url: "https://pro.iqsmartgames.com/stream/o2tbb8d?autoplay=1", ep: "06" }
     ],
 };
 
@@ -238,19 +240,17 @@ function loadEpisodes() {
         btn.onclick = () => {
             episodeDownloadArea.innerHTML = ''; 
             
-            if (ep.url === "ERROR") {
-                hideLoader();
-                videoPlayer.srcdoc = `<body style="background:#000; color:#fff; display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh; margin:0; font-family:sans-serif;"><h2 style="color:#ff4500;">⚠️ Error</h2><p>Please download this episode.</p></body>`;
-            } else {
-                showLoader();
-                videoPlayer.removeAttribute('srcdoc');
-                videoPlayer.src = ep.url;
-            }
+            showLoader();
+            videoPlayer.removeAttribute('srcdoc');
+            videoPlayer.src = ep.url;
             
-            // Generate Download Button
+            // Bot Code Generation (MFGhost_Season_Episode)
+            const botCode = `MFGhost_${currentSeason}_${ep.ep}`;
+            
+            // Bot Download Button
             const dBtn = document.createElement('a');
             dBtn.className = 'download-btn';
-            dBtn.href = ep.url === "ERROR" ? "#" : ep.url.replace("/stream/", "/d/"); 
+            dBtn.href = `https://t.me/${botUsername}?start=${botCode}`;
             dBtn.target = "_blank";
             dBtn.textContent = `⬇ Download ${ep.name}`;
             episodeDownloadArea.appendChild(dBtn);
