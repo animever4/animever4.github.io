@@ -3,16 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-YGR1LPCM5K"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-YGR1LPCM5K');
-</script>
-
-<title>One Punch Man Hindi Dub - All Episodes</title>
+<title>One Punch Man Hindi Dub - Watch & Download</title>
 <style>
     :root {
         --primary: #00ff99;
@@ -27,7 +18,6 @@
         color: #fff;
         margin: 0;
         padding: 0;
-        overflow-x: hidden;
     }
 
     header {
@@ -37,12 +27,10 @@
         font-size: 2em;
         font-weight: 900;
         text-transform: uppercase;
-        letter-spacing: 2px;
         color: #000;
         box-shadow: 0 4px 20px rgba(0,0,0,0.5);
     }
 
-    /* PLAYER STYLES */
     #player-container {
         position: relative;
         width: 95%;
@@ -50,10 +38,9 @@
         aspect-ratio: 16 / 9;
         margin: 20px auto;
         background: #000;
-        border-radius: 20px;
-        border: 2px solid rgba(0, 255, 153, 0.2);
+        border-radius: 15px;
+        border: 2px solid var(--primary);
         overflow: hidden;
-        box-shadow: 0 0 30px rgba(0, 255, 153, 0.2);
     }
 
     iframe { width: 100%; height: 100%; border: none; }
@@ -61,207 +48,149 @@
     .loader {
         position: absolute; top: 50%; left: 50%;
         transform: translate(-50%, -50%);
-        border: 5px solid #333;
-        border-top: 5px solid var(--primary);
+        border: 4px solid #333;
+        border-top: 4px solid var(--primary);
         border-radius: 50%;
-        width: 50px; height: 50px;
+        width: 40px; height: 40px;
         animation: spin 1s linear infinite;
         z-index: 10;
+        display: none;
     }
-
     @keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
 
-    /* SEASON SELECTOR */
-    .season-container {
-        max-width: 1000px;
-        margin: 10px auto;
-        padding: 0 15px;
-    }
+    .download-container { text-align: center; margin: 15px auto; }
 
-    .season-label {
-        font-size: 1.2em;
-        font-weight: bold;
-        margin-bottom: 10px;
-        display: block;
-        color: var(--primary);
-    }
-
-    .season-tabs {
-        display: flex;
-        overflow-x: auto;
-        gap: 12px;
-        padding: 10px 5px;
-        scrollbar-width: thin;
-        scrollbar-color: var(--primary) transparent;
-    }
-
-    .season-tabs::-webkit-scrollbar { height: 6px; }
-    .season-tabs::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
-
-    .season-tab {
-        flex: 0 0 auto;
-        padding: 12px 25px;
-        background: var(--card-bg);
-        border: 1px solid rgba(255,255,255,0.1);
+    .download-btn {
+        display: inline-block;
+        background: linear-gradient(45deg, var(--secondary), var(--primary));
+        color: black;
+        text-decoration: none;
+        padding: 12px 35px;
         border-radius: 50px;
-        cursor: pointer;
         font-weight: bold;
-        transition: all 0.3s ease;
-        white-space: nowrap;
-    }
-
-    .season-tab.active {
-        background: var(--primary);
-        color: #000;
-        box-shadow: 0 0 15px var(--primary);
-        border-color: transparent;
-    }
-
-    /* EPISODE GRID */
-    #episode-buttons {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-        gap: 12px;
-        padding: 20px;
-        max-width: 1000px;
-        margin: 0 auto;
-    }
-
-    .episode-btn {
-        background: rgba(255, 255, 255, 0.05);
-        color: #fff;
-        border: 1px solid rgba(0, 255, 153, 0.3);
-        padding: 15px 5px;
-        border-radius: 12px;
-        font-weight: 600;
+        text-transform: uppercase;
+        transition: 0.3s;
         cursor: pointer;
-        transition: all 0.2s;
-        text-align: center;
     }
 
-    .episode-btn:hover {
-        background: var(--primary);
-        color: #000;
-        transform: translateY(-3px);
-        box-shadow: 0 5px 15px rgba(0, 255, 153, 0.4);
-    }
+    .season-container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
+    .season-label { font-size: 1.1em; font-weight: bold; color: var(--primary); margin-bottom: 10px; display: block; }
 
-    .hidden { display: none; }
+    .season-tabs { display: flex; overflow-x: auto; gap: 12px; padding: 10px 5px; scrollbar-width: none; }
+    .season-tab { flex: 0 0 auto; padding: 10px 25px; background: var(--card-bg); border: 1px solid var(--primary); border-radius: 50px; cursor: pointer; font-weight: bold; color: var(--primary); }
+    .season-tab.active { background: var(--primary); color: #000; }
 
-    @media (max-width: 600px) {
-        header { font-size: 1.4em; }
-        .season-tab { padding: 10px 18px; font-size: 0.9em; }
-    }
+    #episode-buttons { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 12px; padding: 20px; max-width: 1000px; margin: 0 auto; }
+    .episode-btn { background: rgba(255, 255, 255, 0.05); color: #fff; border: 1px solid rgba(0, 255, 153, 0.2); padding: 15px 5px; border-radius: 12px; cursor: pointer; text-align: center; }
+    .episode-btn:hover { background: var(--secondary); }
 </style>
 </head>
 <body>
 
-<header>One Punch Man</header>
+<header>ONE PUNCH MAN</header>
 
 <div id="player-container">
     <div id="loading-spinner" class="loader"></div>
     <iframe id="video-player" src="" allowfullscreen onload="hideLoader()"></iframe>
 </div>
 
+<div class="download-container" id="download-area"></div>
+
 <div class="season-container">
-    <span class="season-label">Select Season:</span>
-    <div class="season-tabs" id="season-tabs-list">
-        </div>
+    <span class="season-label">SELECT SEASON:</span>
+    <div class="season-tabs" id="season-tabs-list"></div>
 </div>
 
 <div id="episode-buttons"></div>
 
 <script>
-const episodes = {
+const botUsername = "verse1_8bot";
+const animeID = "onepunch";
+
+const episodeData = {
     1: [
-        { "name": "1", "url": "https://short.icu/-pQoCNca7" },
-        { "name": "2", "url": "https://short.icu/_8HKwdFoN" },
-        { "name": "3", "url": "https://short.icu/3fDdlhlVI" },
-        { "name": "4", "url": "https://short.icu/FIGXAQ0xc" },
-        { "name": "5", "url": "https://short.icu/3jtNoSYdU" },
-        { "name": "6", "url": "https://short.icu/MEmXOD_6f" },
-        { "name": "7", "url": "https://short.icu/xmBOf8lOj" },
-        { "name": "8", "url": "https://short.icu/Xl3nxTkpyR" },
-        { "name": "9", "url": "https://short.icu/4D7tYygLy" },
-        { "name": "10", "url": "https://short.icu/KJ88eBow7" },
-        { "name": "11", "url": "https://short.icu/6Yt1dABp3" },
-        { "name": "12", "url": "https://short.icu/9GDzDFKY2" }
+        { "name": "Ep 1", "url": "https://short.icu/-pQoCNca7", "ep": "1" },
+        { "name": "Ep 2", "url": "https://short.icu/_8HKwdFoN", "ep": "2" },
+        { "name": "Ep 3", "url": "https://short.icu/3fDdlhlVI", "ep": "3" },
+        { "name": "Ep 4", "url": "https://short.icu/FIGXAQ0xc", "ep": "4" },
+        { "name": "Ep 5", "url": "https://short.icu/3jtNoSYdU", "ep": "5" },
+        { "name": "Ep 6", "url": "https://short.icu/MEmXOD_6f", "ep": "6" },
+        { "name": "Ep 7", "url": "https://short.icu/xmBOf8lOj", "ep": "7" },
+        { "name": "Ep 8", "url": "https://short.icu/Xl3nxTkpyR", "ep": "8" },
+        { "name": "Ep 9", "url": "https://short.icu/4D7tYygLy", "ep": "9" },
+        { "name": "Ep 10", "url": "https://short.icu/KJ88eBow7", "ep": "10" },
+        { "name": "Ep 11", "url": "https://short.icu/6Yt1dABp3", "ep": "11" },
+        { "name": "Ep 12", "url": "https://short.icu/9GDzDFKY2", "ep": "12" }
     ],
     2: [
-        { "name": "13", "url": "https://short.icu/3LUQOWu5P" },
-        { "name": "14", "url": "https://short.icu/0nfEcezTV" },
-        { "name": "15", "url": "https://short.icu/4oZ2TUw6l" },
-        { "name": "16", "url": "https://short.icu/X785pUJo-" },
-        { "name": "17", "url": "https://short.icu/TeZiikg88" },
-        { "name": "18", "url": "https://short.icu/0VDfsRE1J" },
-        { "name": "19", "url": "https://short.icu/aCAXoya0u" },
-        { "name": "20", "url": "https://short.icu/SNxfQw2rF" }
+        { "name": "Ep 13", "url": "https://short.icu/3LUQOWu5P", "ep": "13" },
+        { "name": "Ep 14", "url": "https://short.icu/0nfEcezTV", "ep": "14" },
+        { "name": "Ep 15", "url": "https://short.icu/4oZ2TUw6l", "ep": "15" },
+        { "name": "Ep 16", "url": "https://short.icu/X785pUJo-", "ep": "16" },
+        { "name": "Ep 17", "url": "https://short.icu/TeZiikg88", "ep": "17" },
+        { "name": "Ep 18", "url": "https://short.icu/0VDfsRE1J", "ep": "18" },
+        { "name": "Ep 19", "url": "https://short.icu/aCAXoya0u", "ep": "19" },
+        { "name": "Ep 20", "url": "https://short.icu/SNxfQw2rF", "ep": "20" }
     ],
     3: [
-        { "name": "21", "url": "https://short.icu/FqCZQsdLm" },
-        { "name": "22", "url": "https://short.icu/TO1Xmwm4j" },
-        { "name": "23", "url": "https://short.icu/_sz-ZtmJ8" },
-        { "name": "24", "url": "https://short.icu/FHg7hWESe" },
-      { "name": "25", "url": "https://pro.iqsmartgames.com/stream/gwquod4?autoplay=1" },
-      { "name": "26", "url": "https://pro.iqsmartgames.com/stream/h8rqlp2?autoplay=1" }
-      
-      
+        { "name": "Ep 21", "url": "https://short.icu/FqCZQsdLm", "ep": "21" },
+        { "name": "Ep 22", "url": "https://short.icu/TO1Xmwm4j", "ep": "22" },
+        { "name": "Ep 23", "url": "https://short.icu/_sz-ZtmJ8", "ep": "23" },
+        { "name": "Ep 24", "url": "https://short.icu/FHg7hWESe", "ep": "24" },
+        { "name": "Ep 25", "url": "https://pro.iqsmartgames.com/stream/gwquod4?autoplay=1", "ep": "25" },
+        { "name": "Ep 26", "url": "https://pro.iqsmartgames.com/stream/h8rqlp2?autoplay=1", "ep": "26" }
     ]
 };
 
 let currentSeason = 1;
 
-function showLoader() { document.getElementById('loading-spinner').classList.remove('hidden'); }
-function hideLoader() { document.getElementById('loading-spinner').classList.add('hidden'); }
+function showLoader() { document.getElementById('loading-spinner').style.display = 'block'; }
+function hideLoader() { document.getElementById('loading-spinner').style.display = 'none'; }
 
 function initSeasonTabs() {
-    const tabContainer = document.getElementById('season-tabs-list');
-    const seasonNames = ["Season 1", "Season 2", "Season 3"];
-
-    for (let i = 1; i <= 3; i++) {
+    const tabList = document.getElementById('season-tabs-list');
+    Object.keys(episodeData).forEach(season => {
         const tab = document.createElement('div');
-        tab.className = `season-tab ${i === 1 ? 'active' : ''}`;
-        tab.innerText = seasonNames[i-1];
-        tab.onclick = () => selectSeason(i, tab);
-        tabContainer.appendChild(tab);
-    }
-}
-
-function selectSeason(num, element) {
-    document.querySelectorAll('.season-tab').forEach(t => t.classList.remove('active'));
-    element.classList.add('active');
-    currentSeason = num;
-    loadEpisodes();
+        tab.className = `season-tab ${season == currentSeason ? 'active' : ''}`;
+        tab.textContent = `Season ${season}`;
+        tab.onclick = () => {
+            document.querySelectorAll('.season-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            currentSeason = season;
+            loadEpisodes();
+        };
+        tabList.appendChild(tab);
+    });
 }
 
 function loadEpisodes() {
     const container = document.getElementById('episode-buttons');
+    const downloadArea = document.getElementById('download-area');
     container.innerHTML = '';
     
-    const eps = episodes[currentSeason] || [];
+    const eps = episodeData[currentSeason] || [];
     eps.forEach(ep => {
         const btn = document.createElement('button');
         btn.className = 'episode-btn';
-        btn.textContent = `Ep ${ep.name}`;
+        btn.textContent = ep.name;
         btn.onclick = () => {
             showLoader();
             document.getElementById('video-player').src = ep.url;
+            
+            // Bot link logic for deep linking
+            const botCode = `${animeID}_${currentSeason}_${ep.ep}`;
+            downloadArea.innerHTML = `
+                <a href="https://t.me/${botUsername}?start=${botCode}" class="download-btn" target="_blank">
+                    🚀 DOWNLOAD / CHOOSE QUALITY ON TELEGRAM
+                </a>`;
+            
             window.scrollTo({top: 0, behavior: 'smooth'});
         };
         container.appendChild(btn);
     });
-
-    if(eps.length > 0){
-        showLoader();
-        document.getElementById('video-player').src = eps[0].url;
-    }
 }
 
-window.onload = () => {
-    initSeasonTabs();
-    loadEpisodes();
-};
+window.onload = () => { initSeasonTabs(); loadEpisodes(); };
 </script>
-
 </body>
 </html>
