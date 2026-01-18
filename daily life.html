@@ -238,107 +238,294 @@ const episodes = {
         { "name": "8", "url": "https://short.icu/8Vucmm7m3" },
         { "name": "9", "url": "https://short.icu/-JeCi2EbY" },
         { "name": "10", "url": "https://short.icu/WheOPeMj_n" },
-        { "name": "11", "url": "https://short.icu/m3ePZ0bQf" },
-        { "name": "12", "url": "https://short.icu/atrLvLOM4" }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnimeVerse - MF Ghost Blue Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #00d2ff;
+            --deep-blue: #0045ff;
+            --bg-dark: #050b18;
+            --card-bg: #0d1626;
+            --glow: rgba(0, 210, 255, 0.4);
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--bg-dark);
+            color: #fff;
+            margin: 0;
+            background-image: radial-gradient(circle at 50% 0%, #001a33 0%, #050b18 100%);
+            overflow-x: hidden;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, var(--deep-blue), var(--primary-blue));
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5em;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            box-shadow: 0 4px 20px var(--glow);
+        }
+
+        #player-container {
+            position: relative;
+            width: 95%;
+            max-width: 900px;
+            aspect-ratio: 16 / 9;
+            margin: 20px auto;
+            background: #000;
+            border-radius: 15px;
+            border: 2px solid var(--primary-blue);
+            overflow: hidden;
+            box-shadow: 0 0 25px var(--glow);
+        }
+
+        iframe { width: 100%; height: 100%; border: none; }
+
+        .loader {
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            border: 4px solid #111;
+            border-top: 4px solid var(--primary-blue);
+            border-radius: 50%;
+            width: 40px; height: 40px;
+            animation: spin 1s linear infinite;
+            z-index: 10;
+        }
+        @keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+
+        .download-container { text-align: center; margin: 15px auto; }
+
+        .download-btn {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--deep-blue), var(--primary-blue));
+            color: white;
+            text-decoration: none;
+            padding: 12px 35px;
+            border-radius: 50px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px var(--glow);
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .season-container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        .season-label {
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+            color: var(--primary-blue);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* Scrolling Seasons (MF Ghost Style) */
+        .season-tabs {
+            display: flex;
+            overflow-x: auto;
+            gap: 12px;
+            padding: 10px 5px;
+            scrollbar-width: none;
+        }
+        .season-tabs::-webkit-scrollbar { display: none; }
+
+        .season-tab {
+            flex: 0 0 auto;
+            padding: 10px 25px;
+            background: var(--card-bg);
+            border: 1px solid var(--primary-blue);
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            color: var(--primary-blue);
+        }
+
+        .season-tab.active {
+            background: var(--primary-blue);
+            color: #000;
+            box-shadow: 0 0 15px var(--primary-blue);
+        }
+
+        /* Episode Grid (MF Ghost Style) */
+        #episode-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 12px;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .episode-btn {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border: 1px solid rgba(0, 210, 255, 0.2);
+            padding: 15px 5px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            text-align: center;
+        }
+
+        .episode-btn:hover {
+            background: var(--deep-blue);
+            transform: translateY(-3px);
+            border-color: var(--primary-blue);
+        }
+    </style>
+</head>
+<body>
+
+<header>DAILY LIFE OF IMMORTAL KING</header>
+
+<div id="player-container">
+    <div id="loading-spinner" class="loader"></div>
+    <iframe id="video-player" src="" allowfullscreen onload="hideLoader()"></iframe>
+</div>
+
+<div class="download-container" id="download-area"></div>
+
+<div class="season-container">
+    <span class="season-label">SELECT SEASON:</span>
+    <div class="season-tabs" id="season-tabs-list"></div>
+</div>
+
+<div id="episode-buttons"></div>
+
+<script>
+const botUsername = "verse1_8bot"; 
+// All links from daily life (1) (1).html added here
+const episodeData = {
+    1: [
+        { "name": "Ep 1", "url": "https://short.icu/GpbYgh2NI", "ep": "01" },
+        { "name": "Ep 2", "url": "https://short.icu/nSiFHhxF-", "ep": "02" },
+        { "name": "Ep 3", "url": "https://short.icu/tPye7jes2", "ep": "03" },
+        { "name": "Ep 4", "url": "https://short.icu/jAMseTe0y", "ep": "04" },
+        { "name": "Ep 5", "url": "https://short.icu/UqVmRh7Q1", "ep": "05" },
+        { "name": "Ep 6", "url": "https://short.icu/7woN4fZ0p", "ep": "06" },
+        { "name": "Ep 7", "url": "https://short.icu/BEY-wneiB", "ep": "07" },
+        { "name": "Ep 8", "url": "https://short.icu/xHwzetvKK", "ep": "08" },
+        { "name": "Ep 9", "url": "https://short.icu/nmsLEG16U", "ep": "09" },
+        { "name": "Ep 10", "url": "https://short.icu/Ke1A8b6El", "ep": "10" },
+        { "name": "Ep 11", "url": "https://short.icu/4JI5oZEmD", "ep": "11" },
+        { "name": "Ep 12", "url": "https://short.icu/i8ENv1M8r", "ep": "12" },
+        { "name": "Ep 13", "url": "https://short.icu/2pTkvJMFd", "ep": "13" },
+        { "name": "Ep 14", "url": "https://short.icu/-3ye_kcBe", "ep": "14" },
+        { "name": "Ep 15", "url": "https://short.icu/N57d7ioY2", "ep": "15" }
+    ],
+    2: [
+        { "name": "Ep 1", "url": "https://short.icu/RBussU-O9", "ep": "01" },
+        { "name": "Ep 2", "url": "https://short.icu/WpwOkJPjd", "ep": "02" },
+        { "name": "Ep 3", "url": "https://short.icu/uX2ecO4QH", "ep": "03" },
+        { "name": "Ep 4", "url": "https://short.icu/ukFWB6tE3", "ep": "04" },
+        { "name": "Ep 5", "url": "https://short.icu/VntiAbPXF", "ep": "05" },
+        { "name": "Ep 6", "url": "https://short.icu/4YEGW0z75", "ep": "06" },
+        { "name": "Ep 7", "url": "https://short.icu/PKKk36e_8", "ep": "07" },
+        { "name": "Ep 8", "url": "https://short.icu/e4URLaox6", "ep": "08" },
+        { "name": "Ep 9", "url": "https://short.icu/bsTxx_FSA", "ep": "09" },
+        { "name": "Ep 10", "url": "https://short.icu/HmUY-xb8Ay", "ep": "10" },
+        { "name": "Ep 11", "url": "https://short.icu/Aprn8PMzG", "ep": "11" },
+        { "name": "Ep 12", "url": "https://short.icu/F8NUzYlzJ", "ep": "12" }
+    ],
+    3: [
+        { "name": "Ep 1", "url": "https://short.icu/_GHtjYxkK", "ep": "01" },
+        { "name": "Ep 2", "url": "https://short.icu/W5lnj5_bHO", "ep": "02" },
+        { "name": "Ep 3", "url": "https://short.icu/PMwz_UpVn", "ep": "03" },
+        { "name": "Ep 4", "url": "https://short.icu/vhZJEgZdx", "ep": "04" },
+        { "name": "Ep 5", "url": "https://short.icu/QQf_jiV7m", "ep": "05" },
+        { "name": "Ep 6", "url": "https://short.icu/0_q0GRJxp", "ep": "06" },
+        { "name": "Ep 7", "url": "https://short.icu/fH0nbKHNc", "ep": "07" },
+        { "name": "Ep 8", "url": "https://short.icu/8Vucmm7m3", "ep": "08" },
+        { "name": "Ep 9", "url": "https://short.icu/-JeCi2EbY", "ep": "09" },
+        { "name": "Ep 10", "url": "https://short.icu/WheOPeMj_n", "ep": "10" },
+        { "name": "Ep 11", "url": "https://short.icu/m3ePZ0bQf", "ep": "11" },
+        { "name": "Ep 12", "url": "https://short.icu/atrLvLOM4", "ep": "12" }
     ],
     4: [
-        { "name": "1", "url": "https://short.icu/-MrEgll1Z" },
-        { "name": "2", "url": "https://short.icu/PjFMYrJ6p" },
-        { "name": "3", "url": "https://short.icu/kwrlwSN03" },
-        { "name": "4", "url": "https://short.icu/0tEDlDOzV" },
-        { "name": "5", "url": "https://short.icu/6UG197TmC" },
-        { "name": "6", "url": "https://short.icu/tu0kMsK5c" },
-        { "name": "7", "url": "https://short.icu/G8WWpf_cu" },
-        { "name": "8", "url": "https://short.icu/fYkDHlNSq" },
-        { "name": "9", "url": "https://short.icu/Fkrgna-3z" },
-        { "name": "10", "url": "https://short.icu/qiGMd_pVd" },
-        { "name": "11", "url": "https://short.icu/zcFEJzX-D" },
-        { "name": "12", "url": "https://short.icu/dhspFQaJt" }
+        { "name": "Ep 1", "url": "https://short.icu/-MrEgll1Z", "ep": "01" },
+        { "name": "Ep 2", "url": "https://short.icu/PjFMYrJ6p", "ep": "02" },
+        { "name": "Ep 3", "url": "https://short.icu/kwrlwSN03", "ep": "03" },
+        { "name": "Ep 4", "url": "https://short.icu/0tEDlDOzV", "ep": "04" },
+        { "name": "Ep 5", "url": "https://short.icu/6UG197TmC", "ep": "05" },
+        { "name": "Ep 6", "url": "https://short.icu/tu0kMsK5c", "ep": "06" },
+        { "name": "Ep 7", "url": "https://short.icu/G8WWpf_cu", "ep": "07" },
+        { "name": "Ep 8", "url": "https://short.icu/fYkDHlNSq", "ep": "08" },
+        { "name": "Ep 9", "url": "https://short.icu/Fkrgna-3z", "ep": "09" },
+        { "name": "Ep 10", "url": "https://short.icu/qiGMd_pVd", "ep": "10" },
+        { "name": "Ep 11", "url": "https://short.icu/zcFEJzX-D", "ep": "11" },
+        { "name": "Ep 12", "url": "https://short.icu/dhspFQaJt", "ep": "12" }
     ],
     5: [
-        { "name": "1", "url": "https://drive.google.com/file/d/1_mw6ztsDP3reWEcLcn5Zf1GTDQNuJF1P/preview", "download": "https://drive.google.com/file/d/1_mw6ztsDP3reWEcLcn5Zf1GTDQNuJF1P/view?usp=sharing" },
-      { "name": "2", "url": "https://pro.iqsmartgames.com/stream/aw4q06v?autoplay=1", "download": "https://t.me/+WbveLHl9JGMzMDI1" 
-      
+        { "name": "Ep 1", "url": "https://drive.google.com/file/d/1_mw6ztsDP3reWEcLcn5Zf1GTDQNuJF1P/preview", "ep": "01" },
+        { "name": "Ep 2", "url": "https://pro.iqsmartgames.com/stream/aw4q06v?autoplay=1", "ep": "02" }
     ]
 };
 
 let currentSeason = 1;
 
-function showLoader() { document.getElementById('loading-spinner').classList.remove('hidden'); }
-function hideLoader() { document.getElementById('loading-spinner').classList.add('hidden'); }
+function showLoader() { document.getElementById('loading-spinner').style.display = 'block'; }
+function hideLoader() { document.getElementById('loading-spinner').style.display = 'none'; }
 
 function initSeasonTabs() {
-    const tabContainer = document.getElementById('season-tabs-list');
-    const seasonNames = ["Season 1", "Season 2", "Season 3", "Season 4", "Season 5"];
-
-    for (let i = 1; i <= 5; i++) {
+    const tabList = document.getElementById('season-tabs-list');
+    Object.keys(episodeData).forEach(season => {
         const tab = document.createElement('div');
-        tab.className = `season-tab ${i === 1 ? 'active' : ''}`;
-        tab.innerText = seasonNames[i-1];
-        tab.onclick = () => selectSeason(i, tab);
-        tabContainer.appendChild(tab);
-    }
-}
-
-function selectSeason(num, element) {
-    document.querySelectorAll('.season-tab').forEach(t => t.classList.remove('active'));
-    element.classList.add('active');
-    currentSeason = num;
-    loadEpisodes();
+        tab.className = `season-tab ${season == currentSeason ? 'active' : ''}`;
+        tab.textContent = `Season ${season}`;
+        tab.onclick = () => {
+            document.querySelectorAll('.season-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            currentSeason = season;
+            loadEpisodes();
+        };
+        tabList.appendChild(tab);
+    });
 }
 
 function loadEpisodes() {
     const container = document.getElementById('episode-buttons');
     const downloadArea = document.getElementById('download-area');
     container.innerHTML = '';
-    downloadArea.innerHTML = ''; // Clear previous download buttons
     
-    const eps = episodes[currentSeason] || [];
+    const eps = episodeData[currentSeason] || [];
     eps.forEach(ep => {
         const btn = document.createElement('button');
         btn.className = 'episode-btn';
-        btn.textContent = `Ep ${ep.name}`;
+        btn.textContent = ep.name;
         btn.onclick = () => {
             showLoader();
             document.getElementById('video-player').src = ep.url;
             
-            // Handle download button logic
-            downloadArea.innerHTML = ''; 
-            if (ep.download) {
-                const dBtn = document.createElement('a');
-                dBtn.className = 'download-btn';
-                dBtn.href = ep.download;
-                dBtn.target = "_blank";
-                dBtn.textContent = `⬇ Download Episode ${ep.name}`;
-                downloadArea.appendChild(dBtn);
-            }
+            // Bot Code for Quality Selection
+            const botCode = `DailyLife_${currentSeason}_${ep.ep}`;
+            downloadArea.innerHTML = `
+                <a href="https://t.me/${botUsername}?start=${botCode}" class="download-btn" target="_blank">
+                    🚀 DOWNLOAD THIS EPISODE 
+                </a>`;
             
             window.scrollTo({top: 0, behavior: 'smooth'});
         };
         container.appendChild(btn);
     });
-
-    if(eps.length > 0){
-        showLoader();
-        document.getElementById('video-player').src = eps[0].url;
-        
-        // Default download button for first episode if it exists
-        if (eps[0].download) {
-            const dBtn = document.createElement('a');
-            dBtn.className = 'download-btn';
-            dBtn.href = eps[0].download;
-            dBtn.target = "_blank";
-            dBtn.textContent = `⬇ Download Episode ${eps[0].name}`;
-            downloadArea.appendChild(dBtn);
-        }
-    }
 }
 
-window.onload = () => {
-    initSeasonTabs();
-    loadEpisodes();
-};
+window.onload = () => { initSeasonTabs(); loadEpisodes(); };
 </script>
-
 </body>
 </html>
