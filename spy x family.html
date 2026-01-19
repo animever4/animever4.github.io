@@ -1,99 +1,227 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Attack on Titan - All Episodes</title>
-  <style>
-    body { background: black; color: white; font-family: Arial, sans-serif; margin: 0; padding: 0; }
-    .container { padding: 20px; }
-    h1, h2 { color: limegreen; }
-    .server-buttons button { margin-right: 10px; padding: 8px 12px; background: #007BFF; color: white; border: none; cursor: pointer; border-radius: 5px; }
-    .server-buttons button:hover { background: #0056b3; }
-    .episode-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
-    .episode-list button { background: #6c757d; color: white; border: 2px solid #03C03C; border-radius: 5px; padding: 8px 10px; cursor: pointer; }
-    iframe { width: 100%; height: 400px; border: 2px solid white; margin-top: 20px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spy x Family Hindi Dub - Watch & Download</title>
+<style>
+    :root {
+        --primary: #00d2ff; 
+        --secondary: #0045ff;
+        --bg: #050b18;
+        --card-bg: #0d1626;
+    }
+
+    body {
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        background: var(--bg);
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        background-image: radial-gradient(circle at 50% 0%, #001a33 0%, #050b18 100%);
+    }
+
+    header {
+        text-align: center;
+        padding: 30px 20px;
+        background: linear-gradient(135deg, var(--secondary), var(--primary));
+        font-size: 2em;
+        font-weight: 900;
+        text-transform: uppercase;
+        color: #fff;
+        box-shadow: 0 4px 20px rgba(0, 210, 255, 0.3);
+    }
+
+    #player-container {
+        position: relative;
+        width: 95%;
+        max-width: 900px;
+        aspect-ratio: 16 / 9;
+        margin: 20px auto;
+        background: #000;
+        border-radius: 15px;
+        border: 2px solid var(--primary);
+        overflow: hidden;
+        box-shadow: 0 0 15px var(--primary);
+    }
+
+    iframe { width: 100%; height: 100%; border: none; }
+
+    .loader {
+        position: absolute; top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        border: 4px solid #333;
+        border-top: 4px solid var(--primary);
+        border-radius: 50%;
+        width: 40px; height: 40px;
+        animation: spin 1s linear infinite;
+        z-index: 10;
+        display: none;
+    }
+    @keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+
+    .download-container { text-align: center; margin: 15px auto; }
+
+    .download-btn {
+        display: inline-block;
+        background: linear-gradient(45deg, var(--secondary), var(--primary));
+        color: white;
+        text-decoration: none;
+        padding: 12px 35px;
+        border-radius: 50px;
+        font-weight: bold;
+        text-transform: uppercase;
+        transition: 0.3s;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(0, 210, 255, 0.4);
+    }
+
+    .season-container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
+    .season-label { font-size: 1.1em; font-weight: bold; color: var(--primary); margin-bottom: 10px; display: block; }
+
+    .season-tabs { display: flex; overflow-x: auto; gap: 12px; padding: 10px 5px; scrollbar-width: none; }
+    .season-tab { flex: 0 0 auto; padding: 10px 25px; background: var(--card-bg); border: 1px solid var(--primary); border-radius: 50px; cursor: pointer; font-weight: bold; color: var(--primary); }
+    .season-tab.active { background: var(--primary); color: #000; }
+
+    #episode-buttons { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 12px; padding: 20px; max-width: 1000px; margin: 0 auto; }
+    .episode-btn { background: rgba(255, 255, 255, 0.05); color: #fff; border: 1px solid rgba(0, 210, 255, 0.2); padding: 15px 5px; border-radius: 12px; cursor: pointer; text-align: center; }
+    .episode-btn:hover { background: var(--secondary); box-shadow: 0 0 10px var(--primary); }
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>Spy X Family</h1>
 
-    <div class="server-buttons">
-      <button onclick="setServer('filemoon')">Filemoon</button>
-      <button onclick="setServer('servabyss')">Servabyss</button>
-      <button onclick="setServer('vidgroud')">Vidgroud</button>
-    </div>
+<header>SPY X FAMILY</header>
 
-    <div class="episode-list" id="episodeButtons"></div>
+<div id="player-container">
+    <div id="loading-spinner" class="loader"></div>
+    <iframe id="video-player" src="" allowfullscreen onload="hideLoader()"></iframe>
+</div>
 
-    <iframe id="videoPlayer" src="" allowfullscreen></iframe>
-  </div>
+<div class="download-container" id="download-area"></div>
 
-  <script>
-    const allEpisodes = {
-      filemoon: [
-  { "name": "S1E1", "url": "https://filemoon.to/e/obj59dnrqu8x/_Toonworld4all__Spy_x_Family_S01E01_1080p_x265_10bit_BDRip_Multi_Audio_ESub" },
-  { "name": "S1E2", "url": "https://filemoon.to/e/2rr08yu1dcaa/_Toonworld4all__Spy_x_Family_S01E02_1080p_x265_10bit_BDRip_Multi_Audio_ESub" },
-  { "name": "S1E3", "url": "https://filemoon.to/e/22t9015g5362/_Toonworld4all__Spy_x_Family_S01E03_1080p_x265_10bit_BDRip_Multi_Audio_ESub" },
-  { "name": "S1E4", "url": "https://filemoon.to/e/gi328azjmxdc/_Toonworld4all__Spy_x_Family_S01E04_1080p_x265_10bit_BDRip_Multi_Audio_ESub" },
-  { "name": "S1E5", "url": "https://filemoon.to/e/du1241y6abgx/_Toonworld4all__Spy_x_Family_S01E05_1080p_x265_10bit_BDRip_Multi_Audio_ESub" },
-  { "name": "S1E6", "url": "https://filemoon.to/e/lkypdmwt2trs/_Toonworld4all__Spy_x_Family_S01E06_1080p_x265_10bit_BDRip_Multi_Audio_ESub" },
-  { "name": "S1E7", "url": "https://filemoon.to/e/xcn7d94d0lom/_Toonworld4all__Spy_x_Family_S01E07_1080p_x265_10bit_BDRip_Multi_Audio_ESub" },
-  { "name": "S1E8", "url": "https://filemoon.to/e/okx0d8p95jfh/_Toonworld4all__Spy_x_Family_S01E08_1080p_x265_10bit_BDRip_Multi_Audio_ESub" },
-  { "name": "S1E9", "url": "https://filemoon.to/e/uddz9xidx16d/_Toonworld4all__Spy_x_Family_S01E09_1080p_x265_10bit_BDRip_Multi_Audio_ESub" },
-  { "name": "S1E10", "url": "https://filemoon.to/e/3bmyiyhzz30d/_Toonworld4all__Spy_x_Family_S01E10_1080p_x265_10bit_BDRip_Multi_Audio_ESub" },
-  { "name": "S1E11", "url": "https://filemoon.to/e/2eye2i6zyclx/_Toonworld4all__Spy_x_Family_S01E11_1080p_x265_10bit_BDRip_Multi_Audio_ESub" },
-  { "name": "S1E12", "url": "https://filemoon.to/e/nx1g29eynqio/_Toonworld4all__Spy_x_Family_S01E12_1080p_x265_10bit_BDRip_Multi_Audio_ESub" },
-  { "name": "S1E13", "url": "https://filemoon.to/e/y7fsj514k9cd/_Toonworld4all__Spy_x_Family_S01E13_1080p_x265_10bit_BDRip_Multi_Audio_ESub" },
-  { "name": "S1E14", "url": "https://filemoon.to/e/p4oefb8503va/_Toonworld4all__Spy_x_Family_S01E14_1080p_x265_10bit_BDRip_Multi_Audio_ESub" },
-  { "name": "S1E15", "url": "https://filemoon.to/e/t2nm6hnpgjp0/_Toonworld4all__Spy_x_Family_S01E15_1080p_x265_10bit_BDRip_Multi_Audio_ESub" },
-  { "name": "S1E16", "url": "https://filemoon.to/e/8ijq7hccbd7m/_Toonworld4all__Spy_x_Family_S01E16_1080p_x265_10bit_BDRip_Multi_Audio_ESub" },
-  { "name": "S1E17", "url": "https://filemoon.to/e/kj16otk5908x/_Toonworld4all__Spy_x_Family_S01E17_1080p_x265_10bit_BDRip_Multi_Audio_ESub" },
-  { "name": "S1E18", "url": "https://filemoon.to/e/988igeu5dvxz/_Toonworld4all__Spy_x_Family_S01E18_1080p_x265_10bit_BDRip_Multi_Audio_ESub" },
-  { "name": "S1E19", "url": "https://filemoon.to/e/48sadchp31fg/_Toonworld4all__Spy_x_Family_S01E19_1080p_x265_10bit_BDRip_Multi_Audio_ESub" },
-  { "name": "S1E20", "url": "https://filemoon.to/e/azpntctuz2qa/_Toonworld4all__Spy_x_Family_S01E20_1080p_x265_10bit_BDRip_Multi_Audio_ESub" },
-  { "name": "S1E21", "url": "https://filemoon.to/e/i23qpiezwqwn/_Toonworld4all__Spy_x_Family_S01E21_1080p_x265_10bit_BDRip_Multi_Audio_ESub" },
-  { "name": "S1E22", "url": "https://filemoon.to/e/21ip3tcblfdp/_Toonworld4all__Spy_x_Family_S01E22_1080p_x265_10bit_BDRip_Multi_Audio_ESub" },
-  { "name": "S1E23", "url": "https://filemoon.to/e/31fp4fzu25hs/_Toonworld4all__Spy_x_Family_S01E23_1080p_x265_10bit_BDRip_Multi_Audio_ESub" },
-  { "name": "S1E24", "url": "https://filemoon.to/e/e5lbxg4h28vv/_Toonworld4all__Spy_x_Family_S01E24_1080p_x265_10bit_BDRip_Multi_Audio_ESub" },
-  { "name": "S1E25", "url": "https://filemoon.to/e/oqjrsl51vuek/_Toonworld4all__Spy_x_Family_S01E25_1080p_x265_10bit_BDRip_Multi_Audio_ESub" },
-  { "name": "S2E1", "url": "https://filemoon.to/e/hm5mz00o3m6m/_Toonworld4all__Spy_x_Family_S02E01__1080p_x265_10bit_WEB-DL___Multi_Audio__ESub" },
-  { "name": "S2E2", "url": "https://filemoon.to/e/3akef2b7bji7/_Toonworld4all__Spy_x_Family_S02E02__1080p_x265_10bit_WEB-DL___Multi_Audio__ESub" },
-  { "name": "S2E3", "url": "https://filemoon.to/e/hvnb5fzx4k32/_Toonworld4all__Spy_x_Family_S02E03__1080p_x265_10bit_WEB-DL___Multi_Audio__ESub" },
-  { "name": "S2E4", "url": "https://filemoon.to/e/ez0qv0cg3j6b/_Toonworld4all__Spy_x_Family_S02E04__1080p_x265_10bit_WEB-DL___Multi_Audio__ESub" },
-  { "name": "S2E5", "url": "https://filemoon.to/e/73rn4jjp9xmc/_Toonworld4all__Spy_x_Family_S02E05__1080p_x265_10bit_WEB-DL___Multi_Audio__ESub" },
-  { "name": "S2E6", "url": "https://filemoon.to/e/dzfch42yvo05/_Toonworld4all__Spy_x_Family_S02E06__1080p_x265_10bit_WEB-DL___Multi_Audio__ESub" },
-  { "name": "S2E7", "url": "https://filemoon.to/e/qz9qettwancw/_Toonworld4all__Spy_x_Family_S02E07__1080p_x265_10bit_WEB-DL___Multi_Audio__ESub" },
-  { "name": "S2E8", "url": "https://filemoon.to/e/l7bf009tdd7r/_Toonworld4all__Spy_x_Family_S02E08__1080p_x265_10bit_WEB-DL___Multi_Audio__ESub" },
-  { "name": "S2E9", "url": "https://filemoon.to/e/yrl3be8wbzoj/_Toonworld4all__Spy_x_Family_S02E09__1080p_x265_10bit_WEB-DL___Multi_Audio__ESub" },
-  { "name": "S2E10", "url": "https://filemoon.to/e/7aklorzdqp6z/_Toonworld4all__Spy_x_Family_S02E10__1080p_x265_10bit_WEB-DL___Multi_Audio__ESub" },
-  { "name": "S2E11", "url": "https://filemoon.to/e/p0nztqnyr727/_Toonworld4all__Spy_x_Family_S02E11__1080p_x265_10bit_WEB-DL___Multi_Audio__ESub" },
-  { "name": "S2E12", "url": "https://filemoon.to/e/f47koszoe6xe/_Toonworld4all__Spy_x_Family_S02E12__1080p_x265_10bit_WEB-DL___Multi_Audio__ESub" },
-]
-    };
+<div class="season-container">
+    <span class="season-label">SELECT SEASON:</span>
+    <div class="season-tabs" id="season-tabs-list"></div>
+</div>
 
-    function loadEpisodes(server) {
-      const container = document.getElementById('episodeButtons');
-      container.innerHTML = '';
-      allEpisodes[server].forEach(ep => {
+<div id="episode-buttons"></div>
+
+<script>
+const botUsername = "verse1_8bot";
+const animeID = "spyxfamily";
+
+const episodeData = {
+    1: [
+        { "name": "Ep 1", "url": "https://short.icu/Ye3WRmvIQ", "ep": "1" },
+        { "name": "Ep 2", "url": "https://short.icu/YREoGaDdE", "ep": "2" },
+        { "name": "Ep 3", "url": "https://short.icu/ryV_L5G6L", "ep": "3" },
+        { "name": "Ep 4", "url": "https://short.icu/N7UHbPyYu", "ep": "4" },
+        { "name": "Ep 5", "url": "https://short.icu/8oiq1w6bh", "ep": "5" },
+        { "name": "Ep 6", "url": "https://short.icu/4oS2YKeG7", "ep": "6" },
+        { "name": "Ep 7", "url": "https://short.icu/yVNRlMFes", "ep": "7" },
+        { "name": "Ep 8", "url": "https://short.icu/y4-jLdkBz", "ep": "8" },
+        { "name": "Ep 9", "url": "https://short.icu/sVgjPh0J_", "ep": "9" },
+        { "name": "Ep 10", "url": "https://short.icu/OlcqP7Phc", "ep": "10" },
+        { "name": "Ep 11", "url": "https://short.icu/EMZ36UYPd", "ep": "11" },
+        { "name": "Ep 12", "url": "https://short.icu/cWmPmliE9", "ep": "12" },
+        { "name": "Ep 13", "url": "https://short.icu/6BOBBM-aR", "ep": "13" },
+        { "name": "Ep 14", "url": "https://short.icu/EJ203q_EH", "ep": "14" },
+        { "name": "Ep 15", "url": "https://short.icu/JSJlGUxio", "ep": "15" },
+        { "name": "Ep 16", "url": "https://short.icu/NzxjtDF8q", "ep": "16" },
+        { "name": "Ep 17", "url": "https://short.icu/KNN6vKuRv", "ep": "17" },
+        { "name": "Ep 18", "url": "https://short.icu/LQr-v95iB", "ep": "18" },
+        { "name": "Ep 19", "url": "https://short.icu/E6c3L0eaY", "ep": "19" },
+        { "name": "Ep 20", "url": "https://short.icu/iagihLKdJ", "ep": "20" },
+        { "name": "Ep 21", "url": "https://short.icu/fplTAxnOu", "ep": "21" },
+        { "name": "Ep 22", "url": "https://short.icu/wHBF9YVVC", "ep": "22" },
+        { "name": "Ep 23", "url": "https://short.icu/TxAE8COL3", "ep": "23" },
+        { "name": "Ep 24", "url": "https://short.icu/Wucf7Vjvo", "ep": "24" },
+        { "name": "Ep 25", "url": "https://short.icu/Nb4DaXwvh", "ep": "25" }
+    ],
+    2: [
+        { "name": "Ep 1", "url": "https://short.icu/Oa_4rx0Rd", "ep": "1" },
+        { "name": "Ep 2", "url": "https://short.icu/lEb2qT9Ws", "ep": "2" },
+        { "name": "Ep 3", "url": "https://short.icu/NpNeGH5ca", "ep": "3" },
+        { "name": "Ep 4", "url": "https://short.icu/aNEzP51nI", "ep": "4" },
+        { "name": "Ep 5", "url": "https://short.icu/8a-7Mh8Mr", "ep": "5" },
+        { "name": "Ep 6", "url": "https://short.icu/KvPKncehi", "ep": "6" },
+        { "name": "Ep 7", "url": "https://short.icu/KBuYuQ27L", "ep": "7" },
+        { "name": "Ep 8", "url": "https://short.icu/bAhOdE3QQ3", "ep": "8" },
+        { "name": "Ep 9", "url": "https://short.icu/aKsJhZzCx", "ep": "9" },
+        { "name": "Ep 10", "url": "https://short.icu/8UAgaqRW5", "ep": "10" },
+        { "name": "Ep 11", "url": "https://short.icu/RQbHk_oqK", "ep": "11" },
+        { "name": "Ep 12", "url": "https://short.icu/57LN9AKPa", "ep": "12" }
+    ],
+    3: [
+        { "name": "Ep 1", "url": "https://short.icu/oBZJJC1qB", "ep": "1" },
+        { "name": "Ep 2", "url": "https://short.icu/GwE0ZenY_", "ep": "2" },
+        { "name": "Ep 3", "url": "https://short.icu/Nj9VRw4Rv", "ep": "3" },
+        { "name": "Ep 4", "url": "https://short.icu/RqKXwD9Wn", "ep": "4" },
+        { "name": "Ep 5", "url": "https://short.icu/4gfCkdV08Q", "ep": "5" },
+        { "name": "Ep 6", "url": "https://short.icu/fXFC7c5fD", "ep": "6" },
+        { "name": "Ep 7", "url": "https://short.icu/GS8HdumOJ", "ep": "7" },
+        { "name": "Ep 8", "url": "https://short.icu/M1B1x6IhT", "ep": "8" }
+    ]
+};
+
+let currentSeason = 1;
+
+function showLoader() { document.getElementById('loading-spinner').style.display = 'block'; }
+function hideLoader() { document.getElementById('loading-spinner').style.display = 'none'; }
+
+function initSeasonTabs() {
+    const tabList = document.getElementById('season-tabs-list');
+    Object.keys(episodeData).forEach(season => {
+        const tab = document.createElement('div');
+        tab.className = `season-tab ${season == currentSeason ? 'active' : ''}`;
+        tab.textContent = `Season ${season}`;
+        tab.onclick = () => {
+            document.querySelectorAll('.season-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            currentSeason = season;
+            loadEpisodes();
+        };
+        tabList.appendChild(tab);
+    });
+}
+
+function playEpisode(epName, epUrl, epNum) {
+    showLoader();
+    document.getElementById('video-player').src = epUrl;
+    
+    const botCode = `${animeID}_${currentSeason}_${epNum}`;
+    document.getElementById('download-area').innerHTML = `
+        <a href="https://t.me/${botUsername}?start=${botCode}" class="download-btn" target="_blank">
+            🚀 DOWNLOAD ON TELEGRAM
+        </a>`;
+}
+
+function loadEpisodes() {
+    const container = document.getElementById('episode-buttons');
+    container.innerHTML = '';
+    
+    const eps = episodeData[currentSeason] || [];
+    eps.forEach(ep => {
         const btn = document.createElement('button');
+        btn.className = 'episode-btn';
         btn.textContent = ep.name;
-        btn.onclick = () => loadVideo(ep.url);
+        btn.onclick = () => {
+            playEpisode(ep.name, ep.url, ep.ep);
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        };
         container.appendChild(btn);
-      });
-    }
+    });
+}
 
-    function loadVideo(url) {
-      document.getElementById('videoPlayer').src = url;
+window.onload = () => { 
+    initSeasonTabs(); 
+    loadEpisodes(); 
+    
+    // Auto-play First Episode of Season 1
+    if(episodeData[1] && episodeData[1][0]) {
+        playEpisode(episodeData[1][0].name, episodeData[1][0].url, episodeData[1][0].ep);
     }
-
-    function setServer(serverName) {
-      loadEpisodes(serverName);
-      loadVideo(allEpisodes[serverName][0].url);
-    }
-
-    setServer('filemoon');
-  </script>
+};
+</script>
 </body>
 </html>
