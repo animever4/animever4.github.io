@@ -123,22 +123,22 @@ const episodeData = {
         { "name": "Ep 12", "url": "https://short.icu/9GDzDFKY2", "ep": "12" }
     ],
     2: [
-        { "name": "Ep 13", "url": "https://short.icu/3LUQOWu5P", "ep": "13" },
-        { "name": "Ep 14", "url": "https://short.icu/0nfEcezTV", "ep": "14" },
-        { "name": "Ep 15", "url": "https://short.icu/4oZ2TUw6l", "ep": "15" },
-        { "name": "Ep 16", "url": "https://short.icu/X785pUJo-", "ep": "16" },
-        { "name": "Ep 17", "url": "https://short.icu/TeZiikg88", "ep": "17" },
-        { "name": "Ep 18", "url": "https://short.icu/0VDfsRE1J", "ep": "18" },
-        { "name": "Ep 19", "url": "https://short.icu/aCAXoya0u", "ep": "19" },
-        { "name": "Ep 20", "url": "https://short.icu/SNxfQw2rF", "ep": "20" }
+        { "name": "Ep 1", "url": "https://short.icu/3LUQOWu5P", "ep": "1" },
+        { "name": "Ep 2", "url": "https://short.icu/0nfEcezTV", "ep": "2" },
+        { "name": "Ep 3", "url": "https://short.icu/4oZ2TUw6l", "ep": "3" },
+        { "name": "Ep 4", "url": "https://short.icu/X785pUJo-", "ep": "4" },
+        { "name": "Ep 5", "url": "https://short.icu/TeZiikg88", "ep": "5" },
+        { "name": "Ep 6", "url": "https://short.icu/0VDfsRE1J", "ep": "6" },
+        { "name": "Ep 7", "url": "https://short.icu/aCAXoya0u", "ep": "7" },
+        { "name": "Ep 8", "url": "https://short.icu/SNxfQw2rF", "ep": "8" }
     ],
     3: [
-        { "name": "Ep 21", "url": "https://short.icu/FqCZQsdLm", "ep": "21" },
-        { "name": "Ep 22", "url": "https://short.icu/TO1Xmwm4j", "ep": "22" },
-        { "name": "Ep 23", "url": "https://short.icu/_sz-ZtmJ8", "ep": "23" },
-        { "name": "Ep 24", "url": "https://short.icu/FHg7hWESe", "ep": "24" },
-        { "name": "Ep 25", "url": "https://pro.iqsmartgames.com/stream/gwquod4?autoplay=1", "ep": "25" },
-        { "name": "Ep 26", "url": "https://pro.iqsmartgames.com/stream/h8rqlp2?autoplay=1", "ep": "26" }
+        { "name": "Ep 1", "url": "https://short.icu/FqCZQsdLm", "ep": "1" },
+        { "name": "Ep 2", "url": "https://short.icu/TO1Xmwm4j", "ep": "2" },
+        { "name": "Ep 3", "url": "https://short.icu/_sz-ZtmJ8", "ep": "3" },
+        { "name": "Ep 4", "url": "https://short.icu/FHg7hWESe", "ep": "4" },
+        { "name": "Ep 5", "url": "https://pro.iqsmartgames.com/stream/gwquod4?autoplay=1", "ep": "5" },
+        { "name": "Ep 6", "url": "https://pro.iqsmartgames.com/stream/h8rqlp2?autoplay=1", "ep": "6" }
     ]
 };
 
@@ -177,11 +177,10 @@ function loadEpisodes() {
             showLoader();
             document.getElementById('video-player').src = ep.url;
             
-            // Bot link logic for deep linking
             const botCode = `${animeID}_${currentSeason}_${ep.ep}`;
             downloadArea.innerHTML = `
                 <a href="https://t.me/${botUsername}?start=${botCode}" class="download-btn" target="_blank">
-                    🚀 DOWNLOAD THIS EPISODE
+                    🚀 DOWNLOAD THIS EPISODE 
                 </a>`;
             
             window.scrollTo({top: 0, behavior: 'smooth'});
