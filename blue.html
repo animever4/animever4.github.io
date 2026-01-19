@@ -1,100 +1,214 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blue Locks - All Episodes</title>
-  <style>
-    body { background: black; color: white; font-family: Arial, sans-serif; margin: 0; padding: 0; }
-    .container { padding: 20px; }
-    h1, h2 { color: limegreen; }
-    .server-buttons button { margin-right: 10px; padding: 8px 12px; background: #007BFF; color: white; border: none; cursor: pointer; border-radius: 5px; }
-    .server-buttons button:hover { background: #0056b3; }
-    .episode-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
-    .episode-list button { background: #6c757d; color: white; border: 2px solid #03C03C; border-radius: 5px; padding: 8px 10px; cursor: pointer; }
-    iframe { width: 100%; height: 400px; border: 2px solid white; margin-top: 20px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blue Lock Hindi Dub - Watch & Download</title>
+<style>
+    :root {
+        --primary: #00d2ff; /* Spy x Family style Cyan Blue */
+        --secondary: #0045ff; /* Deep Blue */
+        --bg: #050b18;
+        --card-bg: #0d1626;
+    }
+
+    body {
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        background: var(--bg);
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        background-image: radial-gradient(circle at 50% 0%, #001a33 0%, #050b18 100%);
+    }
+
+    header {
+        text-align: center;
+        padding: 30px 20px;
+        background: linear-gradient(135deg, var(--secondary), var(--primary));
+        font-size: 2em;
+        font-weight: 900;
+        text-transform: uppercase;
+        color: #fff;
+        box-shadow: 0 4px 20px rgba(0, 210, 255, 0.3);
+    }
+
+    #player-container {
+        position: relative;
+        width: 95%;
+        max-width: 900px;
+        aspect-ratio: 16 / 9;
+        margin: 20px auto;
+        background: #000;
+        border-radius: 15px;
+        border: 2px solid var(--primary);
+        overflow: hidden;
+        box-shadow: 0 0 15px var(--primary);
+    }
+
+    iframe { width: 100%; height: 100%; border: none; }
+
+    .loader {
+        position: absolute; top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        border: 4px solid #333;
+        border-top: 4px solid var(--primary);
+        border-radius: 50%;
+        width: 40px; height: 40px;
+        animation: spin 1s linear infinite;
+        z-index: 10;
+        display: none;
+    }
+    @keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+
+    .download-container { text-align: center; margin: 15px auto; }
+
+    .download-btn {
+        display: inline-block;
+        background: linear-gradient(45deg, var(--secondary), var(--primary));
+        color: white;
+        text-decoration: none;
+        padding: 12px 35px;
+        border-radius: 50px;
+        font-weight: bold;
+        text-transform: uppercase;
+        transition: 0.3s;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(0, 210, 255, 0.4);
+    }
+
+    .season-container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
+    .season-label { font-size: 1.1em; font-weight: bold; color: var(--primary); margin-bottom: 10px; display: block; }
+
+    .season-tabs { display: flex; overflow-x: auto; gap: 12px; padding: 10px 5px; scrollbar-width: none; }
+    .season-tab { flex: 0 0 auto; padding: 10px 25px; background: var(--card-bg); border: 1px solid var(--primary); border-radius: 50px; cursor: pointer; font-weight: bold; color: var(--primary); }
+    .season-tab.active { background: var(--primary); color: #000; }
+
+    #episode-buttons { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 12px; padding: 20px; max-width: 1000px; margin: 0 auto; }
+    .episode-btn { background: rgba(255, 255, 255, 0.05); color: #fff; border: 1px solid rgba(0, 210, 255, 0.2); padding: 15px 5px; border-radius: 12px; cursor: pointer; text-align: center; }
+    .episode-btn:hover { background: var(--secondary); box-shadow: 0 0 10px var(--primary); }
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>Blue lock - Streaming</h1>
 
-    <div class="server-buttons">
-      <button onclick="setServer('filemoon')">Filemoon</button>
-      <button onclick="setServer('servabyss')">Servabyss</button>
-      <button onclick="setServer('vidgroud')">Vidgroud</button>
-    </div>
+<header>BLUE LOCK</header>
 
-    <div class="episode-list" id="episodeButtons"></div>
+<div id="player-container">
+    <div id="loading-spinner" class="loader"></div>
+    <iframe id="video-player" src="" allowfullscreen onload="hideLoader()"></iframe>
+</div>
 
-    <iframe id="videoPlayer" src="" allowfullscreen></iframe>
-  </div>
+<div class="download-container" id="download-area"></div>
 
-  <script>
-    const allEpisodes = {
-      filemoon:  [
-  { name: "S1E1", url: "https://filemoon.nl/e/tppqpi7ohmfy/_Toonworld4all__Blue_Lock_S01E01_1080p_HEVC_10bit_CR_WEB-DL_Multi_Audio_ESub" }, // S1 Episode 1
-  { name: "S1E2", url: "https://filemoon.nl/e/ped968hp61pz/_Toonworld4all__Blue_Lock_S01E02_1080p_HEVC_10bit_CR_WEB-DL_Multi_Audio_ESub" }, // S1 Episode 2
-  { name: "S1E3", url: "https://filemoon.nl/e/6wdnfs54f2k4/_Toonworld4all__Blue_Lock_S01E03_1080p_HEVC_10bit_CR_WEB-DL_Multi_Audio_ESub" }, // S1 Episode 3
-  { name: "S1E4", url: "https://filemoon.nl/e/5ptplqzuptla/_Toonworld4all__Blue_Lock_S01E04_1080p_HEVC_10bit_CR_WEB-DL_Multi_Audio_ESub" }, // S1 Episode 4
-  { name: "S1E5", url: "https://filemoon.nl/e/s4rdlwca7ceu/_Toonworld4all__Blue_Lock_S01E05_1080p_HEVC_10bit_CR_WEB-DL_Multi_Audio_ESub" }, // S1 Episode 5
-  { name: "S1E6", url: "https://filemoon.nl/e/4nf2d7hsswtu/_Toonworld4all__Blue_Lock_S01E06_1080p_HEVC_10bit_CR_WEB-DL_Multi_Audio_ESub" }, // S1 Episode 6
-  { name: "S1E7", url: "https://filemoon.nl/e/zovys9jskx8d/_Toonworld4all__Blue_Lock_S01E07_1080p_HEVC_10bit_CR_WEB-DL_Multi_Audio_ESub" }, // S1 Episode 7
-  { name: "S1E8", url: "https://filemoon.nl/e/u5ol5a62cp92/_Toonworld4all__Blue_Lock_S01E08_1080p_HEVC_10bit_CR_WEB-DL_Multi_Audio_ESub" }, // S1 Episode 8
-  { name: "S1E9", url: "https://filemoon.nl/e/rarv4yb172ak/_Toonworld4all__Blue_Lock_S01E09_1080p_HEVC_10bit_CR_WEB-DL_Multi_Audio_ESub" }, // S1 Episode 9
-  { name: "S1E10", url: "https://filemoon.nl/e/df44ts6wzli0/_Toonworld4all__Blue_Lock_S01E10_1080p_HEVC_10bit_CR_WEB-DL_Multi_Audio_ESub" }, // S1 Episode 10
-  { name: "S1E11", url: "https://filemoon.nl/e/haoibuo2bkk5/_Toonworld4all__Blue_Lock_S01E11_1080p_HEVC_10bit_CR_WEB-DL_Multi_Audio_ESub" }, // S1 Episode 11
-  { name: "S1E12", url: "https://filemoon.nl/e/46cw5f93k0o1/_Toonworld4all__Blue_Lock_S01E12_1080p_HEVC_10bit_CR_WEB-DL_Multi_Audio_ESub" }, // S1 Episode 12
-  { name: "S1E13", url: "https://filemoon.nl/e/eaygn664qmnb/_Toonworld4all__Blue_Lock_S01E13_1080p_HEVC_10bit_CR_WEB-DL_Multi_Audio_ESub" }, // S1 Episode 13
-  { name: "S1E14", url: "https://filemoon.nl/e/okbzks2im13s/_Toonworld4all__Blue_Lock_S01E14_1080p_HEVC_10bit_CR_WEB-DL_Multi_Audio_ESub" }, // S1 Episode 14
-  { name: "S1E15", url: "https://filemoon.nl/e/epkt846ytaem/_Toonworld4all__Blue_Lock_S01E15_1080p_HEVC_10bit_CR_WEB-DL_Multi_Audio_ESub" }, // S1 Episode 15
-  { name: "S1E16", url: "https://filemoon.nl/e/l7l2r3436bu4/_Toonworld4all__Blue_Lock_S01E16_1080p_HEVC_10bit_CR_WEB-DL_Multi_Audio_ESub" }, // S1 Episode 16
-  { name: "S1E17", url: "https://filemoon.nl/e/hg9a53938ote/_Toonworld4all__Blue_Lock_S01E17_1080p_HEVC_10bit_CR_WEB-DL_Multi_Audio_ESub" }, // S1 Episode 17
-  { name: "S1E18", url: "https://filemoon.nl/e/b3qekndiscz6/_Toonhub4u__Blue_Lock_S01E18_1080p_HEVC_10bit_CR_WEB-DL_Multi_Audio_ESub" }, // S1 Episode 18
-  { name: "S1E19", url: "https://filemoon.nl/e/s4f2xc9n4c9d/_Toonhub4u__Blue_Lock_S01E19_1080p_HEVC_10bit_CR_WEB-DL_Multi_Audio_ESub" }, // S1 Episode 19
-  { name: "S1E20", url: "https://filemoon.nl/e/j2hoi5h5slle/_Toonhub4u__Blue_Lock_S01E20_1080p_HEVC_10bit_CR_WEB-DL_Multi_Audio_ESub" }, // S1 Episode 20
-  { name: "S1E21", url: "https://filemoon.nl/e/temeizdmq2wv/_Toonworld4all__Blue_Lock_S01E21_1080p_HEVC_10bit_CR_WEB-DL_Multi_Audio_ESub" }, // S1 Episode 21
-  { name: "S1E22", url: "https://filemoon.nl/e/kbudcwiz5ld5/_Toonworld4all__Blue_Lock_S01E22_1080p_HEVC_10bit_CR_WEB-DL_Multi_Audio_ESub" }, // S1 Episode 22
-  { name: "S1E23", url: "https://filemoon.nl/e/5n7ndt9f6rql/_Toonworld4all__Blue_Lock_S01E23_1080p_HEVC_10bit_CR_WEB-DL_Multi_Audio_ESub" }, // S1 Episode 23
-  { name: "S1E24", url: "https://filemoon.nl/e/j94ijn680bu4" },
-  { name: "S2E25", url: "https://filemoon.nl/e/bkwsqgmf8lga/_Toonworld4all__Blue_Lock_S02E01_1080p_x265_10bit_WEB-DL_Multi_Audio_ESub" },
-  { name: "S2E26", url: "https://filemoon.nl/e/75l2bdmawiba/s2_e2" },
-  { name: "S2E27", url: "https://filemoon.nl/e/mga1im6pa639/_Toonhub4u__BLUE_LOCK_S02E03_The_World_You_Feel__Multi-Audio___1080p___Multi-Subs_" },
-  { name: "S2E28", url: "https://filemoon.nl/e/vx90k4omhgv4/_Toonhub4u__BLUE_LOCK_S02E04_Chameleon__Multi-Audio___1080p___Multi-Subs_" },
-  { name: "S2E29", url: "https://filemoon.nl/e/m1naydq31ff1" },
-  { name: "S2E30", url: "https://filemoon.nl/e/hdf5n4kb55w8/_Toonhub4u__BLUE_LOCK_S02E06_The_Big_Stage__Multi-Audio___1080p___Multi-Subs_" },
-  { name: "S2E31", url: "https://filemoon.nl/e/psnh6891gcq0/_Toonhub4u__BLUE_LOCK_S02E07_Itoshi_Sae__Multi-Audio___1080p___Multi-Subs_" },
-  { name: "S2E32", url: "https://filemoon.nl/e/mfqle4qk5lri/_Toonhuh4u__BLUE_LOCK_S02E08_Blue_Genes__Multi-Audio___1080p___Multi-Subs_" },
-  { name: "S2E33", url: "https://filemoon.nl/e/da60q0ryz5qw/_Toonhub4u__Blue_Lock_S02E09_720p_WEB-DL_Multi_Audio_ESub" },
-  { name: "S2E34", url: "https://filemoon.nl/e/6x0pss6ncqvu" },
-  { name: "S2E35", url: "https://filemoon.nl/e/17hma31v95xi" },
-  { name: "S2E36", url: "https://filemoon.nl/e/pi4jr0jpky7q" },
-  { name: "S2E37", url: "https://filemoon.nl/e/nnb76r11fbpd/BLUE_LOCK_S02E13__Hindi_" },
-  { name: "S2E38", url: "https://filemoon.nl/e/l1dbcmynh7ru/BLUE_LOCK_S02E14__Hindi_" },
-]
-    };
+<div class="season-container">
+    <span class="season-label">SELECT SEASON:</span>
+    <div class="season-tabs" id="season-tabs-list"></div>
+</div>
 
-    function loadEpisodes(server) {
-      const container = document.getElementById('episodeButtons');
-      container.innerHTML = '';
-      allEpisodes[server].forEach(ep => {
+<div id="episode-buttons"></div>
+
+<script>
+const botUsername = "verse1_8bot";
+const animeID = "bluelock";
+
+const episodeData = {
+    1: [
+        { "name": "Ep 1", "url": "https://short.icu/zAOndrLO9", "ep": "1" },
+        { "name": "Ep 2", "url": "https://short.icu/Xj6_MEpsk", "ep": "2" },
+        { "name": "Ep 3", "url": "https://short.icu/onNIpLNqV", "ep": "3" },
+        { "name": "Ep 4", "url": "https://short.icu/RS0_PnHCP", "ep": "4" },
+        { "name": "Ep 5", "url": "https://short.icu/_7blMLZV0", "ep": "5" },
+        { "name": "Ep 6", "url": "https://short.icu/CFBWVengz", "ep": "6" },
+        { "name": "Ep 7", "url": "https://short.icu/zSrw4RO_j", "ep": "7" },
+        { "name": "Ep 8", "url": "https://short.icu/y99NmaUbN", "ep": "8" },
+        { "name": "Ep 9", "url": "https://short.icu/RI0jTgptz", "ep": "9" },
+        { "name": "Ep 10", "url": "https://short.icu/SlwD1sV0I", "ep": "10" },
+        { "name": "Ep 11", "url": "https://short.icu/k6qICr0Hq", "ep": "11" },
+        { "name": "Ep 12", "url": "https://short.icu/I-QDZcJuQN", "ep": "12" },
+        { "name": "Ep 13", "url": "https://short.icu/uhmPFhIDh", "ep": "13" },
+        { "name": "Ep 14", "url": "https://short.icu/FZNOW82iI", "ep": "14" },
+        { "name": "Ep 15", "url": "https://short.icu/U2QExO0ug", "ep": "15" },
+        { "name": "Ep 16", "url": "https://short.icu/P932z9_Js", "ep": "16" },
+        { "name": "Ep 17", "url": "https://short.icu/qMI3Ywl4J", "ep": "17" },
+        { "name": "Ep 18", "url": "https://short.icu/T1J10euSD", "ep": "18" },
+        { "name": "Ep 19", "url": "https://short.icu/Ras_HGIrI", "ep": "19" },
+        { "name": "Ep 20", "url": "https://short.icu/OFNQYgV8s", "ep": "20" },
+        { "name": "Ep 21", "url": "https://short.icu/PbfVuiIGX", "ep": "21" },
+        { "name": "Ep 22", "url": "https://short.icu/RV_b8BCFU", "ep": "22" },
+        { "name": "Ep 23", "url": "https://short.icu/edxOfqHMQ", "ep": "23" },
+        { "name": "Ep 24", "url": "https://short.icu/a8zAD0Y0j", "ep": "24" }
+    ],
+    2: [
+        { "name": "Ep 1", "url": "https://short.icu/Zuiz_EpC5", "ep": "1" },
+        { "name": "Ep 2", "url": "https://short.icu/B8CvIgkL_", "ep": "2" },
+        { "name": "Ep 3", "url": "https://short.icu/oi6T0zmtL", "ep": "3" },
+        { "name": "Ep 4", "url": "https://short.icu/cNtbJcm4D", "ep": "4" },
+        { "name": "Ep 5", "url": "https://short.icu/frPduG3_x", "ep": "5" },
+        { "name": "Ep 6", "url": "https://short.icu/DsWAD9RcS", "ep": "6" },
+        { "name": "Ep 7", "url": "https://short.icu/z2b2iZyXG", "ep": "7" },
+        { "name": "Ep 8", "url": "https://short.icu/yuNAYDS1W", "ep": "8" },
+        { "name": "Ep 9", "url": "https://short.icu/x29u7TWZy", "ep": "9" },
+        { "name": "Ep 10", "url": "https://short.icu/d30NyLEf8P", "ep": "10" },
+        { "name": "Ep 11", "url": "https://short.icu/rFjA6nN0R", "ep": "11" },
+        { "name": "Ep 12", "url": "https://short.icu/etrJ1xijy", "ep": "12" },
+        { "name": "Ep 13", "url": "https://short.icu/gOP-p-Qjc", "ep": "13" },
+        { "name": "Ep 14", "url": "https://short.icu/Ge5I17AAq", "ep": "14" }
+    ]
+};
+
+let currentSeason = 1;
+
+function showLoader() { document.getElementById('loading-spinner').style.display = 'block'; }
+function hideLoader() { document.getElementById('loading-spinner').style.display = 'none'; }
+
+function initSeasonTabs() {
+    const tabList = document.getElementById('season-tabs-list');
+    Object.keys(episodeData).forEach(season => {
+        const tab = document.createElement('div');
+        tab.className = `season-tab ${season == currentSeason ? 'active' : ''}`;
+        tab.textContent = `Season ${season}`;
+        tab.onclick = () => {
+            document.querySelectorAll('.season-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            currentSeason = season;
+            loadEpisodes();
+        };
+        tabList.appendChild(tab);
+    });
+}
+
+function playEpisode(epName, epUrl, epNum) {
+    showLoader();
+    document.getElementById('video-player').src = epUrl;
+    const botCode = `${animeID}_${currentSeason}_${epNum}`;
+    document.getElementById('download-area').innerHTML = `
+        <a href="https://t.me/${botUsername}?start=${botCode}" class="download-btn" target="_blank">
+            🚀 DOWNLOAD THIS EPISODE 
+        </a>`;
+}
+
+function loadEpisodes() {
+    const container = document.getElementById('episode-buttons');
+    container.innerHTML = '';
+    const eps = episodeData[currentSeason] || [];
+    eps.forEach(ep => {
         const btn = document.createElement('button');
+        btn.className = 'episode-btn';
         btn.textContent = ep.name;
-        btn.onclick = () => loadVideo(ep.url);
+        btn.onclick = () => {
+            playEpisode(ep.name, ep.url, ep.ep);
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        };
         container.appendChild(btn);
-      });
-    }
+    });
+}
 
-    function loadVideo(url) {
-      document.getElementById('videoPlayer').src = url;
+window.onload = () => { 
+    initSeasonTabs(); 
+    loadEpisodes(); 
+    if(episodeData[1] && episodeData[1][0]) {
+        playEpisode(episodeData[1][0].name, episodeData[1][0].url, episodeData[1][0].ep);
     }
-
-    function setServer(serverName) {
-      loadEpisodes(serverName);
-      loadVideo(allEpisodes[serverName][0].url);
-    }
-
-    setServer('filemoon');
-  </script>
+};
+</script>
 </body>
 </html>
