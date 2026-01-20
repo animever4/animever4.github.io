@@ -157,6 +157,7 @@
 </div>
 
 <script>
+/* --- CONFIGURATION --- */
 const firebaseConfig = {
     apiKey: "AIzaSyAe5XKQlowY_AroKkQ80SeAYPqLnF02KoE",
     databaseURL: "https://animeverse-9eada-default-rtdb.firebaseio.com/",
@@ -165,6 +166,12 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
+
+// TMDB CONFIG
+const TMDB_API_KEY = 'eef0f9c16ca61d6c843e7d43ddc5e1d8'; // <--- Yahan apni TMDB API Key paste karein
+const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
+const TMDB_IMG_PATH = 'https://image.tmdb.org/t/p/w500';
+const TMDB_BG_PATH = 'https://image.tmdb.org/t/p/original';
 
 const searchInput = document.getElementById('searchInput');
 const suggestionsBox = document.getElementById('suggestions');
@@ -200,27 +207,26 @@ const linkMap = {
 
 const newReleases = ['Spy X Family','Dark Moon', 'Fairy Tail', 'Suicide Squad Isekai', 'Zenshu', 'Dandadan'];
 
-/* --- ANILIST API FETCH --- */
-async function fetchAniList(title) {
-    const query = `
-    query ($search: String) {
-      Media (search: $search, type: ANIME) {
-        id
-        title { romaji english }
-        coverImage { extraLarge }
-        bannerImage
-        averageScore
-        description
-      }
-    }`;
-    const variables = { search: title };
-    const response = await fetch('https://graphql.anilist.co', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({ query, variables })
-    });
-    const data = await response.json();
-    return data.data.Media;
+/* --- TMDB API FETCH --- */
+async function fetchTMDB(title) {
+    try {
+        const response = await fetch(`${TMDB_BASE_URL}/search/multi?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(title)}&language=en-US`);
+        const data = await response.json();
+        if (data.results && data.results.length > 0) {
+            const item = data.results[0];
+            return {
+                title: item.name || item.title,
+                poster: item.poster_path ? TMDB_IMG_PATH + item.poster_path : null,
+                banner: item.backdrop_path ? TMDB_BG_PATH + item.backdrop_path : null,
+                rating: item.vote_average ? item.vote_average.toFixed(1) : (Math.random()*(9.2-8.0)+8.0).toFixed(1),
+                overview: item.overview || "World's most popular anime trending now."
+            };
+        }
+        return null;
+    } catch (e) {
+        console.error("TMDB Error", e);
+        return null;
+    }
 }
 
 /* --- MODAL CONTROL --- */
@@ -250,19 +256,19 @@ async function loadHero() {
     db.ref('global_clicks').orderByValue().limitToLast(1).once('value', async (snap) => {
         let top = "Solo Leveling"; 
         if (snap.exists()) snap.forEach(c => { top = c.key.replace(/_/g, ' '); });
-        try {
-            const item = await fetchAniList(top);
-            if(item) {
-                document.getElementById('heroTitle').innerText = top.toUpperCase();
-                document.getElementById('heroDesc').innerText = item.description ? item.description.replace(/<[^>]*>/g, '').substring(0, 150) + "..." : "Trending now globally.";
-                const banner = item.bannerImage || item.coverImage.extraLarge;
-                document.getElementById('heroCard').style.backgroundImage = `url('${banner}')`;
-                const btn = document.getElementById('heroBtn');
-                const target = linkMap[top.toLowerCase()];
-                if(target) { btn.href = target; btn.onclick = () => trackClick(top); }
-                else { btn.href = "javascript:void(0)"; btn.onclick = () => { trackClick(top); showComingSoon(); }; }
-            }
-        } catch(e) {}
+        
+        const item = await fetchTMDB(top);
+        if(item) {
+            document.getElementById('heroTitle').innerText = top.toUpperCase();
+            document.getElementById('heroDesc').innerText = item.overview.substring(0, 150) + "...";
+            const banner = item.banner || item.poster;
+            if(banner) document.getElementById('heroCard').style.backgroundImage = `url('${banner}')`;
+            
+            const btn = document.getElementById('heroBtn');
+            const target = linkMap[top.toLowerCase()];
+            if(target) { btn.href = target; btn.onclick = () => trackClick(top); }
+            else { btn.href = "javascript:void(0)"; btn.onclick = () => { trackClick(top); showComingSoon(); }; }
+        }
     });
 }
 
@@ -318,25 +324,22 @@ async function loadGrid(titles, containerId) {
     const container = document.getElementById(containerId);
     container.innerHTML = '';
     for(const t of titles) {
-        try {
-            const item = await fetchAniList(t);
-            if(item) {
-                const rating = item.averageScore ? (item.averageScore / 10).toFixed(1) : (Math.random()*(9.2-8.0)+8.0).toFixed(1);
-                const card = document.createElement('a');
-                const target = linkMap[t.toLowerCase()];
-                if (target) card.href = target;
-                else {
-                    card.href = "javascript:void(0)";
-                    card.onclick = (e) => { e.preventDefault(); showComingSoon(); };
-                }
-                const isNew = newReleases.some(nt => nt.toLowerCase() === t.toLowerCase());
-                const nBadge = isNew ? `<span style="position: absolute; top: 5px; right: 5px; background: #0088cc; font-size: 8px; padding: 2px 6px; border-radius: 3px; font-weight: bold; z-index: 5; box-shadow: 0 0 5px #0088cc;">NEW</span>` : '';
-                card.className = 'anime-card';
-                card.addEventListener('click', () => trackClick(t));
-                card.innerHTML = `<span class="badge-hd">HD | HINDI</span>${nBadge}<img src="${item.coverImage.extraLarge}" loading="lazy"><div class="card-info">⭐ ${rating} Rating</div><div class="anime-title">${t}</div>`;
-                container.appendChild(card);
+        const item = await fetchTMDB(t);
+        if(item) {
+            const card = document.createElement('a');
+            const target = linkMap[t.toLowerCase()];
+            if (target) card.href = target;
+            else {
+                card.href = "javascript:void(0)";
+                card.onclick = (e) => { e.preventDefault(); showComingSoon(); };
             }
-        } catch(e) {}
+            const isNew = newReleases.some(nt => nt.toLowerCase() === t.toLowerCase());
+            const nBadge = isNew ? `<span style="position: absolute; top: 5px; right: 5px; background: #0088cc; font-size: 8px; padding: 2px 6px; border-radius: 3px; font-weight: bold; z-index: 5; box-shadow: 0 0 5px #0088cc;">NEW</span>` : '';
+            card.className = 'anime-card';
+            card.addEventListener('click', () => trackClick(t));
+            card.innerHTML = `<span class="badge-hd">HD | HINDI</span>${nBadge}<img src="${item.poster}" loading="lazy"><div class="card-info">⭐ ${item.rating} Rating</div><div class="anime-title">${t}</div>`;
+            container.appendChild(card);
+        }
     }
 }
 
