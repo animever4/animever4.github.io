@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -108,20 +108,17 @@
 const botUsername = "verse1_8bot";
 const animeID = "tokyoghoul";
 
-// Links directly from your provided ghoul.html
+// New episodes links provided by you
 const episodeData = [
-    { "name": "Ep 1", "url": "https://short.icu/zAOndrLO9", "ep": "1" },
-    { "name": "Ep 2", "url": "https://short.icu/Xj6_MEpsk", "ep": "2" },
-    { "name": "Ep 3", "url": "https://short.icu/onNIpLNqV", "ep": "3" },
-    { "name": "Ep 4", "url": "https://short.icu/RS0_PnHCP", "ep": "4" },
-    { "name": "Ep 5", "url": "https://short.icu/_7blMLZV0", "ep": "5" },
-    { "name": "Ep 6", "url": "https://short.icu/CFBWVengz", "ep": "6" },
-    { "name": "Ep 7", "url": "https://short.icu/zSrw4RO_j", "ep": "7" },
-    { "name": "Ep 8", "url": "https://short.icu/y99NmaUbN", "ep": "8" },
-    { "name": "Ep 9", "url": "https://short.icu/RI0jTgptz", "ep": "9" },
-    { "name": "Ep 10", "url": "https://short.icu/SlwD1sV0I", "ep": "10" },
-    { "name": "Ep 11", "url": "https://short.icu/k6qICr0Hq", "ep": "11" },
-    { "name": "Ep 12", "url": "https://short.icu/I-QDZcJuQN", "ep": "12" }
+    { "name": "Ep 01", "url": "https://short.icu/XGpUS0-Y8Z", "ep": "1" },
+    { "name": "Ep 02", "url": "https://short.icu/jwKDBB-0C", "ep": "2" },
+    { "name": "Ep 03", "url": "https://short.icu/AU5UYJ3hm", "ep": "3" },
+    { "name": "Ep 04", "url": "https://short.icu/HqiyL9lOm", "ep": "4" },
+    { "name": "Ep 05", "url": "https://short.icu/N8beXRP04", "ep": "5" },
+    { "name": "Ep 06", "url": "https://short.icu/Ha6x3iVGe", "ep": "6" },
+    { "name": "Ep 07", "url": "https://short.icu/hgi7mC9WR", "ep": "7" },
+    { "name": "Ep 08", "url": "https://short.icu/lMC_e93yP", "ep": "8" },
+    { "name": "Ep 09", "url": "https://short.icu/MkaYvUbmk", "ep": "9" }
 ];
 
 function showLoader() { document.getElementById('loading-spinner').style.display = 'block'; }
@@ -131,11 +128,11 @@ function playEpisode(epName, epUrl, epNum) {
     showLoader();
     document.getElementById('video-player').src = epUrl;
     
-    // Bot link based on your index: tokyoghoul_1_ep
+    // Bot link format: tokyoghoul_1_epNum
     const botCode = `${animeID}_1_${epNum}`;
     document.getElementById('download-area').innerHTML = `
         <a href="https://t.me/${botUsername}?start=${botCode}" class="download-btn" target="_blank">
-            🚀 DOWNLOAD THIS EPISODE 
+            🚀 DOWNLOAD ON TELEGRAM
         </a>`;
 }
 
@@ -157,7 +154,7 @@ function loadEpisodes() {
 
 window.onload = () => { 
     loadEpisodes(); 
-    // Auto-play Episode 1
+    // Auto-play the first episode from your new list
     if(episodeData.length > 0) {
         playEpisode(episodeData[0].name, episodeData[0].url, episodeData[0].ep);
     }
