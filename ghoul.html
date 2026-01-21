@@ -1,4 +1,4 @@
-<!DOCTYPE html><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -108,7 +108,6 @@
 const botUsername = "verse1_8bot";
 const animeID = "tokyoghoul";
 
-// New episodes links provided by you
 const episodeData = [
     { "name": "Ep 01", "url": "https://short.icu/XGpUS0-Y8Z", "ep": "1" },
     { "name": "Ep 02", "url": "https://short.icu/jwKDBB-0C", "ep": "2" },
@@ -119,13 +118,10 @@ const episodeData = [
     { "name": "Ep 07", "url": "https://short.icu/hgi7mC9WR", "ep": "7" },
     { "name": "Ep 08", "url": "https://short.icu/lMC_e93yP", "ep": "8" },
     { "name": "Ep 09", "url": "https://short.icu/MkaYvUbmk", "ep": "9" },
-  { "name": "Ep 10", "url": "https://pro.iqsmartgames.com/stream/mrpsy3e?autoplay=1", "ep": "10" },
+    { "name": "Ep 10", "url": "https://pro.iqsmartgames.com/stream/mrpsy3e?autoplay=1", "ep": "10" },
     { "name": "Ep 11", "url": "https://pro.iqsmartgames.com/stream/mrpsy3e?autoplay=1", "ep": "11" },
     { "name": "Ep 12", "url": "https://pro.iqsmartgames.com/stream/wqxt63m?autoplay=1", "ep": "12" }
-    
-    
-];,
-
+];
 
 function showLoader() { document.getElementById('loading-spinner').style.display = 'block'; }
 function hideLoader() { document.getElementById('loading-spinner').style.display = 'none'; }
@@ -134,11 +130,10 @@ function playEpisode(epName, epUrl, epNum) {
     showLoader();
     document.getElementById('video-player').src = epUrl;
     
-    // Bot link format: tokyoghoul_1_epNum
     const botCode = `${animeID}_1_${epNum}`;
     document.getElementById('download-area').innerHTML = `
         <a href="https://t.me/${botUsername}?start=${botCode}" class="download-btn" target="_blank">
-            🚀 DOWNLOAD DOWNLOAD THIS EPISODE
+            🚀 DOWNLOAD THIS EPISODE
         </a>`;
 }
 
@@ -160,7 +155,6 @@ function loadEpisodes() {
 
 window.onload = () => { 
     loadEpisodes(); 
-    // Auto-play the first episode from your new list
     if(episodeData.length > 0) {
         playEpisode(episodeData[0].name, episodeData[0].url, episodeData[0].ep);
     }
