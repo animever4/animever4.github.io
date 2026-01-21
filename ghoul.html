@@ -7,30 +7,31 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-blue: #00d2ff;
-            --deep-blue: #0045ff;
-            --bg-dark: #050b18;
+            --primary: #00d2ff;
+            --secondary: #0045ff;
+            --bg: #050b18;
             --card-bg: #0d1626;
             --glow: rgba(0, 210, 255, 0.4);
         }
 
         body {
             font-family: 'Rajdhani', sans-serif;
-            background-color: var(--bg-dark);
+            background: var(--bg);
             color: #fff;
             margin: 0;
+            padding: 0;
             background-image: radial-gradient(circle at 50% 0%, #001a33 0%, #050b18 100%);
-            overflow-x: hidden;
         }
 
         header {
             text-align: center;
             padding: 30px 20px;
-            background: linear-gradient(135deg, var(--deep-blue), var(--primary-blue));
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.5em;
+            font-size: 2em;
+            font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: 3px;
+            color: #fff;
             box-shadow: 0 4px 20px var(--glow);
         }
 
@@ -42,9 +43,9 @@
             margin: 20px auto;
             background: #000;
             border-radius: 15px;
-            border: 2px solid var(--primary-blue);
+            border: 2px solid var(--primary);
             overflow: hidden;
-            box-shadow: 0 0 25px var(--glow);
+            box-shadow: 0 0 15px var(--primary);
         }
 
         iframe { width: 100%; height: 100%; border: none; }
@@ -52,8 +53,8 @@
         .loader {
             position: absolute; top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            border: 4px solid #111;
-            border-top: 4px solid var(--primary-blue);
+            border: 4px solid #333;
+            border-top: 4px solid var(--primary);
             border-radius: 50%;
             width: 40px; height: 40px;
             animation: spin 1s linear infinite;
@@ -66,7 +67,7 @@
 
         .download-btn {
             display: inline-block;
-            background: linear-gradient(45deg, var(--deep-blue), var(--primary-blue));
+            background: linear-gradient(45deg, var(--secondary), var(--primary));
             color: white;
             text-decoration: none;
             padding: 12px 35px;
@@ -74,31 +75,16 @@
             font-weight: bold;
             text-transform: uppercase;
             transition: 0.3s;
-            box-shadow: 0 4px 15px var(--glow);
             cursor: pointer;
-            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 4px 15px rgba(0, 210, 255, 0.4);
         }
 
         .season-container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
-        .season-label { font-size: 1.1em; font-weight: bold; margin-bottom: 10px; display: block; color: var(--primary-blue); font-family: 'Orbitron', sans-serif; }
-
-        .season-tabs { display: flex; overflow-x: auto; gap: 12px; padding: 10px 5px; scrollbar-width: none; }
-        .season-tabs::-webkit-scrollbar { display: none; }
-
-        .season-tab {
-            flex: 0 0 auto; padding: 10px 25px; background: var(--card-bg);
-            border: 1px solid var(--primary-blue); border-radius: 50px;
-            cursor: pointer; font-weight: bold; transition: 0.3s; color: var(--primary-blue);
-        }
-
-        .season-tab.active { background: var(--primary-blue); color: #000; box-shadow: 0 0 15px var(--primary-blue); }
+        .season-label { font-family: 'Orbitron', sans-serif; font-size: 1.1em; font-weight: bold; color: var(--primary); margin-bottom: 10px; display: block; }
 
         #episode-buttons { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 12px; padding: 20px; max-width: 1000px; margin: 0 auto; }
-        .episode-btn {
-            background: rgba(255, 255, 255, 0.05); color: #fff; border: 1px solid rgba(0, 210, 255, 0.2);
-            padding: 15px 5px; border-radius: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; text-align: center;
-        }
-        .episode-btn:hover { background: var(--deep-blue); transform: translateY(-3px); border-color: var(--primary-blue); }
+        .episode-btn { background: rgba(255, 255, 255, 0.05); color: #fff; border: 1px solid rgba(0, 210, 255, 0.2); padding: 15px 5px; border-radius: 12px; cursor: pointer; text-align: center; font-weight: 600; }
+        .episode-btn:hover { background: var(--secondary); box-shadow: 0 0 10px var(--primary); transform: translateY(-2px); }
     </style>
 </head>
 <body>
@@ -113,8 +99,7 @@
 <div class="download-container" id="download-area"></div>
 
 <div class="season-container">
-    <span class="season-label">SELECT SEASON:</span>
-    <div class="season-tabs" id="season-tabs-list"></div>
+    <span class="season-label">SEASON 1 EPISODES:</span>
 </div>
 
 <div id="episode-buttons"></div>
@@ -123,57 +108,31 @@
 const botUsername = "verse1_8bot";
 const animeID = "tokyoghoul";
 
-// Note: Season numbering starts from 1 for each season as requested
-const episodeData = {
-    1: [
-        { "name": "Ep 1", "url": "https://short.icu/zAOndrLO9", "ep": "1" },
-        { "name": "Ep 2", "url": "https://short.icu/Xj6_MEpsk", "ep": "2" },
-        { "name": "Ep 3", "url": "https://short.icu/onNIpLNqV", "ep": "3" },
-        { "name": "Ep 4", "url": "https://short.icu/RS0_PnHCP", "ep": "4" },
-        { "name": "Ep 5", "url": "https://short.icu/_7blMLZV0", "ep": "5" },
-        { "name": "Ep 6", "url": "https://short.icu/CFBWVengz", "ep": "6" },
-        { "name": "Ep 7", "url": "https://short.icu/zSrw4RO_j", "ep": "7" },
-        { "name": "Ep 8", "url": "https://short.icu/y99NmaUbN", "ep": "8" },
-        { "name": "Ep 9", "url": "https://short.icu/RI0jTgptz", "ep": "9" },
-        { "name": "Ep 10", "url": "https://short.icu/SlwD1sV0I", "ep": "10" },
-        { "name": "Ep 11", "url": "https://short.icu/k6qICr0Hq", "ep": "11" },
-        { "name": "Ep 12", "url": "https://short.icu/I-QDZcJuQN", "ep": "12" }
-    ],
-    2: [
-        { "name": "Ep 1", "url": "https://short.icu/Zuiz_EpC5", "ep": "1" },
-        { "name": "Ep 2", "url": "https://short.icu/B8CvIgkL_", "ep": "2" },
-        { "name": "Ep 3", "url": "https://short.icu/oi6T0zmtL", "ep": "3" }
-        // Aap yahan aur episodes add kar sakte hain
-    ]
-};
-
-let currentSeason = 1;
+// Links directly from your provided ghoul.html
+const episodeData = [
+    { "name": "Ep 1", "url": "https://short.icu/zAOndrLO9", "ep": "1" },
+    { "name": "Ep 2", "url": "https://short.icu/Xj6_MEpsk", "ep": "2" },
+    { "name": "Ep 3", "url": "https://short.icu/onNIpLNqV", "ep": "3" },
+    { "name": "Ep 4", "url": "https://short.icu/RS0_PnHCP", "ep": "4" },
+    { "name": "Ep 5", "url": "https://short.icu/_7blMLZV0", "ep": "5" },
+    { "name": "Ep 6", "url": "https://short.icu/CFBWVengz", "ep": "6" },
+    { "name": "Ep 7", "url": "https://short.icu/zSrw4RO_j", "ep": "7" },
+    { "name": "Ep 8", "url": "https://short.icu/y99NmaUbN", "ep": "8" },
+    { "name": "Ep 9", "url": "https://short.icu/RI0jTgptz", "ep": "9" },
+    { "name": "Ep 10", "url": "https://short.icu/SlwD1sV0I", "ep": "10" },
+    { "name": "Ep 11", "url": "https://short.icu/k6qICr0Hq", "ep": "11" },
+    { "name": "Ep 12", "url": "https://short.icu/I-QDZcJuQN", "ep": "12" }
+];
 
 function showLoader() { document.getElementById('loading-spinner').style.display = 'block'; }
 function hideLoader() { document.getElementById('loading-spinner').style.display = 'none'; }
-
-function initSeasonTabs() {
-    const tabList = document.getElementById('season-tabs-list');
-    Object.keys(episodeData).forEach(season => {
-        const tab = document.createElement('div');
-        tab.className = `season-tab ${season == currentSeason ? 'active' : ''}`;
-        tab.textContent = `Season ${season}`;
-        tab.onclick = () => {
-            document.querySelectorAll('.season-tab').forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            currentSeason = season;
-            loadEpisodes();
-        };
-        tabList.appendChild(tab);
-    });
-}
 
 function playEpisode(epName, epUrl, epNum) {
     showLoader();
     document.getElementById('video-player').src = epUrl;
     
-    // Bot code matches your screenshot: tokyoghoul [season] [episode]
-    const botCode = `${animeID}_${currentSeason}_${epNum}`;
+    // Bot link based on your index: tokyoghoul_1_ep
+    const botCode = `${animeID}_1_${epNum}`;
     document.getElementById('download-area').innerHTML = `
         <a href="https://t.me/${botUsername}?start=${botCode}" class="download-btn" target="_blank">
             🚀 DOWNLOAD THIS EPISODE 
@@ -183,8 +142,8 @@ function playEpisode(epName, epUrl, epNum) {
 function loadEpisodes() {
     const container = document.getElementById('episode-buttons');
     container.innerHTML = '';
-    const eps = episodeData[currentSeason] || [];
-    eps.forEach(ep => {
+    
+    episodeData.forEach(ep => {
         const btn = document.createElement('button');
         btn.className = 'episode-btn';
         btn.textContent = ep.name;
@@ -197,10 +156,10 @@ function loadEpisodes() {
 }
 
 window.onload = () => { 
-    initSeasonTabs(); 
     loadEpisodes(); 
-    if(episodeData[1] && episodeData[1][0]) {
-        playEpisode(episodeData[1][0].name, episodeData[1][0].url, episodeData[1][0].ep);
+    // Auto-play Episode 1
+    if(episodeData.length > 0) {
+        playEpisode(episodeData[0].name, episodeData[0].url, episodeData[0].ep);
     }
 };
 </script>
