@@ -3,127 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Universal Admin Pro | Animeverse</title>
+    <title>AnimeVerse | Pro Player</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
     <style>
-        :root { --neon: #00d2ff; --bg: #020508; --card: #0d1621; }
-        body { background: var(--bg); color: #fff; font-family: 'Poppins', sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        .admin-box { width: 100%; max-width: 650px; background: var(--card); padding: 30px; border-radius: 20px; border: 1px solid var(--neon); box-shadow: 0 0 20px rgba(0, 210, 255, 0.2); box-sizing: border-box; }
-        h2 { font-family: 'Orbitron'; color: var(--neon); text-align: center; text-shadow: 0 0 10px var(--neon); margin-bottom: 25px; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-size: 13px; color: #aaa; }
-        input, textarea, select { width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid #333; border-radius: 10px; color: #fff; outline: none; box-sizing: border-box; }
-        .hint { font-size: 11px; color: #666; margin-top: 4px; }
-        .btn { width: 100%; padding: 15px; border: none; border-radius: 10px; color: #000; font-weight: 800; font-family: 'Orbitron'; cursor: pointer; background: var(--neon); margin-top: 15px; }
-        .status { margin-top: 15px; font-size: 14px; color: var(--neon); text-align: center; font-weight: bold; }
-        .row { display: flex; gap: 10px; }
+        :root { --neon: #00d2ff; --bg: #020508; --card: #0d1621; --glow: rgba(0, 210, 255, 0.3); }
+        body { background: var(--bg); color: #fff; font-family: 'Poppins', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
+        
+        /* Header */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: rgba(13, 22, 33, 0.8); backdrop-filter: blur(10px); sticky; top: 0; z-index: 100; border-bottom: 1px solid #1a263f; }
+        .logo { width: 35px; height: 35px; border-radius: 50%; background: var(--neon); box-shadow: 0 0 15px var(--neon); }
+        .anime-title { font-family: 'Orbitron'; color: var(--neon); font-size: 1.1rem; text-transform: uppercase; }
+        .back-btn { background: #1a263f; color: white; border: 1px solid #333; padding: 6px 15px; border-radius: 20px; cursor: pointer; font-size: 12px; }
+
+        /* Player Container */
+        .main-container { max-width: 1000px; margin: auto; padding: 15px; }
+        #video-area { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 15px; overflow: hidden; border: 1px solid var(--neon); box-shadow: 0 0 25px var(--glow); margin-bottom: 20px; }
+        iframe { width: 100%; height: 100%; border: none; }
+
+        /* Controls Row (Season Left, Download Right) */
+        .controls-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 10px; }
+        .season-box { display: flex; align-items: center; gap: 10px; }
+        select { padding: 10px; border-radius: 8px; border: 1px solid var(--neon); background: var(--card); color: #fff; cursor: pointer; }
+        .download-btn { padding: 10px 20px; background: var(--neon); color: #000; border-radius: 8px; text-decoration: none; font-weight: bold; font-family: 'Orbitron'; font-size: 12px; transition: 0.3s; box-shadow: 0 0 10px var(--glow); }
+
+        /* Episode Grid */
+        .episode-section { background: var(--card); padding: 20px; border-radius: 15px; border: 1px solid #1a263f; }
+        .grid-header { font-weight: bold; margin-bottom: 15px; border-left: 4px solid var(--neon); padding-left: 10px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(55px, 1fr)); gap: 10px; }
+        .ep-card { background: #162435; aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; border-radius: 10px; cursor: pointer; transition: 0.3s; border: 1px solid #222; font-weight: 500; }
+        .ep-card:hover { border-color: var(--neon); transform: scale(1.05); }
+        .ep-card.active { background: var(--neon); color: #000; box-shadow: 0 0 15px var(--neon); border: none; }
+
+        /* Comment & About */
+        .comment-box { margin-top: 30px; background: #0d1621; padding: 20px; border-radius: 15px; border: 1px solid #1a263f; }
+        .comment-input { width: 100%; background: #050a12; border: 1px solid #333; padding: 15px; border-radius: 10px; color: #fff; margin-bottom: 10px; box-sizing: border-box; }
+        .about-section { margin-top: 20px; font-size: 13px; color: #aaa; line-height: 1.6; padding: 15px; border-top: 1px solid #1a263f; }
+        footer { text-align: center; padding: 30px; color: #444; font-size: 11px; }
     </style>
 </head>
 <body>
 
-    <div class="admin-box">
-        <h2>🚀 UNIVERSAL ADMIN</h2>
-        
-        <div class="form-group">
-            <label>1. Anime ID (Slug Name)</label>
-            <input type="text" id="animeID" placeholder="e.g. gundam">
-            <div class="hint">URL ke liye: player.html?id=gundam</div>
+    <header>
+        <div class="logo"></div>
+        <div class="anime-title" id="display-title">LOADING...</div>
+        <button class="back-btn" onclick="history.back()">← BACK</button>
+    </header>
+
+    <div class="main-container">
+        <div id="video-area">
+            <iframe id="main-player" src="" allowfullscreen></iframe>
         </div>
 
-        <div class="form-group">
-            <label>2. Watch Page Title</label>
-            <input type="text" id="watchPageName" placeholder="e.g. Gundam Season 1 (Hindi)">
-        </div>
-
-        <div class="row">
-            <div class="form-group" style="flex:1;">
-                <label>3. Season</label>
-                <select id="seasonSelect"></select>
+        <div class="controls-row">
+            <div class="season-box">
+                <select id="season-drop" onchange="renderEpisodes()">
+                    </select>
             </div>
-            <div class="form-group" style="flex:1;">
-                <label>4. Bot Code Name</label>
-                <input type="text" id="botPrefix" placeholder="e.g. gundam">
-                <div class="hint">Jo aapne Bot/Firebase mein rakha hai.</div>
-            </div>
+            <a id="dl-link" href="#" class="download-btn" target="_blank">📥 DOWNLOAD</a>
         </div>
 
-        <div class="form-group">
-            <label>5. Paste JSON Data or Links</label>
-            <textarea id="inputData" style="height:150px;" placeholder='{ name: "Ep 1", url: "...", ep: "1" },'></textarea>
-            <div class="hint">Aap apna comma wala JSON yahan direct paste kar sakte hain.</div>
+        <div class="episode-section">
+            <div class="grid-header">SELECT EPISODE</div>
+            <div class="grid" id="ep-grid"></div>
         </div>
 
-        <button id="uploadBtn" class="btn" onclick="processData()">🚀 SYNC TO SHEET</button>
-        <div id="status" class="status"></div>
+        <div class="comment-box">
+            <div class="grid-header">COMMENTS</div>
+            <textarea class="comment-input" placeholder="Join the discussion..."></textarea>
+            <button class="download-btn" style="width: 100px; padding: 8px;">POST</button>
+            <p style="font-size: 12px; margin-top: 15px; color: #555;">No comments yet. Be the first to comment!</p>
+        </div>
+
+        <div class="about-section">
+            <h4 style="color: var(--neon); margin-bottom: 5px;">About AnimeVerse</h4>
+            <p>Welcome to the ultimate destination for anime lovers. Watch the latest seasons and episodes of your favorite series in high quality with fast server links.</p>
+        </div>
     </div>
 
+    <footer>
+        Disclaimer: This site does not store any files on its server. All contents are provided by non-affiliated third parties.
+    </footer>
+
     <script>
-        const select = document.getElementById('seasonSelect');
-        for (let i = 1; i <= 20; i++) {
-            select.innerHTML += `<option value="S${i}">Season ${i}</option>`;
+        const csvURL = "https://docs.google.com/spreadsheets/d/1VLcid14lgDfdDvYzfJLpLsbgD_jpY1CGzutgpEGhZdA/export?format=csv";
+        let animeData = [];
+
+        async function init() {
+            const params = new URLSearchParams(window.location.search);
+            const animeID = params.get('id');
+            if(!animeID) return;
+
+            document.getElementById('display-title').innerText = animeID.replace(/-/g, ' ');
+
+            const res = await fetch(csvURL);
+            const text = await res.text();
+            const rows = text.split('\n').slice(1);
+
+            // Filter data for this anime
+            animeData = rows.map(r => {
+                const c = r.split(',');
+                return { id: c[0], name: c[1], url: c[2], bot: c[3] };
+            }).filter(item => item.id === animeID);
+
+            // Smart Season Detection
+            const seasons = [...new Set(animeData.map(item => item.name.split(' - ')[0]))];
+            const drop = document.getElementById('season-drop');
+            drop.innerHTML = seasons.map(s => `<option value="${s}">${s.replace('S', 'Season ')}</option>`).join('');
+
+            renderEpisodes();
         }
 
-        async function processData() {
-            const animeID = document.getElementById('animeID').value.trim().toLowerCase();
-            const displayName = document.getElementById('watchPageName').value.trim();
-            const season = document.getElementById('seasonSelect').value;
-            const botPrefix = document.getElementById('botPrefix').value.trim();
-            let rawData = document.getElementById('inputData').value.trim();
-            
-            const btn = document.getElementById('uploadBtn');
-            const statusDiv = document.getElementById('status');
-            
-            // Yahan apna Google Script URL dalein
-            const scriptURL = "https://script.google.com/macros/s/AKfycbzEuteJgU1zcQwsNudt5SWG0gMWJOlFmJkshREOk4tvSecJ23mq22u6Dg-Sf3CAxoj-Rw/exec";
+        function renderEpisodes() {
+            const selectedSeason = document.getElementById('season-drop').value;
+            const grid = document.getElementById('ep-grid');
+            grid.innerHTML = "";
 
-            if (!animeID || !displayName || !botPrefix || !rawData) return alert("Sari fields bharna zaroori hai!");
+            animeData.filter(ep => ep.name.startsWith(selectedSeason)).forEach(ep => {
+                const btn = document.createElement('div');
+                btn.className = 'ep-card';
+                // Just show number
+                const epNum = ep.name.split('Ep ').pop();
+                btn.innerText = epNum;
+                btn.onclick = () => {
+                    document.getElementById('main-player').src = ep.url.trim();
+                    document.getElementById('dl-link').href = `https://t.me/verse1_8bot?start=${ep.bot.trim()}`;
+                    document.querySelectorAll('.ep-card').forEach(c => c.classList.remove('active'));
+                    btn.classList.add('active');
+                };
+                grid.appendChild(btn);
+            });
 
-            btn.disabled = true;
-            let items = [];
-
-            try {
-                if (rawData.includes("{")) {
-                    // Auto-Cleaner Logic for your comma format
-                    let cleanData = rawData;
-                    if (!rawData.startsWith("[")) cleanData = "[" + cleanData;
-                    if (!rawData.endsWith("]")) cleanData = cleanData.replace(/,?\s*$/, "") + "]";
-                    
-                    // JSON parsing with a small trick for loose formats
-                    items = eval(cleanData); 
-                } else {
-                    const lines = rawData.split('\n').filter(l => l.trim() !== "");
-                    items = lines.map((url, index) => ({ url: url.trim(), ep: index + 1 }));
-                }
-
-                for (let i = 0; i < items.length; i++) {
-                    const epNum = items[i].ep || (i + 1);
-                    const epNameFormatted = `${season} - ${items[i].name || 'Ep ' + epNum}`;
-                    const finalBotCode = `${botPrefix}_${season}_${epNum}`;
-
-                    statusDiv.innerText = `Syncing: ${epNameFormatted}... (${i+1}/${items.length})`;
-
-                    await fetch(scriptURL, {
-                        method: 'POST',
-                        mode: 'no-cors',
-                        body: JSON.stringify({
-                            animeID: animeID,
-                            displayName: displayName,
-                            epName: epNameFormatted,
-                            videoURL: items[i].url,
-                            botCode: finalBotCode
-                        })
-                    });
-                }
-
-                statusDiv.innerText = "✅ UPLOAD SUCCESSFUL!";
-                document.getElementById('inputData').value = "";
-                alert("Sheet Updated!");
-            } catch (e) {
-                console.error(e);
-                alert("Format Error! Check brackets and commas.");
-            }
-            btn.disabled = false;
+            if(grid.firstChild) grid.firstChild.click();
         }
+
+        init();
     </script>
 </body>
 </html>
