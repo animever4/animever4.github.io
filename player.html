@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnimeVerse Player</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #00d2ff; --bg: #050b18; }
+        body { font-family: 'Rajdhani', sans-serif; background: var(--bg); color: #fff; margin: 0; text-align: center; }
+        header { padding: 20px; background: linear-gradient(135deg, #0045ff, #00d2ff); font-family: 'Orbitron'; font-size: 1.2em; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        #player-container { width: 95%; max-width: 850px; aspect-ratio: 16/9; margin: 20px auto; border: 2px solid var(--primary); border-radius: 15px; overflow: hidden; background: #000; }
+        iframe { width: 100%; height: 100%; border: none; }
+        .download-area { margin: 15px; }
+        .download-btn { background: #2ecc71; color: white; padding: 12px 25px; border-radius: 50px; text-decoration: none; font-weight: bold; display: inline-block; }
+        #episode-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; padding: 20px; max-width: 900px; margin: 0 auto; }
+        .ep-btn { background: rgba(0,210,255,0.1); border: 1px solid var(--primary); color: #fff; padding: 12px; border-radius: 10px; cursor: pointer; font-weight: bold; }
+        .ep-btn:hover { background: var(--primary); color: #000; }
+    </style>
+</head>
+<body>
+
+<header id="anime-title">SELECT ANIME</header>
+
+<div id="player-container">
+    <iframe id="main-player" src="" allowfullscreen></iframe>
+</div>
+
+<div class="download-area" id="dl-container"></div>
+<div id="episode-list"></div>
+
+<script>
+    const csvURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRUXZD0t1FiUKuK2DzJggophD_IrFVlUTl0-aZ7Aetn-2CSPDP8BZQb0Cra1raqRZjfus2tuH3oPxKq/pub?output=csv";
+
+    async function loadAnime() {
+        const response = await fetch(csvURL);
+        const data = await response.text();
+        const rows = data.split("\n").slice(1);
+        
+        const params = new URLSearchParams(window.location.search);
+        const currentID = params.get('id');
+        
+        const list = document.getElementById('episode-list');
+        let first = true;
+
+        rows.forEach(row => {
+            const cols = row.split(",");
+            if(cols[0] && cols[0].trim() === currentID) {
+                document.getElementById('anime-title').innerText = currentID.toUpperCase();
+                const btn = document.createElement('button');
+                btn.className = 'ep-btn';
+                btn.innerText = cols[1];
+                btn.onclick = () => {
+                    document.getElementById('main-player').src = cols[2].trim();
+                    document.getElementById('dl-container').innerHTML = `<a href="https://t.me/verse1_8bot?start=${cols[3].trim()}" class="download-btn" target="_blank">🚀 DOWNLOAD</a>`;
+                };
+                list.appendChild(btn);
+                if(first) { btn.click(); first = false; }
+            }
+        });
+    }
+    loadAnime();
+</script>
+</body>
+</html>
