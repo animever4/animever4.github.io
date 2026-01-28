@@ -61,6 +61,8 @@
         footer { background: #000; padding: 40px 20px 100px; text-align: center; border-top: 1px solid #1a1a1a; margin-top: 40px; }
         .bottom-actions { position: fixed; bottom: 0; width: 100%; display: flex; gap: 8px; padding: 10px; background: rgba(0,0,0,0.95); z-index: 1001; box-sizing: border-box; }
         .btn-action { flex: 1; padding: 13px; border-radius: 8px; text-align: center; text-decoration: none; font-weight: bold; color: #fff; font-size: 0.75rem; }
+        /* Schedule Button Styling */
+
     </style>
 </head>
 <body>
@@ -80,7 +82,7 @@
     <a href="./action.html" onclick="smartCheck(event, this)">🥊 Action</a>
     <a href="./about us.html">ℹ️ About Us</a>
     <a href="./contact us.html">📞 Contact Us</a>
-    <a href="https://t.me/animeverse648" target="_blank">✈️ Telegram</a>
+    <a href="schedule.html" class="schedule-btn">📅 Schedule</a>
 </nav>
 
 <div class="search-section" id="searchContainer">
@@ -179,7 +181,7 @@ const searchContainer = document.getElementById('searchContainer');
 const clearBtn = document.getElementById('clearSearch');
 
 /* --- DATA MAPS --- */
-const defaultTitles = ['Spy X Family','Dark Moon','Fairy Tail','Fire Force','Hell Paradise', 'The Daily Life Of The Immortal King', 'Jujutsu Kaisen', 'one punch man', 'Hell Mode', 'Campfire Cooking'];
+const defaultTitles = ['Tokyo Ghoul','Spy X Family','Dark Moon','Fairy Tail','Fire Force','Hell Paradise', 'The Daily Life Of The Immortal King', 'Jujutsu Kaisen', 'one punch man', 'Hell Mode', 'Campfire Cooking'];
 const trendingTitles = ['Naruto Shippuden', 'One Piece', 'Attack on Titan','Jujutsu Kaisen', 'Demon Slayer', 'Solo Leveling'];
 const movieTitles = ['Your Name', 'Garden of Words', 'Suzume No Tojimari', 'Stand By Me Doraemon', 'Weathering with You', 'Jujutsu Kaisen 0'];
 const latestmovieTitles = ['Suicide Squad Isekai', 'Demon Slayer', 'Mobile Suit Gundam', 'Naruto Shippuden', 'Tokyo Revengers','Bleach', 'Zenshu'];
