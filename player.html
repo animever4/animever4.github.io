@@ -6,88 +6,127 @@
     <title>AnimeVerse | Pro Player</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
     <style>
-        :root { --neon: #00d2ff; --bg: #020508; --card: #0d1621; --glow: rgba(0, 210, 255, 0.3); }
-        body { background: var(--bg); color: #fff; font-family: 'Poppins', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
+        :root { --neon: #f47e21; --bg: #0b0e11; --card: #161b22; --glow: rgba(244, 126, 33, 0.3); }
+        body { background: var(--bg); color: #fff; font-family: 'Poppins', sans-serif; margin: 0; padding: 0; }
         
-        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: rgba(13, 22, 33, 0.8); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid #1a263f; }
-        .anime-title { font-family: 'Orbitron'; color: var(--neon); font-size: 1.1rem; text-transform: uppercase; }
+        /* HEADER (Sketch Match) */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: rgba(13, 22, 33, 0.9); border-bottom: 1px solid #333; }
+        .logo-box { font-family: 'Orbitron'; color: var(--neon); font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
+        .logo-box img { height: 30px; border-radius: 5px; }
+        .back-btn { background: #1a263f; color: #fff; border: 1px solid #333; padding: 5px 15px; border-radius: 5px; cursor: pointer; font-size: 12px; }
 
-        /* Custom Dropdown with Scrolling */
+        .main-container { max-width: 900px; margin: auto; padding: 15px; }
+
+        /* TITLE BOX */
+        .title-container { text-align: center; background: var(--card); padding: 10px; border-radius: 8px; border: 1px solid #333; margin-bottom: 15px; }
+        .anime-display-title { font-family: 'Orbitron'; color: var(--neon); font-size: 14px; margin: 0; }
+
+        /* INFO SECTION (Poster & About side-by-side) */
+        .info-section { display: grid; grid-template-columns: 120px 1fr; gap: 15px; margin-bottom: 20px; }
+        .poster-box img { width: 100%; border-radius: 8px; border: 1px solid var(--neon); box-shadow: 0 0 10px var(--glow); }
+        .about-box { background: var(--card); padding: 12px; border-radius: 8px; border: 1px solid #333; font-size: 12px; line-height: 1.4; color: #ccc; }
+        .about-box h3 { margin: 0 0 5px 0; color: #fff; font-size: 14px; }
+
+        /* VIDEO PLAYER */
+        #video-area { position: relative; width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 12px; overflow: hidden; border: 1px solid var(--neon); box-shadow: 0 0 20px var(--glow); margin-bottom: 20px; }
+        iframe { width: 100%; height: 100%; border: none; }
+
+        /* --- UPDATED CUSTOM DROPDOWN --- */
+        .controls-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        
         .custom-dropdown { position: relative; width: 160px; z-index: 999; }
-        .selected-option { background: var(--card); border: 1px solid var(--neon); padding: 10px; border-radius: 8px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 14px; box-shadow: 0 0 10px var(--glow); }
+        .selected-option { background: var(--card); border: 1px solid var(--neon); padding: 10px; border-radius: 8px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 12px; box-shadow: 0 0 10px var(--glow); }
         
         .options-list { 
             position: absolute; top: 110%; left: 0; width: 100%; background: var(--card); 
             border: 1px solid var(--neon); border-radius: 8px; 
             max-height: 0; opacity: 0; transform: translateY(-10px);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            pointer-events: none;
-            overflow-y: auto; /* Fixed: Scrolling added */
+            pointer-events: none; overflow-y: auto;
         }
         .options-list.active { max-height: 250px; opacity: 1; transform: translateY(0); pointer-events: auto; }
-        .option-item { padding: 12px; font-size: 13px; cursor: pointer; transition: 0.3s; border-bottom: 1px solid #1a263f; }
-        .option-item:hover { background: var(--neon); color: #000; }
+        .option-item { padding: 12px; font-size: 12px; cursor: pointer; transition: 0.3s; border-bottom: 1px solid #1a263f; }
+        .option-item:hover { background: var(--neon); color: #000; font-weight: bold; }
+        
+        .download-btn { padding: 8px 15px; background: var(--neon); color: #000; border-radius: 5px; text-decoration: none; font-weight: bold; font-size: 11px; }
 
-        /* Player & Loading Spinner */
-        .main-container { max-width: 1000px; margin: auto; padding: 15px; }
-        #video-area { 
-            position: relative; width: 100%; aspect-ratio: 16/9; background: #000; 
-            border-radius: 15px; overflow: hidden; border: 1px solid var(--neon); 
-            box-shadow: 0 0 25px var(--glow); margin-bottom: 20px; 
-        }
-        .loader { 
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 50px; height: 50px; border: 5px solid #111; border-top: 5px solid var(--neon);
-            border-radius: 50%; animation: spin 1s linear infinite; display: none; z-index: 1;
-        }
-        @keyframes spin { 0% { transform: translate(-50%, -50%) rotate(0deg); } 100% { transform: translate(-50%, -50%) rotate(360deg); } }
-        iframe { width: 100%; height: 100%; border: none; position: relative; z-index: 2; }
+        /* EPISODE GRID */
+        #ep-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); gap: 10px; }
+        .ep-card { background: #1a263f; padding: 12px 0; text-align: center; border-radius: 8px; cursor: pointer; transition: 0.3s; border: 1px solid #333; font-size: 13px; font-weight: 500; }
+        .ep-card.active { background: var(--neon); color: #000; box-shadow: 0 0 10px var(--neon); border: none; font-weight: bold; }
 
-        /* Episode Grid */
-        #ep-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(55px, 1fr)); gap: 10px; transition: 0.4s; }
-        .grid-animating { opacity: 0; transform: translateY(10px); }
-        .ep-card { background: #162435; aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; border-radius: 10px; cursor: pointer; transition: 0.3s; border: 1px solid #222; }
-        .ep-card.active { background: var(--neon); color: #000; box-shadow: 0 0 15px var(--neon); border: none; }
-        .controls-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .download-btn { padding: 10px 20px; background: var(--neon); color: #000; border-radius: 8px; text-decoration: none; font-weight: bold; font-family: 'Orbitron'; font-size: 11px; }
+        .tg-link { display: block; text-align: center; background: #0088cc; color: #fff; padding: 12px; border-radius: 10px; text-decoration: none; margin: 25px 0; font-weight: bold; }
+        .disclaimer { background: #0a0a0a; padding: 15px; border-radius: 10px; border: 1px dashed #444; font-size: 11px; color: #777; text-align: center; }
+
+        @media (max-width: 600px) {
+            .info-section { grid-template-columns: 100px 1fr; }
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="anime-title" id="display-title">LOADING...</div>
-        <button onclick="history.back()" style="background:#1a263f; color:#fff; border:none; padding:5px 15px; border-radius:20px; cursor:pointer;">← BACK</button>
+        <div class="logo-box">
+            <img src="/Gemini_Generated_Image_u4n26yu4n26yu4n2.png" alt="Logo">
+            <span>AnimeVerse</span>
+        </div>
+        <button class="back-btn" onclick="history.back()">← BACK</button>
     </header>
 
     <div class="main-container">
+        <div class="title-container">
+            <h2 class="anime-display-title" id="display-title">LOADING ANIME...</h2>
+        </div>
+
+        <div class="info-section">
+            <div class="poster-box">
+                <img id="anime-poster" src="https://via.placeholder.com/120x180?text=Poster" alt="Anime Poster">
+            </div>
+            <div class="about-box">
+                <h3>About</h3>
+                <p id="anime-desc">Loading storyline and details from database...</p>
+            </div>
+        </div>
+
         <div id="video-area">
-            <div class="loader" id="video-loader"></div>
-            <iframe id="main-player" src="" allowfullscreen onload="hideLoader()"></iframe>
+            <iframe id="main-player" src="" allowfullscreen></iframe>
         </div>
 
         <div class="controls-row">
             <div class="custom-dropdown">
                 <div class="selected-option" onclick="toggleDrop()">
                     <span id="current-season">Season 1</span>
-                    <span id="drop-icon">▼</span>
+                    <span>▼</span>
                 </div>
                 <div class="options-list" id="drop-menu"></div>
             </div>
-            <a id="dl-link" href="#" class="download-btn" target="_blank">📥 DOWNLOAD</a>
+            <a id="dl-link" href="#" class="download-btn" target="_blank">📥 DOWNLOAD EP</a>
         </div>
 
         <div id="ep-grid"></div>
+
+        <a href="https://t.me/animeverse648" class="tg-link">Join our Telegram Channel</a>
+
+        <div class="disclaimer">
+            <b>Disclaimer:</b> This site does not store any files on its server. All contents are provided by non-affiliated third parties.
+        </div>
     </div>
 
     <script>
         const csvURL = "https://docs.google.com/spreadsheets/d/1VLcid14lgDfdDvYzfJLpLsbgD_jpY1CGzutgpEGhZdA/export?format=csv";
+        const tmdbKey = "eef0f9c16ca61d6c843e7d43ddc5e1d8";
         let animeData = [];
+
+        function toggleDrop() {
+            document.getElementById('drop-menu').classList.toggle('active');
+        }
 
         async function init() {
             const params = new URLSearchParams(window.location.search);
             const animeID = params.get('id');
             if(!animeID) return;
-            document.getElementById('display-title').innerText = animeID.replace(/-/g, ' ');
+
+            fetchTMDB(animeID);
 
             const res = await fetch(csvURL);
             const text = await res.text();
@@ -95,7 +134,7 @@
 
             animeData = rows.map(r => {
                 const c = r.split(',');
-                return { id: c[0].trim(), name: c[1].trim(), url: c[2].trim(), bot: c[3].trim() };
+                return { id: c[0]?.trim(), name: c[1]?.trim(), url: c[2]?.trim(), bot: c[3]?.trim() };
             }).filter(item => item.id === animeID);
 
             const seasons = [...new Set(animeData.map(item => item.name.split(' - ')[0]))];
@@ -105,24 +144,22 @@
             if(seasons.length > 0) selectSeason(seasons[0]);
         }
 
-        function toggleDrop() {
-            document.getElementById('drop-menu').classList.toggle('active');
+        async function fetchTMDB(id) {
+            const query = id.replace(/-/g, ' ');
+            const res = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${tmdbKey}&query=${query}`);
+            const data = await res.json();
+            if(data.results[0]) {
+                const item = data.results[0];
+                document.getElementById('display-title').innerText = (item.name || item.title).toUpperCase();
+                document.getElementById('anime-poster').src = "https://image.tmdb.org/t/p/w500" + item.poster_path;
+                document.getElementById('anime-desc').innerText = item.overview;
+            }
         }
 
         function selectSeason(season) {
             document.getElementById('current-season').innerText = season.replace('S', 'Season ');
             document.getElementById('drop-menu').classList.remove('active');
             
-            const grid = document.getElementById('ep-grid');
-            grid.classList.add('grid-animating');
-            
-            setTimeout(() => {
-                renderEpisodes(season);
-                grid.classList.remove('grid-animating');
-            }, 300);
-        }
-
-        function renderEpisodes(season) {
             const grid = document.getElementById('ep-grid');
             grid.innerHTML = "";
             
@@ -131,7 +168,6 @@
                 btn.className = 'ep-card';
                 btn.innerText = ep.name.split('Ep ').pop();
                 btn.onclick = () => {
-                    showLoader();
                     document.getElementById('main-player').src = ep.url;
                     document.getElementById('dl-link').href = `https://t.me/verse1_8bot?start=${ep.bot}`;
                     document.querySelectorAll('.ep-card').forEach(c => c.classList.remove('active'));
@@ -141,9 +177,6 @@
             });
             if(grid.firstChild) grid.firstChild.click();
         }
-
-        function showLoader() { document.getElementById('video-loader').style.display = 'block'; }
-        function hideLoader() { document.getElementById('video-loader').style.display = 'none'; }
 
         // Close dropdown when clicking outside
         window.onclick = function(event) {
