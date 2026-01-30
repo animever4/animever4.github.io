@@ -39,7 +39,7 @@
 
         /* --- GRIDS & CARDS --- */
         .hero { padding: 15px; width: 100%; box-sizing: border-box; }
-        .hero-card { background: #111; background-size: cover; background-position: center; height: 170px; border-radius: 12px; border: 1px solid var(--primary-color); display: flex; align-items: center; padding: 15px 20px; position: relative; overflow: hidden; }
+        .hero-card { background: #111; background-size: cover; background-position: center; height: 170px; border-radius: 12px; border: 1px solid var(--primary-color); display: flex; align-items: center; padding: 15px 20px; position: relative; overflow: hidden; transition: 0.5s; }
         .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to right, rgba(0,0,0,0.95) 45%, transparent); z-index: 1; }
         .hero-content { position: relative; z-index: 2; width: 100%; }
         .hero-tag { background: var(--secondary-color); padding: 2px 8px; border-radius: 4px; font-size: 8px; font-weight: 800; text-transform: uppercase; }
@@ -49,10 +49,12 @@
 
         .container { padding: 10px; max-width: 1100px; margin: 0 auto; }
         h2 { border-left: 4px solid var(--primary-color); padding-left: 10px; margin: 25px 0 15px; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px; }
-        .anime-grid { display: grid; gap: 10px; grid-template-columns: repeat(3, 1fr); }
+        .anime-grid { display: grid; gap: 10px; grid-template-columns: repeat(3, 1fr); min-height: 50px; }
         @media (min-width: 768px) { .anime-grid { grid-template-columns: repeat(6, 1fr); } }
 
-        .anime-card { background: rgba(15,15,15,0.95); border-radius: 8px; overflow: hidden; text-decoration: none; color: white; border: 1px solid rgba(255,255,255,0.1); position: relative; transition: 0.3s; }
+        .anime-card { background: rgba(15,15,15,0.95); border-radius: 8px; overflow: hidden; text-decoration: none; color: white; border: 1px solid rgba(255,255,255,0.1); position: relative; transition: 0.3s; opacity: 0; transform: translateY(10px); animation: fadeIn 0.4s forwards; }
+        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+        
         .badge-hd { position: absolute; top: 5px; left: 5px; background: var(--primary-color); font-size: 8px; padding: 2px 6px; border-radius: 3px; font-weight: bold; z-index: 5; }
         .card-info { position: absolute; bottom: 35px; left: 0; right: 0; background: rgba(0,0,0,0.8); font-size: 8px; padding: 4px; text-align: center; color: var(--primary-color); font-weight: bold; }
         .anime-card img { width: 100%; aspect-ratio: 2/3; object-fit: cover; }
@@ -61,8 +63,6 @@
         footer { background: #000; padding: 40px 20px 100px; text-align: center; border-top: 1px solid #1a1a1a; margin-top: 40px; }
         .bottom-actions { position: fixed; bottom: 0; width: 100%; display: flex; gap: 8px; padding: 10px; background: rgba(0,0,0,0.95); z-index: 1001; box-sizing: border-box; }
         .btn-action { flex: 1; padding: 13px; border-radius: 8px; text-align: center; text-decoration: none; font-weight: bold; color: #fff; font-size: 0.75rem; }
-        /* Schedule Button Styling */
-
     </style>
 </head>
 <body>
@@ -101,7 +101,7 @@
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <span class="hero-tag">🔥 Trending Globally</span>
-            <h1 id="heroTitle">Solo Leveling</h1>
+            <h1 id="heroTitle">Animeverse</h1>
             <p id="heroDesc">Loading world's most popular anime...</p>
             <a href="#" id="heroBtn" class="hero-btn">WATCH HD</a>
         </div>
@@ -133,7 +133,7 @@
 <div id="comingSoonModal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.9); backdrop-filter: blur(8px); align-items:center; justify-content:center; padding: 15px; box-sizing: border-box;">
     <div style="background:#111; border:2px solid var(--primary-color); padding:30px 20px 20px; border-radius:20px; text-align:center; width:100%; max-width:350px; max-height: 90vh; overflow-y: auto; box-shadow: var(--accent-glow); position: relative; box-sizing: border-box;">
         <div onclick="closeModal()" style="position: absolute; top: 10px; right: 15px; color: #888; font-size: 20px; cursor: pointer; font-weight: bold;">&times;</div>
-        <div style="font-size: clamp(30px, 10vw, 50px); margin-bottom: 10px;">⏳</div>
+        <div style="font-size: 50px; margin-bottom: 10px;">⏳</div>
         <h2 style="margin:0 0 10px 0; color:var(--primary-color); border:none; font-family: 'Poppins', sans-serif; font-size: 1.2rem; letter-spacing: 1px;">COMING SOON</h2>
         <p style="font-size:13px; color:#eee; line-height:1.5; font-family: 'Quicksand', sans-serif; margin-bottom: 20px;">
             We're currently processing this section. High-quality <strong>Hindi Dubbed</strong> episodes will be available shortly!
@@ -147,9 +147,6 @@
 
 <footer>
     <div style="font-size: 2rem; font-weight: 800; color: var(--primary-color); letter-spacing: 4px; margin-bottom: 8px;">ANIMEVERSE</div>
-    <div style="max-width: 500px; margin: 0 auto 15px; font-size: 12px; color: #999; line-height: 1.5; padding: 0 20px; font-family: 'Quicksand', sans-serif;">
-        Your ultimate destination for <strong>Premium Hindi Dubbed Anime</strong>.
-    </div>
     <p style="font-size: 10px; color: #444; letter-spacing: 1px;">&copy; | 2026 ANIMEVERSE |</p>
 </footer>
 
@@ -159,7 +156,7 @@
 </div>
 
 <script>
-/* --- CONFIGURATION --- */
+/* --- FIREBASE & CONFIG --- */
 const firebaseConfig = {
     apiKey: "AIzaSyAe5XKQlowY_AroKkQ80SeAYPqLnF02KoE",
     databaseURL: "https://animeverse-9eada-default-rtdb.firebaseio.com/",
@@ -169,220 +166,128 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// TMDB CONFIG
-const TMDB_API_KEY = 'eef0f9c16ca61d6c843e7d43ddc5e1d8'; // <--- Yahan apni TMDB API Key paste karein
-const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
-const TMDB_IMG_PATH = 'https://image.tmdb.org/t/p/w500';
-const TMDB_BG_PATH = 'https://image.tmdb.org/t/p/original';
+const KITSU_API = 'https://kitsu.io/api/edge/anime';
 
-const searchInput = document.getElementById('searchInput');
-const suggestionsBox = document.getElementById('suggestions');
-const searchContainer = document.getElementById('searchContainer');
-const clearBtn = document.getElementById('clearSearch');
+/* --- SMART CACHING SYSTEM --- */
+const getCache = (key) => JSON.parse(localStorage.getItem('anime_cache_' + key));
+const setCache = (key, data) => localStorage.setItem('anime_cache_' + key, JSON.stringify(data));
 
 /* --- DATA MAPS --- */
 const defaultTitles = ['An Adventure Daily Grind At Age 29','Tokyo Ghoul','Spy X Family','Dark Moon','Fairy Tail','Fire Force','Hell Paradise', 'The Daily Life Of The Immortal King', 'Jujutsu Kaisen', 'one punch man', 'Hell Mode', 'Campfire Cooking'];
 const trendingTitles = ['Naruto Shippuden', 'One Piece', 'Attack on Titan','Jujutsu Kaisen', 'Demon Slayer', 'Solo Leveling'];
 const movieTitles = ['Your Name', 'Garden of Words', 'Suzume No Tojimari', 'Stand By Me Doraemon', 'Weathering with You', 'Jujutsu Kaisen 0'];
 const latestmovieTitles = ['Suicide Squad Isekai', 'Demon Slayer', 'Mobile Suit Gundam', 'Naruto Shippuden', 'Tokyo Revengers','Bleach', 'Zenshu'];
-const hindiTitles = ['There Was A Cute Girl In The Hero Party So I Tried Confessing To Her','You And I Are Polar Opposites','I Parry Everything','Classroom of the Elite', 'Kochikame','Solo Leveling','Chainsaw Man','Attack on Titan','Death Note','Spy x Family','Dandadan','Suicide Squad Isekai','Tokyo Ghoul','Mobile Suit Gundam','Campfire Cooking','Mf Ghost','Fairy Tail','Blue Lock','Sentenced To Be Hero','HanaKime','kunon','my hero academia vigilantes','A Gatherer Adventure in isekai','Devil May Cry'];
-
-const allTitles = [...new Set([...defaultTitles, ...trendingTitles, ...movieTitles, ...latestmovieTitles, ...hindiTitles])];
+const allTitles = [...new Set([...defaultTitles, ...trendingTitles, ...movieTitles, ...latestmovieTitles])];
 
 const linkMap = {
-    // Ye dono ab Sheet se connect honge
-    
-     'an adventure daily grind at age 29': './player.html?id=an-adventure-daily-grind-at-age-29',
-     'campfire cooking': './player.html?id=campfire-cooking',
-     'there was a cute girl in the hero party so i tried confessing to her': './player.html?id=there-was-a-cute-girl-in-the-hero-party-so-i-tried-confessing-to-her',
-     'you and i are polar opposites': './player.html?id=you-and-i-are-polar-opposites',
-    'devil may cry': './player.html?id=devil-may-cry',
-    'mf ghost': './player.html?id=mf-ghost',
+    'an adventure daily grind at age 29': './player.html?id=an-adventure-daily-grind-at-age-29',
+    'campfire cooking': './player.html?id=campfire-cooking',
     'tokyo ghoul': './player.html?id=tokyo-ghoul',
     'fairy tail': './player.html?id=fairy-tail',
-  
-    'hell paradise': './player.html?id=hell-paradise',
-    'hell mode': './player.html?id=hell-mode',
-    'fire force': './player.html?id=fire-force',
-     'sentenced to be hero': './player.html?id=sentenced-to-be-hero',
-      'hanakime': './player.html?id=hana-kime',
-        'spy x family': './player.html?id=spy-x-family',
-        'my hero academia vigilantes': './player.html?id=my-hero-academia-vigilantes',
-        
-  'a gatherer adventure in isekai': './player.html?id=a-gatherer-adventure-in-isekai',
-  'jujutsu kaisen': './player.html?id=jujutsu-kaisen',
-      'dark moon': './player.html?id=dark-moon',
-    
-    
-    
-    // Baaki sab purane files wale links (Unchanged)
-    'naruto shippuden': './narutos.html',
-    'i parry everything': './parry.html',
-    'blue lock': './blue.html',
-    'mobile suit gundam': './mobile.html',
-    'classroom of the elite': './classroom_of_elite_final_latest.html',
-    'death note': './death_note_final_latest.html',
-    'bleach': './bleachthousand.html',
-    'attack on titan': './attack on titan.html',
     'solo leveling': './solo leveling.html',
-    'chainsaw man': './chain.html',
-    'demon slayer': './demonslayer.html',
-    'dandadan': './dan_final_latest.html',
-    'my hero academia': './my_hero_academia_final_latest.html',
-    'one piece': './piece.html',
-    'your name': './your name.html',
-    'suzume no tojimari': './suzume.html',
-    'weathering with you': './weathering.html',
-    
-    'the daily life of the immortal king': './daily life.html',
-    'tokyo revengers': './tokyorevengers.html',
-    'one punch man': './onepunch.html',
-    'suicide squad isekai': './sucidesquade.html',
-    'zenshu': './zenshu.html',
-    'jujutsu kaisen 0': './jjk0.html',
-    'stand by me doraemon': './stand.html',
-    'garden of words': './Garden.html'
+    'naruto shippuden': './narutos.html',
+    'jujutsu kaisen': './player.html?id=jujutsu-kaisen',
+    'one piece': './piece.html'
+    // ... baaki links aap add kar sakte hain
 };
 
-const newReleases = ['Suzume No Tojimari ','Spy X Family','Dark Moon', 'Fairy Tail', 'Suicide Squad Isekai', 'Zenshu', 'Dandadan'];
-
-/* --- TMDB API FETCH --- */
+/* --- FAST FETCH WITH CACHE & ACCURACY --- */
 async function fetchTMDB(title) {
+    const cacheKey = title.toLowerCase().trim();
+    const cached = getCache(cacheKey);
+    if (cached) return cached;
+
     try {
-        const response = await fetch(`${TMDB_BASE_URL}/search/multi?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(title)}&language=en-US`);
+        const response = await fetch(`${KITSU_API}?filter[text]=${encodeURIComponent(title)}&page[limit]=5`);
         const data = await response.json();
-        if (data.results && data.results.length > 0) {
-            const item = data.results[0];
-            return {
-                title: item.name || item.title,
-                poster: item.poster_path ? TMDB_IMG_PATH + item.poster_path : null,
-                banner: item.backdrop_path ? TMDB_BG_PATH + item.backdrop_path : null,
-                rating: item.vote_average ? item.vote_average.toFixed(1) : (Math.random()*(9.2-8.0)+8.0).toFixed(1),
-                overview: item.overview || "World's most popular anime trending now."
+        
+        if (data.data && data.data.length > 0) {
+            // Find best title match to avoid wrong images
+            const bestMatch = data.data.find(i => 
+                i.attributes.canonicalTitle.toLowerCase().includes(cacheKey) || 
+                cacheKey.includes(i.attributes.canonicalTitle.toLowerCase())
+            ) || data.data[0];
+
+            const item = bestMatch.attributes;
+            const result = {
+                poster: item.posterImage.medium,
+                banner: item.coverImage ? item.coverImage.original : item.posterImage.large,
+                rating: item.averageRating ? (item.averageRating / 10).toFixed(1) : "8.5",
+                overview: item.synopsis ? item.synopsis.substring(0, 150) : "Watch Hindi Dubbed Anime."
             };
+            setCache(cacheKey, result);
+            return result;
         }
-        return null;
-    } catch (e) {
-        console.error("TMDB Error", e);
-        return null;
-    }
+    } catch (e) { console.error("Fetch Error", e); }
+    return null;
 }
 
-/* --- MODAL CONTROL --- */
-function showComingSoon() { document.getElementById('comingSoonModal').style.display = 'flex'; }
-function closeModal() { document.getElementById('comingSoonModal').style.display = 'none'; }
+/* --- GRID LOADING (PARALLEL & INSTANT) --- */
+async function loadGrid(titles, containerId) {
+    const container = document.getElementById(containerId);
+    if(!container) return;
+    container.innerHTML = '';
 
-function smartCheck(event, element) {
-    event.preventDefault();
-    const url = element.getAttribute('href');
-    document.getElementById('sideNav').classList.remove('open');
-    fetch(url, { method: 'HEAD' })
-    .then(response => {
-        if (response.ok) window.location.href = url;
-        else showComingSoon();
-    })
-    .catch(() => showComingSoon());
+    const promises = titles.map(async (t) => {
+        const item = await fetchTMDB(t);
+        if(item) {
+            const card = document.createElement('a');
+            card.className = 'anime-card';
+            const target = linkMap[t.toLowerCase()];
+            card.href = target || "javascript:void(0)";
+            if(!target) card.onclick = (e) => { e.preventDefault(); showComingSoon(); };
+            
+            card.innerHTML = `
+                <span class="badge-hd">HD | HINDI</span>
+                <img src="${item.poster}" loading="lazy">
+                <div class="card-info">⭐ ${item.rating} Rating</div>
+                <div class="anime-title">${t}</div>
+            `;
+            container.appendChild(card);
+        }
+    });
+    await Promise.all(promises);
 }
 
-/* --- TRACKING & HERO LOGIC --- */
-function trackClick(animeTitle) {
-    if (!animeTitle) return;
-    const sanitizedTitle = animeTitle.toLowerCase().replace(/\./g, '_').replace(/\s+/g, '_');
-    db.ref('global_clicks/' + sanitizedTitle).transaction(c => (c || 0) + 1);
-}
-
+/* --- HERO SECTION --- */
 async function loadHero() {
     db.ref('global_clicks').orderByValue().limitToLast(1).once('value', async (snap) => {
-        let top = "Solo Leveling"; 
+        let top = "Solo Leveling";
         if (snap.exists()) snap.forEach(c => { top = c.key.replace(/_/g, ' '); });
         
         const item = await fetchTMDB(top);
         if(item) {
             document.getElementById('heroTitle').innerText = top.toUpperCase();
-            document.getElementById('heroDesc').innerText = item.overview.substring(0, 150) + "...";
-            const banner = item.banner || item.poster;
-            if(banner) document.getElementById('heroCard').style.backgroundImage = `url('${banner}')`;
-            
-            const btn = document.getElementById('heroBtn');
-            const target = linkMap[top.toLowerCase()];
-            if(target) { btn.href = target; btn.onclick = () => trackClick(top); }
-            else { btn.href = "javascript:void(0)"; btn.onclick = () => { trackClick(top); showComingSoon(); }; }
+            document.getElementById('heroDesc').innerText = item.overview + "...";
+            document.getElementById('heroCard').style.backgroundImage = `url('${item.banner || item.poster}')`;
+            document.getElementById('heroBtn').href = linkMap[top.toLowerCase()] || "#";
         }
     });
 }
 
-/* --- UI FUNCTIONS --- */
+/* --- UI CONTROLS --- */
 function toggleSearch() { 
     searchContainer.classList.toggle('active'); 
     if(searchContainer.classList.contains('active')) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        setTimeout(() => searchInput.focus(), 400); 
-    } else suggestionsBox.style.display = 'none';
-}
-
-function triggerSearch() { const val = searchInput.value.trim(); if(val) selectSearch(val); }
-
-window.selectSearch = function(term) {
-    const exists = allTitles.some(t => t.toLowerCase().includes(term.toLowerCase()));
-    if (!exists && term !== "") { alert("Sorry! This anime is not available on our site."); return; }
-    trackClick(term);
-    searchInput.value = term;
-    clearBtn.style.display = 'block';
-    suggestionsBox.style.display = 'none';
-    document.getElementById('popularHeading').textContent = `Results for "${term}"`;
-    loadGrid([term], 'popularContainer');
-    ['latestSection','trendingSection','movieSection','heroSection'].forEach(id => document.getElementById(id).style.display = 'none');
-};
-
-searchInput.addEventListener('input', (e) => {
-    const val = e.target.value.toLowerCase().trim();
-    clearBtn.style.display = val.length > 0 ? 'block' : 'none';
-    if (val === '') { resetUI(); return; }
-    const matches = allTitles.filter(t => t.toLowerCase().includes(val));
-    if (matches.length > 0) {
-        suggestionsBox.innerHTML = matches.map(m => `<div onclick="selectSearch('${m}')">🔍 ${m}</div>`).join('');
-        suggestionsBox.style.display = 'block';
-    } else {
-        suggestionsBox.innerHTML = `<div style="color:#888; padding:10px;">No results found</div>`;
-        suggestionsBox.style.display = 'block';
-    }
-});
-
-clearBtn.addEventListener('click', () => { 
-    searchInput.value = ''; clearBtn.style.display = 'none'; suggestionsBox.style.display = 'none'; resetUI(); searchInput.focus(); 
-});
-
-function resetUI() {
-    suggestionsBox.style.display = 'none';
-    document.getElementById('popularHeading').textContent = "Popular Anime";
-    ['latestSection','trendingSection','movieSection','heroSection'].forEach(id => document.getElementById(id).style.display = 'block');
-    loadGrid(latestmovieTitles, 'popularContainer');
-}
-
-async function loadGrid(titles, containerId) {
-    const container = document.getElementById(containerId);
-    container.innerHTML = '';
-    for(const t of titles) {
-        const item = await fetchTMDB(t);
-        if(item) {
-            const card = document.createElement('a');
-            const target = linkMap[t.toLowerCase()];
-            if (target) card.href = target;
-            else {
-                card.href = "javascript:void(0)";
-                card.onclick = (e) => { e.preventDefault(); showComingSoon(); };
-            }
-            const isNew = newReleases.some(nt => nt.toLowerCase() === t.toLowerCase());
-            const nBadge = isNew ? `<span style="position: absolute; top: 5px; right: 5px; background: #0088cc; font-size: 8px; padding: 2px 6px; border-radius: 3px; font-weight: bold; z-index: 5; box-shadow: 0 0 5px #0088cc;">NEW</span>` : '';
-            card.className = 'anime-card';
-            card.addEventListener('click', () => trackClick(t));
-            card.innerHTML = `<span class="badge-hd">HD | HINDI</span>${nBadge}<img src="${item.poster}" loading="lazy"><div class="card-info">⭐ ${item.rating} Rating</div><div class="anime-title">${t}</div>`;
-            container.appendChild(card);
-        }
+        setTimeout(() => searchInput.focus(), 300);
     }
 }
 
-// Startup
+function triggerSearch() {
+    const val = searchInput.value.trim();
+    if(val) {
+        document.getElementById('popularHeading').textContent = `Results for "${val}"`;
+        loadGrid([val], 'popularContainer');
+        ['latestSection','trendingSection','movieSection','heroSection'].forEach(id => document.getElementById(id).style.display = 'none');
+        suggestionsBox.style.display = 'none';
+    }
+}
+
+function showComingSoon() { document.getElementById('comingSoonModal').style.display = 'flex'; }
+function closeModal() { document.getElementById('comingSoonModal').style.display = 'none'; }
+
+// Start everything
 loadHero();
 loadGrid(defaultTitles, 'latestContainer');
 loadGrid(latestmovieTitles, 'popularContainer');
