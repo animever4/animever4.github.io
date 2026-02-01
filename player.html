@@ -9,47 +9,48 @@
         :root { --neon: #f47e21; --bg: #0b0e11; --card: #161b22; --glow: rgba(244, 126, 33, 0.3); }
         body { background: var(--bg); color: #fff; font-family: 'Poppins', sans-serif; margin: 0; padding: 0; }
         
-        /* HEADER */
         header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: rgba(13, 22, 33, 0.9); border-bottom: 1px solid #333; }
         .logo-box { font-family: 'Orbitron'; color: var(--neon); font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
         .back-btn { background: #1a263f; color: #fff; border: 1px solid #333; padding: 5px 15px; border-radius: 5px; cursor: pointer; font-size: 12px; }
 
         .main-container { max-width: 900px; margin: auto; padding: 15px; }
 
-        /* TITLE BOX */
         .title-container { text-align: center; background: var(--card); padding: 10px; border-radius: 8px; border: 1px solid #333; margin-bottom: 15px; }
         .anime-display-title { font-family: 'Orbitron'; color: var(--neon); font-size: 14px; margin: 0; }
 
-        /* INFO SECTION (Poster & About) */
         .info-section { display: grid; grid-template-columns: 120px 1fr; gap: 15px; margin-bottom: 20px; }
         .poster-box img { width: 100%; border-radius: 8px; border: 1px solid var(--neon); box-shadow: 0 0 10px var(--glow); display: block; background: #111; min-height: 180px; }
-        .about-box { background: var(--card); padding: 12px; border-radius: 8px; border: 1px solid #333; font-size: 12px; line-height: 1.4; color: #ccc; position: relative; }
+        .about-box { background: var(--card); padding: 12px; border-radius: 8px; border: 1px solid #333; font-size: 12px; line-height: 1.4; color: #ccc; }
         .about-box h3 { margin: 0 0 5px 0; color: #fff; font-size: 14px; }
         #read-more-btn { color: var(--neon); cursor: pointer; font-size: 11px; font-weight: bold; display: block; margin-top: 5px; }
 
-        /* VIDEO PLAYER */
-        #video-area { position: relative; width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 12px; overflow: hidden; border: 1px solid var(--neon); box-shadow: 0 0 20px var(--glow); margin-bottom: 20px; }
+        /* VIDEO AREA WITH OVERLAY */
+        #video-area { position: relative; width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 12px; overflow: hidden; border: 1px solid var(--neon); box-shadow: 0 0 20px var(--glow); margin-bottom: 10px; }
         iframe { width: 100%; height: 100%; border: none; }
+        
+        #error-overlay {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.9); display: none; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center; padding: 20px; z-index: 10;
+        }
+        #error-overlay p { color: #ff4c4c; font-weight: bold; margin: 0 0 5px 0; }
+        #error-overlay span { font-size: 12px; color: #bbb; margin-bottom: 15px; }
 
-        /* ANIMATED SEASON DROPDOWN */
+        .not-working-btn { text-align: right; margin-bottom: 15px; }
+        .not-working-btn span { font-size: 11px; color: #777; cursor: pointer; text-decoration: underline; }
+
         .controls-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .custom-dropdown { position: relative; width: 160px; z-index: 999; }
-        .selected-option { background: var(--card); border: 1px solid var(--neon); padding: 10px; border-radius: 8px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 12px; box-shadow: 0 0 10px var(--glow); }
-        .options-list { 
-            position: absolute; top: 110%; left: 0; width: 100%; background: var(--card); 
-            border: 1px solid var(--neon); border-radius: 8px; max-height: 0; opacity: 0; 
-            transition: all 0.4s ease; overflow-y: auto; z-index: 1000;
-        }
+        .selected-option { background: var(--card); border: 1px solid var(--neon); padding: 10px; border-radius: 8px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
+        .options-list { position: absolute; top: 110%; left: 0; width: 100%; background: var(--card); border: 1px solid var(--neon); border-radius: 8px; max-height: 0; opacity: 0; transition: all 0.4s ease; overflow-y: auto; z-index: 1000; }
         .options-list.active { max-height: 250px; opacity: 1; }
         .option-item { padding: 12px; font-size: 12px; cursor: pointer; border-bottom: 1px solid #1a263f; }
-        .option-item:hover { background: var(--neon); color: #000; font-weight: bold; }
         
         .download-btn { padding: 8px 15px; background: var(--neon); color: #000; border-radius: 5px; text-decoration: none; font-weight: bold; font-size: 11px; }
 
-        /* EPISODE GRID */
         #ep-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); gap: 10px; }
-        .ep-card { background: #1a263f; padding: 12px 0; text-align: center; border-radius: 8px; cursor: pointer; transition: 0.3s; border: 1px solid #333; font-size: 13px; font-weight: 500; }
-        .ep-card.active { background: var(--neon); color: #000; font-weight: bold; border: none; }
+        .ep-card { background: #1a263f; padding: 12px 0; text-align: center; border-radius: 8px; cursor: pointer; border: 1px solid #333; font-size: 13px; }
+        .ep-card.active { background: var(--neon); color: #000; font-weight: bold; }
 
         .tg-link { display: block; text-align: center; background: #0088cc; color: #fff; padding: 12px; border-radius: 10px; text-decoration: none; margin: 25px 0; font-weight: bold; }
     </style>
@@ -57,7 +58,7 @@
 <body>
 
     <header>
-        <div class="logo-box"><span>AnimeVerse</span></div>
+        <div class="logo-box">AnimeVerse</div>
         <button class="back-btn" onclick="history.back()">← BACK</button>
     </header>
 
@@ -67,9 +68,7 @@
         </div>
 
         <div class="info-section">
-            <div class="poster-box">
-                <img id="anime-poster" src="" alt="Poster">
-            </div>
+            <div class="poster-box"><img id="anime-poster" src="" alt="Poster"></div>
             <div class="about-box">
                 <h3>About</h3>
                 <p id="anime-desc" style="margin:0;"></p>
@@ -78,7 +77,17 @@
         </div>
 
         <div id="video-area">
+            <div id="error-overlay">
+                <p>⚠️ Player Not Working?</p>
+                <span>Please download the episode to watch.</span>
+                                <span>WE WILL FIX THIS PLAYER SOON.</span>
+                <a id="error-dl-link" href="#" class="download-btn">📥 DOWNLOAD NOW</a>
+            </div>
             <iframe id="main-player" src="" allowfullscreen></iframe>
+        </div>
+        
+        <div class="not-working-btn">
+            <span onclick="document.getElementById('error-overlay').style.display='flex'">Player not working?</span>
         </div>
 
         <div class="controls-row">
@@ -104,8 +113,6 @@
 
         function toggleDrop() {
             document.getElementById('drop-menu').classList.toggle('active');
-            const arrow = document.getElementById('arrow');
-            arrow.style.transform = document.getElementById('drop-menu').classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
         }
 
         async function init() {
@@ -113,7 +120,17 @@
             const animeID = params.get('id');
             if(!animeID) return;
 
-            fetchTMDB(animeID);
+            // Fetch TMDB
+            const query = animeID.replace(/-/g, ' ');
+            const tmdbRes = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${tmdbKey}&query=${query}`);
+            const tmdbData = await tmdbRes.json();
+            if(tmdbData.results && tmdbData.results[0]) {
+                const item = tmdbData.results[0];
+                document.getElementById('display-title').innerText = (item.name || item.title).toUpperCase();
+                document.getElementById('anime-poster').src = "https://image.tmdb.org/t/p/w500" + item.poster_path;
+                fullDescription = item.overview || "No description.";
+                document.getElementById('anime-desc').innerText = fullDescription.substring(0, 160) + "...";
+            }
 
             const res = await fetch(csvURL);
             const text = await res.text();
@@ -124,51 +141,15 @@
             }).filter(item => item.id === animeID);
 
             const seasons = [...new Set(animeData.map(item => item.name.split(' - ')[0]))];
-            const menu = document.getElementById('drop-menu');
-            menu.innerHTML = seasons.map(s => `<div class="option-item" onclick="selectSeason('${s}')">${s.replace('S', 'Season ')}</div>`).join('');
-            
+            document.getElementById('drop-menu').innerHTML = seasons.map(s => `<div class="option-item" onclick="selectSeason('${s}')">${s.replace('S', 'Season ')}</div>`).join('');
             if(seasons.length > 0) selectSeason(seasons[0]);
         }
 
-        async function fetchTMDB(id) {
-            const query = id.replace(/-/g, ' ');
-            const res = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${tmdbKey}&query=${query}`);
-            const data = await res.json();
-            
-            if(data.results && data.results[0]) {
-                const item = data.results[0];
-                document.getElementById('display-title').innerText = (item.name || item.title).toUpperCase();
-                
-                // POSTER FIX: Added /t/ in path
-                if(item.poster_path) {
-                    document.getElementById('anime-poster').src = "https://image.tmdb.org/t/p/w500" + item.poster_path;
-                }
-
-                // READ MORE LOGIC
-                fullDescription = item.overview || "No description available.";
-                const descEl = document.getElementById('anime-desc');
-                const btn = document.getElementById('read-more-btn');
-
-                if(fullDescription.length > 160) {
-                    descEl.innerText = fullDescription.substring(0, 160) + "...";
-                    btn.style.display = "block";
-                } else {
-                    descEl.innerText = fullDescription;
-                    btn.style.display = "none";
-                }
-            }
-        }
-
         function toggleDesc() {
-            const descEl = document.getElementById('anime-desc');
+            const desc = document.getElementById('anime-desc');
             const btn = document.getElementById('read-more-btn');
-            if(btn.innerText === "Read More") {
-                descEl.innerText = fullDescription;
-                btn.innerText = "Read Less";
-            } else {
-                descEl.innerText = fullDescription.substring(0, 160) + "...";
-                btn.innerText = "Read More";
-            }
+            if(btn.innerText === "Read More") { desc.innerText = fullDescription; btn.innerText = "Read Less"; }
+            else { desc.innerText = fullDescription.substring(0, 160) + "..."; btn.innerText = "Read More"; }
         }
 
         function selectSeason(season) {
@@ -176,29 +157,24 @@
             document.getElementById('drop-menu').classList.remove('active');
             const grid = document.getElementById('ep-grid');
             grid.innerHTML = "";
-            
-            const filtered = animeData.filter(ep => ep.name.startsWith(season));
-            filtered.sort((a,b) => parseInt(a.name.split('Ep ').pop()) - parseInt(b.name.split('Ep ').pop()));
+            const filtered = animeData.filter(ep => ep.name.startsWith(season)).sort((a,b) => parseInt(a.name.split('Ep ').pop()) - parseInt(b.name.split('Ep ').pop()));
 
             filtered.forEach((ep, i) => {
                 const btn = document.createElement('div');
                 btn.className = 'ep-card';
-                btn.innerText = i + 1; // Always starts from 1
+                btn.innerText = i + 1;
                 btn.onclick = () => {
+                    document.getElementById('error-overlay').style.display = 'none';
                     document.getElementById('main-player').src = ep.url;
-                    document.getElementById('dl-link').href = `https://t.me/verse1_8bot?start=${ep.bot}`;
+                    const link = `https://t.me/verse1_8bot?start=${ep.bot}`;
+                    document.getElementById('dl-link').href = link;
+                    document.getElementById('error-dl-link').href = link;
                     document.querySelectorAll('.ep-card').forEach(c => c.classList.remove('active'));
                     btn.classList.add('active');
                 };
                 grid.appendChild(btn);
             });
             if(grid.firstChild) grid.firstChild.click();
-        }
-
-        window.onclick = function(event) {
-            if (!event.target.matches('.selected-option') && !event.target.matches('#current-season')) {
-                document.getElementById('drop-menu').classList.remove('active');
-            }
         }
 
         init();
