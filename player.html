@@ -3,7 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>AnimeVerse | Pro Player</title>
+    <meta name="description" content="Watch your favorite anime in Hindi dubbed for free in high quality. Only on AnimeVerse.">
+    <meta property="og:title" content="AnimeVerse - Watch Hindi Dubbed Anime">
+    <meta property="og:description" content="Stream or Download the latest anime episodes in Hindi.">
+    <meta property="og:image" content="https://image.tmdb.org/t/p/w500/wwemzKWzjKYJF9AIUvYezgnwsS3.jpg">
+    <meta property="og:type" content="website">
+
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
     <style>
         :root { --neon: #f47e21; --bg: #0b0e11; --card: #161b22; --glow: rgba(244, 126, 33, 0.3); }
@@ -30,11 +37,11 @@
         
         #error-overlay {
             position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.9); display: none; flex-direction: column;
+            background: rgba(0,0,0,0.95); display: none; flex-direction: column;
             justify-content: center; align-items: center; text-align: center; padding: 20px; z-index: 10;
         }
-        #error-overlay p { color: #ff4c4c; font-weight: bold; margin: 0 0 5px 0; }
-        #error-overlay span { font-size: 12px; color: #bbb; margin-bottom: 15px; }
+        #error-overlay p { color: var(--neon); font-weight: bold; margin: 0 0 10px 0; font-size: 18px; }
+        #error-overlay span { font-size: 13px; color: #bbb; margin-bottom: 15px; }
 
         .not-working-btn { text-align: right; margin-bottom: 15px; }
         .not-working-btn span { font-size: 11px; color: #777; cursor: pointer; text-decoration: underline; }
@@ -78,9 +85,8 @@
 
         <div id="video-area">
             <div id="error-overlay">
-                <p>⚠️ Player Not Working?</p>
-                <span>Please download the episode to watch.</span>
-                                <span>WE WILL FIX THIS PLAYER SOON.</span>
+                <p>Watch Online Will Provide Soon</p>
+                <span>Dosto, iska link jald hi update hoga.<br>Tab tak niche se Download karke dekhein.</span>
                 <a id="error-dl-link" href="#" class="download-btn">📥 DOWNLOAD NOW</a>
             </div>
             <iframe id="main-player" src="" allowfullscreen></iframe>
@@ -120,7 +126,6 @@
             const animeID = params.get('id');
             if(!animeID) return;
 
-            // Fetch TMDB
             const query = animeID.replace(/-/g, ' ');
             const tmdbRes = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${tmdbKey}&query=${query}`);
             const tmdbData = await tmdbRes.json();
@@ -128,7 +133,7 @@
                 const item = tmdbData.results[0];
                 document.getElementById('display-title').innerText = (item.name || item.title).toUpperCase();
                 document.getElementById('anime-poster').src = "https://image.tmdb.org/t/p/w500" + item.poster_path;
-                fullDescription = item.overview || "No description.";
+                fullDescription = item.overview || "No description available.";
                 document.getElementById('anime-desc').innerText = fullDescription.substring(0, 160) + "...";
             }
 
@@ -164,8 +169,19 @@
                 btn.className = 'ep-card';
                 btn.innerText = i + 1;
                 btn.onclick = () => {
-                    document.getElementById('error-overlay').style.display = 'none';
-                    document.getElementById('main-player').src = ep.url;
+                    const player = document.getElementById('main-player');
+                    const errorOverlay = document.getElementById('error-overlay');
+                    
+                    // Link Check Logic: Agar Sheet mein URL nahi hai toh message dikhao
+                    if (!ep.url || ep.url.trim() === "" || ep.url.toLowerCase() === "error") {
+                        player.style.display = "none";
+                        errorOverlay.style.display = "flex";
+                    } else {
+                        player.style.display = "block";
+                        errorOverlay.style.display = "none";
+                        player.src = ep.url;
+                    }
+
                     const link = `https://t.me/verse1_8bot?start=${ep.bot}`;
                     document.getElementById('dl-link').href = link;
                     document.getElementById('error-dl-link').href = link;
