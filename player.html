@@ -93,7 +93,97 @@
         </div>
         
         <div class="not-working-btn">
-            <span onclick="document.getElementById('error-overlay').style.display='flex'">Player not working?</span>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>AnimeVerse | Watch HD Hindi Dubbed Anime</title>
+    <meta name="description" content="Watch your favorite anime in Hindi Dubbed for free in high quality. Only on AnimeVerse.">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://your-site-link.com/"> 
+    <meta property="og:title" content="AnimeVerse - Streaming Hindi Dubbed Anime">
+    <meta property="og:description" content="Click here to watch or download latest episodes in 1080p HD via Telegram.">
+    <meta property="og:image" content="https://image.tmdb.org/t/p/w500/wwemzKWzjKYJF9AIUvYezgnwsS3.jpg">
+    <meta property="og:site_name" content="AnimeVerse">
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        :root { --neon: #f47e21; --bg: #0b0e11; --card: #161b22; --glow: rgba(244, 126, 33, 0.3); }
+        body { background: var(--bg); color: #fff; font-family: 'Poppins', sans-serif; margin: 0; padding: 0; }
+        
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: rgba(13, 22, 33, 0.9); border-bottom: 1px solid #333; }
+        .logo-box { font-family: 'Orbitron'; color: var(--neon); font-size: 1.2rem; }
+        .back-btn { background: #1a263f; color: #fff; border: 1px solid #333; padding: 5px 15px; border-radius: 5px; cursor: pointer; font-size: 12px; }
+
+        .main-container { max-width: 900px; margin: auto; padding: 15px; }
+        .title-container { text-align: center; background: var(--card); padding: 10px; border-radius: 8px; border: 1px solid #333; margin-bottom: 15px; }
+        .anime-display-title { font-family: 'Orbitron'; color: var(--neon); font-size: 14px; margin: 0; }
+
+        .info-section { display: grid; grid-template-columns: 120px 1fr; gap: 15px; margin-bottom: 20px; }
+        .poster-box img { width: 100%; border-radius: 8px; border: 1px solid var(--neon); box-shadow: 0 0 10px var(--glow); background: #111; min-height: 180px; }
+        .about-box { background: var(--card); padding: 12px; border-radius: 8px; border: 1px solid #333; font-size: 12px; line-height: 1.4; color: #ccc; }
+        .about-box h3 { margin: 0 0 5px 0; color: #fff; font-size: 14px; }
+        #read-more-btn { color: var(--neon); cursor: pointer; font-size: 11px; font-weight: bold; display: block; margin-top: 5px; }
+
+        #video-area { position: relative; width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 12px; overflow: hidden; border: 1px solid var(--neon); box-shadow: 0 0 20px var(--glow); margin-bottom: 20px; }
+        iframe { width: 100%; height: 100%; border: none; }
+        
+        /* ERROR OVERLAY (Watch Online Will Provide Soon) */
+        #error-overlay {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.95); display: none; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center; padding: 20px; z-index: 10;
+        }
+        #error-overlay p { color: var(--neon); font-weight: bold; font-size: 18px; margin-bottom: 10px; }
+        #error-overlay span { font-size: 12px; color: #bbb; margin-bottom: 15px; }
+
+        .controls-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .custom-dropdown { position: relative; width: 160px; z-index: 999; }
+        .selected-option { background: var(--card); border: 1px solid var(--neon); padding: 10px; border-radius: 8px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
+        .options-list { position: absolute; top: 110%; left: 0; width: 100%; background: var(--card); border: 1px solid var(--neon); border-radius: 8px; max-height: 0; opacity: 0; transition: all 0.4s ease; overflow-y: auto; z-index: 1000; }
+        .options-list.active { max-height: 250px; opacity: 1; }
+        .option-item { padding: 12px; font-size: 12px; cursor: pointer; border-bottom: 1px solid #1a263f; }
+        
+        .download-btn { padding: 8px 15px; background: var(--neon); color: #000; border-radius: 5px; text-decoration: none; font-weight: bold; font-size: 11px; }
+
+        #ep-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); gap: 10px; }
+        .ep-card { background: #1a263f; padding: 12px 0; text-align: center; border-radius: 8px; cursor: pointer; border: 1px solid #333; font-size: 13px; }
+        .ep-card.active { background: var(--neon); color: #000; font-weight: bold; }
+
+        .tg-link { display: block; text-align: center; background: #0088cc; color: #fff; padding: 12px; border-radius: 10px; text-decoration: none; margin: 25px 0; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-box">AnimeVerse</div>
+        <button class="back-btn" onclick="history.back()">← BACK</button>
+    </header>
+
+    <div class="main-container">
+        <div class="title-container">
+            <h2 class="anime-display-title" id="display-title">LOADING...</h2>
+        </div>
+
+        <div class="info-section">
+            <div class="poster-box"><img id="anime-poster" src="" alt="Poster"></div>
+            <div class="about-box">
+                <h3>About</h3>
+                <p id="anime-desc" style="margin:0;"></p>
+                <span id="read-more-btn" onclick="toggleDesc()">Read More</span>
+            </div>
+        </div>
+
+        <div id="video-area">
+            <div id="error-overlay">
+                <p>Watch Online Will Provide Soon</p>
+                <span>Please use the Download button below.</span>
+                <a id="error-dl-link" href="#" class="download-btn">📥 DOWNLOAD NOW</a>
+            </div>
+            <iframe id="main-player" src="" allowfullscreen></iframe>
         </div>
 
         <div class="controls-row">
@@ -126,6 +216,7 @@
             const animeID = params.get('id');
             if(!animeID) return;
 
+            // TMDB Fetch
             const query = animeID.replace(/-/g, ' ');
             const tmdbRes = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${tmdbKey}&query=${query}`);
             const tmdbData = await tmdbRes.json();
@@ -133,10 +224,11 @@
                 const item = tmdbData.results[0];
                 document.getElementById('display-title').innerText = (item.name || item.title).toUpperCase();
                 document.getElementById('anime-poster').src = "https://image.tmdb.org/t/p/w500" + item.poster_path;
-                fullDescription = item.overview || "No description available.";
+                fullDescription = item.overview || "No description.";
                 document.getElementById('anime-desc').innerText = fullDescription.substring(0, 160) + "...";
             }
 
+            // CSV Fetch
             const res = await fetch(csvURL);
             const text = await res.text();
             const rows = text.split('\n').slice(1);
@@ -172,8 +264,8 @@
                     const player = document.getElementById('main-player');
                     const errorOverlay = document.getElementById('error-overlay');
                     
-                    // Link Check Logic: Agar Sheet mein URL nahi hai toh message dikhao
-                    if (!ep.url || ep.url.trim() === "" || ep.url.toLowerCase() === "error") {
+                    // URL Check logic
+                    if(!ep.url || ep.url.trim() === "" || ep.url.toLowerCase() === "error") {
                         player.style.display = "none";
                         errorOverlay.style.display = "flex";
                     } else {
