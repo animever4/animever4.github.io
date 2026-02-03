@@ -1,237 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-YGR1LPCM5K"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-YGR1LPCM5K');
-</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnimeVerse | My Hero Academia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --neon: #f47e21; --bg: #0b0e11; --card: #161b22; --glow: rgba(244, 126, 33, 0.3); }
+        body { background: var(--bg); color: #fff; font-family: 'Poppins', sans-serif; margin: 0; padding: 0; }
+        
+        header { display: flex; justify-content: center; padding: 10px; background: #0d1621; border-bottom: 2px solid var(--neon); }
+        .logo { font-family: 'Orbitron'; color: var(--neon); font-size: 1.2rem; text-shadow: 0 0 8px var(--neon); }
 
-<title>One Punch Man Hindi Dub - All Seasons</title>
-<style>
-    :root {
-        --primary: #00ff99;
-        --secondary: #008852;
-        --bg: #0b0b0b;
-        --card-bg: #1c1c1c;
-    }
+        .container { max-width: 900px; margin: auto; padding: 15px; }
 
-    body {
-        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        background: var(--bg);
-        color: #fff;
-        margin: 0;
-        padding: 0;
-        overflow-x: hidden;
-    }
+        .anime-about { 
+            display: flex; gap: 15px; background: var(--card); padding: 12px; 
+            border-radius: 10px; margin-bottom: 15px; border: 1px solid #333; align-items: flex-start;
+        }
+        .poster { width: 90px; height: 130px; border-radius: 6px; object-fit: cover; flex-shrink: 0; border: 1px solid #444; }
+        .details { flex-grow: 1; }
+        .details h1 { margin: 0; color: var(--neon); font-size: 1.1rem; font-family: 'Orbitron'; }
+        .details p { 
+            font-size: 0.8rem; color: #bbb; margin-top: 5px; line-height: 1.3;
+            display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
+        }
 
-    header {
-        text-align: center;
-        padding: 30px 20px;
-        background: linear-gradient(135deg, var(--primary), var(--secondary));
-        font-size: 2em;
-        font-weight: 900;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        color: #000;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-    }
+        .player-box { position: relative; width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 10px; overflow: hidden; border: 1px solid #333; margin-bottom: 15px; }
+        iframe { width: 100%; height: 100%; border: none; }
 
-    /* PLAYER STYLES */
-    #player-container {
-        position: relative;
-        width: 95%;
-        max-width: 900px;
-        aspect-ratio: 16 / 9;
-        margin: 20px auto;
-        background: #000;
-        border-radius: 20px;
-        border: 2px solid rgba(0, 255, 153, 0.2);
-        overflow: hidden;
-        box-shadow: 0 0 30px rgba(0, 255, 153, 0.2);
-    }
+        /* Animated Dropdown */
+        .controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; gap: 10px; }
+        select { 
+            background: #1a222c; color: #fff; border: 1px solid var(--neon); 
+            padding: 8px 12px; border-radius: 5px; cursor: pointer; font-size: 0.85rem;
+            outline: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23f47e21' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 10px center; padding-right: 30px;
+        }
+        select:hover { transform: translateY(-2px); box-shadow: 0 0 10px var(--glow); background-color: #252d37; }
+        select:focus { border-color: #fff; box-shadow: 0 0 15px var(--neon); }
 
-    iframe { width: 100%; height: 100%; border: none; }
+        .dl-btn { background: var(--neon); color: #000; padding: 8px 15px; border-radius: 5px; text-decoration: none; font-weight: bold; font-size: 0.85rem; transition: 0.3s; }
+        .dl-btn:hover { box-shadow: 0 0 10px var(--neon); }
 
-    .loader {
-        position: absolute; top: 50%; left: 50%;
-        transform: translate(-50%, -50%);
-        border: 5px solid #333;
-        border-top: 5px solid var(--primary);
-        border-radius: 50%;
-        width: 50px; height: 50px;
-        animation: spin 1s linear infinite;
-        z-index: 10;
-    }
+        .ep-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); gap: 8px; background: var(--card); padding: 15px; border-radius: 10px; }
+        .ep-card { background: #252d37; border: 1px solid #444; padding: 10px 0; border-radius: 6px; text-align: center; cursor: pointer; font-size: 0.85rem; transition: 0.2s; }
+        .ep-card:hover { transform: scale(1.1); border-color: var(--neon); }
+        .ep-card.active { background: var(--neon); color: #000; border-color: var(--neon); }
 
-    @keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+        footer { margin-top: 30px; padding: 20px; text-align: center; background: #0d1621; border-top: 1px solid #333; }
+        .tg-join { display: inline-block; background: #24A1DE; color: #fff; padding: 10px 20px; border-radius: 50px; text-decoration: none; font-size: 0.9rem; font-weight: bold; margin-bottom: 15px; }
+        .disclaimer { font-size: 0.7rem; color: #666; max-width: 700px; margin: 0 auto; line-height: 1.4; }
 
-    /* SEASON SELECTOR */
-    .season-container {
-        max-width: 1000px;
-        margin: 10px auto;
-        padding: 0 15px;
-    }
-
-    .season-label {
-        font-size: 1.2em;
-        font-weight: bold;
-        margin-bottom: 10px;
-        display: block;
-        color: var(--primary);
-    }
-
-    .season-tabs {
-        display: flex;
-        overflow-x: auto;
-        gap: 12px;
-        padding: 10px 5px;
-        scrollbar-width: thin;
-        scrollbar-color: var(--primary) transparent;
-    }
-
-    .season-tabs::-webkit-scrollbar { height: 6px; }
-    .season-tabs::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
-
-    .season-tab {
-        flex: 0 0 auto;
-        padding: 12px 25px;
-        background: var(--card-bg);
-        border: 1px solid rgba(255,255,255,0.1);
-        border-radius: 50px;
-        cursor: pointer;
-        font-weight: bold;
-        transition: all 0.3s ease;
-        white-space: nowrap;
-    }
-
-    .season-tab.active {
-        background: var(--primary);
-        color: #000;
-        box-shadow: 0 0 15px var(--primary);
-        border-color: transparent;
-    }
-
-    /* EPISODE GRID */
-    #episode-buttons {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-        gap: 12px;
-        padding: 20px;
-        max-width: 1000px;
-        margin: 0 auto;
-    }
-
-    .episode-btn {
-        background: rgba(255, 255, 255, 0.05);
-        color: #fff;
-        border: 1px solid rgba(0, 255, 153, 0.3);
-        padding: 15px 5px;
-        border-radius: 12px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.2s;
-        text-align: center;
-    }
-
-    .episode-btn:hover {
-        background: var(--primary);
-        color: #000;
-        transform: translateY(-3px);
-        box-shadow: 0 5px 15px rgba(0, 255, 153, 0.4);
-    }
-
-    .hidden { display: none; }
-
-    @media (max-width: 600px) {
-        header { font-size: 1.4em; }
-        .season-tab { padding: 10px 18px; font-size: 0.9em; }
-    }
-</style>
+        @media (max-width: 500px) { .poster { width: 80px; height: 115px; } .details h1 { font-size: 1rem; } }
+    </style>
 </head>
 <body>
 
-<header>One Punch Man</header>
+<header><div class="logo">ANIMEVERSE</div></header>
 
-<div id="player-container">
-    <div id="loading-spinner" class="loader"></div>
-    <iframe id="video-player" src="" allowfullscreen onload="hideLoader()"></iframe>
+<div class="container">
+    <div class="anime-about">
+        <img src="/images (5).jpeg" class="poster" alt="MHA">
+        <div class="details">
+            <h1>My Hero Academia</h1>
+            <p>Izuku Midoriya dreams of being a hero despite being born without powers. After meeting All Might, he inherits a legendary quirk and starts his journey at UA High School.</p>
+        </div>
+    </div>
+
+    <div class="player-box">
+        <iframe id="main-player" src="" allowfullscreen></iframe>
+    </div>
+
+    <div class="controls">
+        <select id="season-select" onchange="loadSeason(this.value)">
+            <option value="1">Season 1</option>
+            <option value="2">Season 2</option>
+            <option value="3">Season 3</option>
+            <option value="4">Season 4</option>
+            <option value="5">Season 5</option>
+            <option value="6">Season 6</option>
+            <option value="7">Season 7</option>
+        </select>
+        <a href="https://t.me/+QLICf64NfqM0MmRl" target="_blank" class="dl-btn">⬇ Download</a>
+    </div>
+
+    <div class="ep-grid" id="ep-list"></div>
 </div>
 
-<div class="season-container">
-    <span class="season-label">Select Season:</span>
-    <div class="season-tabs" id="season-tabs-list"></div>
-</div>
-
-<div id="episode-buttons"></div>
+<footer>
+    <a href="https://t.me/AnimeVerse_Network" class="tg-join">Join Telegram</a>
+    <div class="disclaimer"><b>Disclaimer:</b> Provided by third parties. For educational use only.</div>
+</footer>
 
 <script>
-const episodes = {
-    1: [{name:"Ep 1",url:"https://short.icu/TJprewITq"},{name:"Ep 2",url:"https://short.icu/nQBTCam74"},{name:"Ep 3",url:"https://short.icu/Cg_au3UVc"},{name:"Ep 4",url:"https://short.icu/8Dknc-cDo"},{name:"Ep 5",url:"https://short.icu/10sSRfZrN"},{name:"Ep 6",url:"https://short.icu/0_JHVTlA3"},{name:"Ep 7",url:"https://short.icu/eTaD6Q9PU"},{name:"Ep 8",url:"https://short.icu/f_HJ5TDr3"},{name:"Ep 9",url:"https://short.icu/xE2IrscxI"},{name:"Ep 10",url:"https://short.icu/UsD_C__WJ"},{name:"Ep 11",url:"https://short.icu/fCsr7k8JJ"},{name:"Ep 12",url:"https://short.icu/fWg1xpkk2"},{name:"Ep 13",url:"https://short.icu/vOOmY-7at"}],
-    2: [{name:"Ep 1",url:"https://short.icu/6nFq9q1Ai"},{name:"Ep 2",url:"https://short.icu/Rybi-FWz7"},{name:"Ep 3",url:"https://short.icu/LSI7KiysH"},{name:"Ep 4",url:"https://short.icu/fbTw_C4wx"},{name:"Ep 5",url:"https://short.icu/EbPKcKdjh"},{name:"Ep 6",url:"https://short.icu/ZTzj2O99j"},{name:"Ep 7",url:"https://short.icu/Jv_SyH7yG"},{name:"Ep 8",url:"https://short.icu/k6r1XpG76"},{name:"Ep 9",url:"https://short.icu/jtqQn7NiR"},{name:"Ep 10",url:"https://short.icu/nq70QfbND"},{name:"Ep 11",url:"https://short.icu/raSItlHucd"},{name:"Ep 12",url:"https://short.icu/yWxQ4VUgF"},{name:"Ep 13",url:"https://short.icu/ldoM6X77e"},{name:"Ep 14",url:"https://short.icu/pIQppiBrk"},{name:"Ep 15",url:"https://short.icu/rC1l6P4Bj"},{name:"Ep 16",url:"https://short.icu/qLuUOG9nK"},{name:"Ep 17",url:"https://short.icu/m6eSpIKVy"},{name:"Ep 18",url:"https://short.icu/djM8vDgYJ"},{name:"Ep 19",url:"https://short.icu/pFrysMP-P"},{name:"Ep 20",url:"https://short.icu/vSvIJ76lc"},{name:"Ep 21",url:"https://short.icu/Y7x1U1rHY"},{name:"Ep 22",url:"https://short.icu/tLHUt3kcS"},{name:"Ep 23",url:"https://short.icu/8ueuu843A"},{name:"Ep 24",url:"https://short.icu/MbSrifj8_"},{name:"Ep 25",url:"https://short.icu/tnyCv2VsP"}],
-    3: [{name:"Ep 1",url:"https://short.icu/NQDfYnkEK"},{name:"Ep 2",url:"https://short.icu/IgkpMTPBD"},{name:"Ep 3",url:"https://short.icu/F7rMSAuaX"},{name:"Ep 4",url:"https://short.icu/_CEJlj4gn"},{name:"Ep 5",url:"https://short.icu/wjHX8Xdia"},{name:"Ep 6",url:"https://short.icu/8VyinC3FN"},{name:"Ep 7",url:"https://short.icu/CHuUYPjB6"},{name:"Ep 8",url:"https://short.icu/QngkvFObG"},{name:"Ep 9",url:"https://short.icu/i959BzNU5"},{name:"Ep 10",url:"https://short.icu/9Lw4mnteb"},{name:"Ep 11",url:"https://short.icu/AuoAUGkQV"},{name:"Ep 12",url:"https://short.icu/3iEv1D8CO"},{name:"Ep 13",url:"https://short.icu/JhvBC3klK"},{name:"Ep 14",url:"https://short.icu/tq2JJ2h-t"},{name:"Ep 15",url:"https://short.icu/B9MImVNpI"},{name:"Ep 16",url:"https://short.icu/on6U1iQu2L"},{name:"Ep 17",url:"https://short.icu/MS67qCBvV"},{name:"Ep 18",url:"https://short.icu/iRdZ6ingSx"},{name:"Ep 19",url:"https://short.icu/BbI9SAXYz"},{name:"Ep 20",url:"https://short.icu/e0YUuWMFO"},{name:"Ep 21",url:"https://short.icu/1-J0SzGaw"},{name:"Ep 22",url:"https://short.icu/cQk5XhS5d"},{name:"Ep 23",url:"https://short.icu/56D2XJbs5"},{name:"Ep 24",url:"https://short.icu/mxAe2scQp"},{name:"Ep 25",url:"https://short.icu/clQa_2Gcq"}],
-    4: [{name:"Ep 1",url:"https://short.icu/5SxOSvDsy"},{name:"Ep 2",url:"https://short.icu/jvssZMzez"},{name:"Ep 3",url:"https://short.icu/qZd4m-YEY"},{name:"Ep 4",url:"https://short.icu/fu_dhP7QK"},{name:"Ep 5",url:"https://short.icu/Ig5Fq1Ooe"},{name:"Ep 6",url:"https://short.icu/2rR9tLPqV"},{name:"Ep 7",url:"https://short.icu/a0j0LD8z6"},{name:"Ep 8",url:"https://short.icu/Mih8hDd9I"},{name:"Ep 9",url:"https://short.icu/1G7IVblKl"},{name:"Ep 10",url:"https://short.icu/QSjfpFMaF"},{name:"Ep 11",url:"https://short.icu/3qw4_LWD0"},{name:"Ep 12",url:"https://short.icu/FzlwAmtY-"},{name:"Ep 13",url:"https://short.icu/dus2bN5Pj"},{name:"Ep 14",url:"https://short.icu/D3nj4_hXK"},{name:"Ep 15",url:"https://short.icu/AIbZ725Ho"},{name:"Ep 16",url:"https://short.icu/2VeFLXalF"},{name:"Ep 17",url:"https://short.icu/a3iCQOoDB"},{name:"Ep 18",url:"https://short.icu/KWY_ywyHU"},{name:"Ep 19",url:"https://short.icu/jtxchCSQF"},{name:"Ep 20",url:"https://short.icu/AxNyuyPkY"},{name:"Ep 21",url:"https://short.icu/PDgIREITh"},{name:"Ep 22",url:"https://short.icu/mFCJTa_1b"},{name:"Ep 23",url:"https://short.icu/JZMcpSEqu"},{name:"Ep 24",url:"https://short.icu/27fELYzQ1"},{name:"Ep 25",url:"https://short.icu/WzZSf883K"},{name:"OVA 1",url:"https://short.icu/WJyHkJrU1"},{name:"OVA 2",url:"https://short.icu/dOOFTbNlt"}],
-    5: [{name:"Ep 1",url:"https://short.icu/ywdRLSeAZ"},{name:"Ep 2",url:"https://short.icu/GLR1Rv7WJ"},{name:"Ep 3",url:"https://short.icu/BMWj1dv3y"},{name:"Ep 4",url:"https://short.icu/l7rXmFOje"},{name:"Ep 5",url:"https://short.icu/QPpSoPru7"},{name:"Ep 6",url:"https://short.icu/NwphlvU6t"},{name:"Ep 7",url:"https://short.icu/lZnpLnMA8"},{name:"Ep 8",url:"https://short.icu/n0QzdzBEGl"},{name:"Ep 9",url:"https://short.icu/lWUjmozMX"},{name:"Ep 10",url:"https://short.icu/frVhb0Gqo"},{name:"Ep 11",url:"https://short.icu/vMLq3TVdN"},{name:"Ep 12",url:"https://short.icu/h8ZNSgZN_"},{name:"Ep 13",url:"https://short.icu/WBmYlKZTyO"},{name:"Ep 14",url:"https://short.icu/yNaUjnxzb"},{name:"Ep 15",url:"https://short.icu/pI_z2qCUkw"},{name:"Ep 16",url:"https://short.icu/eXrIb9TOR"},{name:"Ep 17",url:"https://short.icu/P1JL4rbAZ"},{name:"Ep 18",url:"https://short.icu/g1GQ4RfjY"},{name:"Ep 19",url:"https://short.icu/i_nmK4Yfo"},{name:"Ep 20",url:"https://short.icu/fr-ZGNI9i"},{name:"Ep 21",url:"https://short.icu/oe6QtAeWO"},{name:"Ep 22",url:"https://short.icu/PvQ3sIPeS"},{name:"Ep 23",url:"https://short.icu/N_FG42_bq"},{name:"Ep 24",url:"https://short.icu/wpXwEIKZ-"},{name:"Ep 25",url:"https://short.icu/iM93Xqy-_"},{name:"OVA 1",url:"https://short.icu/ehDRDAYZ-"},{name:"OVA 2",url:"https://short.icu/J8GAdJx-EW"}],
-    6: [{name:"Ep 1",url:"https://short.icu/QfA8YVAvd"},{name:"Ep 2",url:"https://short.icu/BjeRBoBW7"},{name:"Ep 3",url:"https://short.icu/aTTQfbNPE"},{name:"Ep 4",url:"https://short.icu/3Gx0eQ6Di"},{name:"Ep 5",url:"https://short.icu/4IjIt9B8q"},{name:"Ep 6",url:"https://short.icu/IPkHqkmtO"},{name:"Ep 7",url:"https://short.icu/HoieQc_7R"},{name:"Ep 8",url:"https://short.icu/4gPlK1Zcj"},{name:"Ep 9",url:"https://short.icu/oZOHBQMFe"},{name:"Ep 10",url:"https://short.icu/hZpOh-3bD"},{name:"Ep 11",url:"https://short.icu/T9mAa6i60"},{name:"Ep 12",url:"https://short.icu/kd1yJI9j3"},{name:"Ep 13",url:"https://short.icu/I7J5BQ1Ae"},{name:"Ep 14",url:"https://short.icu/FIwkzhRk8"},{name:"Ep 15",url:"https://short.icu/jiNMwVrRG"},{name:"Ep 16",url:"https://short.icu/nn76C3ZGb"},{name:"Ep 17",url:"https://short.icu/colWLb5yj"},{name:"Ep 18",url:"https://short.icu/Ua7DXazCq"},{name:"Ep 19",url:"https://short.icu/lrobkYuEA"},{name:"Ep 20",url:"https://short.icu/fMlpTh8E5"},{name:"Ep 21",url:"https://short.icu/5U1FJlgpp"},{name:"Ep 22",url:"https://short.icu/0zcl4M9QO"},{name:"Ep 23",url:"https://short.icu/YdZUqKYsf"},{name:"Ep 24",url:"https://short.icu/vtHBwI4cH"},{name:"Ep 25",url:"https://short.icu/npVmu_P-3"},{name:"Ep 26",url:"https://short.icu/WmHB1nvXm"}],
-    7: [{name:"Ep 1",url:"https://short.icu/GVhh0fxWZ"},{name:"Ep 2",url:"https://short.icu/IAMjYMxzy"},{name:"Ep 3",url:"https://short.icu/QFsDXE4bs"},{name:"Ep 4",url:"https://short.icu/9nAoR9okc"},{name:"Ep 5",url:"https://short.icu/8j486Z_yd"},{name:"Ep 6",url:"https://short.icu/iqL5JfBMf"},{name:"Ep 7",url:"https://short.icu/speo2J2i0"},{name:"Ep 8",url:"https://short.icu/ILhcXUcx1n"},{name:"Ep 9",url:"https://short.icu/AAtV_rfyX"},{name:"Ep 10",url:"https://short.icu/JAnpYJj9u"},{name:"Ep 11",url:"https://short.icu/m8Y01aR7B"},{name:"Ep 12",url:"https://short.icu/xzcnwegF6"},{name:"Ep 13",url:"https://short.icu/pjXXJfDXq"},{name:"Ep 14",url:"https://short.icu/lQAbxaWZv"},{name:"Ep 15",url:"https://short.icu/5cm0d83yw"},{name:"Ep 16",url:"https://short.icu/I6g6B-tJH"},{name:"Ep 17",url:"https://short.icu/Mnh6JPAg_"},{name:"Ep 18",url:"https://short.icu/WMUU0Eo0P"},{name:"Ep 19",url:"https://short.icu/O56RdI_p7"},{name:"Ep 20",url:"https://short.icu/jbBrLjJAwt"},{name:"Ep 21",url:"https://short.icu/t8UbKygqQF"}]
-};
+    const episodesData = {
+        1: ["https://short.icu/TJprewITq", "https://short.icu/nQBTCam74", "https://short.icu/Cg_au3UVc", "https://short.icu/8Dknc-cDo", "https://short.icu/10sSRfZrN", "https://short.icu/0_JHVTlA3", "https://short.icu/eTaD6Q9PU", "https://short.icu/f_HJ5TDr3", "https://short.icu/xE2IrscxI", "https://short.icu/UsD_C__WJ", "https://short.icu/fCsr7k8JJ", "https://short.icu/fWg1xpkk2", "https://short.icu/vOOmY-7at"],
+        2: ["https://short.icu/6nFq9q1Ai", "https://short.icu/Rybi-FWz7", "https://short.icu/LSI7KiysH", "https://short.icu/fbTw_C4wx", "https://short.icu/EbPKcKdjh", "https://short.icu/ZTzj2O99j", "https://short.icu/Jv_SyH7yG", "https://short.icu/k6r1XpG76", "https://short.icu/jtqQn7NiR", "https://short.icu/nq70QfbND", "https://short.icu/raSItlHucd", "https://short.icu/yWxQ4VUgF", "https://short.icu/ldoM6X77e", "https://short.icu/pIQppiBrk", "https://short.icu/rC1l6P4Bj", "https://short.icu/qLuUOG9nK", "https://short.icu/m6eSpIKVy", "https://short.icu/djM8vDgYJ", "https://short.icu/pFrysMP-P", "https://short.icu/vSvIJ76lc", "https://short.icu/Y7x1U1rHY", "https://short.icu/tLHUt3kcS", "https://short.icu/8ueuu843A", "https://short.icu/MbSrifj8_", "https://short.icu/tnyCv2VsP"],
+        3: ["https://short.icu/NQDfYnkEK", "https://short.icu/IgkpMTPBD", "https://short.icu/F7rMSAuaX", "https://short.icu/_CEJlj4gn", "https://short.icu/wjHX8Xdia", "https://short.icu/8VyinC3FN", "https://short.icu/CHuUYPjB6", "https://short.icu/QngkvFObG", "https://short.icu/i959BzNU5", "https://short.icu/9Lw4mnteb", "https://short.icu/AuoAUGkQV", "https://short.icu/3iEv1D8CO", "https://short.icu/JhvBC3klK", "https://short.icu/tq2JJ2h-t", "https://short.icu/B9MImVNpI", "https://short.icu/on6U1iQu2L", "https://short.icu/MS67qCBvV", "https://short.icu/iRdZ6ingSx", "https://short.icu/BbI9SAXYz", "https://short.icu/e0YUuWMFO", "https://short.icu/1-J0SzGaw", "https://short.icu/cQk5XhS5d", "https://short.icu/56D2XJbs5", "https://short.icu/mxAe2scQp", "https://short.icu/clQa_2Gcq"],
+        4: ["https://short.icu/5SxOSvDsy", "https://short.icu/jvssZMzez", "https://short.icu/qZd4m-YEY", "https://short.icu/fu_dhP7QK", "https://short.icu/Ig5Fq1Ooe", "https://short.icu/2rR9tLPqV", "https://short.icu/a0j0LD8z6", "https://short.icu/Mih8hDd9I", "https://short.icu/1G7IVblKl", "https://short.icu/QSjfpFMaF", "https://short.icu/3qw4_LWD0", "https://short.icu/FzlwAmtY-", "https://short.icu/dus2bN5Pj", "https://short.icu/D3nj4_hXK", "https://short.icu/AIbZ725Ho", "https://short.icu/2VeFLXalF", "https://short.icu/a3iCQOoDB", "https://short.icu/KWY_ywyHU", "https://short.icu/jtxchCSQF", "https://short.icu/AxNyuyPkY", "https://short.icu/PDgIREITh", "https://short.icu/mFCJTa_1b", "https://short.icu/JZMcpSEqu", "https://short.icu/27fELYzQ1", "https://short.icu/WzZSf883K", "https://short.icu/WJyHkJrU1", "https://short.icu/dOOFTbNlt"],
+        5: ["LINK_1", "LINK_2", "LINK_3", "LINK_4", "LINK_5", "LINK_6", "LINK_7", "LINK_8", "LINK_9", "LINK_10", "LINK_11", "LINK_12", "LINK_13", "LINK_14", "LINK_15", "LINK_16", "LINK_17", "LINK_18", "LINK_19", "LINK_20", "LINK_21", "LINK_22", "LINK_23", "LINK_24", "LINK_25"],
+        6: ["LINK_1", "LINK_2", "LINK_3", "LINK_4", "LINK_5", "LINK_6", "LINK_7", "LINK_8", "LINK_9", "LINK_10", "LINK_11", "LINK_12", "LINK_13", "LINK_14", "LINK_15", "LINK_16", "LINK_17", "LINK_18", "LINK_19", "LINK_20", "LINK_21", "LINK_22", "LINK_23", "LINK_24", "LINK_25"],
+        7: ["LINK_1", "LINK_2", "LINK_3", "LINK_4", "LINK_5", "LINK_6", "LINK_7", "LINK_8", "LINK_9", "LINK_10", "LINK_11", "LINK_12", "LINK_13", "LINK_14", "LINK_15", "LINK_16", "LINK_17", "LINK_18", "LINK_19", "LINK_20", "LINK_21"]
+    };
 
-let currentSeason = 1;
-
-function showLoader() { document.getElementById('loading-spinner').classList.remove('hidden'); }
-function hideLoader() { document.getElementById('loading-spinner').classList.add('hidden'); }
-
-function initSeasonTabs() {
-    const tabContainer = document.getElementById('season-tabs-list');
-    for (let i = 1; i <= 7; i++) {
-        const tab = document.createElement('div');
-        tab.className = `season-tab ${i === 1 ? 'active' : ''}`;
-        tab.innerText = `Season ${i}`;
-        tab.onclick = () => selectSeason(i, tab);
-        tabContainer.appendChild(tab);
+    function loadSeason(sNum) {
+        const grid = document.getElementById('ep-list');
+        grid.innerHTML = '';
+        const eps = episodesData[sNum] || [];
+        eps.forEach((url, i) => {
+            const card = document.createElement('div');
+            card.className = 'ep-card';
+            card.innerText = i + 1;
+            card.onclick = () => {
+                document.getElementById('main-player').src = url;
+                document.querySelectorAll('.ep-card').forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+            };
+            grid.appendChild(card);
+        });
+        if(grid.firstChild) grid.firstChild.click();
     }
-}
-
-function selectSeason(num, element) {
-    document.querySelectorAll('.season-tab').forEach(t => t.classList.remove('active'));
-    element.classList.add('active');
-    currentSeason = num;
-    loadEpisodes();
-}
-
-function loadEpisodes() {
-    const container = document.getElementById('episode-buttons');
-    container.innerHTML = '';
-    
-    const eps = episodes[currentSeason] || [];
-    eps.forEach(ep => {
-        const btn = document.createElement('button');
-        btn.className = 'episode-btn';
-        btn.textContent = ep.name;
-        btn.onclick = () => {
-            showLoader();
-            document.getElementById('video-player').src = ep.url;
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        };
-        container.appendChild(btn);
-    });
-
-    if(eps.length > 0){
-        showLoader();
-        document.getElementById('video-player').src = eps[0].url;
-    }
-}
-
-window.onload = () => {
-    initSeasonTabs();
-    loadEpisodes();
-};
+    window.onload = () => loadSeason(1);
 </script>
-
 </body>
 </html>
