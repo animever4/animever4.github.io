@@ -1,5 +1,3 @@
-</body>
-</html>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,45 +9,32 @@
     <style>
         :root { --neon: #FF7B00; --bg: #0D0D12; --card: #181820; }
         body { background: var(--bg); color: #fff; font-family: 'Outfit', sans-serif; margin: 0; }
-
         .nav-text { font-weight: 900; font-size: 1.4rem; text-transform: uppercase; letter-spacing: -1px; }
-
         .video-container {
             position: relative; width: 100%; aspect-ratio: 16/9; 
             background: #000; overflow: hidden; border-radius: 12px;
             border: 1px solid rgba(255, 123, 0, 0.2);
         }
         #main-player { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; z-index: 1; }
-
-        /* Controls styling */
         .player-controls { display: flex; gap: 8px; margin-top: 10px; margin-bottom: 20px; }
         .btn-ctrl { flex: 1; background: #181820; border: 1px solid #2d2d3a; color: #fff; padding: 10px; border-radius: 8px; font-size: 11px; font-weight: bold; text-align: center; cursor: pointer; text-transform: uppercase; }
         .btn-ctrl:hover { border-color: var(--neon); }
         .btn-download { background: var(--neon); color: #000; }
-        
         .report-link { font-size: 10px; color: #ff4444; text-transform: uppercase; cursor: pointer; text-decoration: underline; }
-
-        /* Error Message Overlay & Close Button */
-        #error-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95); display: none; flex-direction: column;
-            justify-content: center; align-items: center; z-index: 10; text-align: center; padding: 20px;
-        }
-        .close-msg { position: absolute; top: 10px; right: 15px; font-size: 20px; color: #fff; cursor: pointer; font-weight: bold; }
-
         .ep-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
         .ep-card { background: var(--card); border-radius: 8px; overflow: hidden; border: 1px solid transparent; transition: 0.3s; cursor: pointer; }
         .ep-card.active { border-color: var(--neon); background: #1f1f2a; }
         .ep-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; opacity: 0.6; }
         .active .ep-img { opacity: 1; }
-        
         .ep-info { padding: 8px; display: flex; flex-direction: column; gap: 2px; }
         .ep-name { font-size: 10px; color: #fff; font-weight: 800; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.2; text-transform: uppercase; }
         .ep-num { color: var(--neon); font-size: 9px; font-weight: 900; }
-
-        /* Footer Styling */
-        footer { background: #08080c; padding: 40px 20px; border-top: 1px solid rgba(255,255,255,0.05); text-align: center; margin-top: 50px; }
-        .footer-links { display: flex; justify-content: center; gap: 20px; margin: 20px 0; font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 1px; }
+        #error-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); display: none; flex-direction: column;
+            justify-content: center; align-items: center; z-index: 10;
+        }
+        .disclaimer { font-size: 9px; color: #555; line-height: 1.4; margin-top: 20px; text-align: justify; }
     </style>
 </head>
 <body>
@@ -60,26 +45,23 @@
     </nav>
 
     <main class="p-4 max-w-5xl mx-auto">
-        
         <div class="flex gap-4 mb-6">
             <img id="poster" src="" class="w-24 h-36 rounded-lg object-cover border border-white/10">
             <div class="flex-1">
                 <p class="text-[10px] text-[#FF7B00] font-bold uppercase mb-1">Anime Series</p>
                 <h2 id="title" class="text-lg font-black uppercase mb-2 italic text-gray-200">Loading...</h2>
                 <div class="flex items-center gap-3 text-[10px] font-bold text-gray-400 mb-2">
-                    <span>HINDI</span> <span>HD</span> <span>2026</span>
+                    <span>HINDI</span> <span>HD</span> <span id="year">2024</span>
                 </div>
                 <p id="desc" class="text-[11px] text-gray-500 line-clamp-3">Fetching details...</p>
-                <div onclick="showErrorMessage()" class="report-link mt-2">⚠️ Not Working? Report</div>
+                <div onclick="reportIssue()" class="report-link mt-2">⚠️ Not Working? Report</div>
             </div>
         </div>
 
         <div class="video-container">
             <div id="error-overlay">
-                <span class="close-msg" onclick="closeErrorMessage()">×</span>
-                <p class="text-white font-bold mb-1 text-sm uppercase">Please download the episode</p>
-                <p class="text-gray-400 text-[10px] mb-4 uppercase">Video not available yet. We will fix soon.</p>
-                <a id="error-dl-link" href="#" class="text-[10px] bg-[#FF7B00] text-black px-4 py-2 rounded font-black uppercase">Download Now</a>
+                <p class="text-white font-bold mb-2 text-sm uppercase">Episode Not Ready</p>
+                <a id="error-dl-link" href="#" class="text-[10px] bg-[#FF7B00] text-black px-4 py-2 rounded font-black uppercase">Download Instead</a>
             </div>
             <iframe id="main-player" src="" scrolling="no" allowfullscreen></iframe>
         </div>
@@ -98,20 +80,6 @@
         <div id="ep-grid" class="ep-grid mb-12"></div>
     </main>
 
-    <footer>
-        <div class="nav-text mb-2">ANIME<span class="text-[#FF7B00]">VERSE</span></div>
-        <p class="text-gray-500 text-[10px] uppercase tracking-widest">The Ultimate Hindi Anime Destination</p>
-        <div class="footer-links">
-            <a href="./index.html">Home</a>
-
-            <a href="https://t.me/animeverse648">Contact</a>
-           
-        </div>
-        <div class="text-[#333] text-[9px] italic max-w-2xl mx-auto px-4">
-            Disclaimer: This site does not store any files on its server. All contents are provided by non-affiliated third parties.
-        </div>
-    </footer>
-
     <script>
         const csvURL = "https://docs.google.com/spreadsheets/d/1VLcid14lgDfdDvYzfJLpLsbgD_jpY1CGzutgpEGhZdA/export?format=csv";
         const tmdbKey = "eef0f9c16ca61d6c843e7d43ddc5e1d8";
@@ -119,21 +87,42 @@
         let filteredEpisodes = [];
         let currentIndex = 0;
         let tmdbId = ""; 
+        let mainPosterURL = "";
 
         async function init() {
             const params = new URLSearchParams(window.location.search);
-            const animeId = params.get('id') || "captain-nano-banana";
+            const animeId = params.get('id') || "solo-leveling";
+            const searchQuery = animeId.replace(/-/g, ' ');
 
-            const tr = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${tmdbKey}&query=${animeId.replace(/-/g,' ')}`);
-            const td = await tr.json();
-            if(td.results && td.results[0]) {
-                const r = td.results[0];
-                tmdbId = r.id;
-                document.getElementById('title').innerText = r.name || r.title;
-                document.getElementById('poster').src = "https://image.tmdb.org/t/p/w500" + r.poster_path;
-                document.getElementById('desc').innerText = r.overview;
-            }
+            try {
+                // Step 1: Try TMDB for Images
+                const tmdbSearch = await fetch(`https://api.themoviedb.org/3/search/tv?api_key=${tmdbKey}&query=${searchQuery}`);
+                const tmdbData = await tmdbSearch.json();
+                
+                if(tmdbData.results && tmdbData.results.length > 0) {
+                    const r = tmdbData.results[0];
+                    tmdbId = r.id;
+                    mainPosterURL = "https://image.tmdb.org/t/p/w500" + r.poster_path;
+                    document.getElementById('title').innerText = r.name;
+                    document.getElementById('poster').src = mainPosterURL;
+                    document.getElementById('desc').innerText = r.overview;
+                    document.getElementById('year').innerText = r.first_air_date ? r.first_air_date.split('-')[0] : "2024";
+                } else {
+                    // Step 2: Fallback to Jikan API if TMDB fails
+                    const jikanRes = await fetch(`https://api.jikan.moe/v4/anime?q=${searchQuery}&limit=1`);
+                    const jikanData = await jikanRes.json();
+                    if(jikanData.data[0]) {
+                        const a = jikanData.data[0];
+                        mainPosterURL = a.images.jpg.large_image_url;
+                        document.getElementById('title').innerText = a.title;
+                        document.getElementById('poster').src = mainPosterURL;
+                        document.getElementById('desc').innerText = a.synopsis;
+                        document.getElementById('year').innerText = a.year || "2024";
+                    }
+                }
+            } catch(e){ console.log("Init Error"); }
 
+            // Load CSV
             const cr = await fetch(csvURL);
             const ct = await cr.text();
             const rows = ct.split('\n').slice(1);
@@ -153,7 +142,7 @@
             filteredEpisodes = allData.filter(x => x.name.startsWith(sName));
             const grid = document.getElementById('ep-grid');
             grid.innerHTML = "";
-            const sNum = sName.replace('S', '');
+            const sNum = sName.replace(/\D/g, ''); // Extract only numbers
 
             filteredEpisodes.forEach((ep, i) => {
                 const epNum = i + 1;
@@ -161,7 +150,7 @@
                 card.className = "ep-card";
                 card.id = `card-${i}`;
                 card.innerHTML = `
-                    <img id="img-${sNum}-${epNum}" src="https://via.placeholder.com/300x169/181820/ffffff?text=Loading..." class="ep-img">
+                    <img id="img-${sNum}-${epNum}" src="${mainPosterURL}" class="ep-img">
                     <div class="ep-info">
                         <span class="ep-name" id="name-${sNum}-${epNum}">Episode ${epNum}</span>
                         <span class="ep-num">${sNum}x${epNum}</span>
@@ -170,11 +159,12 @@
                 card.onclick = () => selectEpisode(i);
                 grid.appendChild(card);
 
+                // Fetch Episode Thumbnail from TMDB
                 if(tmdbId) {
                     fetch(`https://api.themoviedb.org/3/tv/${tmdbId}/season/${sNum}/episode/${epNum}?api_key=${tmdbKey}`)
                         .then(r => r.json()).then(d => {
-                            if(d.name) document.getElementById(`name-${sNum}-${epNum}`).innerText = d.name;
                             if(d.still_path) document.getElementById(`img-${sNum}-${epNum}`).src = "https://image.tmdb.org/t/p/w300" + d.still_path;
+                            if(d.name) document.getElementById(`name-${sNum}-${epNum}`).innerText = d.name;
                         }).catch(()=>{});
                 }
             });
@@ -184,12 +174,16 @@
         function selectEpisode(index) {
             currentIndex = index;
             const ep = filteredEpisodes[index];
-            closeErrorMessage(); // Reset player view
-
+            const player = document.getElementById('main-player');
+            const error = document.getElementById('error-overlay');
+            
             if (!ep.url || ep.url.trim() === "" || ep.url.toLowerCase() === "error") {
-                showErrorMessage();
+                player.style.display = "none";
+                error.style.display = "flex";
             } else {
-                document.getElementById('main-player').src = ep.url;
+                player.style.display = "block";
+                error.style.display = "none";
+                player.src = ep.url;
             }
 
             const botLink = `https://t.me/verse1_8bot?start=${ep.bot}`;
@@ -197,25 +191,17 @@
             document.getElementById('error-dl-link').href = botLink;
 
             document.querySelectorAll('.ep-card').forEach(c => c.classList.remove('active'));
-            const activeCard = document.getElementById(`card-${index}`);
-            if(activeCard) activeCard.classList.add('active');
-        }
-
-        function showErrorMessage() {
-            document.getElementById('main-player').style.display = "none";
-            document.getElementById('error-overlay').style.display = "flex";
-        }
-
-        function closeErrorMessage() {
-            document.getElementById('main-player').style.display = "block";
-            document.getElementById('error-overlay').style.display = "none";
+            document.getElementById(`card-${index}`).classList.add('active');
         }
 
         function changeEp(dir) {
             let nextIndex = currentIndex + dir;
-            if(nextIndex >= 0 && nextIndex < filteredEpisodes.length) {
-                selectEpisode(nextIndex);
-            }
+            if(nextIndex >= 0 && nextIndex < filteredEpisodes.length) selectEpisode(nextIndex);
+        }
+
+        function reportIssue() {
+            const ep = filteredEpisodes[currentIndex];
+            window.open(`https://t.me/AnimesVerse_Official?text=Report: ${ep.id} - ${ep.name}`);
         }
 
         init();
