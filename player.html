@@ -3,218 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AnimeVerse | Pro Player</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+    <title>AnimeVerse | Stream Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --neon: #f47e21; --bg: #0b0e11; --card: #161b22; --glow: rgba(244, 126, 33, 0.3); }
-        body { background: var(--bg); color: #fff; font-family: 'Poppins', sans-serif; margin: 0; padding: 0; }
+        :root { --neon: #FF7B00; --bg: #0D0D12; --card: #181820; }
+        body { background: var(--bg); color: #fff; font-family: 'Outfit', sans-serif; margin: 0; }
+        .video-container { position: relative; width: 100%; aspect-ratio: 16/9; background: #000; overflow: hidden; border-radius: 12px; border: 1px solid rgba(255, 123, 0, 0.2); }
+        #main-player { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
         
-        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: rgba(13, 22, 33, 0.9); border-bottom: 1px solid #333; }
-        .logo-box { font-family: 'Orbitron'; color: var(--neon); font-size: 1.2rem; }
-        .back-btn { background: #1a263f; color: #fff; border: 1px solid #333; padding: 5px 15px; border-radius: 5px; cursor: pointer; font-size: 12px; }
+        /* Next/Prev & Download Buttons Style */
+        .control-btn { background: var(--card); border: 1px solid #333; transition: 0.3s; padding: 10px; border-radius: 8px; font-weight: 600; font-size: 0.8rem; flex: 1; text-align: center; cursor: pointer; }
+        .control-btn:hover:not(:disabled) { border-color: var(--neon); color: var(--neon); }
+        .control-btn:disabled { opacity: 0.2; cursor: not-allowed; }
+        .dl-special { background: var(--neon) !important; color: #000 !important; font-weight: 800; border: none !important; }
 
-        .main-container { max-width: 900px; margin: auto; padding: 15px; }
-
-        /* Title & Info Section (ToonStream Style) */
-        .title-container { text-align: center; background: var(--card); padding: 10px; border-radius: 8px; border: 1px solid #333; margin-bottom: 15px; }
-        .anime-display-title { font-family: 'Orbitron'; color: var(--neon); font-size: 14px; margin: 0; }
-
-        .info-section { display: grid; grid-template-columns: 120px 1fr; gap: 15px; margin-bottom: 20px; }
-        .poster-box img { width: 100%; border-radius: 8px; border: 1px solid var(--neon); box-shadow: 0 0 10px var(--glow); display: block; background: #111; min-height: 160px; object-fit: cover; }
-        .about-box { background: var(--card); padding: 12px; border-radius: 8px; border: 1px solid #333; font-size: 12px; line-height: 1.4; color: #ccc; }
-        .about-box h3 { margin: 0 0 5px 0; color: #fff; font-size: 14px; }
-
-        /* VIDEO AREA */
-        #video-area { position: relative; width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 12px; overflow: hidden; border: 1px solid var(--neon); box-shadow: 0 0 20px var(--glow); margin-bottom: 10px; }
-        iframe { width: 100%; height: 100%; border: none; }
-
-        /* Navigation Buttons (Next/Prev) */
-        .nav-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 10px; }
-        .nav-btn { flex: 1; background: var(--card); color: #fff; border: 1px solid #444; padding: 12px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: bold; transition: 0.3s; }
-        .nav-btn:hover:not(:disabled) { border-color: var(--neon); color: var(--neon); }
-        .nav-btn:disabled { opacity: 0.2; cursor: not-allowed; }
-
-        /* Download Section */
-        .download-box { text-align: center; margin-bottom: 25px; }
-        .download-btn { display: inline-block; width: 100%; background: var(--neon); color: #000; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 14px; box-shadow: 0 0 15px var(--glow); }
-
-        /* Episodes Grid */
-        .section-header { color: var(--neon); font-size: 14px; font-weight: bold; margin-bottom: 10px; text-transform: uppercase; border-left: 3px solid var(--neon); padding-left: 10px; }
-        #ep-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); gap: 10px; margin-bottom: 30px; }
-        .ep-card { background: #1a263f; padding: 12px 0; text-align: center; border-radius: 8px; cursor: pointer; border: 1px solid #333; font-size: 13px; }
-        .ep-card.active { background: var(--neon); color: #000; font-weight: bold; border-color: #fff; }
-
-        .tg-link { display: block; text-align: center; background: #0088cc; color: #fff; padding: 12px; border-radius: 10px; text-decoration: none; font-weight: bold; margin-bottom: 20px; }
+        .ep-card { background: var(--card); border-radius: 12px; overflow: hidden; border: 1px solid transparent; transition: 0.3s; cursor: pointer; display: flex; align-items: center; padding: 8px; gap: 12px; }
+        .ep-card.active { border-color: var(--neon); background: rgba(255, 123, 0, 0.1); }
+        .ep-img { width: 100px; aspect-ratio: 16/9; border-radius: 6px; object-fit: cover; background: #222; }
     </style>
 </head>
-<body>
+<body class="p-4 md:p-8">
 
-    <header>
-        <div class="logo-box">AnimeVerse</div>
-        <button class="back-btn" onclick="history.back()">← BACK</button>
-    </header>
-
-    <div class="main-container">
-        <div class="title-container">
-            <h2 class="anime-display-title" id="display-title">LOADING...</h2>
+    <div class="max-w-6xl mx-auto">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-black text-[#FF7B00]">ANIMEVERSE</h1>
+            <button onclick="history.back()" class="bg-[#181820] px-4 py-2 rounded-lg text-sm border border-gray-800">BACK</button>
         </div>
 
-        <div class="info-section">
-            <div class="poster-box"><img id="anime-poster" src="" alt="Poster"></div>
-            <div class="about-box">
-                <h3>About</h3>
-                <p id="anime-desc" style="margin:0;">Loading description...</p>
-            </div>
-        </div>
-
-        <div id="video-area">
-            <iframe id="main-player" src="" allowfullscreen></iframe>
-        </div>
-
-        <div class="nav-controls">
-            <button class="nav-btn" id="prev-btn" onclick="changeEpisode(-1)">PREVIOUS</button>
-            <button class="nav-btn" id="next-btn" onclick="changeEpisode(1)">NEXT EPISODE</button>
-        </div>
-
-        <div class="download-box">
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>AnimeVerse | Pro Player</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
-    <style>
-        :root { --neon: #f47e21; --bg: #0b0e11; --card: #161b22; --glow: rgba(244, 126, 33, 0.3); }
-        body { background: var(--bg); color: #fff; font-family: 'Poppins', sans-serif; margin: 0; padding: 0; }
-        
-        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: rgba(13, 22, 33, 0.9); border-bottom: 1px solid #333; }
-        .logo-box { font-family: 'Orbitron'; color: var(--neon); font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
-        .back-btn { background: #1a263f; color: #fff; border: 1px solid #333; padding: 5px 15px; border-radius: 5px; cursor: pointer; font-size: 12px; }
-
-        .main-container { max-width: 900px; margin: auto; padding: 15px; }
-
-        .title-container { text-align: center; background: var(--card); padding: 10px; border-radius: 8px; border: 1px solid #333; margin-bottom: 15px; }
-        .anime-display-title { font-family: 'Orbitron'; color: var(--neon); font-size: 14px; margin: 0; }
-
-        .info-section { display: grid; grid-template-columns: 120px 1fr; gap: 15px; margin-bottom: 20px; }
-        .poster-box img { width: 100%; border-radius: 8px; border: 1px solid var(--neon); box-shadow: 0 0 10px var(--glow); display: block; background: #111; min-height: 180px; }
-        .about-box { background: var(--card); padding: 12px; border-radius: 8px; border: 1px solid #333; font-size: 12px; line-height: 1.4; color: #ccc; }
-        .about-box h3 { margin: 0 0 5px 0; color: #fff; font-size: 14px; }
-        #read-more-btn { color: var(--neon); cursor: pointer; font-size: 11px; font-weight: bold; display: block; margin-top: 5px; }
-
-        /* VIDEO AREA */
-        #video-area { position: relative; width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 12px; overflow: hidden; border: 1px solid var(--neon); box-shadow: 0 0 20px var(--glow); margin-bottom: 10px; }
-        iframe { width: 100%; height: 100%; border: none; }
-        
-        #error-overlay {
-            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.95); display: none; flex-direction: column;
-            justify-content: center; align-items: center; text-align: center; padding: 20px; z-index: 10;
-        }
-        #error-overlay p { color: var(--neon); font-weight: bold; margin: 0 0 10px 0; font-size: 18px; }
-
-        /* NEW NEXT/PREV CONTROLS */
-        .nav-controls { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 15px; }
-        .nav-btn { flex: 1; background: var(--card); color: #fff; border: 1px solid #444; padding: 10px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: bold; transition: 0.3s; }
-        .nav-btn:hover:not(:disabled) { border-color: var(--neon); color: var(--neon); }
-        .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-
-        /* ORIGINAL DROPDOWN & DOWNLOAD ROW */
-        .controls-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .custom-dropdown { position: relative; width: 160px; z-index: 999; }
-        .selected-option { background: var(--card); border: 1px solid var(--neon); padding: 10px; border-radius: 8px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
-        .options-list { position: absolute; top: 110%; left: 0; width: 100%; background: var(--card); border: 1px solid var(--neon); border-radius: 8px; max-height: 0; opacity: 0; transition: all 0.4s ease; overflow-y: auto; z-index: 1000; }
-        .options-list.active { max-height: 250px; opacity: 1; }
-        .option-item { padding: 12px; font-size: 12px; cursor: pointer; border-bottom: 1px solid #1a263f; }
-        
-        .download-btn { padding: 10px 20px; background: var(--neon); color: #000; border-radius: 5px; text-decoration: none; font-weight: bold; font-size: 12px; box-shadow: 0 0 10px var(--glow); }
-
-        #ep-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); gap: 10px; margin-bottom: 20px;}
-        .ep-card { background: #1a263f; padding: 12px 0; text-align: center; border-radius: 8px; cursor: pointer; border: 1px solid #333; font-size: 13px; }
-        .ep-card.active { background: var(--neon); color: #000; font-weight: bold; }
-
-        .tg-link { display: block; text-align: center; background: #0088cc; color: #fff; padding: 12px; border-radius: 10px; text-decoration: none; margin: 25px 0; font-weight: bold; }
-    </style>
-</head>
-<body>
-
-    <header>
-        <div class="logo-box">AnimeVerse</div>
-        <button class="back-btn" onclick="history.back()">← BACK</button>
-    </header>
-
-    <div class="main-container">
-        <div class="title-container">
-            <h2 class="anime-display-title" id="display-title">LOADING...</h2>
-        </div>
-
-        <div class="info-section">
-            <div class="poster-box"><img id="anime-poster" src="" alt="Poster"></div>
-            <div class="about-box">
-                <h3>About</h3>
-                <p id="anime-desc" style="margin:0;"></p>
-                <span id="read-more-btn" onclick="toggleDesc()">Read More</span>
-            </div>
-        </div>
-
-        <div id="video-area">
-            <div id="error-overlay">
-                <p>Link Not Available</p>
-                <a id="error-dl-link" href="#" class="download-btn">📥 DOWNLOAD NOW</a>
-            </div>
-            <iframe id="main-player" src="" allowfullscreen></iframe>
-        </div>
-
-        <div class="nav-controls">
-            <button class="nav-btn" id="prev-btn" onclick="navEpisode(-1)">PREVIOUS</button>
-            <button class="nav-btn" id="next-btn" onclick="navEpisode(1)">NEXT EPISODE</button>
-        </div>
-
-        <div class="controls-row">
-            <div class="custom-dropdown">
-                <div class="selected-option" onclick="toggleDrop()">
-                    <span id="current-season">Season 1</span>
-                    <span id="arrow">▼</span>
+        <div class="grid lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2">
+                <div class="video-container mb-4 shadow-2xl shadow-orange-900/20">
+                    <div id="error-overlay" class="absolute inset-0 bg-black/90 hidden flex-col items-center justify-center p-6 text-center z-20">
+                        <p class="text-[#FF7B00] font-bold text-xl mb-4">Episode Not Available Yet</p>
+                        <p class="text-gray-400 text-sm">Hamare Telegram channel par check karein.</p>
+                    </div>
+                    <iframe id="main-player" src="" allowfullscreen></iframe>
                 </div>
-                <div class="options-list" id="drop-menu"></div>
-            </div>
-            <a id="dl-link" href="#" class="download-btn" target="_blank">📥 DOWNLOAD</a>
-        </div>
 
-        <div id="ep-grid"></div>
-        <a href="https://t.me/animeverse648" class="tg-link">Join our Telegram</a>
+                <div class="flex flex-wrap gap-3 mb-6">
+                    <button id="prev-btn" class="control-btn" onclick="changeEpisode(-1)">PREVIOUS</button>
+                    <a id="dl-link" href="#" target="_blank" class="control-btn dl-special">📥 DOWNLOAD NOW</a>
+                    <button id="next-btn" class="control-btn" onclick="changeEpisode(1)">NEXT EPISODE</button>
+                </div>
+
+                <div class="bg-[#181820] p-6 rounded-2xl border border-gray-800">
+                    <h2 id="anime-title" class="text-xl font-bold mb-2">Loading Anime Details...</h2>
+                    <p id="anime-desc" class="text-gray-400 text-sm leading-relaxed line-clamp-3">Fetching overview from TMDB...</p>
+                </div>
+            </div>
+
+            <div class="lg:col-span-1">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-bold text-gray-400 uppercase tracking-widest text-xs">Episodes</h3>
+                    <select id="season-select" class="bg-[#181820] border border-gray-800 text-xs px-2 py-1 rounded" onchange="renderEpisodes(this.value)"></select>
+                </div>
+                <div id="ep-grid" class="space-y-3 max-h-[600px] overflow-y-auto pr-2">
+                    </div>
+            </div>
+        </div>
     </div>
 
     <script>
         const csvURL = "https://docs.google.com/spreadsheets/d/1VLcid14lgDfdDvYzfJLpLsbgD_jpY1CGzutgpEGhZdA/export?format=csv";
         const tmdbKey = "eef0f9c16ca61d6c843e7d43ddc5e1d8";
         let animeData = [];
-        let currentFiltered = [];
+        let filteredEpisodes = [];
         let currentIndex = 0;
-        let fullDescription = "";
-
-        function toggleDrop() { document.getElementById('drop-menu').classList.toggle('active'); }
+        let tmdbId = null;
 
         async function init() {
             const params = new URLSearchParams(window.location.search);
             const animeID = params.get('id');
             if(!animeID) return;
 
-            // TMDB Logic
+            // 1. Fetch TMDB Meta
             const query = animeID.replace(/-/g, ' ');
             const tmdbRes = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${tmdbKey}&query=${query}`);
             const tmdbData = await tmdbRes.json();
             if(tmdbData.results?.[0]) {
                 const item = tmdbData.results[0];
-                document.getElementById('display-title').innerText = (item.name || item.title).toUpperCase();
-                document.getElementById('anime-poster').src = "https://image.tmdb.org/t/p/w500" + item.poster_path;
-                fullDescription = item.overview || "No description.";
-                document.getElementById('anime-desc').innerText = fullDescription.substring(0, 120) + "...";
+                tmdbId = item.id;
+                document.getElementById('anime-title').innerText = item.name || item.title;
+                document.getElementById('anime-desc').innerText = item.overview;
             }
 
-            // CSV Logic
+            // 2. Fetch CSV Episodes
             const res = await fetch(csvURL);
             const text = await res.text();
             const rows = text.split('\n').slice(1);
@@ -223,60 +97,87 @@
                 return { id: c[0]?.trim(), name: c[1]?.trim(), url: c[2]?.trim(), bot: c[3]?.trim() };
             }).filter(item => item.id === animeID);
 
-            const seasons = [...new Set(animeData.map(item => item.name.split(' - ')[0]))];
-            document.getElementById('drop-menu').innerHTML = seasons.map(s => `<div class="option-item" onclick="selectSeason('${s}')">${s.replace('S', 'Season ')}</div>`).join('');
-            if(seasons.length > 0) selectSeason(seasons[0]);
+            // 3. Fill Seasons
+            const seasons = [...new Set(animeData.map(e => e.name.split(' - ')[0]))];
+            const select = document.getElementById('season-select');
+            seasons.forEach(s => {
+                const opt = document.createElement('option');
+                opt.value = s; opt.innerText = s.replace('S', 'Season ');
+                select.appendChild(opt);
+            });
+
+            renderEpisodes(seasons[0]);
         }
 
-        function selectSeason(season) {
-            document.getElementById('current-season').innerText = season.replace('S', 'Season ');
-            document.getElementById('drop-menu').classList.remove('active');
-            currentFiltered = animeData.filter(ep => ep.name.startsWith(season));
-            
+        function renderEpisodes(season) {
+            filteredEpisodes = animeData.filter(e => e.name.startsWith(season));
             const grid = document.getElementById('ep-grid');
             grid.innerHTML = "";
-            currentFiltered.forEach((ep, i) => {
-                const btn = document.createElement('div');
-                btn.className = 'ep-card';
-                btn.innerText = i + 1;
-                btn.onclick = () => playEpisode(i);
-                grid.appendChild(btn);
+
+            filteredEpisodes.forEach((ep, i) => {
+                const sNum = ep.name.match(/S(\d+)/)?.[1] || 1;
+                const epNum = i + 1;
+                
+                const card = document.createElement('div');
+                card.className = `ep-card ep-item-${i}`;
+                card.innerHTML = `
+                    <img id="img-${sNum}-${epNum}" class="ep-img" src="https://placehold.co/300x169/181820/FF7B00?text=EP+${epNum}">
+                    <div class="flex-1">
+                        <p class="text-[10px] text-[#FF7B00] font-bold">EPISODE ${epNum}</p>
+                        <p id="name-${sNum}-${epNum}" class="text-xs font-semibold text-gray-200">Loading Title...</p>
+                    </div>
+                `;
+                card.onclick = () => playEpisode(i);
+                grid.appendChild(card);
+
+                // Fetch Episode Image & Title from TMDB
+                if(tmdbId) {
+                    fetch(`https://api.themoviedb.org/3/tv/${tmdbId}/season/${sNum}/episode/${epNum}?api_key=${tmdbKey}`)
+                        .then(r => r.json()).then(d => {
+                            if(d.name) document.getElementById(`name-${sNum}-${epNum}`).innerText = d.name;
+                            if(d.still_path) document.getElementById(`img-${sNum}-${epNum}`).src = `https://image.tmdb.org/t/p/w300${d.still_path}`;
+                        }).catch(() => {
+                             document.getElementById(`name-${sNum}-${epNum}`).innerText = "No Title Available";
+                        });
+                }
             });
             playEpisode(0);
         }
 
         function playEpisode(index) {
             currentIndex = index;
-            const ep = currentFiltered[index];
+            const ep = filteredEpisodes[index];
             const player = document.getElementById('main-player');
             const error = document.getElementById('error-overlay');
+            const dlBtn = document.getElementById('dl-link');
 
-            if (!ep.url || ep.url === "" || ep.url.toLowerCase() === "error") {
+            // URL check
+            if (!ep.url || ep.url.trim() === "" || ep.url.toLowerCase() === "error") {
                 player.style.display = "none"; error.style.display = "flex";
             } else {
                 player.style.display = "block"; error.style.display = "none";
                 player.src = ep.url;
             }
 
-            const link = `https://t.me/verse1_8bot?start=${ep.bot}`;
-            document.getElementById('dl-link').href = link;
-            document.getElementById('error-dl-link').href = link;
+            // Download Link update
+            dlBtn.href = `https://t.me/verse1_8bot?start=${ep.bot}`;
+
+            // Update UI
+            document.querySelectorAll('.ep-card').forEach(c => c.classList.remove('active'));
+            document.querySelector(`.ep-item-${index}`).classList.add('active');
             
-            document.querySelectorAll('.ep-card').forEach((c, i) => c.classList.toggle('active', i === index));
+            // Update Nav Buttons
             document.getElementById('prev-btn').disabled = (index === 0);
-            document.getElementById('next-btn').disabled = (index === currentFiltered.length - 1);
+            document.getElementById('next-btn').disabled = (index === filteredEpisodes.length - 1);
         }
 
-        function navEpisode(step) {
-            let nextIdx = currentIndex + step;
-            if(nextIdx >= 0 && nextIdx < currentFiltered.length) playEpisode(nextIdx);
-        }
-
-        function toggleDesc() {
-            const desc = document.getElementById('anime-desc');
-            const btn = document.getElementById('read-more-btn');
-            if(btn.innerText === "Read More") { desc.innerText = fullDescription; btn.innerText = "Read Less"; }
-            else { desc.innerText = fullDescription.substring(0, 120) + "..."; btn.innerText = "Read More"; }
+        function changeEpisode(step) {
+            let next = currentIndex + step;
+            if (next >= 0 && next < filteredEpisodes.length) {
+                playEpisode(next);
+                // Scroll into view
+                document.querySelector(`.ep-item-${next}`).scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
         }
 
         init();
