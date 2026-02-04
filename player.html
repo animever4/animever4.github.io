@@ -11,64 +11,84 @@
         
         header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: rgba(13, 22, 33, 0.9); border-bottom: 1px solid #333; }
         .logo-box { font-family: 'Orbitron'; color: var(--neon); font-size: 1.2rem; }
+        .back-btn { background: #1a263f; color: #fff; border: 1px solid #333; padding: 5px 15px; border-radius: 5px; cursor: pointer; font-size: 12px; }
 
         .main-container { max-width: 900px; margin: auto; padding: 15px; }
 
-        /* Video Area */
-        #video-area { position: relative; width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 12px; overflow: hidden; border: 1px solid var(--neon); box-shadow: 0 0 20px var(--glow); margin-bottom: 15px; }
+        /* Title & Info Section (ToonStream Style) */
+        .title-container { text-align: center; background: var(--card); padding: 10px; border-radius: 8px; border: 1px solid #333; margin-bottom: 15px; }
+        .anime-display-title { font-family: 'Orbitron'; color: var(--neon); font-size: 14px; margin: 0; }
+
+        .info-section { display: grid; grid-template-columns: 120px 1fr; gap: 15px; margin-bottom: 20px; }
+        .poster-box img { width: 100%; border-radius: 8px; border: 1px solid var(--neon); box-shadow: 0 0 10px var(--glow); display: block; background: #111; min-height: 160px; object-fit: cover; }
+        .about-box { background: var(--card); padding: 12px; border-radius: 8px; border: 1px solid #333; font-size: 12px; line-height: 1.4; color: #ccc; }
+        .about-box h3 { margin: 0 0 5px 0; color: #fff; font-size: 14px; }
+
+        /* VIDEO AREA */
+        #video-area { position: relative; width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 12px; overflow: hidden; border: 1px solid var(--neon); box-shadow: 0 0 20px var(--glow); margin-bottom: 10px; }
         iframe { width: 100%; height: 100%; border: none; }
 
         /* Navigation Buttons (Next/Prev) */
-        .nav-controls { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; }
-        .nav-btn { background: var(--card); color: #fff; border: 1px solid #444; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 13px; font-weight: 500; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
-        .nav-btn:hover:not(:disabled) { border-color: var(--neon); color: var(--neon); box-shadow: 0 0 10px var(--glow); }
-        .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+        .nav-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 10px; }
+        .nav-btn { flex: 1; background: var(--card); color: #fff; border: 1px solid #444; padding: 12px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: bold; transition: 0.3s; }
+        .nav-btn:hover:not(:disabled) { border-color: var(--neon); color: var(--neon); }
+        .nav-btn:disabled { opacity: 0.2; cursor: not-allowed; }
 
-        /* Download Button Row */
-        .action-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: var(--card); padding: 10px 15px; border-radius: 8px; border: 1px solid #333; }
-        .download-link { background: var(--neon); color: #000; padding: 8px 20px; border-radius: 5px; text-decoration: none; font-weight: bold; font-size: 13px; transition: 0.3s; }
-        .download-link:hover { transform: scale(1.05); }
+        /* Download Section */
+        .download-box { text-align: center; margin-bottom: 25px; }
+        .download-btn { display: inline-block; width: 100%; background: var(--neon); color: #000; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 14px; box-shadow: 0 0 15px var(--glow); }
 
-        /* Episode Grid */
-        .section-title { font-size: 14px; margin-bottom: 10px; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
-        #ep-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); gap: 10px; margin-bottom: 20px; }
-        .ep-card { background: #1a263f; padding: 12px 0; text-align: center; border-radius: 8px; cursor: pointer; border: 1px solid #333; font-size: 13px; transition: 0.3s; }
+        /* Episodes Grid */
+        .section-header { color: var(--neon); font-size: 14px; font-weight: bold; margin-bottom: 10px; text-transform: uppercase; border-left: 3px solid var(--neon); padding-left: 10px; }
+        #ep-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); gap: 10px; margin-bottom: 30px; }
+        .ep-card { background: #1a263f; padding: 12px 0; text-align: center; border-radius: 8px; cursor: pointer; border: 1px solid #333; font-size: 13px; }
         .ep-card.active { background: var(--neon); color: #000; font-weight: bold; border-color: #fff; }
 
-        .tg-link { display: block; text-align: center; background: #0088cc; color: #fff; padding: 12px; border-radius: 10px; text-decoration: none; font-weight: bold; }
+        .tg-link { display: block; text-align: center; background: #0088cc; color: #fff; padding: 12px; border-radius: 10px; text-decoration: none; font-weight: bold; margin-bottom: 20px; }
     </style>
 </head>
 <body>
 
     <header>
         <div class="logo-box">AnimeVerse</div>
-        <button style="background:#1a263f; color:#fff; border:1px solid #333; padding:5px 15px; border-radius:5px; cursor:pointer;" onclick="history.back()">← BACK</button>
+        <button class="back-btn" onclick="history.back()">← BACK</button>
     </header>
 
     <div class="main-container">
-        
+        <div class="title-container">
+            <h2 class="anime-display-title" id="display-title">LOADING...</h2>
+        </div>
+
+        <div class="info-section">
+            <div class="poster-box"><img id="anime-poster" src="" alt="Poster"></div>
+            <div class="about-box">
+                <h3>About</h3>
+                <p id="anime-desc" style="margin:0;">Loading description...</p>
+            </div>
+        </div>
+
         <div id="video-area">
             <iframe id="main-player" src="" allowfullscreen></iframe>
         </div>
 
         <div class="nav-controls">
-            <button class="nav-btn" id="prev-btn" onclick="changeEpisode(-1)">◀ PREV</button>
-            <button class="nav-btn" id="next-btn" onclick="changeEpisode(1)">NEXT ▶</button>
+            <button class="nav-btn" id="prev-btn" onclick="changeEpisode(-1)">PREVIOUS</button>
+            <button class="nav-btn" id="next-btn" onclick="changeEpisode(1)">NEXT EPISODE</button>
         </div>
 
-        <div class="action-row">
-            <span id="current-ep-label" style="font-size: 13px; color: var(--neon); font-weight: bold;">Episode --</span>
-            <a id="dl-link" href="#" class="download-link" target="_blank">📥 DOWNLOAD NOW</a>
+        <div class="download-box">
+            <a id="dl-link" href="#" class="download-btn" target="_blank">📥 DOWNLOAD NOW</a>
         </div>
 
-        <div class="section-title">Select Episode</div>
+        <div class="section-header">Select Episode</div>
         <div id="ep-grid"></div>
 
-        <a href="https://t.me/animeverse648" class="tg-link">Join our Telegram Channel</a>
+        <a href="https://t.me/animeverse648" class="tg-link">Join Telegram</a>
     </div>
 
     <script>
         const csvURL = "https://docs.google.com/spreadsheets/d/1VLcid14lgDfdDvYzfJLpLsbgD_jpY1CGzutgpEGhZdA/export?format=csv";
+        const tmdbKey = "eef0f9c16ca61d6c843e7d43ddc5e1d8";
         let animeData = [];
         let currentIndex = 0;
 
@@ -77,11 +97,21 @@
             const animeID = params.get('id');
             if(!animeID) return;
 
+            // TMDB Info Fetch
+            const query = animeID.replace(/-/g, ' ');
+            const tmdbRes = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${tmdbKey}&query=${query}`);
+            const tmdbData = await tmdbRes.json();
+            if(tmdbData.results && tmdbData.results[0]) {
+                const item = tmdbData.results[0];
+                document.getElementById('display-title').innerText = (item.name || item.title).toUpperCase();
+                document.getElementById('anime-poster').src = "https://image.tmdb.org/t/p/w500" + item.poster_path;
+                document.getElementById('anime-desc').innerText = item.overview || "No description available.";
+            }
+
+            // CSV Data Fetch
             const res = await fetch(csvURL);
             const text = await res.text();
             const rows = text.split('\n').slice(1);
-            
-            // Current Anime ka data filter karein
             animeData = rows.map(r => {
                 const c = r.split(',');
                 return { id: c[0]?.trim(), name: c[1]?.trim(), url: c[2]?.trim(), bot: c[3]?.trim() };
@@ -93,7 +123,6 @@
         function renderEpisodes() {
             const grid = document.getElementById('ep-grid');
             grid.innerHTML = "";
-
             animeData.forEach((ep, i) => {
                 const btn = document.createElement('div');
                 btn.className = 'ep-card';
@@ -101,41 +130,29 @@
                 btn.onclick = () => playEpisode(i);
                 grid.appendChild(btn);
             });
-
             if(animeData.length > 0) playEpisode(0);
         }
 
         function playEpisode(index) {
             currentIndex = index;
             const ep = animeData[index];
-            
-            // Update Player
             document.getElementById('main-player').src = ep.url;
-            
-            // Update Download Link
             document.getElementById('dl-link').href = `https://t.me/verse1_8bot?start=${ep.bot}`;
             
-            // Update Label
-            document.getElementById('current-ep-label').innerText = `Episode ${index + 1}`;
-
-            // Update Active Status in Grid
             document.querySelectorAll('.ep-card').forEach((c, i) => {
                 c.classList.toggle('active', i === index);
             });
 
-            // Update Nav Buttons
             document.getElementById('prev-btn').disabled = (index === 0);
             document.getElementById('next-btn').disabled = (index === animeData.length - 1);
         }
 
         function changeEpisode(step) {
             let newIndex = currentIndex + step;
-            if(newIndex >= 0 && newIndex < animeData.length) {
-                playEpisode(newIndex);
-            }
+            if(newIndex >= 0 && newIndex < animeData.length) playEpisode(newIndex);
         }
 
         init();
     </script>
 </body>
-</html></html>
+</html>
