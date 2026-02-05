@@ -4,126 +4,226 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AnimeVerse | My Hero Academia</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --neon: #f47e21; --bg: #0b0e11; --card: #161b22; --glow: rgba(244, 126, 33, 0.3); }
-        body { background: var(--bg); color: #fff; font-family: 'Poppins', sans-serif; margin: 0; padding: 0; }
+        :root { --neon: #FF7B00; --bg: #0D0D12; --card: #181820; }
+        body { background: var(--bg); color: #fff; font-family: 'Outfit', sans-serif; margin: 0; }
+        .nav-text { font-weight: 900; font-size: 1.4rem; text-transform: uppercase; letter-spacing: -1px; }
+        .video-container { position: relative; width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 12px; border: 1px solid rgba(255, 123, 0, 0.2); overflow: hidden; }
+        #main-player { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
         
-        header { display: flex; justify-content: center; padding: 10px; background: #0d1621; border-bottom: 2px solid var(--neon); }
-        .logo { font-family: 'Orbitron'; color: var(--neon); font-size: 1.2rem; text-shadow: 0 0 8px var(--neon); }
+        .ep-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .ep-card { background: var(--card); border-radius: 8px; overflow: hidden; border: 1px solid transparent; cursor: pointer; transition: 0.3s; }
+        .ep-card.active { border-color: var(--neon); background: #1f1f2a; }
+        .ep-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; opacity: 0.6; }
+        .active .ep-img { opacity: 1; }
+        .ep-info { padding: 6px; }
+        .ep-name { font-size: 9px; font-weight: 800; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.1; text-transform: uppercase; margin-bottom: 2px; }
+        .ep-num { color: var(--neon); font-size: 8px; font-weight: 900; }
+        
+        /* Custom Season Selector CSS */
+        #season-btn { background: #181820; color: var(--neon); font-weight: bold; border: 1px solid #2d2d3a; padding: 6px 14px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        
+        /* Modal Animation */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 100; backdrop-filter: blur(4px); transition: 0.3s; }
+        .modal-content { background: white; width: 85%; max-width: 320px; border-radius: 12px; color: #333; overflow: hidden; transform: scale(0.8); opacity: 0; transition: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .modal-overlay.open { display: flex; }
+        .modal-overlay.open .modal-content { transform: scale(1); opacity: 1; }
+        
+        .season-option { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; cursor: pointer; font-weight: 600; color: #444; }
+        .season-option:last-child { border-bottom: none; }
+        .radio-circle { width: 18px; height: 18px; border: 2px solid #ccc; border-radius: 50%; position: relative; }
+        .season-option.selected .radio-circle { border-color: #00877a; }
+        .season-option.selected .radio-circle::after { content: ''; position: absolute; width: 10px; height: 10px; background: #00877a; border-radius: 50%; top: 2px; left: 2px; }
+        
+        .btn-ctrl { flex: 1; background: #181820; border: 1px solid #2d2d3a; color: #fff; padding: 10px; border-radius: 8px; font-size: 11px; font-weight: bold; text-transform: uppercase; }
 
-        .container { max-width: 900px; margin: auto; padding: 15px; }
-
-        .anime-about { 
-            display: flex; gap: 15px; background: var(--card); padding: 12px; 
-            border-radius: 10px; margin-bottom: 15px; border: 1px solid #333; align-items: flex-start;
-        }
-        .poster { width: 90px; height: 130px; border-radius: 6px; object-fit: cover; flex-shrink: 0; border: 1px solid #444; }
-        .details { flex-grow: 1; }
-        .details h1 { margin: 0; color: var(--neon); font-size: 1.1rem; font-family: 'Orbitron'; }
-        .details p { 
-            font-size: 0.8rem; color: #bbb; margin-top: 5px; line-height: 1.3;
-            display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
-        }
-
-        .player-box { position: relative; width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 10px; overflow: hidden; border: 1px solid #333; margin-bottom: 15px; }
-        iframe { width: 100%; height: 100%; border: none; }
-
-        /* Animated Dropdown */
-        .controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; gap: 10px; }
-        select { 
-            background: #1a222c; color: #fff; border: 1px solid var(--neon); 
-            padding: 8px 12px; border-radius: 5px; cursor: pointer; font-size: 0.85rem;
-            outline: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23f47e21' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat; background-position: right 10px center; padding-right: 30px;
-        }
-        select:hover { transform: translateY(-2px); box-shadow: 0 0 10px var(--glow); background-color: #252d37; }
-        select:focus { border-color: #fff; box-shadow: 0 0 15px var(--neon); }
-
-        .dl-btn { background: var(--neon); color: #000; padding: 8px 15px; border-radius: 5px; text-decoration: none; font-weight: bold; font-size: 0.85rem; transition: 0.3s; }
-        .dl-btn:hover { box-shadow: 0 0 10px var(--neon); }
-
-        .ep-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); gap: 8px; background: var(--card); padding: 15px; border-radius: 10px; }
-        .ep-card { background: #252d37; border: 1px solid #444; padding: 10px 0; border-radius: 6px; text-align: center; cursor: pointer; font-size: 0.85rem; transition: 0.2s; }
-        .ep-card:hover { transform: scale(1.1); border-color: var(--neon); }
-        .ep-card.active { background: var(--neon); color: #000; border-color: var(--neon); }
-
-        footer { margin-top: 30px; padding: 20px; text-align: center; background: #0d1621; border-top: 1px solid #333; }
-        .tg-join { display: inline-block; background: #24A1DE; color: #fff; padding: 10px 20px; border-radius: 50px; text-decoration: none; font-size: 0.9rem; font-weight: bold; margin-bottom: 15px; }
-        .disclaimer { font-size: 0.7rem; color: #666; max-width: 700px; margin: 0 auto; line-height: 1.4; }
-
-        @media (max-width: 500px) { .poster { width: 80px; height: 115px; } .details h1 { font-size: 1rem; } }
+        /* FOOTER STYLES */
+        .site-footer { margin-top: 60px; padding: 40px 20px; border-top: 1px solid rgba(255,255,255,0.05); background: #0a0a0f; }
+        .disclaimer-box { background: rgba(255,123,0,0.05); border: 1px dashed rgba(255,123,0,0.2); padding: 15px; border-radius: 10px; margin-top: 25px; }
+        .footer-link { color: #888; transition: 0.3s; }
+        .footer-link:hover { color: var(--neon); }
     </style>
 </head>
 <body>
 
-<header><div class="logo">ANIMEVERSE</div></header>
+    <nav class="p-4 border-b border-white/5 flex justify-between items-center">
+        <div class="nav-text">ANIME<span class="text-[#FF7B00]">VERSE</span></div>
+    </nav>
 
-<div class="container">
-    <div class="anime-about">
-        <img src="./images (5).jpeg" class="poster" alt="MHA">
-        <div class="details">
-            <h1>My Hero Academia</h1>
-            <p>Izuku Midoriya dreams of being a hero despite being born without powers. After meeting All Might, he inherits a legendary quirk and starts his journey at UA High School.</p>
+    <main class="p-4 max-w-5xl mx-auto">
+        <div class="flex gap-4 mb-6 bg-[#161b22] p-4 rounded-xl border border-white/5">
+            <img id="poster" src="" class="w-24 h-36 rounded-lg object-cover border border-white/10 shadow-lg">
+            <div class="flex-1">
+                <h2 id="title" class="text-lg font-black uppercase italic text-gray-100">Loading...</h2>
+                <div class="flex items-center gap-3 text-[10px] font-bold text-gray-400 my-2">
+                    <span class="bg-white/5 px-2 py-0.5 rounded text-[#FF7B00]">HINDI / SUB</span> 
+                    <span id="year">2016</span>
+                </div>
+                <p id="desc" class="text-[11px] text-gray-500 line-clamp-3 leading-relaxed">Wait while we fetch anime details...</p>
+            </div>
+        </div>
+
+        <div class="video-container mb-4">
+            <iframe id="main-player" src="" allowfullscreen></iframe>
+        </div>
+
+        <div class="flex gap-3 mb-6">
+            <button class="btn-ctrl" onclick="changeEp(-1)">Prev</button>
+            <button class="btn-ctrl" onclick="changeEp(1)">Next</button>
+        </div>
+
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xs font-black uppercase tracking-widest text-gray-400">Episodes</h3>
+            <div id="season-btn" onclick="toggleModal()">
+                <span id="selected-season-text">Season 01</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </div>
+        </div>
+
+        <div id="ep-grid" class="ep-grid"></div>
+    </main>
+
+    <div class="modal-overlay" id="seasonModal" onclick="toggleModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div id="season-options-container"></div>
         </div>
     </div>
 
-    <div class="player-box">
-        <iframe id="main-player" src="" allowfullscreen></iframe>
-    </div>
+    <footer class="site-footer">
+        <div class="max-w-5xl mx-auto text-center">
+            <div class="nav-text mb-4">ANIME<span class="text-[#FF7B00]">VERSE</span></div>
+            
+            <div class="flex flex-wrap justify-center gap-6 text-[11px] font-bold uppercase tracking-wider mb-6">
+                <a href="#" class="footer-link">Home</a>
+                <a href="#" class="footer-link">Movies</a>
+                <a href="#" class="footer-link">TV Series</a>
+                <a href="#" class="footer-link">Popular</a>
+            </div>
 
-    <div class="controls">
-        <select id="season-select" onchange="loadSeason(this.value)">
-            <option value="1">Season 1</option>
-            <option value="2">Season 2</option>
-            <option value="3">Season 3</option>
-            <option value="4">Season 4</option>
-            <option value="5">Season 5</option>
-            <option value="6">Season 6</option>
-            <option value="7">Season 7</option>
-        </select>
-        <a href="https://t.me/+QLICf64NfqM0MmRl" target="_blank" class="dl-btn">⬇ Download</a>
-    </div>
+            <div class="disclaimer-box">
+                <h4 class="text-[10px] font-black text-[#FF7B00] uppercase mb-2 tracking-widest">Disclaimer</h4>
+                <p class="text-[10px] text-gray-500 leading-relaxed italic">
+                    AnimeVerse does not store any files on our server. All contents are provided by non-affiliated third parties. This site is for educational/demonstration purposes only. Please support the official creators and distributors.
+                </p>
+            </div>
 
-    <div class="ep-grid" id="ep-list"></div>
-</div>
+            <div class="mt-8 pt-6 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-[10px] text-gray-600 uppercase font-bold">© 2026 ANIMEVERSE - ALL RIGHTS RESERVED</p>
+                <div class="flex gap-4">
+                    <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-[10px] font-bold footer-link cursor-pointer border border-white/5">TG</div>
+                    <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-[10px] font-bold footer-link cursor-pointer border border-white/5">IG</div>
+                    <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-[10px] font-bold footer-link cursor-pointer border border-white/5">YT</div>
+                </div>
+            </div>
+        </div>
+    </footer>
 
-<footer>
-    <a href="https://t.me/AnimeVerse_Network" class="tg-join">Join Telegram</a>
-    <div class="disclaimer"><b>Disclaimer:</b> Provided by third parties. For educational use only.</div>
-</footer>
+    <script>
+        const tmdbKey = "eef0f9c16ca61d6c843e7d43ddc5e1d8";
+        const tmdbId = "65930"; 
 
-<script>
-    const episodesData = {
-        1: ["https://short.icu/TJprewITq", "https://short.icu/nQBTCam74", "https://short.icu/Cg_au3UVc", "https://short.icu/8Dknc-cDo", "https://short.icu/10sSRfZrN", "https://short.icu/0_JHVTlA3", "https://short.icu/eTaD6Q9PU", "https://short.icu/f_HJ5TDr3", "https://short.icu/xE2IrscxI", "https://short.icu/UsD_C__WJ", "https://short.icu/fCsr7k8JJ", "https://short.icu/fWg1xpkk2", "https://short.icu/vOOmY-7at"],
-        2: ["https://short.icu/6nFq9q1Ai", "https://short.icu/Rybi-FWz7", "https://short.icu/LSI7KiysH", "https://short.icu/fbTw_C4wx", "https://short.icu/EbPKcKdjh", "https://short.icu/ZTzj2O99j", "https://short.icu/Jv_SyH7yG", "https://short.icu/k6r1XpG76", "https://short.icu/jtqQn7NiR", "https://short.icu/nq70QfbND", "https://short.icu/raSItlHucd", "https://short.icu/yWxQ4VUgF", "https://short.icu/ldoM6X77e", "https://short.icu/pIQppiBrk", "https://short.icu/rC1l6P4Bj", "https://short.icu/qLuUOG9nK", "https://short.icu/m6eSpIKVy", "https://short.icu/djM8vDgYJ", "https://short.icu/pFrysMP-P", "https://short.icu/vSvIJ76lc", "https://short.icu/Y7x1U1rHY", "https://short.icu/tLHUt3kcS", "https://short.icu/8ueuu843A", "https://short.icu/MbSrifj8_", "https://short.icu/tnyCv2VsP"],
-        3: ["https://short.icu/NQDfYnkEK", "https://short.icu/IgkpMTPBD", "https://short.icu/F7rMSAuaX", "https://short.icu/_CEJlj4gn", "https://short.icu/wjHX8Xdia", "https://short.icu/8VyinC3FN", "https://short.icu/CHuUYPjB6", "https://short.icu/QngkvFObG", "https://short.icu/i959BzNU5", "https://short.icu/9Lw4mnteb", "https://short.icu/AuoAUGkQV", "https://short.icu/3iEv1D8CO", "https://short.icu/JhvBC3klK", "https://short.icu/tq2JJ2h-t", "https://short.icu/B9MImVNpI", "https://short.icu/on6U1iQu2L", "https://short.icu/MS67qCBvV", "https://short.icu/iRdZ6ingSx", "https://short.icu/BbI9SAXYz", "https://short.icu/e0YUuWMFO", "https://short.icu/1-J0SzGaw", "https://short.icu/cQk5XhS5d", "https://short.icu/56D2XJbs5", "https://short.icu/mxAe2scQp", "https://short.icu/clQa_2Gcq"],
-        4: ["https://short.icu/5SxOSvDsy", "https://short.icu/jvssZMzez", "https://short.icu/qZd4m-YEY", "https://short.icu/fu_dhP7QK", "https://short.icu/Ig5Fq1Ooe", "https://short.icu/2rR9tLPqV", "https://short.icu/a0j0LD8z6", "https://short.icu/Mih8hDd9I", "https://short.icu/1G7IVblKl", "https://short.icu/QSjfpFMaF", "https://short.icu/3qw4_LWD0", "https://short.icu/FzlwAmtY-", "https://short.icu/dus2bN5Pj", "https://short.icu/D3nj4_hXK", "https://short.icu/AIbZ725Ho", "https://short.icu/2VeFLXalF", "https://short.icu/a3iCQOoDB", "https://short.icu/KWY_ywyHU", "https://short.icu/jtxchCSQF", "https://short.icu/AxNyuyPkY", "https://short.icu/PDgIREITh", "https://short.icu/mFCJTa_1b", "https://short.icu/JZMcpSEqu", "https://short.icu/27fELYzQ1", "https://short.icu/WzZSf883K", "https://short.icu/WJyHkJrU1", "https://short.icu/dOOFTbNlt"],
-        5: ["LINK_1", "LINK_2", "LINK_3", "LINK_4", "LINK_5", "LINK_6", "LINK_7", "LINK_8", "LINK_9", "LINK_10", "LINK_11", "LINK_12", "LINK_13", "LINK_14", "LINK_15", "LINK_16", "LINK_17", "LINK_18", "LINK_19", "LINK_20", "LINK_21", "LINK_22", "LINK_23", "LINK_24", "LINK_25"],
-        6: ["LINK_1", "LINK_2", "LINK_3", "LINK_4", "LINK_5", "LINK_6", "LINK_7", "LINK_8", "LINK_9", "LINK_10", "LINK_11", "LINK_12", "LINK_13", "LINK_14", "LINK_15", "LINK_16", "LINK_17", "LINK_18", "LINK_19", "LINK_20", "LINK_21", "LINK_22", "LINK_23", "LINK_24", "LINK_25"],
-        7: ["LINK_1", "LINK_2", "LINK_3", "LINK_4", "LINK_5", "LINK_6", "LINK_7", "LINK_8", "LINK_9", "LINK_10", "LINK_11", "LINK_12", "LINK_13", "LINK_14", "LINK_15", "LINK_16", "LINK_17", "LINK_18", "LINK_19", "LINK_20", "LINK_21"]
-    };
+        const animeLinks = {
+            1: ["https://short.icu/TJprewITq", "https://short.icu/nQBTCam74", "https://short.icu/Cg_au3UVc", "https://short.icu/8Dknc-cDo", "https://short.icu/10sSRfZrN", "https://short.icu/0_JHVTlA3", "https://short.icu/eTaD6Q9PU", "https://short.icu/f_HJ5TDr3", "https://short.icu/xE2IrscxI", "https://short.icu/UsD_C__WJ", "https://short.icu/fCsr7k8JJ", "https://short.icu/fWg1xpkk2", "https://short.icu/vOOmY-7at"],
+            2: ["https://short.icu/6nFq9q1Ai", "https://short.icu/Rybi-FWz7", "https://short.icu/LSI7KiysH", "https://short.icu/fbTw_C4wx", "https://short.icu/EbPKcKdjh", "https://short.icu/ZTzj2O99j", "https://short.icu/Jv_SyH7yG", "https://short.icu/k6r1XpG76", "https://short.icu/jtqQn7NiR", "https://short.icu/nq70QfbND", "https://short.icu/raSItlHucd", "https://short.icu/yWxQ4VUgF", "https://short.icu/ldoM6X77e", "https://short.icu/pIQppiBrk", "https://short.icu/rC1l6P4Bj", "https://short.icu/qLuUOG9nK", "https://short.icu/m6eSpIKVy", "https://short.icu/djM8vDgYJ", "https://short.icu/pFrysMP-P", "https://short.icu/vSvIJ76lc", "https://short.icu/Y7x1U1rHY", "https://short.icu/tLHUt3kcS", "https://short.icu/8ueuu843A", "https://short.icu/MbSrifj8_", "https://short.icu/tnyCv2VsP"],
+            3: ["https://short.icu/NQDfYnkEK", "https://short.icu/IgkpMTPBD", "https://short.icu/F7rMSAuaX", "https://short.icu/_CEJlj4gn", "https://short.icu/wjHX8Xdia", "https://short.icu/8VyinC3FN", "https://short.icu/CHuUYPjB6", "https://short.icu/QngkvFObG", "https://short.icu/i959BzNU5", "https://short.icu/9Lw4mnteb", "https://short.icu/AuoAUGkQV", "https://short.icu/3iEv1D8CO", "https://short.icu/JhvBC3klK", "https://short.icu/tq2JJ2h-t", "https://short.icu/B9MImVNpI", "https://short.icu/on6U1iQu2L", "https://short.icu/MS67qCBvV", "https://short.icu/iRdZ6ingSx", "https://short.icu/BbI9SAXYz", "https://short.icu/e0YUuWMFO", "https://short.icu/1-J0SzGaw", "https://short.icu/cQk5XhS5d", "https://short.icu/56D2XJbs5", "https://short.icu/mxAe2scQp", "https://short.icu/clQa_2Gcq"],
+            4: ["https://short.icu/5SxOSvDsy", "https://short.icu/jvssZMzez", "https://short.icu/qZd4m-YEY", "https://short.icu/fu_dhP7QK", "https://short.icu/Ig5Fq1Ooe", "https://short.icu/2rR9tLPqV", "https://short.icu/a0j0LD8z6", "https://short.icu/Mih8hDd9I", "https://short.icu/1G7IVblKl", "https://short.icu/QSjfpFMaF", "https://short.icu/3qw4_LWD0", "https://short.icu/FzlwAmtY-", "https://short.icu/dus2bN5Pj", "https://short.icu/D3nj4_hXK", "https://short.icu/AIbZ725Ho", "https://short.icu/2VeFLXalF", "https://short.icu/a3iCQOoDB", "https://short.icu/KWY_ywyHU", "https://short.icu/jtxchCSQF", "https://short.icu/AxNyuyPkY", "https://short.icu/PDgIREITh", "https://short.icu/mFCJTa_1b", "https://short.icu/JZMcpSEqu", "https://short.icu/27fELYzQ1", "https://short.icu/WzZSf883K", "https://short.icu/WJyHkJrU1", "https://short.icu/dOOFTbNlt"],
+            5: ["https://short.icu/ywdRLSeAZ", "https://short.icu/GLR1Rv7WJ", "https://short.icu/BMWj1dv3y", "https://short.icu/l7rXmFOje", "https://short.icu/QPpSoPru7", "https://short.icu/NwphlvU6t", "https://short.icu/lZnpLnMA8", "https://short.icu/n0QzdzBEGl", "https://short.icu/lWUjmozMX", "https://short.icu/frVhb0Gqo", "https://short.icu/vMLq3TVdN", "https://short.icu/h8ZNSgZN_", "https://short.icu/WBmYlKZTyO", "https://short.icu/yNaUjnxzb", "https://short.icu/pI_z2qCUkw", "https://short.icu/eXrIb9TOR", "https://short.icu/P1JL4rbAZ", "https://short.icu/g1GQ4RfjY", "https://short.icu/i_nmK4Yfo", "https://short.icu/fr-ZGNI9i", "https://short.icu/oe6QtAeWO", "https://short.icu/PvQ3sIPeS", "https://short.icu/N_FG42_bq", "https://short.icu/wpXwEIKZ-", "https://short.icu/iM93Xqy-_", "https://short.icu/ehDRDAYZ-", "https://short.icu/J8GAdJx-EW"],
+            6: ["https://short.icu/QfA8YVAvd", "https://short.icu/BjeRBoBW7", "https://short.icu/aTTQfbNPE", "https://short.icu/3Gx0eQ6Di", "https://short.icu/4IjIt9B8q", "https://short.icu/IPkHqkmtO", "https://short.icu/HoieQc_7R", "https://short.icu/4gPlK1Zcj", "https://short.icu/oZOHBQMFe", "https://short.icu/hZpOh-3bD", "https://short.icu/T9mAa6i60", "https://short.icu/kd1yJI9j3", "https://short.icu/I7J5BQ1Ae", "https://short.icu/FIwkzhRk8", "https://short.icu/jiNMwVrRG", "https://short.icu/nn76C3ZGb", "https://short.icu/colWLb5yj", "https://short.icu/Ua7DXazCq", "https://short.icu/lrobkYuEA", "https://short.icu/fMlpTh8E5", "https://short.icu/5U1FJlgpp", "https://short.icu/0zcl4M9QO", "https://short.icu/YdZUqKYsf", "https://short.icu/vtHBwI4cH", "https://short.icu/npVmu_P-3", "https://short.icu/WmHB1nvXm"],
+            7: ["https://short.icu/GVhh0fxWZ", "https://short.icu/IAMjYMxzy", "https://short.icu/QFsDXE4bs", "https://short.icu/9nAoR9okc", "https://short.icu/8j486Z_yd", "https://short.icu/iqL5JfBMf", "https://short.icu/speo2J2i0", "https://short.icu/ILhcXUcx1n", "https://short.icu/AAtV_rfyX", "https://short.icu/JAnpYJj9u", "https://short.icu/m8Y01aR7B", "https://short.icu/xzcnwegF6", "https://short.icu/pjXXJfDXq", "https://short.icu/lQAbxaWZv", "https://short.icu/5cm0d83yw", "https://short.icu/I6g6B-tJH", "https://short.icu/Mnh6JPAg_", "https://short.icu/WMUU0Eo0P", "https://short.icu/O56RdI_p7", "https://short.icu/jbBrLjJAwt", "https://short.icu/t8UbKygqQF"]
+        };
 
-    function loadSeason(sNum) {
-        const grid = document.getElementById('ep-list');
-        grid.innerHTML = '';
-        const eps = episodesData[sNum] || [];
-        eps.forEach((url, i) => {
-            const card = document.createElement('div');
-            card.className = 'ep-card';
-            card.innerText = i + 1;
-            card.onclick = () => {
-                document.getElementById('main-player').src = url;
-                document.querySelectorAll('.ep-card').forEach(c => c.classList.remove('active'));
-                card.classList.add('active');
-            };
-            grid.appendChild(card);
-        });
-        if(grid.firstChild) grid.firstChild.click();
-    }
-    window.onload = () => loadSeason(1);
-</script>
+        let currentSeason = 1;
+        let currentIndex = 0;
+        let mainPoster = "";
+
+        function toggleModal() {
+            const modal = document.getElementById('seasonModal');
+            modal.classList.toggle('open');
+            if(modal.classList.contains('open')) renderSeasonOptions();
+        }
+
+        function renderSeasonOptions() {
+            const container = document.getElementById('season-options-container');
+            container.innerHTML = "";
+            Object.keys(animeLinks).forEach(s => {
+                const opt = document.createElement('div');
+                opt.className = `season-option ${currentSeason == s ? 'selected' : ''}`;
+                opt.innerHTML = `<span>Season 0${s}</span><div class="radio-circle"></div>`;
+                opt.onclick = () => {
+                    selectSeason(s);
+                    toggleModal();
+                };
+                container.appendChild(opt);
+            });
+        }
+
+        function selectSeason(sNum) {
+            currentSeason = parseInt(sNum);
+            document.getElementById('selected-season-text').innerText = `Season 0${sNum}`;
+            loadSeason(sNum);
+        }
+
+        async function fetchTMDBData() {
+            try {
+                const res = await fetch(`https://api.themoviedb.org/3/tv/${tmdbId}?api_key=${tmdbKey}`);
+                const data = await res.json();
+                mainPoster = "https://image.tmdb.org/t/p/w500" + data.poster_path;
+                document.getElementById('title').innerText = data.name;
+                document.getElementById('poster').src = mainPoster;
+                document.getElementById('desc').innerText = data.overview;
+                document.getElementById('year').innerText = data.first_air_date.split('-')[0];
+                loadSeason(1);
+            } catch(e) { console.log("Error loading TMDB"); }
+        }
+
+        function loadSeason(sNum) {
+            const grid = document.getElementById('ep-grid');
+            grid.innerHTML = "";
+            const episodes = animeLinks[sNum];
+
+            episodes.forEach((link, i) => {
+                const epNum = i + 1;
+                const card = document.createElement('div');
+                card.className = "ep-card";
+                card.id = `card-${i}`;
+                card.innerHTML = `
+                    <img id="img-${sNum}-${epNum}" src="${mainPoster}" class="ep-img">
+                    <div class="ep-info">
+                        <span id="name-${sNum}-${epNum}" class="ep-name">Episode ${epNum}</span>
+                        <span class="ep-num">${sNum}x${epNum}</span>
+                    </div>
+                `;
+                card.onclick = () => selectEpisode(i);
+                grid.appendChild(card);
+
+                fetch(`https://api.themoviedb.org/3/tv/${tmdbId}/season/${sNum}/episode/${epNum}?api_key=${tmdbKey}`)
+                    .then(r => r.json()).then(d => {
+                        if(d.still_path) document.getElementById(`img-${sNum}-${epNum}`).src = "https://image.tmdb.org/t/p/w300" + d.still_path;
+                        if(d.name) document.getElementById(`name-${sNum}-${epNum}`).innerText = d.name;
+                    }).catch(()=>{});
+            });
+            selectEpisode(0);
+        }
+
+        function selectEpisode(index) {
+            currentIndex = index;
+            const link = animeLinks[currentSeason][index];
+            document.getElementById('main-player').src = link;
+            document.querySelectorAll('.ep-card').forEach(c => c.classList.remove('active'));
+            if(document.getElementById(`card-${index}`)) {
+                document.getElementById(`card-${index}`).classList.add('active');
+            }
+        }
+
+        function changeEp(dir) {
+            let next = currentIndex + dir;
+            if(next >= 0 && next < animeLinks[currentSeason].length) selectEpisode(next);
+        }
+
+        fetchTMDBData();
+    </script>
 </body>
+</html></body>
 </html>
