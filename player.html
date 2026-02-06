@@ -150,39 +150,201 @@
                         fetch(`https://api.themoviedb.org/3/tv/${tmdbId}?api_key=your_api_key`)
                         .then(r => r.json()).then(d => {
                             document.getElementById('title').innerText = d.name;
-                            document.getElementById('poster').src = "https://image.tmdb.org/t/p/w300" + d.poster_path;
-                            document.getElementById('year').innerText = d.first_air_date.split('-')[0];
-                            document.getElementById('desc').innerText = d.overview;
-                        });
-                    }
-                    loadSeason(seasons[0]);
-                }
-            } catch (e) { console.error("Error Loading CSV"); }
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnimeVerse | Final UI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --neon: #FF7B00; --bg: #0D0D12; --card-bg: #181c25; }
+        body { background: var(--bg); color: #fff; font-family: 'Outfit', sans-serif; margin: 0; }
+        
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: var(--neon); border-radius: 10px; }
+
+        /* BACK BUTTON STYLE */
+        .back-btn {
+            background: #1c1f26;
+            border: 1px solid #2a2e38;
+            border-radius: 10px;
+            padding: 8px 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+        .back-btn:active { transform: scale(0.9); background: #2a2e38; }
+
+        .header-card {
+            background: var(--card-bg); margin: 15px; padding: 15px;
+            border-radius: 20px; display: flex; gap: 15px; align-items: flex-start;
+        }
+        .poster-img { width: 110px; aspect-ratio: 2/3; object-fit: cover; border-radius: 12px; }
+        
+        .badge-info {
+            background: #2a2e38; color: var(--neon); font-size: 10px;
+            font-weight: 800; padding: 4px 10px; border-radius: 6px; text-transform: uppercase;
         }
 
-        async function loadSeason(seasonName) {
-            currentSeasonName = seasonName;
-            filteredEpisodes = episodes.filter(e => e.season === seasonName);
-            const grid = document.getElementById('ep-grid');
-            grid.innerHTML = '';
+        .video-box {
+            margin: 0 15px; position: relative; width: calc(100% - 30px);
+            aspect-ratio: 16/9; background: #000; border-radius: 20px;
+            overflow: hidden; border: 1px solid #222;
+        }
+        #main-player { position: absolute; width: 100%; height: 100%; border: none; }
+
+        .nav-btn {
+            flex: 1; background: #1c1f26; color: #fff; padding: 12px;
+            border-radius: 12px; font-weight: 700; font-size: 12px;
+            text-transform: uppercase; border: 1px solid #2a2e38; text-align: center;
+        }
+        .btn-dl { background: var(--neon); color: #000; border: none; }
+
+        .ep-grid { 
+            display: grid; grid-template-columns: repeat(3, 1fr); 
+            gap: 10px; max-height: 350px; overflow-y: auto; padding: 15px;
+        }
+        .ep-card { 
+            background: #181c25; border-radius: 12px; overflow: hidden; 
+            border: 2px solid transparent; transition: 0.3s; cursor: pointer; 
+            position: relative; opacity: 0.4;
+        }
+        .ep-card.active { opacity: 1 !important; border-color: var(--neon); }
+        .ep-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
+        
+        .badge-count {
+            position: absolute; top: 4px; left: 4px; background: var(--neon); 
+            color: #000; font-size: 8px; font-weight: 900; padding: 2px 5px; border-radius: 4px;
+        }
+
+        footer {
+            margin-top: 20px; padding: 20px; text-align: center;
+            border-top: 1px solid #1a1a24; background: #0a0a0f;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="p-5 flex items-center gap-4">
+        <button class="back-btn" onclick="window.history.back()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        </button>
+        <div class="text-2xl font-black italic tracking-tighter">ANIME<span class="text-[#FF7B00]">VERSE</span></div>
+    </div>
+
+    <div class="header-card">
+        <img id="poster" src="" class="poster-img">
+        <div class="flex-1">
+            <h1 id="title" class="text-lg font-bold uppercase leading-tight mb-2">Loading...</h1>
+            <div class="flex items-center gap-3 mb-3">
+                <span class="badge-info">Hindi / Sub</span>
+                <span id="year" class="text-xs text-gray-400 font-bold">2024</span>
+            </div>
+            <p id="desc" class="text-[11px] text-gray-400 line-clamp-3 leading-relaxed">...</p>
+        </div>
+    </div>
+
+    <div class="video-box mb-4">
+        <iframe id="main-player" src="" allowfullscreen></iframe>
+    </div>
+
+    <div class="flex gap-2 px-[15px] mb-6">
+        <button class="nav-btn" onclick="smartChange(-1)">Prev</button>
+        <a id="dl-link" href="#" target="_blank" class="nav-btn btn-dl flex items-center justify-center">Download</a>
+        <button class="nav-btn" onclick="smartChange(1)">Next</button>
+    </div>
+
+    <div class="px-[15px]">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xs font-bold uppercase tracking-widest text-gray-500">Episodes</h3>
+            <select id="season-select" onchange="loadSeason(this.value)" class="bg-transparent text-[#FF7B00] font-bold text-xs outline-none"></select>
+        </div>
+        <div id="ep-grid" class="ep-grid"></div>
+    </div>
+
+    <footer>
+        <div class="text-[10px] text-gray-500 font-bold tracking-widest uppercase">
+            © 2026 AnimeVerse • Made with ❤️
+        </div>
+    </footer>
+
+    <script>
+        // ... (Same script as before remains here) ...
+        const csvURL = "https://docs.google.com/spreadsheets/d/1VLcid14lgDfdDvYzfJLpLsbgD_jpY1CGzutgpEGhZdA/export?format=csv";
+        const tmdbKey = "eef0f9c16ca61d6c843e7d43ddc5e1d8";
+        
+        let allData = [];
+        let filteredEpisodes = [];
+        let seasons = [];
+        let currentSeasonName = "";
+        let currentIndex = 0;
+        let tmdbId = ""; 
+        let mainPosterURL = "";
+
+        async function init() {
+            const params = new URLSearchParams(window.location.search);
+            const animeId = params.get('id');
+            if(!animeId) return;
+
+            try {
+                const tmRes = await fetch(`https://api.themoviedb.org/3/search/tv?api_key=${tmdbKey}&query=${animeId.replace(/-/g,' ')}`);
+                const tmData = await tmRes.json();
+                if(tmData.results[0]) {
+                    const r = tmData.results[0];
+                    tmdbId = r.id;
+                    mainPosterURL = "https://image.tmdb.org/t/p/w500" + r.poster_path;
+                    document.getElementById('title').innerText = r.name;
+                    document.getElementById('poster').src = mainPosterURL;
+                    document.getElementById('year').innerText = r.first_air_date?.split('-')[0];
+                    document.getElementById('desc').innerText = r.overview;
+                }
+            } catch(e){}
+
+            const res = await fetch(csvURL);
+            const text = await res.text();
+            const rows = text.split('\n').slice(1);
+            allData = rows.map(r => {
+                const c = r.split(',');
+                return { id: c[0]?.trim(), name: c[1]?.trim(), url: c[2]?.trim(), bot: c[3]?.trim() };
+            }).filter(x => x.id === animeId);
+
+            seasons = [...new Set(allData.map(x => x.name.split(' - ')[0]))];
+            document.getElementById('season-select').innerHTML = seasons.map(s => `<option value="${s}">${s.replace('S','Season ')}</option>`).join('');
             
+            if(seasons.length > 0) loadSeason(seasons[0]);
+        }
+
+        async function loadSeason(sName) {
+            currentSeasonName = sName;
+            filteredEpisodes = allData.filter(x => x.name.startsWith(sName));
+            const grid = document.getElementById('ep-grid');
+            grid.innerHTML = "";
+            const sNum = sName.replace(/\D/g, '');
+
             filteredEpisodes.forEach((ep, i) => {
-                const sNum = seasonName.replace(/\D/g, '');
-                const epNum = ep.ep;
+                const epNum = i + 1;
                 const card = document.createElement('div');
+                card.className = "ep-card";
                 card.id = `card-${i}`;
-                card.className = 'ep-card';
                 card.innerHTML = `
-                    <div class="badge-count">${epNum}</div>
-                    <img id="img-${sNum}-${epNum}" src="https://via.placeholder.com/300x169/181c25/333?text=Loading..." class="ep-img">
+                    <div class="badge-count">${sNum}x${epNum}</div>
+                    <img id="img-${sNum}-${epNum}" src="${mainPosterURL}" class="ep-img">
+                    <p class="text-[9px] font-bold p-2 truncate" id="name-${sNum}-${epNum}">Episode ${epNum}</p>
                 `;
                 card.onclick = () => selectEpisode(i);
                 grid.appendChild(card);
 
                 if(tmdbId) {
-                    fetch(`https://api.themoviedb.org/3/tv/${tmdbId}/season/${sNum}/episode/${epNum}?api_key=your_api_key`)
+                    fetch(`https://api.themoviedb.org/3/tv/${tmdbId}/season/${sNum}/episode/${epNum}?api_key=${tmdbKey}`)
                     .then(r => r.json()).then(d => {
                         if(d.still_path) document.getElementById(`img-${sNum}-${epNum}`).src = "https://image.tmdb.org/t/p/w300" + d.still_path;
+                        if(d.name) document.getElementById(`name-${sNum}-${epNum}`).innerText = d.name;
                     }).catch(()=>{});
                 }
             });
@@ -192,18 +354,8 @@
         function selectEpisode(index) {
             currentIndex = index;
             const ep = filteredEpisodes[index];
-            const params = new URLSearchParams(window.location.search);
-            const animeId = params.get('id');
-            const dlBtn = document.getElementById('dl-link');
-
             document.getElementById('main-player').src = ep.url;
-            
-            // DOWNLOAD BUTTON LOGIC (FOR FRIEREN SEASON 1)
-            if (animeId === "frieren-beyond-journeys-end" && currentSeasonName === "Season 1") {
-                dlBtn.href = "https://t.me/+gPx8UV0k7N0yNTVl";
-            } else {
-                dlBtn.href = `https://t.me/verse1_8bot?start=${ep.bot}`;
-            }
+            document.getElementById('dl-link').href = `https://t.me/verse1_8bot?start=${ep.bot}`;
 
             document.querySelectorAll('.ep-card').forEach(c => c.classList.remove('active'));
             const activeCard = document.getElementById(`card-${index}`);
@@ -227,5 +379,7 @@
         }
         init();
     </script>
+</body>
+</html>
 </body>
 </html>
