@@ -14,6 +14,7 @@
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-thumb { background: var(--neon); border-radius: 10px; }
 
+        /* BACK BUTTON STYLE */
         .back-btn {
             background: #1c1f26;
             border: 1px solid #2a2e38;
@@ -111,19 +112,13 @@
                 </div>
             </div>
 
-            <div id="ep-list" class="grid grid-cols-1 gap-3">
-                </div>
+            <div id="ep-list" class="grid grid-cols-1 gap-3"></div>
         </div>
     </div>
 
     <script>
         const csvURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS1D4R3t-mSjWc-wA560XQ-n-Bv5IqgY8S_29_S59vB3482mX-vA5Xf-N9m21F-G7n-vA/pub?output=csv";
-        let episodes = [];
-        let seasons = [];
-        let filteredEpisodes = [];
-        let currentIndex = 0;
-        let currentSeasonName = "";
-        let tmdbId = "";
+        let episodes = [], seasons = [], filteredEpisodes = [], currentIndex = 0, currentSeasonName = "", tmdbId = "";
 
         async function init() {
             const params = new URLSearchParams(window.location.search);
@@ -133,7 +128,6 @@
                 const res = await fetch(csvURL);
                 const data = await res.text();
                 const rows = data.split('\n').slice(1);
-                
                 episodes = rows.map(row => {
                     const cols = row.split(',');
                     return { id: cols[0], season: cols[1], ep: cols[2], url: cols[3], bot: cols[4], tmdb: cols[5]?.trim() };
@@ -146,13 +140,12 @@
                     const select = document.getElementById('season-select');
                     seasons.forEach(s => {
                         const opt = document.createElement('option');
-                        opt.value = s;
-                        opt.innerText = s;
+                        opt.value = s; opt.innerText = s;
                         select.appendChild(opt);
                     });
                     loadSeason(seasons[0]);
                 }
-            } catch (e) { console.error("Data Load Error"); }
+            } catch (e) { console.error("Load Error"); }
         }
 
         async function loadSeason(seasonName) {
@@ -193,13 +186,13 @@
         function selectEpisode(index) {
             currentIndex = index;
             const ep = filteredEpisodes[index];
-            document.getElementById('main-player').src = ep.url;
-            
-            // DOWNLOAD BUTTON LOGIC
             const params = new URLSearchParams(window.location.search);
             const animeId = params.get('id');
             const dlBtn = document.getElementById('dl-link');
 
+            document.getElementById('main-player').src = ep.url;
+            
+            // SPECIAL LOGIC FOR FRIEREN SEASON 1
             if (animeId === "frieren-beyond-journeys-end" && currentSeasonName === "Season 1") {
                 dlBtn.href = "https://t.me/+gPx8UV0k7N0yNTVl";
             } else {
