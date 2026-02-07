@@ -383,24 +383,40 @@ function resetUI() {
 
 async function loadGrid(titles, containerId) {
     const container = document.getElementById(containerId);
-    container.innerHTML = '';
+    container.innerHTML = ''; // Container clean karein
+    
     for(const t of titles) {
         const item = await fetchTMDB(t);
-        if(item) {
-            const card = document.createElement('a');
-            const target = linkMap[t.toLowerCase()];
-            if (target) card.href = target;
-            else {
-                card.href = "javascript:void(0)";
-                card.onclick = (e) => { e.preventDefault(); showComingSoon(); };
-            }
-            const isNew = newReleases.some(nt => nt.toLowerCase() === t.toLowerCase());
-            const nBadge = isNew ? `<span style="position: absolute; top: 5px; right: 5px; background: #0088cc; font-size: 8px; padding: 2px 6px; border-radius: 3px; font-weight: bold; z-index: 5; box-shadow: 0 0 5px #0088cc;">NEW</span>` : '';
-            card.className = 'anime-card';
-            card.addEventListener('click', () => trackClick(t));
-            card.innerHTML = `<span class="badge-hd">HD | HINDI</span>${nBadge}<img src="${item.poster}" loading="lazy"><div class="card-info">⭐ ${item.rating} Rating</div><div class="anime-title">${t}</div>`;
-            container.appendChild(card);
+        
+        // --- FIXED: if(item) check hata diya taki koi anime skip na ho ---
+        const card = document.createElement('a');
+        const target = linkMap[t.toLowerCase()];
+        
+        // Link handling
+        if (target) {
+            card.href = target;
+        } else {
+            card.href = "javascript:void(0)";
+            card.onclick = (e) => { e.preventDefault(); showComingSoon(); };
         }
+
+        // New badge logic
+        const isNew = newReleases.some(nt => nt.toLowerCase() === t.toLowerCase());
+        const nBadge = isNew ? `<span style="position: absolute; top: 5px; right: 5px; background: #0088cc; font-size: 8px; padding: 2px 6px; border-radius: 3px; font-weight: bold; z-index: 5; box-shadow: 0 0 5px #0088cc;">NEW</span>` : '';
+        
+        card.className = 'anime-card';
+        card.addEventListener('click', () => trackClick(t));
+
+        // HTML structure with error fallback for images
+        card.innerHTML = `
+            <span class="badge-hd">HD | HINDI</span>
+            ${nBadge}
+            <img src="${item.poster}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x450?text=${encodeURIComponent(t)}'">
+            <div class="card-info">⭐ ${item.rating} Rating</div>
+            <div class="anime-title">${t}</div>
+        `;
+        
+        container.appendChild(card);
     }
 }
 
