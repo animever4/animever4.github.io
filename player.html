@@ -1,3 +1,5 @@
+</body>
+</html>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -115,40 +117,115 @@
     </div>
 
     <footer>
-        <div class="text-[10px] text-gray-600 font-bold uppercase tracking-widest">Powered by AnimeVerse</div>
+        <div class="text-[10px] text-gray-500 font-bold tracking-widest uppercase">
+            © 2026 AnimeVerse • Made with ❤️
+        </div>
     </footer>
 
     <script>
-        const csvURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS1D4R3t-mSjWc-wA560XQ-n-Bv5IqgY8S_29_S59vB3482mX-vA5Xf-N9m21F-G7n-vA/pub?output=csv";
-        let episodes = [], seasons = [], filteredEpisodes = [], currentIndex = 0, currentSeasonName = "", tmdbId = "";
+        // ... (Same script as before remains here) ...
+        const csvURL = "https://docs.google.com/spreadsheets/d/1VLcid14lgDfdDvYzfJLpLsbgD_jpY1CGzutgpEGhZdA/export?format=csv";
+        const tmdbKey = "eef0f9c16ca61d6c843e7d43ddc5e1d8";
+        
+        let allData = [];
+        let filteredEpisodes = [];
+        let seasons = [];
+        let currentSeasonName = "";
+        let currentIndex = 0;
+        let tmdbId = ""; 
+        let mainPosterURL = "";
 
         async function init() {
             const params = new URLSearchParams(window.location.search);
-            const animeId = params.get('id') || "solo-leveling";
-            
+            const animeId = params.get('id');
+            if(!animeId) return;
+
             try {
-                const res = await fetch(csvURL);
-                const data = await res.text();
-                const rows = data.split('\n').slice(1);
-                episodes = rows.map(row => {
-                    const cols = row.split(',');
-                    return { id: cols[0], season: cols[1], ep: cols[2], url: cols[3], bot: cols[4], tmdb: cols[5]?.trim() };
-                }).filter(e => e.id === animeId);
+                const tmRes = await fetch(`https://api.themoviedb.org/3/search/tv?api_key=${tmdbKey}&query=${animeId.replace(/-/g,' ')}`);
+                const tmData = await tmRes.json();
+                if(tmData.results[0]) {
+                    const r = tmData.results[0];
+                    tmdbId = r.id;
+                    mainPosterURL = "https://image.tmdb.org/t/p/w500" + r.poster_path;
+                    document.getElementById('title').innerText = r.name;
+                    document.getElementById('poster').src = mainPosterURL;
+                    document.getElementById('year').innerText = r.first_air_date?.split('-')[0];
+                    document.getElementById('desc').innerText = r.overview;
+                }
+            } catch(e){}
 
-                if(episodes.length > 0) {
-                    tmdbId = episodes[0].tmdb;
-                    seasons = [...new Set(episodes.map(e => e.season))];
-                    const select = document.getElementById('season-select');
-                    seasons.forEach(s => {
-                        const opt = document.createElement('option');
-                        opt.value = s; opt.innerText = s;
-                        select.appendChild(opt);
-                    });
+            const res = await fetch(csvURL);
+            const text = await res.text();
+            const rows = text.split('\n').slice(1);
+            allData = rows.map(r => {
+                const c = r.split(',');
+                return { id: c[0]?.trim(), name: c[1]?.trim(), url: c[2]?.trim(), bot: c[3]?.trim() };
+            }).filter(x => x.id === animeId);
 
-                    // Fetch TMDB Info
-                    if(tmdbId) {
-                        fetch(`https://api.themoviedb.org/3/tv/${tmdbId}?api_key=your_api_key`)
-                        .then(r => r.json()).then(d => {
-                            document.getElementById('title').innerText = d.name;
+            seasons = [...new Set(allData.map(x => x.name.split(' - ')[0]))];
+            document.getElementById('season-select').innerHTML = seasons.map(s => `<option value="${s}">${s.replace('S','Season ')}</option>`).join('');
+            
+            if(seasons.length > 0) loadSeason(seasons[0]);
+        }
+
+        async function loadSeason(sName) {
+            currentSeasonName = sName;
+            filteredEpisodes = allData.filter(x => x.name.startsWith(sName));
+            const grid = document.getElementById('ep-grid');
+            grid.innerHTML = "";
+            const sNum = sName.replace(/\D/g, '');
+
+            filteredEpisodes.forEach((ep, i) => {
+                const epNum = i + 1;
+                const card = document.createElement('div');
+                card.className = "ep-card";
+                card.id = `card-${i}`;
+                card.innerHTML = `
+                    <div class="badge-count">${sNum}x${epNum}</div>
+                    <img id="img-${sNum}-${epNum}" src="${mainPosterURL}" class="ep-img">
+                    <p class="text-[9px] font-bold p-2 truncate" id="name-${sNum}-${epNum}">Episode ${epNum}</p>
+                `;
+                card.onclick = () => selectEpisode(i);
+                grid.appendChild(card);
+
+                if(tmdbId) {
+                    fetch(`https://api.themoviedb.org/3/tv/${tmdbId}/season/${sNum}/episode/${epNum}?api_key=${tmdbKey}`)
+                    .then(r => r.json()).then(d => {
+                        if(d.still_path) document.getElementById(`img-${sNum}-${epNum}`).src = "https://image.tmdb.org/t/p/w300" + d.still_path;
+                        if(d.name) document.getElementById(`name-${sNum}-${epNum}`).innerText = d.name;
+                    }).catch(()=>{});
+                }
+            });
+            selectEpisode(0);
+        }
+
+        function selectEpisode(index) {
+            currentIndex = index;
+            const ep = filteredEpisodes[index];
+            document.getElementById('main-player').src = ep.url;
+            document.getElementById('dl-link').href = `https://t.me/verse1_8bot?start=${ep.bot}`;
+
+            document.querySelectorAll('.ep-card').forEach(c => c.classList.remove('active'));
+            const activeCard = document.getElementById(`card-${index}`);
+            if(activeCard) {
+                activeCard.classList.add('active');
+                activeCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+
+        function smartChange(dir) {
+            let nIdx = currentIndex + dir;
+            if (nIdx >= 0 && nIdx < filteredEpisodes.length) {
+                selectEpisode(nIdx);
+            } else {
+                let sIdx = seasons.indexOf(currentSeasonName) + dir;
+                if (sIdx >= 0 && sIdx < seasons.length) {
+                    document.getElementById('season-select').value = seasons[sIdx];
+                    loadSeason(seasons[sIdx]).then(() => selectEpisode(dir === 1 ? 0 : filteredEpisodes.length - 1));
+                }
+            }
+        }
+        init();
+    </script>
 </body>
 </html>
